@@ -1,0 +1,7 @@
+﻿  UI.cpp
+f:\github\lview\lview\structs.h(101): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+f:\github\lview\lview\structs.h(101): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+f:\github\lview\lview\ui.cpp(13): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h(48): note: see previous definition of 'DIRECTINPUT_VERSION'
+  LView.vcxproj -> F:\Github\LView\Debug\LView.exe
