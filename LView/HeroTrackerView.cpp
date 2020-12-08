@@ -5,7 +5,7 @@ const char* HeroTrackerView::GetName() {
 	return "Champion Hunter";
 }
 
-void HeroTrackerView::DrawSettings(LeagueProcessHook reader) {
+void HeroTrackerView::DrawSettings(LeagueMemoryReader& reader) {
 	
 	const char* comboFirstText = (trackedHeroIndex == -1 ? "None" : reader.champions[trackedHeroIndex].name.c_str());
 	if (ImGui::BeginCombo("Champion to Track###heroTrackerHero", comboFirstText)) {
@@ -37,7 +37,7 @@ void HeroTrackerView::DrawSettings(LeagueProcessHook reader) {
 	
 }
 
-void HeroTrackerView::DrawPanel(LeagueProcessHook reader) {
+void HeroTrackerView::DrawPanel(LeagueMemoryReader& reader) {
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 2.0f);
 	ImGui::SetNextWindowBgAlpha(0.0f);
@@ -82,6 +82,6 @@ void HeroTrackerView::DrawPanel(LeagueProcessHook reader) {
 	ImGui::PopStyleVar();
 }
 
-void HeroTrackerView::DrawOverlay(LeagueProcessHook reader, ImDrawList* overlayCanvas) {
+void HeroTrackerView::DrawOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas) {
 
 }

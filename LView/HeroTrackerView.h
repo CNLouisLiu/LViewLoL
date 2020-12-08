@@ -18,15 +18,15 @@ class HeroTrackerView : public BaseView {
 
 public:
 	const char* GetName();
-	void DrawSettings(LeagueProcessHook reader);
-	void DrawPanel(LeagueProcessHook reader);
-	void DrawOverlay(LeagueProcessHook reader, ImDrawList* overlayCanvas);
+	void DrawSettings(LeagueMemoryReader& reader);
+	void DrawPanel(LeagueMemoryReader& reader);
+	void DrawOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas);
 
 private:
 	int trackedHeroIndex = -1;
 
 	time_t timeOfLastStoredPosition = 0;
-	float timeBetweenTwoSteps = 20;
+	float timeBetweenTwoSteps = 10;
 	time_t secondsToTrack = 15;
 
 

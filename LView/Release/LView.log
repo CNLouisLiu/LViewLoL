@@ -1,9 +1,5 @@
 ﻿  DebugView.cpp
-f:\github\lviewlol\lview\structs.h(90): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
-f:\github\lviewlol\lview\structs.h(90): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
   HeroTrackerView.cpp
-f:\github\lviewlol\lview\structs.h(90): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
-f:\github\lviewlol\lview\structs.h(90): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
   imgui.cpp
   imgui_demo.cpp
   imgui_draw.cpp
@@ -11,27 +7,17 @@ f:\github\lviewlol\lview\structs.h(90): warning C4244: 'initializing': conversio
   imgui_impl_win32.cpp
   imgui_tables.cpp
   imgui_widgets.cpp
-  LeagueProcessHook.cpp
-f:\github\lviewlol\lview\structs.h(90): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
-f:\github\lviewlol\lview\structs.h(90): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+  LeagueMemoryReader.cpp
   LView.cpp
-f:\github\lviewlol\lview\structs.h(90): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
-f:\github\lviewlol\lview\structs.h(90): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
   Offsets.h
   SpellTrackerView.cpp
-f:\github\lviewlol\lview\structs.h(90): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
-f:\github\lviewlol\lview\structs.h(90): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
   Structs.h
-f:\github\lviewlol\lview\structs.h(90): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
-f:\github\lviewlol\lview\structs.h(90): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
   UI.cpp
-f:\github\lviewlol\lview\structs.h(90): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
-f:\github\lviewlol\lview\structs.h(90): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
 f:\github\lviewlol\lview\ui.cpp(13): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h(48): note: see previous definition of 'DIRECTINPUT_VERSION'
   Utils.cpp
   Generating code
-  All 1591 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 1745 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   LView.vcxproj -> F:\Github\LViewLoL\Release\LView.exe

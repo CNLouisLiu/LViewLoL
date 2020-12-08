@@ -5,7 +5,7 @@
 #include "Structs.h"
 #include <list>
 
-class LeagueProcessHook {
+class LeagueMemoryReader {
 
 public:
 	bool IsLeagueWindowActive();
@@ -29,7 +29,8 @@ private:
 public:
 	// Structs
 	Champion champions[10];
-	int numChampions;
+	int numChampions = 0;
+	int localPlayerIdx = 0;
 
 	Renderer renderer;
 	float gameTime;

@@ -5,8 +5,8 @@
 class DebugView : public BaseView {
 
 	const char* GetName();
-	void DrawSettings(LeagueProcessHook reader);
-	void DrawPanel(LeagueProcessHook reader);
-	void DrawOverlay(LeagueProcessHook reader, ImDrawList* overlayCanvas);
+	void DrawSettings(LeagueMemoryReader& reader);
+	void DrawPanel(LeagueMemoryReader& reader);
+	void DrawOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas);
 
 };

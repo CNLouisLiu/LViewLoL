@@ -4,7 +4,7 @@
 #include "imgui.h"
 #include "imgui_impl_dx9.h"
 #include "imgui_impl_win32.h"
-#include "LeagueProcessHook.h"
+#include "LeagueMemoryReader.h"
 #include <d3d9.h>
 #include <dinput.h>
 #include <string>
@@ -70,7 +70,7 @@ void UI::Start() {
 
 }
 
-void UI::Update(LeagueProcessHook reader) {
+void UI::Update(LeagueMemoryReader& reader) {
 	
 	bool shouldRenderUI = reader.IsLeagueWindowActive();
 

@@ -9,11 +9,11 @@ float Mem::ReadFloat(HANDLE hProcess, DWORD_PTR addr) {
 	return val;
 }
 
-DWORD_PTR Mem::ReadPointer(HANDLE hProcess, DWORD_PTR addr, bool is64Bit) {
+DWORD_PTR Mem::ReadPointer(HANDLE hProcess, DWORD_PTR addr) {
 	DWORD_PTR ptr = NULL;
 	SIZE_T bytesRead = 0;
 
-	ReadProcessMemory(hProcess, (DWORD_PTR*)addr, &ptr, (is64Bit ? 4 : 4), &bytesRead);
+	ReadProcessMemory(hProcess, (DWORD_PTR*)addr, &ptr, 4, &bytesRead);
 
 	return ptr;
 }

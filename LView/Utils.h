@@ -44,7 +44,7 @@ private:
 
 namespace Mem {
 
-	DWORD_PTR ReadPointer(HANDLE hProcess, DWORD_PTR addr, bool is64Bit);
+	DWORD_PTR ReadPointer(HANDLE hProcess, DWORD_PTR addr);
 	float ReadFloat(HANDLE hProcess, DWORD_PTR addr);
 	void Read(HANDLE hProcess, DWORD_PTR addr, void* structure, int size);
 };
@@ -52,6 +52,5 @@ namespace Mem {
 namespace Process {
 	BOOL IsProcessRunning(DWORD pid);
 };
-
 
 #endif

@@ -3,7 +3,7 @@
 
 #include "windows.h"
 #include "Structs.h"
-#include "LeagueProcessHook.h"
+#include "LeagueMemoryReader.h"
 #include <list>
 #include "BaseView.h"
 
@@ -16,7 +16,7 @@ public:
 	}
 
 	void Start();
-	void Update(LeagueProcessHook reader);
+	void Update(LeagueMemoryReader& reader);
 
 private:
 	HWND hWindow;

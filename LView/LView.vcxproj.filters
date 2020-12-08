@@ -27,9 +27,6 @@
     <ClCompile Include="LView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LeagueProcessHook.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Structs.h">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -72,11 +69,11 @@
     <ClCompile Include="DebugView.cpp">
       <Filter>Source Files\Views</Filter>
     </ClCompile>
+    <ClCompile Include="LeagueMemoryReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LeagueProcessHook.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Utils.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -118,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="DebugView.h">
       <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="LeagueMemoryReader.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

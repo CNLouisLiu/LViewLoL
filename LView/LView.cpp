@@ -5,14 +5,16 @@
 #include "windows.h"
 #include "Utils.h"
 #include "Structs.h"
-#include "LeagueProcessHook.h"
+#include "LeagueMemoryReader.h"
 
 #include "SpellTrackerView.h"
 #include "HeroTrackerView.h"
 #include "DebugView.h"
 
-#include <time.h>
+#include <chrono>
 #include "UI.h"
+
+using namespace std::chrono;
 
 int main()
 {
@@ -24,7 +26,7 @@ int main()
 
 	// Init UI and hook
 	UI ui = UI(views);
-	LeagueProcessHook reader = LeagueProcessHook();
+	LeagueMemoryReader reader = LeagueMemoryReader();
 
 	try {
 		ui.Start();
@@ -33,13 +35,15 @@ int main()
 		std::cout << exception.GetErrorMessage() << std::endl;
 	}
 
-	time_t millisPerFrame = 20;
-	time_t frameTimeBegin, frameTimeLength;
+	float millisPerFrame = 20;
+	float frameTimeLength;
+	high_resolution_clock::time_point frameTimeBegin;
+	duration<float, std::milli> diff;
 
 	// Main loop
 	while (true) {
 	
-		frameTimeBegin = time(0)*1000;
+		frameTimeBegin = high_resolution_clock::now();
 
 		try {
 			if (!reader.IsHookedToProcess()) {
@@ -57,9 +61,12 @@ int main()
 			std::cout << exception.what() << std::endl;
 		}
 
-		frameTimeLength = time(0) * 1000 - frameTimeBegin;
-		if(frameTimeLength > 0 && frameTimeLength < millisPerFrame)
-			Sleep((DWORD)(millisPerFrame - frameTimeLength));
+
+		diff = (high_resolution_clock::now() - frameTimeBegin);
+		frameTimeLength = diff.count();
+		//std::cout << frameTimeLength << std::endl;
+		//if(frameTimeLength > 0 && frameTimeLength < millisPerFrame)
+		//	Sleep((DWORD)(millisPerFrame - frameTimeLength));
 	}
 }
 

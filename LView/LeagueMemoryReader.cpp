@@ -1,11 +1,11 @@
-#include "LeagueProcessHook.h"
+#include "LeagueMemoryReader.h"
 #include "windows.h"
 #include "Utils.h"
 #include "Structs.h"
 #include "psapi.h"
 #include <stdexcept>
 
-bool LeagueProcessHook::IsLeagueWindowActive() {
+bool LeagueMemoryReader::IsLeagueWindowActive() {
 	HWND handle = GetForegroundWindow();
 
 	DWORD h;
@@ -13,11 +13,11 @@ bool LeagueProcessHook::IsLeagueWindowActive() {
 	return pid == h;
 }
 
-bool LeagueProcessHook::IsHookedToProcess() {
+bool LeagueMemoryReader::IsHookedToProcess() {
 	return Process::IsProcessRunning(pid);
 }
 
-void LeagueProcessHook::HookToProcess() {
+void LeagueMemoryReader::HookToProcess() {
 
 	// Find the window
 	hWindow = FindWindowA("RiotWindowClass", NULL);
@@ -52,18 +52,18 @@ void LeagueProcessHook::HookToProcess() {
 	}
 }
 
-void LeagueProcessHook::ReadStructs() {
+void LeagueMemoryReader::ReadStructs() {
 	
 	// Read champs
-	DWORD_PTR objManagerPtr = Mem::ReadPointer(hProcess, moduleBaseAddr + oObjManager, is64Bit);
-	DWORD_PTR champListPtr = Mem::ReadPointer(hProcess, objManagerPtr + oChampionManagerChampionList, is64Bit);
+	DWORD_PTR objManagerPtr = Mem::ReadPointer(hProcess, moduleBaseAddr + oObjManager);
+	DWORD_PTR champListPtr = Mem::ReadPointer(hProcess, objManagerPtr + oChampionManagerChampionList);
 	Mem::Read(hProcess, objManagerPtr + oChampionCount, &numChampions, 4);
 
 	if (champListPtr != 0 && numChampions > 0 && numChampions < 11) {
 
 		int i = 0;
 		for (int i = 0; i < numChampions; ++i) {
-			DWORD_PTR heroPtr = Mem::ReadPointer(hProcess, champListPtr + i * 4, is64Bit);
+			DWORD_PTR heroPtr = Mem::ReadPointer(hProcess, champListPtr + i * 4);
 
 			if (heroPtr != 0) {
 				champions[i].LoadFromMem(heroPtr, hProcess);
@@ -72,7 +72,7 @@ void LeagueProcessHook::ReadStructs() {
 	}
 
 	// Read renderer
-	DWORD_PTR rendererAddr = Mem::ReadPointer(hProcess, moduleBaseAddr + oRenderer, is64Bit);
+	DWORD_PTR rendererAddr = Mem::ReadPointer(hProcess, moduleBaseAddr + oRenderer);
 	renderer.LoadFromMem(rendererAddr, hProcess);
 
 	//Read game time
