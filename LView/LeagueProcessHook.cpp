@@ -5,6 +5,14 @@
 #include "psapi.h"
 #include <stdexcept>
 
+bool LeagueProcessHook::IsLeagueWindowActive() {
+	HWND handle = GetForegroundWindow();
+
+	DWORD h;
+	GetWindowThreadProcessId(handle, &h);
+	return pid == h;
+}
+
 bool LeagueProcessHook::IsHookedToProcess() {
 	return Process::IsProcessRunning(pid);
 }
@@ -12,13 +20,13 @@ bool LeagueProcessHook::IsHookedToProcess() {
 void LeagueProcessHook::HookToProcess() {
 
 	// Find the window
-	HWND windowHandle = FindWindowA("RiotWindowClass", NULL);
-	if (windowHandle == NULL) {
+	hWindow = FindWindowA("RiotWindowClass", NULL);
+	if (hWindow == NULL) {
 		throw WinApiException("League window not found");
 	}
 
 	// Get the process ID
-	GetWindowThreadProcessId(windowHandle, &pid);
+	GetWindowThreadProcessId(hWindow, &pid);
 	if (pid == NULL) {
 		throw WinApiException("Couldn't retrieve league process id");
 	}

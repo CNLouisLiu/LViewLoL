@@ -19,6 +19,9 @@
     <Filter Include="Source Files\imgui">
       <UniqueIdentifier>{462e78dd-f859-45e0-8411-dd4643618c9a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Views">
+      <UniqueIdentifier>{262e5243-30e2-4274-bdc0-712389700312}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LView.cpp">
@@ -60,6 +63,15 @@
     <ClCompile Include="Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SpellTrackerView.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="HeroTrackerView.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugView.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LeagueProcessHook.h">
@@ -94,6 +106,18 @@
     </ClInclude>
     <ClInclude Include="imgui_impl_dx9.h">
       <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseView.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="SpellTrackerView.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="HeroTrackerView.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugView.h">
+      <Filter>Source Files\Views</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

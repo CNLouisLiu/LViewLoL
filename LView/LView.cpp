@@ -6,13 +6,24 @@
 #include "Utils.h"
 #include "Structs.h"
 #include "LeagueProcessHook.h"
+
+#include "SpellTrackerView.h"
+#include "HeroTrackerView.h"
+#include "DebugView.h"
+
 #include <time.h>
 #include "UI.h"
 
 int main()
 {
+	// Init scripts
+	std::list<BaseView*> views;
+	views.push_back(new SpellTrackerView());
+	views.push_back(new HeroTrackerView());
+	views.push_back(new DebugView());
+
 	// Init UI and hook
-	UI ui = UI();
+	UI ui = UI(views);
 	LeagueProcessHook reader = LeagueProcessHook();
 
 	try {
@@ -22,8 +33,8 @@ int main()
 		std::cout << exception.GetErrorMessage() << std::endl;
 	}
 
-	int millisPerFrame = 20;
-	int frameTimeBegin, frameTimeLength;
+	time_t millisPerFrame = 20;
+	time_t frameTimeBegin, frameTimeLength;
 
 	// Main loop
 	while (true) {
@@ -48,7 +59,7 @@ int main()
 
 		frameTimeLength = time(0) * 1000 - frameTimeBegin;
 		if(frameTimeLength > 0 && frameTimeLength < millisPerFrame)
-			Sleep(millisPerFrame- frameTimeLength);
+			Sleep((DWORD)(millisPerFrame - frameTimeLength));
 	}
 }
 

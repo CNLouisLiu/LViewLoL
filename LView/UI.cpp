@@ -70,111 +70,20 @@ void UI::Start() {
 
 }
 
-void DrawSpellButton(Spell spell, float gameTime) {
-	float remainingCooldown = spell.GetRemainingCooldown(gameTime);
-	float hue = 0.25f; // GREEN
-	if (remainingCooldown > 10.f)
-		hue = 0.f;  // RED
-	else if (remainingCooldown > 0.1f)
-		hue = 0.125f; // YELLOW
-
-	ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(hue, 1.f, 0.5f));
-	ImGui::Button(spell.GetRemainingCooldownStr(gameTime));
-	ImGui::PopStyleColor(1);
-	ImGui::SameLine();
-}
-
-void DrawSpellButton(Spell spell, float gameTime, ImDrawList* drawList, ImVec2 position) {
-	float remainingCooldown = spell.GetRemainingCooldown(gameTime);
-	float hue = 0.25f; // GREEN
-	if (remainingCooldown > 10.f)
-		hue = 0.f;  // RED
-	else if (remainingCooldown > 0.1f)
-		hue = 0.125f; // YELLOW
-
-	drawList->AddRectFilled(ImVec2(position.x -5, position.y), ImVec2(position.x + 25, position.y + 15), ImColor::HSV(hue, 1.f, 0.5f));
-	if (remainingCooldown > 0.f)
-		drawList->AddText(position, ImColor::HSV(0.f, 0.f, 1.f), std::to_string((int)remainingCooldown).c_str());
-	else
-		drawList->AddText(position, ImColor::HSV(0.f, 0.f, 1.f), gSpellTypeName[(int)spell.type]);
-}
-
-
-void DrawSpellTrackerPanel(LeagueProcessHook reader) {
-	ImGui::Begin("SpellTracker");
-	for (int i = 0; i < reader.numChampions; ++i) {
-
-		Champion it = reader.champions[i];
-		if (it.team == 100) // Skip allies
-			continue;
-
-		if (ImGui::TreeNode(it.name.c_str())) {
-
-			ImGui::BeginGroup();
-
-			DrawSpellButton(it.Q, reader.gameTime);
-			DrawSpellButton(it.W, reader.gameTime);
-			DrawSpellButton(it.E, reader.gameTime);
-			DrawSpellButton(it.R, reader.gameTime);
-			DrawSpellButton(it.D, reader.gameTime);
-			DrawSpellButton(it.F, reader.gameTime);
-
-			ImGui::EndGroup();
-			ImGui::TreePop();
-		}
-	}
-	ImGui::End();
-}
-
-void DrawSpellTrackerOnChampions(LeagueProcessHook reader) {
-
-
-	auto io = ImGui::GetIO();
-	ImGui::SetNextWindowSize(io.DisplaySize);
-	ImGui::SetNextWindowPos(ImVec2(0, 0));
-	ImGui::Begin("##Overlay", nullptr,
-		ImGuiWindowFlags_NoTitleBar |
-		ImGuiWindowFlags_NoResize |
-		ImGuiWindowFlags_NoMove |
-		ImGuiWindowFlags_NoScrollbar |
-		ImGuiWindowFlags_NoSavedSettings |
-		ImGuiWindowFlags_NoInputs |
-		ImGuiWindowFlags_NoBackground
-	);
-
-	ImDrawList* list = ImGui::GetWindowDrawList();
-
-	for (int i = 0; i < reader.numChampions; ++i) {
-		Champion champ = reader.champions[i];
-		Vector2 pos = reader.renderer.WorldToScreen(champ.position);
-		ImVec2 imPos = ImVec2(pos.x - 60, pos.y);
-		
-		
-		DrawSpellButton(champ.Q, reader.gameTime, list, imPos);
-		imPos.x += 35;
-
-		DrawSpellButton(champ.W, reader.gameTime, list, imPos);
-		imPos.x += 35;
-
-		DrawSpellButton(champ.E, reader.gameTime, list, imPos);
-		imPos.x += 35;
-
-		DrawSpellButton(champ.R, reader.gameTime, list, imPos);
-		imPos.x += 35;
-	}
-	ImGui::End();
-}
-
 void UI::Update(LeagueProcessHook reader) {
 	
-	MSG msg;
-	ZeroMemory(&msg, sizeof(MSG));
+	bool shouldRenderUI = reader.IsLeagueWindowActive();
 
-	// Poll and handle messages (inputs, window resize, etc.)
-	if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
-	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+	if (shouldRenderUI) {
+		MSG msg;
+		ZeroMemory(&msg, sizeof(MSG));
+
+		// Poll and handle messages (inputs, window resize, etc.)
+		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
 	}
 
 	// Start the Dear ImGui frame
@@ -182,9 +91,46 @@ void UI::Update(LeagueProcessHook reader) {
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	DrawSpellTrackerPanel(reader);
-	DrawSpellTrackerOnChampions(reader);
+	if (shouldRenderUI) {
 
+		// Draw settings and other panels
+		ImGui::Begin("Settings");
+		for (auto it = views.begin(); it != views.end(); ++it) {
+			BaseView* view = *it;
+			if (ImGui::TreeNode(view->GetName())) {
+				ImGui::Checkbox("Enabled", &view->enabled);
+				view->DrawSettings(reader);
+				ImGui::TreePop();
+			}
+
+			if (view->enabled) {
+				view->DrawPanel(reader);
+			}
+		}
+		ImGui::End();
+
+		// Draw overlays
+		auto io = ImGui::GetIO();
+		ImGui::SetNextWindowSize(io.DisplaySize);
+		ImGui::SetNextWindowPos(ImVec2(0, 0));
+		ImGui::Begin("##Overlay", nullptr,
+			ImGuiWindowFlags_NoTitleBar |
+			ImGuiWindowFlags_NoResize |
+			ImGuiWindowFlags_NoMove |
+			ImGuiWindowFlags_NoScrollbar |
+			ImGuiWindowFlags_NoSavedSettings |
+			ImGuiWindowFlags_NoInputs |
+			ImGuiWindowFlags_NoBackground
+		);
+		ImDrawList* list = ImGui::GetWindowDrawList();
+		for (auto it = views.begin(); it != views.end(); ++it) {
+			BaseView* view = *it;
+			if (view->enabled) {
+				view->DrawOverlay(reader, list);
+			}
+		}
+		ImGui::End();
+	}
 
 	// Render
 	g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE);

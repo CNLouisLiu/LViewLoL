@@ -8,6 +8,7 @@
 class LeagueProcessHook {
 
 public:
+	bool IsLeagueWindowActive();
 	bool IsHookedToProcess();
 	void HookToProcess();
 
@@ -18,6 +19,7 @@ private:
 	// Process related
 	HANDLE hProcess;
 	DWORD pid;
+	HWND hWindow;
 
 	// Memory related
 	DWORD_PTR moduleBaseAddr;

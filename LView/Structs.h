@@ -41,22 +41,11 @@ public:
 	:type(type) {
 	}
 
-	const char* GetRemainingCooldownStr(float gameTime) {
-		std::ostringstream out;
-		out.precision(1);
-		out << std::fixed << GetRemainingCooldown(gameTime);
-
-		remainingCooldownStr.clear();
-		remainingCooldownStr += std::string(gSpellTypeName[(int)type]) + ":" + out.str();
-		remainingCooldownStr.append(7 - remainingCooldownStr.length(), ' ');
-
-		return remainingCooldownStr.c_str();
-	}
-
 	float GetRemainingCooldown(float gameTime) {
 		return (readyAt > gameTime ? readyAt - gameTime : 0.f);
 	}
 
+	std::string name;
 	SpellType type;
 	float readyAt = 0.f;
 
@@ -164,6 +153,7 @@ public:
 		W.readyAt = Mem::ReadFloat(hProcess, spellSlots[1] + oSpellSlotTime);
 		E.readyAt = Mem::ReadFloat(hProcess, spellSlots[2] + oSpellSlotTime);
 		R.readyAt = Mem::ReadFloat(hProcess, spellSlots[3] + oSpellSlotTime);
+
 		D.readyAt = Mem::ReadFloat(hProcess, spellSlots[4] + oSpellSlotTime);
 		F.readyAt = Mem::ReadFloat(hProcess, spellSlots[5] + oSpellSlotTime);
 	}
