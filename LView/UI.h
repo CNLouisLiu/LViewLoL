@@ -1,6 +1,4 @@
-#ifndef UI_H
-#define UI_H
-
+#pragma once
 #include "windows.h"
 #include "Structs.h"
 #include "LeagueMemoryReader.h"
@@ -11,10 +9,7 @@ class UI {
 
 public:
 
-	UI(std::list<BaseView*> views) {
-		this->views = views;
-	}
-
+	UI(std::list<BaseView*> views);
 	void Start();
 	void Update(LeagueMemoryReader& reader);
 
@@ -23,6 +18,11 @@ private:
 
 	Renderer renderer;
 	std::list<BaseView*> views;
-};
 
-#endif
+public:
+	ImFontConfig fontConfigSmall;
+	ImFontConfig fontConfigNormal;
+	ImFont* fontSmall;
+	ImFont* fontNormal;
+
+};

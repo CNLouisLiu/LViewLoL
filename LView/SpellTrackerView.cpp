@@ -1,15 +1,20 @@
 #include "SpellTrackerView.h"
 
 
-void DrawSpellButton(Spell& spell, float gameTime, bool useSpellName) {
-	float remainingCooldown = spell.GetRemainingCooldown(gameTime);
+ImColor GetHsvColorBasedOnCooldown(float cooldown) {
 	float hue = 0.25f; // GREEN
-	if (remainingCooldown > 10.f)
+	if (cooldown > 10.f)
 		hue = 0.f;  // RED
-	else if (remainingCooldown > 0.1f)
+	else if (cooldown > 0.1f)
 		hue = 0.125f; // YELLOW
 
-	ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(hue, 1.f, 0.5f));
+	return ImColor::HSV(hue, 1.f, 0.5f);
+}
+
+void SpellTrackerView::DrawSpellButton(Spell& spell, float gameTime, bool useSpellName) {
+	float remainingCooldown = spell.GetRemainingCooldown(gameTime);
+
+	ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)GetHsvColorBasedOnCooldown(remainingCooldown));
 	std::string text;
 	text.append((useSpellName ? spell.name : spell.GetTypeStr()));
 	text.append(":");
@@ -22,23 +27,24 @@ void DrawSpellButton(Spell& spell, float gameTime, bool useSpellName) {
 	ImGui::SameLine();
 }
 
-void DrawSpellButton(Spell& spell, float gameTime, ImDrawList* drawList, ImVec2& position) {
+void SpellTrackerView::DrawSpellButton(Spell& spell, float gameTime, ImDrawList* drawList, ImVec2& position) {
 	float remainingCooldown = spell.GetRemainingCooldown(gameTime);
-	float hue = 0.25f; // GREEN
-	if (remainingCooldown > 10.f)
-		hue = 0.f;  // RED
-	else if (remainingCooldown > 0.1f)
-		hue = 0.125f; // YELLOW
 
-	drawList->AddRectFilled(ImVec2(position.x - 5, position.y), ImVec2(position.x + 25, position.y + 15), ImColor::HSV(hue, 1.f, 0.5f));
+	// Draw button with cooldown
+	drawList->AddRectFilled(ImVec2(position.x - 5, position.y), ImVec2(position.x + 25, position.y + 15), GetHsvColorBasedOnCooldown(remainingCooldown));
 	if (remainingCooldown > 0.f)
 		drawList->AddText(position, ImColor::HSV(0.f, 0.f, 1.f), std::to_string((int)remainingCooldown).c_str());
 	else
 		drawList->AddText(position, ImColor::HSV(0.f, 0.f, 1.f), spell.GetTypeStr());
+
+	// Draw level of skill below cooldown button
+	ImVec2 pos = ImVec2(position.x, position.y);
+	for (int i = 0; i < spell.level; ++i) {
+		drawList->AddRectFilled(ImVec2(position.x - 4 + i*5, position.y + 16), ImVec2(position.x + i*5, position.y + 20), ImColor::HSV(0.2f, 1.f, 1.f));
+	}
 }
 
-
-void DrawSpellTrackerPanel(LeagueMemoryReader& reader) {
+void SpellTrackerView::DrawSpellTrackerPanel(LeagueMemoryReader& reader) {
 	ImGui::Begin("SpellTracker");
 	for (int i = 0; i < reader.numChampions; ++i) {
 
@@ -68,6 +74,8 @@ void DrawSpellTrackerPanel(LeagueMemoryReader& reader) {
 
 void SpellTrackerView::DrawSpellTrackerOnChampions(LeagueMemoryReader& reader, ImDrawList* list) {
 
+	showAdvanced = GetAsyncKeyState(VK_OEM_3) && 0x01;
+
 	int localPlayerTeam = reader.champions[reader.localPlayerIdx].team;
 	for (int i = 0; i < reader.numChampions; ++i) {
 		Champion champ = reader.champions[i];
@@ -92,19 +100,27 @@ void SpellTrackerView::DrawSpellTrackerOnChampions(LeagueMemoryReader& reader, I
 
 		DrawSpellButton(champ.R, reader.gameTime, list, imPos);
 		imPos.x += 35;
+
+		if (showAdvanced) {
+			DrawSpellButton(champ.D, reader.gameTime, list, imPos);
+			imPos.x += 35;
+
+			DrawSpellButton(champ.F, reader.gameTime, list, imPos);
+			imPos.x += 35;
+		}
 	}
 }
 
-void SpellTrackerView::DrawPanel(LeagueMemoryReader& reader) {
+void SpellTrackerView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 	if(showPanel)
 		DrawSpellTrackerPanel(reader);
 }
 
-void SpellTrackerView::DrawOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas) {
+void SpellTrackerView::DrawOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui) {
 	DrawSpellTrackerOnChampions(reader, overlayCanvas);
 }
 
-void SpellTrackerView::DrawSettings(LeagueMemoryReader& reader) {
+void SpellTrackerView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 
 	ImGui::Checkbox("Show Overlay on Allies###spellTrackerOverlayAlly", &showOverlayOnAllies);
 	ImGui::Checkbox("Show Overlay on Enemies###spellTrackerOverlayEnemy", &showOverlayOnEnemies);

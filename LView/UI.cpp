@@ -23,6 +23,10 @@ void CleanupDeviceD3D();
 void ResetDevice();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+UI::UI(std::list<BaseView*> views) {
+	this->views = views;
+}
+
 void UI::Start() {
 
 
@@ -68,6 +72,12 @@ void UI::Start() {
 	ImGui_ImplWin32_Init(hWindow);
 	ImGui_ImplDX9_Init(g_pd3dDevice);
 
+	// Make some fonts
+	fontConfigSmall.SizePixels = 10;
+	fontConfigNormal.SizePixels = 13;
+	fontSmall = io.Fonts->AddFontDefault(&fontConfigSmall);
+	fontNormal = io.Fonts->AddFontDefault(&fontConfigNormal);
+
 }
 
 void UI::Update(LeagueMemoryReader& reader) {
@@ -90,6 +100,7 @@ void UI::Update(LeagueMemoryReader& reader) {
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+	ImGui::PushFont(fontNormal);
 
 	if (shouldRenderUI) {
 
@@ -99,12 +110,12 @@ void UI::Update(LeagueMemoryReader& reader) {
 			BaseView* view = *it;
 			if (ImGui::TreeNode(view->GetName())) {
 				ImGui::Checkbox("Enabled", &view->enabled);
-				view->DrawSettings(reader);
+				view->DrawSettings(reader, *this);
 				ImGui::TreePop();
 			}
 
 			if (view->enabled) {
-				view->DrawPanel(reader);
+				view->DrawPanel(reader, *this);
 			}
 		}
 		ImGui::End();
@@ -126,12 +137,14 @@ void UI::Update(LeagueMemoryReader& reader) {
 		for (auto it = views.begin(); it != views.end(); ++it) {
 			BaseView* view = *it;
 			if (view->enabled) {
-				view->DrawOverlay(reader, list);
+				view->DrawOverlay(reader, list, *this);
 			}
 		}
 		ImGui::End();
 	}
 
+	ImGui::PopFont();
+	
 	// Render
 	g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
 	g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);

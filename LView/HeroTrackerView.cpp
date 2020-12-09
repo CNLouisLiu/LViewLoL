@@ -5,8 +5,10 @@ const char* HeroTrackerView::GetName() {
 	return "Champion Hunter";
 }
 
-void HeroTrackerView::DrawSettings(LeagueMemoryReader& reader) {
+void HeroTrackerView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 	
+	ImGui::Checkbox("Draw Track in World", &drawTrackInWorld);
+
 	const char* comboFirstText = (trackedHeroIndex == -1 ? "None" : reader.champions[trackedHeroIndex].name.c_str());
 	if (ImGui::BeginCombo("Champion to Track###heroTrackerHero", comboFirstText)) {
 	
@@ -37,7 +39,7 @@ void HeroTrackerView::DrawSettings(LeagueMemoryReader& reader) {
 	
 }
 
-void HeroTrackerView::DrawPanel(LeagueMemoryReader& reader) {
+void HeroTrackerView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 2.0f);
 	ImGui::SetNextWindowBgAlpha(0.0f);
@@ -82,6 +84,15 @@ void HeroTrackerView::DrawPanel(LeagueMemoryReader& reader) {
 	ImGui::PopStyleVar();
 }
 
-void HeroTrackerView::DrawOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas) {
+void HeroTrackerView::DrawOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui) {
 
+	if (drawTrackInWorld) {
+		int nrStep = 0;
+		for (auto it = track.begin(); it != track.end(); ++it) {
+
+			Vector2 screenPos = reader.renderer.WorldToScreen((*it)->pt);
+			overlayCanvas->AddCircleFilled(ImVec2(screenPos.x, screenPos.y), 8.f, ImColor::HSV(0.6f - 0.2f*nrStep / track.size(), 1.f, 1.f), 10);
+			nrStep++;
+		}
+	}
 }

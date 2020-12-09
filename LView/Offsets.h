@@ -1,5 +1,4 @@
-#ifndef LEAGUE_OFFSETS_H
-#define LEAGUE_OFFSETS_H
+#pragma once
 
 #define TARGET_GAMEVERSION "Version 10.24.345.8390 [PUBLIC]"  // 
 
@@ -116,5 +115,3 @@
 #define oChampionCount 0x8 //152
 #define oGetChampionSkins 0x58
 #define oGetChampionName 0x4
-
-#endif

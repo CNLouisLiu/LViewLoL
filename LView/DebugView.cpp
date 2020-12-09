@@ -5,7 +5,7 @@ const char* DebugView::GetName() {
 	return "Debug";
 }
 
-void DebugView::DrawSettings(LeagueMemoryReader& reader) {
+void DebugView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 
 }
 
@@ -14,11 +14,12 @@ void DrawSpell(Spell spell) {
 		
 		ImGui::Button(spell.name.c_str());
 		ImGui::DragFloat("Ready At", &spell.readyAt);
+		ImGui::DragInt("Level", &spell.level);
 		ImGui::TreePop();
 	}
 }
 
-void DebugView::DrawPanel(LeagueMemoryReader& reader) {
+void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 
 	ImGui::Begin("Debug");
 
@@ -49,6 +50,6 @@ void DebugView::DrawPanel(LeagueMemoryReader& reader) {
 	ImGui::End();
 }
 
-void DebugView::DrawOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas) {
+void DebugView::DrawOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui) {
 
 }

@@ -1,5 +1,4 @@
-#ifndef LEAGUE_STRUCTS_H
-#define LEAGUE_STRUCTS_H
+#pragma once
 
 #include "windows.h"
 #include "Offsets.h"
@@ -64,6 +63,7 @@ public:
 
 	void LoadFromMem(DWORD_PTR base, HANDLE hProcess) { 
 		readyAt = Mem::ReadFloat(hProcess, base + oSpellSlotTime);
+		Mem::Read(hProcess, base + oSpellSlotLevel, &level, 4);
 
 		// Read static stuff
 		if (name.empty()) {
@@ -85,6 +85,7 @@ public:
 public:
 	std::string name;
 	SpellType type;
+	int level = 0;
 	float readyAt = 0.f;
 
 private:
@@ -196,6 +197,3 @@ public:
 private:
 	DWORD spellSlotPtrs[6];
 };
-
-
-#endif

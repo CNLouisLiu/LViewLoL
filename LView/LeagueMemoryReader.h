@@ -1,5 +1,4 @@
-#ifndef LEAGUE_CHEAT_H
-#define LEAGUE_CHEAT_H
+#pragma once
 
 #include "windows.h"
 #include "Structs.h"
@@ -36,4 +35,3 @@ public:
 	float gameTime;
 
 };
-#endif

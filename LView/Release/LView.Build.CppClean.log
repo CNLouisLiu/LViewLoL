@@ -1,11 +1,10 @@
 f:\github\lviewlol\lview\release\vc141.pdb
 f:\github\lviewlol\lview\release\utils.obj
-f:\github\lviewlol\lview\release\ui.obj
 f:\github\lviewlol\lview\release\structs.obj
 f:\github\lviewlol\lview\release\spelltrackerview.obj
 f:\github\lviewlol\lview\release\offsets.obj
 f:\github\lviewlol\lview\release\lview.obj
-f:\github\lviewlol\lview\release\leagueprocesshook.obj
+f:\github\lviewlol\lview\release\leaguememoryreader.obj
 f:\github\lviewlol\lview\release\imgui_widgets.obj
 f:\github\lviewlol\lview\release\imgui_tables.obj
 f:\github\lviewlol\lview\release\imgui_impl_win32.obj
@@ -15,7 +14,7 @@ f:\github\lviewlol\lview\release\imgui_demo.obj
 f:\github\lviewlol\lview\release\imgui.obj
 f:\github\lviewlol\lview\release\herotrackerview.obj
 f:\github\lviewlol\lview\release\debugview.obj
-f:\github\lviewlol\lview\release\leaguememoryreader.obj
+f:\github\lviewlol\lview\release\ui.obj
 f:\github\lviewlol\release\lview.exe
 f:\github\lviewlol\release\lview.pdb
 f:\github\lviewlol\release\lview.ipdb

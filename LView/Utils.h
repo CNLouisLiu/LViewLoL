@@ -1,5 +1,4 @@
-#ifndef UTILS_H
-#define UTILS_H
+#pragma once
 
 #include <stdexcept>
 #include "windows.h"
@@ -52,5 +51,3 @@ namespace Mem {
 namespace Process {
 	BOOL IsProcessRunning(DWORD pid);
 };
-
-#endif
