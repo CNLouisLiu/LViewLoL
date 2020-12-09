@@ -168,6 +168,7 @@
     <ClCompile Include="LView.cpp" />
     <ClCompile Include="Offsets.h" />
     <ClCompile Include="SpellTrackerView.cpp" />
+    <ClCompile Include="Structs.cpp" />
     <ClCompile Include="Structs.h" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Utils.cpp" />

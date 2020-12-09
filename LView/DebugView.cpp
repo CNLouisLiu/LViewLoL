@@ -19,6 +19,17 @@ void DrawSpell(Spell spell) {
 	}
 }
 
+void DrawMatrix(float* matrix, int rows, int cols) {
+	for (int i = 0; i < rows; ++i) {
+		ImGui::BeginGroup();
+		for (int j = 0; j < cols; ++j) {
+			ImGui::Button(std::to_string(matrix[i*rows + j]).c_str());
+			ImGui::SameLine();
+		}
+		ImGui::EndGroup();
+	}
+}
+
 void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 
 	ImGui::Begin("Debug");
@@ -43,8 +54,19 @@ void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 
 			ImGui::TreePop();
 		}
+	}
 
+	// Draw renderer
+	if (ImGui::TreeNode("Renderer")) {
+		
+		ImGui::DragInt("Width", &reader.renderer.width);
+		ImGui::DragInt("Height", &reader.renderer.height);
 
+		ImGui::Text("View Matrix");
+		DrawMatrix(reader.renderer.viewMatrix, 4, 4);
+		ImGui::Text("Projection Matrix");
+		DrawMatrix(reader.renderer.projMatrix, 4, 4);
+		ImGui::TreePop();
 	}
 
 	ImGui::End();

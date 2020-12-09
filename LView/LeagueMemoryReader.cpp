@@ -55,9 +55,9 @@ void LeagueMemoryReader::HookToProcess() {
 void LeagueMemoryReader::ReadStructs() {
 	
 	// Read champs
-	DWORD_PTR objManagerPtr = Mem::ReadPointer(hProcess, moduleBaseAddr + oObjManager);
-	DWORD_PTR champListPtr = Mem::ReadPointer(hProcess, objManagerPtr + oChampionManagerChampionList);
-	Mem::Read(hProcess, objManagerPtr + oChampionCount, &numChampions, 4);
+	DWORD_PTR objManagerPtr = Mem::ReadPointer(hProcess, moduleBaseAddr + oHeroList);
+	DWORD_PTR champListPtr = Mem::ReadPointer(hProcess, objManagerPtr + oHeroListHeroArray);
+	Mem::Read(hProcess, objManagerPtr + oHeroListNumChampions, &numChampions, 4);
 
 	if (champListPtr != 0 && numChampions > 0 && numChampions < 11) {
 
@@ -73,7 +73,7 @@ void LeagueMemoryReader::ReadStructs() {
 
 	// Read renderer
 	DWORD_PTR rendererAddr = Mem::ReadPointer(hProcess, moduleBaseAddr + oRenderer);
-	renderer.LoadFromMem(rendererAddr, hProcess);
+	renderer.LoadFromMem(rendererAddr, moduleBaseAddr, hProcess);
 
 	//Read game time
 	gameTime = Mem::ReadFloat(hProcess, moduleBaseAddr + oGameTime);

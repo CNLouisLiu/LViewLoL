@@ -59,9 +59,8 @@ void HeroTrackerView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 			track.pop_front();
 		}
 
-		// Now draw positions
+		// Now draw positions on minimap
 		ImDrawList* list = ImGui::GetWindowDrawList();
-
 
 		ImVec2 windowSize = ImGui::GetWindowSize();
 		ImVec2 windowPos = ImGui::GetWindowPos();
@@ -90,8 +89,9 @@ void HeroTrackerView::DrawOverlay(LeagueMemoryReader& reader, ImDrawList* overla
 		int nrStep = 0;
 		for (auto it = track.begin(); it != track.end(); ++it) {
 
-			Vector2 screenPos = reader.renderer.WorldToScreen((*it)->pt);
-			overlayCanvas->AddCircleFilled(ImVec2(screenPos.x, screenPos.y), 8.f, ImColor::HSV(0.6f - 0.2f*nrStep / track.size(), 1.f, 1.f), 10);
+			//Vector2 screenPos = reader.renderer.WorldToScreen((*it)->pt);
+			//overlayCanvas->AddCircleFilled(ImVec2(screenPos.x, screenPos.y), 8.f, ImColor::HSV(0.6f - 0.2f*nrStep / track.size(), 1.f, 1.f), 10);
+			reader.renderer.DrawCircleAt(overlayCanvas, (*it)->pt, 40.f, false, 10, ImColor::HSV(0.6f - 0.2f*nrStep / track.size(), 1.f, 1.f));
 			nrStep++;
 		}
 	}

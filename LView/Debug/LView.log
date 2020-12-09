@@ -1,2 +1,3 @@
-﻿  HeroTrackerView.cpp
+﻿  Structs.cpp
+f:\github\lviewlol\lview\structs.cpp(104): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   LView.vcxproj -> F:\Github\LViewLoL\Debug\LView.exe
