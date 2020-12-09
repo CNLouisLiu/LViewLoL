@@ -54,27 +54,67 @@ void LeagueMemoryReader::HookToProcess() {
 
 void LeagueMemoryReader::ReadStructs() {
 	
-	// Read champs
-	DWORD_PTR objManagerPtr = Mem::ReadPointer(hProcess, moduleBaseAddr + oHeroList);
-	DWORD_PTR champListPtr = Mem::ReadPointer(hProcess, objManagerPtr + oHeroListHeroArray);
-	Mem::Read(hProcess, objManagerPtr + oHeroListNumChampions, &numChampions, 4);
-
-	if (champListPtr != 0 && numChampions > 0 && numChampions < 11) {
-
-		int i = 0;
-		for (int i = 0; i < numChampions; ++i) {
-			DWORD_PTR heroPtr = Mem::ReadPointer(hProcess, champListPtr + i * 4);
-
-			if (heroPtr != 0) {
-				champions[i].LoadFromMem(heroPtr, hProcess);
-			}
-		}
-	}
-
-	// Read renderer
-	DWORD_PTR rendererAddr = Mem::ReadPointer(hProcess, moduleBaseAddr + oRenderer);
-	renderer.LoadFromMem(rendererAddr, moduleBaseAddr, hProcess);
+	static int calls = 0;
+	
+		//gameObjectPointersAvoid.clear();
 
 	//Read game time
 	gameTime = Mem::ReadFloat(hProcess, moduleBaseAddr + oGameTime);
+
+	if (gameTime > 0) {
+		// Read champs
+		DWORD heroManagerPtr = Mem::ReadPointer(hProcess, moduleBaseAddr + oHeroList);
+		DWORD champListPtr = Mem::ReadPointer(hProcess, heroManagerPtr + oHeroListHeroArray);
+		Mem::Read(hProcess, heroManagerPtr + oHeroListNumChampions, &numChampions, 4);
+
+		if (champListPtr != 0 && numChampions > 0 && numChampions < 11) {
+
+			int i = 0;
+			for (size_t i = 0; i < numChampions; ++i) {
+				DWORD heroPtr = Mem::ReadPointer(hProcess, champListPtr + i * 4);
+
+				if (heroPtr != 0) {
+					champions[i]->LoadFromMem(heroPtr, hProcess);
+				}
+			}
+		}
+
+		// Read renderer
+		DWORD rendererAddr = Mem::ReadPointer(hProcess, moduleBaseAddr + oRenderer);
+		renderer.LoadFromMem(rendererAddr, moduleBaseAddr, hProcess);
+
+		// Read other game objects
+
+		DWORD objManager = Mem::ReadPointer(hProcess, moduleBaseAddr + oObjManager);
+		Mem::Read(hProcess, Mem::ReadPointer(hProcess, objManager + oObjManagerObjArray), gameObjectPointers, 3000 * sizeof(DWORD));
+
+		if (++calls % 20 == 0) {
+			numOtherObjects = 0;
+			wards.clear();
+			for (int i = 0; i < GAME_OBJECT_ARRAY_SIZE - 1; ++i) {
+				DWORD ptrObj = gameObjectPointers[i];
+				if (gameObjectPointersAvoid.find(ptrObj) == gameObjectPointersAvoid.end()) {
+
+					if (numOtherObjects >= otherObjects.size()) {
+						otherObjects.push_back(new GameObject());
+					}
+					GameObject* obj = otherObjects[numOtherObjects];
+					obj->LoadFromMem(ptrObj, hProcess);
+
+
+					if ((obj->team != 100 && obj->team != 200 && obj->team != 300) || obj->name.empty())
+						continue;
+					
+					numOtherObjects++;
+
+					if (wardNames.find(obj->name) != wardNames.end()) {
+						
+						obj->expiryAt += gameTime;
+						wards.push_back(obj);
+					}
+				}
+
+			}
+		}
+	}
 }

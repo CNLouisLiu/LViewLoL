@@ -46,24 +46,24 @@ void SpellTrackerView::DrawSpellButton(Spell& spell, float gameTime, ImDrawList*
 
 void SpellTrackerView::DrawSpellTrackerPanel(LeagueMemoryReader& reader) {
 	ImGui::Begin("SpellTracker");
-	for (int i = 0; i < reader.numChampions; ++i) {
+	for (size_t i = 0; i < reader.numChampions; ++i) {
 
-		Champion it = reader.champions[i];
-		if (it.team == reader.champions[reader.localPlayerIdx].team) // Skip allies
+		Champion* it = reader.champions[i];
+		if (it->team == reader.champions[reader.localPlayerIdx]->team) // Skip allies
 			continue;
 
-		if (ImGui::TreeNode(it.name.c_str())) {
+		if (ImGui::TreeNode(it->name.c_str())) {
 
 			ImGui::BeginGroup();
-			DrawSpellButton(it.Q, reader.gameTime, false);
-			DrawSpellButton(it.W, reader.gameTime, false);
-			DrawSpellButton(it.E, reader.gameTime, false);
-			DrawSpellButton(it.R, reader.gameTime, false);
+			DrawSpellButton(it->Q, reader.gameTime, false);
+			DrawSpellButton(it->W, reader.gameTime, false);
+			DrawSpellButton(it->E, reader.gameTime, false);
+			DrawSpellButton(it->R, reader.gameTime, false);
 			ImGui::EndGroup();
 
 			ImGui::BeginGroup();
-			DrawSpellButton(it.D, reader.gameTime, true);
-			DrawSpellButton(it.F, reader.gameTime, true);
+			DrawSpellButton(it->D, reader.gameTime, true);
+			DrawSpellButton(it->F, reader.gameTime, true);
 			ImGui::EndGroup();
 			
 			ImGui::TreePop();
@@ -76,36 +76,38 @@ void SpellTrackerView::DrawSpellTrackerOnChampions(LeagueMemoryReader& reader, I
 
 	showAdvanced = GetAsyncKeyState(VK_OEM_3) && 0x01;
 
-	int localPlayerTeam = reader.champions[reader.localPlayerIdx].team;
-	for (int i = 0; i < reader.numChampions; ++i) {
-		Champion champ = reader.champions[i];
-		if (!champ.isVisible)
+	int localPlayerTeam = reader.champions[reader.localPlayerIdx]->team;
+	for (size_t i = 0; i < reader.numChampions; ++i) {
+		Champion* champ = reader.champions[i];
+		if (champ->currentHealth <= 0.f)
 			continue;
-		if ((champ.team == localPlayerTeam && !showOverlayOnAllies) ||
-			(champ.team != localPlayerTeam && !showOverlayOnEnemies))
+		if (!champ->isVisible)
+			continue;
+		if ((champ->team == localPlayerTeam && !showOverlayOnAllies) ||
+			(champ->team != localPlayerTeam && !showOverlayOnEnemies))
 			continue;
 
-		Vector2 pos = reader.renderer.WorldToScreen(champ.position);
+		Vector2 pos = reader.renderer.WorldToScreen(champ->position);
 		ImVec2 imPos = ImVec2(pos.x - 60, pos.y);
 
 
-		DrawSpellButton(champ.Q, reader.gameTime, list, imPos);
+		DrawSpellButton(champ->Q, reader.gameTime, list, imPos);
 		imPos.x += 35;
 
-		DrawSpellButton(champ.W, reader.gameTime, list, imPos);
+		DrawSpellButton(champ->W, reader.gameTime, list, imPos);
 		imPos.x += 35;
 
-		DrawSpellButton(champ.E, reader.gameTime, list, imPos);
+		DrawSpellButton(champ->E, reader.gameTime, list, imPos);
 		imPos.x += 35;
 
-		DrawSpellButton(champ.R, reader.gameTime, list, imPos);
+		DrawSpellButton(champ->R, reader.gameTime, list, imPos);
 		imPos.x += 35;
 
 		if (showAdvanced) {
-			DrawSpellButton(champ.D, reader.gameTime, list, imPos);
+			DrawSpellButton(champ->D, reader.gameTime, list, imPos);
 			imPos.x += 35;
 
-			DrawSpellButton(champ.F, reader.gameTime, list, imPos);
+			DrawSpellButton(champ->F, reader.gameTime, list, imPos);
 			imPos.x += 35;
 		}
 	}
@@ -116,7 +118,7 @@ void SpellTrackerView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 		DrawSpellTrackerPanel(reader);
 }
 
-void SpellTrackerView::DrawOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui) {
+void SpellTrackerView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui) {
 	DrawSpellTrackerOnChampions(reader, overlayCanvas);
 }
 

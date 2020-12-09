@@ -8,7 +8,8 @@ public:
 	const char* GetName();
 	void DrawSettings(LeagueMemoryReader& reader, UI& ui);
 	void DrawPanel(LeagueMemoryReader& reader, UI& ui);
-	void DrawOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui);
+
+	void DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui);
 
 private:
 	void DrawSpellTrackerOnChampions(LeagueMemoryReader& reader, ImDrawList* list);

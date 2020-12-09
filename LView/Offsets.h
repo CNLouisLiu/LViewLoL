@@ -1,40 +1,38 @@
 #pragma once
 
-#define TARGET_GAMEVERSION "Version 10.24.345.8390 [PUBLIC]"  // 
+#define GAME_OBJECT_ARRAY_SIZE 3000
 
-#define oObjManager 0x1C5D610 // //			8B 0D ? ? ? ? 89 74 24 14 // dword_[offset]
-#define oHeroList 0x1C5B580
-#define oRenderer 0x3522E34 // 				8B 15 ? ? ? ? 83 EC 08 F3 // dword_[offset]
 #define oGameTime 0x34F22F0 // 				F3 0F 11 05 ? ? ? ? 8B 49 // dword_[offset]
-#define oViewProjMatrices 0x3520038
 
 //CObject
 #define oObjIndex 0x20
 #define oObjTeam 0x4C
-#define oObjNetworkID 0xCC //
-#define oObjPos 0x1D8 // 10.24 loveto5014
+#define oObjNetworkID 0xCC 
+#define oObjPos 0x1D8 
 #define oObjVisibility 0x270
-#define oObjHealth 0xD98 // 10.24 loveto5014
+#define oObjHealth 0xD98 
 #define oObjMana 0x298
 #define oObjMaxMana 0x2A8
-#define oObjArmor 0x1278 // 10.24 loveto5014
-#define oObjMagicRes 0x1280 // 10.24 loveto5014
-#define oObjBonusMagicRes 0x1284 // 10.24 loveto5014
-#define oObjBaseAtk 0x1250 //10.24 loveto5014
-#define oObjBonusAtk 0x11D0 // 10.24 loveto5014
-#define oObjMoveSpeed 0x1290 // 10.24 loveto5014
-#define oObjAtkRange 0x1298 // 10.24 loveto5014
-#define oObjBuffMgr 0x213C // 10.24 serge
-#define oObjSpellBook 0x2B60  // 10.24 serge
+#define oObjArmor 0x1278 
+#define oObjMagicRes 0x1280 
+#define oObjBonusMagicRes 0x1284 
+#define oObjBaseAtk 0x1250
+#define oObjBonusAtk 0x11D0 
+#define oObjMoveSpeed 0x1290 
+#define oObjAtkRange 0x1298 
+#define oObjBuffMgr 0x213C
+#define oObjSpellBook 0x2B60  
 #define oObjChampionName 0x2F44
 #define oObjLevel 0x369C // 10.24 me
 #define oObjSourceIndex 0x290
 #define oObjPerk1 0x3888 // 8D 8E ? ? ? ? E8 ? ? ? ? 8B CE E8 ? ? ? ? A1 // esi+[offset]h // 81 EC ? ? ? ? A1 ? ? ? ? 33 C4 89 84 24 ? ? ? ? 53 8B 9C 24 ? ? ? ? 56 8B F1 88 5C 24 0C // fn + 19F
 #define oObjPerk2 0x2C8 // 8D 8B ? ? ? ? E8 ? ? ? ? 5F 5E 8D // ebx+[offset]h // E8 ? ? ? ? 8D B3 ? ? ? ? C7 83 ? ? ? ? ? ? ? ? C7 83 ? ? ? ? ? ? ? ? 8B CE // sub_XXX + 44
+#define oObjExpiry 0x298
 #define oInhiRemainingRespawnTime 0xFF4
 
 //ObjectManager
-#define objectArray 0x14
+#define oObjManager 0x1C5D610 // //			8B 0D ? ? ? ? 89 74 24 14 // dword_[offset]
+#define oObjManagerObjArray 0x14
 
 //MissileInfo
 #define oMissileSpellInfo 0x230
@@ -43,10 +41,13 @@
 #define oMissileEndPos 0x2B4
 
 // Renderer
+#define oViewProjMatrices 0x3520038
+#define oRenderer 0x3522E34 // 				8B 15 ? ? ? ? 83 EC 08 F3 // dword_[offset]
 #define oRendererWidth 0x10
 #define oRendererHeight 0x14
 #define oRendererViewMat 0x60
 #define oRendererProjMat 0xA0
+
 
 //oSpellSlot
 #define oSpellSlotRemainingCharge 0x58
@@ -86,8 +87,7 @@
 #define oSpellDataEffectSpellRange 0x10C // starts from F4
 #define oSpellDataEffectSpellRangeAfterEffect 0xB8 // starts from A0
 
-//champion_manager
-#define oHeroListHeroArray 0x4 //24
-#define oHeroListNumChampions 0x8 //152
-#define oGetChampionSkins 0x58
-#define oGetChampionName 0x4
+//Hero list
+#define oHeroList 0x1C5B580
+#define oHeroListHeroArray 0x4 
+#define oHeroListNumChampions 0x8 

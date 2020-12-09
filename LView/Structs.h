@@ -68,10 +68,31 @@ public:
 	void LoadFromMem(DWORD_PTR renderBase, DWORD_PTR moduleBase, HANDLE hProcess);
 	void MultiplyMatrices(float *out, float *a, int row1, int col1, float *b, int row2, int col2);
 	Vector2 WorldToScreen(Vector3 pos);
+	Vector2 WorldToMinimap(Vector3 pos);
 	void DrawCircleAt(ImDrawList* canvas, Vector3 worldPos, float radius, bool filled, int numPoints, ImColor color);
 };
 
-class Champion {
+class GameObject {
+
+public:
+	GameObject() { buff = new BYTE[0x3000];  }
+	~GameObject() { delete[] buff; }
+
+	void LoadFromMem(DWORD_PTR base, HANDLE hProcess);
+
+	short team;
+	float health;
+	float expiryAt;
+	bool isVisible;
+	std::string name;
+	Vector3 position;
+	DWORD address;
+
+protected:
+	BYTE* buff;
+};
+
+class Champion: public GameObject {
 
 public:
 
@@ -84,14 +105,11 @@ public:
 		F(Spell(SpellType::F)) {
 	}
 
-	/* base must be the address at which the hero object starts */
 	void LoadFromMem(DWORD_PTR base, HANDLE hProcess);
 
 public:
-	short team;
-	bool isVisible;
-	std::string name;
-	Vector3 position;
+	float currentHealth;
+
 	Spell Q, W, E, R, D, F;
 
 private:

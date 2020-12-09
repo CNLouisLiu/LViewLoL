@@ -75,6 +75,12 @@
     <ClCompile Include="Structs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VisionTrackerView.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseView.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -121,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="LeagueMemoryReader.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VisionTrackerView.h">
+      <Filter>Source Files\Views</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

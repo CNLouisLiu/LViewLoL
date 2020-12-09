@@ -10,7 +10,6 @@
 #include <string>
 #include <list>
 
-#define DIRECTINPUT_VERSION 0x0800
 
 // Data
 static LPDIRECT3D9              g_pD3D = NULL;
@@ -104,23 +103,7 @@ void UI::Update(LeagueMemoryReader& reader) {
 
 	if (shouldRenderUI) {
 
-		// Draw settings and other panels
-		ImGui::Begin("Settings");
-		for (auto it = views.begin(); it != views.end(); ++it) {
-			BaseView* view = *it;
-			if (ImGui::TreeNode(view->GetName())) {
-				ImGui::Checkbox("Enabled", &view->enabled);
-				view->DrawSettings(reader, *this);
-				ImGui::TreePop();
-			}
-
-			if (view->enabled) {
-				view->DrawPanel(reader, *this);
-			}
-		}
-		ImGui::End();
-
-		// Draw overlays
+		// Draw world space overlay
 		auto io = ImGui::GetIO();
 		ImGui::SetNextWindowSize(io.DisplaySize);
 		ImGui::SetNextWindowPos(ImVec2(0, 0));
@@ -137,10 +120,45 @@ void UI::Update(LeagueMemoryReader& reader) {
 		for (auto it = views.begin(); it != views.end(); ++it) {
 			BaseView* view = *it;
 			if (view->enabled) {
-				view->DrawOverlay(reader, list, *this);
+				view->DrawWorldSpaceOverlay(reader, list, *this);
 			}
 		}
 		ImGui::End();
+
+		// Draw minimap overlay
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 2.0f);
+		ImGui::SetNextWindowBgAlpha(0.0f);
+		ImGui::Begin("Minimap Overlay", nullptr,
+			ImGuiWindowFlags_NoScrollbar
+		);
+
+		list = ImGui::GetWindowDrawList();
+		for (auto it = views.begin(); it != views.end(); ++it) {
+			BaseView* view = *it;
+			if (view->enabled) {
+				view->DrawMinimapOverlay(reader, list, *this);
+			}
+		}
+
+		ImGui::End();
+		ImGui::PopStyleVar();
+
+		// Draw settings and other panels
+		ImGui::Begin("Settings");
+		for (auto it = views.begin(); it != views.end(); ++it) {
+			BaseView* view = *it;
+			if (ImGui::TreeNode(view->GetName())) {
+				ImGui::Checkbox("Enabled", &view->enabled);
+				view->DrawSettings(reader, *this);
+				ImGui::TreePop();
+			}
+
+			if (view->enabled) {
+				view->DrawPanel(reader, *this);
+			}
+		}
+		ImGui::End();
+
 	}
 
 	ImGui::PopFont();

@@ -1,4 +1,5 @@
 #include "Structs.h"
+#include <ctype.h>
 
 const char* gSpellTypeName[7] = { "Q", "W", "E", "R", "D", "F", "?" };
 std::map<std::string, std::string> gSummonerSpellNameDict = {
@@ -97,6 +98,17 @@ Vector2 Renderer::WorldToScreen(Vector3 pos) {
 	return returnVec;
 }
 
+Vector2 Renderer::WorldToMinimap(Vector3 pos) {
+	
+	ImVec2 wPos = ImGui::GetWindowPos();
+	ImVec2 wSize = ImGui::GetWindowSize();
+
+	Vector2 result = { pos.x / 15000.f, pos.z / 15000.f };
+	result.x = wPos.x + result.x * wSize.x;
+	result.y = wPos.y + wSize.y - (result.y * wSize.y);
+
+	return result;
+}
 
 void Renderer::DrawCircleAt(ImDrawList* canvas, Vector3 worldPos, float radius, bool filled, int numPoints, ImColor color) {
 	
@@ -120,23 +132,32 @@ void Renderer::DrawCircleAt(ImDrawList* canvas, Vector3 worldPos, float radius, 
 }
 
 
+void GameObject::LoadFromMem(DWORD_PTR base, HANDLE hProcess) {
+	
+	address = base;
+	Mem::Read(hProcess, base, buff, 0x3000);
 
+	memcpy(&team, &buff[oObjTeam], sizeof(short));
+	memcpy(&isVisible, &buff[oObjVisibility], sizeof(bool));
+	memcpy(&position, &buff[oObjPos], sizeof(Vector3));
+	memcpy(&health, &buff[oObjHealth], sizeof(float));
+	memcpy(&expiryAt, &buff[oObjExpiry], sizeof(float));
+
+	char nameBuff[50];
+	Mem::Read(hProcess, Mem::ReadPointerFromBuffer(buff, oObjChampionName), nameBuff, 50);
+
+	if (nameBuff[0] < 65 || nameBuff[0] > 122)
+		name = std::string("");
+	else
+		name = std::string(nameBuff);
+}
 
 void Champion::LoadFromMem(DWORD_PTR base, HANDLE hProcess) {
 
-	// Read static stuff
-	if (name.empty()) {
-		Mem::Read(hProcess, base + oObjTeam, &team, sizeof(short));
-		Mem::Read(hProcess, base + oObjSpellBook, spellSlotPtrs, sizeof(DWORD) * 6);
+	GameObject::LoadFromMem(base, hProcess);
 
-		char buff[50];
-		Mem::Read(hProcess, Mem::ReadPointer(hProcess, base + oObjChampionName), buff, 50);
-		name = std::string(buff);
-	}
-
-	// Read dynamic stuff
-	Mem::Read(hProcess, base + oObjVisibility, &isVisible, sizeof(bool));
-	Mem::Read(hProcess, base + oObjPos, &position, sizeof(Vector3));
+	memcpy(&spellSlotPtrs, &buff[oObjSpellBook], sizeof(DWORD) * 6);
+	memcpy(&currentHealth, &buff[oObjHealth], sizeof(float));
 
 	Q.LoadFromMem(spellSlotPtrs[0], hProcess);
 	W.LoadFromMem(spellSlotPtrs[1], hProcess);

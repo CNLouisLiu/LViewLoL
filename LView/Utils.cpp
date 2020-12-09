@@ -1,5 +1,9 @@
 #include "Utils.h"
 
+ImColor Colors::White = ImColor::HSV(0.f, 0.f, 1.f);
+ImColor Colors::Orange = ImColor::HSV(0.1f, 0.85f, 0.6f);
+ImColor Colors::Red = ImColor::HSV(0.f, 1.f, 0.5f);
+
 float Mem::ReadFloat(HANDLE hProcess, DWORD_PTR addr) {
 	float val = 0.f;
 	SIZE_T bytesRead = 0;
@@ -23,6 +27,12 @@ void Mem::Read(HANDLE hProcess, DWORD_PTR addr, void* structure, int size) {
 	SIZE_T bytesRead = 0;
 
 	ReadProcessMemory(hProcess, (DWORD_PTR*)addr, structure, size, &bytesRead);
+}
+
+DWORD Mem::ReadPointerFromBuffer(void* buff, int position) {
+	DWORD result;
+	memcpy(&result, (char*)buff + position, 4);
+	return result;
 }
 
 BOOL Process::IsProcessRunning(DWORD pid)

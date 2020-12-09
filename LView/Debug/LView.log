@@ -1,3 +1,2 @@
-﻿  Structs.cpp
-f:\github\lviewlol\lview\structs.cpp(104): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+﻿  VisionTrackerView.cpp
   LView.vcxproj -> F:\Github\LViewLoL\Debug\LView.exe

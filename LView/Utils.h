@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 #include "windows.h"
+#include "imgui.h"
 #include <string>
 
 class WinApiException : public std::runtime_error {
@@ -46,8 +47,15 @@ namespace Mem {
 	DWORD_PTR ReadPointer(HANDLE hProcess, DWORD_PTR addr);
 	float ReadFloat(HANDLE hProcess, DWORD_PTR addr);
 	void Read(HANDLE hProcess, DWORD_PTR addr, void* structure, int size);
+	DWORD ReadPointerFromBuffer(void* buff, int position);
 };
 
 namespace Process {
 	BOOL IsProcessRunning(DWORD pid);
 };
+
+namespace Colors {
+	extern ImColor White;
+	extern ImColor Orange;
+	extern ImColor Red;
+}

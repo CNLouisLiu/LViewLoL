@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseView.cpp" />
     <ClCompile Include="DebugView.cpp" />
     <ClCompile Include="HeroTrackerView.cpp" />
     <ClCompile Include="imgui.cpp" />
@@ -172,6 +173,7 @@
     <ClCompile Include="Structs.h" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="VisionTrackerView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseView.h" />
@@ -189,6 +191,7 @@
     <ClInclude Include="SpellTrackerView.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="VisionTrackerView.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

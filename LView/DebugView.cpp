@@ -5,9 +5,6 @@ const char* DebugView::GetName() {
 	return "Debug";
 }
 
-void DebugView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
-
-}
 
 void DrawSpell(Spell spell) {
 	if (ImGui::TreeNode(spell.GetTypeStr())) {
@@ -30,35 +27,34 @@ void DrawMatrix(float* matrix, int rows, int cols) {
 	}
 }
 
+void DrawGameObjects(std::vector<GameObject*> gameObjects) {
+	for (size_t i = 0; i < gameObjects.size(); ++i) {
+		GameObject* obj = gameObjects[i];
+
+		ImGui::TextColored(Colors::Orange, obj->name.c_str());
+			int team = obj->team;
+			ImGui::LabelText("Address", "0x%08x", &obj->address);
+			ImGui::DragFloat("Expiry At", &obj->expiryAt);
+			ImGui::DragInt("Team", &team);
+			ImGui::DragFloat("Health", &obj->health);
+			ImGui::Checkbox("Is Visible", &obj->isVisible);
+			ImGui::LabelText("Position", "X:%.2f Y:%.2f Z:%.2f", obj->position.x, obj->position.y, obj->position.z);
+
+			ImGui::Separator();
+
+	}
+}
+
 void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 
 	ImGui::Begin("Debug");
 
 	ImGui::LabelText("GameTime", "%.2f", reader.gameTime);
-
-	// Draw champs
-	for (int i = 0; i < reader.numChampions; ++i) {
-		Champion champ = reader.champions[i];
-		if (ImGui::TreeNode(champ.name.c_str())) {
-			int team = champ.team;
-			ImGui::DragInt("Team", &team);
-			ImGui::Checkbox("Is Visible", &champ.isVisible);
-			ImGui::LabelText("Position", "X:%.2f Y:%.2f Z:%.2f", champ.position.x, champ.position.y, champ.position.z);
-
-			DrawSpell(champ.Q);
-			DrawSpell(champ.W);
-			DrawSpell(champ.E);
-			DrawSpell(champ.R);
-			DrawSpell(champ.D);
-			DrawSpell(champ.F);
-
-			ImGui::TreePop();
-		}
-	}
-
+	
+	ImGui::Text("Engine Objects");
 	// Draw renderer
 	if (ImGui::TreeNode("Renderer")) {
-		
+
 		ImGui::DragInt("Width", &reader.renderer.width);
 		ImGui::DragInt("Height", &reader.renderer.height);
 
@@ -69,9 +65,40 @@ void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 		ImGui::TreePop();
 	}
 
+	// Draw champs
+	ImGui::Text("Champions");
+	for (size_t i = 0; i < reader.numChampions; ++i) {
+		Champion* champ = reader.champions[i];
+		if (ImGui::TreeNode(champ->name.c_str())) {
+			int team = champ->team;
+			ImGui::DragInt("Team", &team);
+			ImGui::DragFloat("Current Health", &champ->currentHealth);
+			ImGui::Checkbox("Is Visible", &champ->isVisible);
+			ImGui::LabelText("Position", "X:%.2f Y:%.2f Z:%.2f", champ->position.x, champ->position.y, champ->position.z);
+
+			DrawSpell(champ->Q);
+			DrawSpell(champ->W);
+			DrawSpell(champ->E);
+			DrawSpell(champ->R);
+			DrawSpell(champ->D);
+			DrawSpell(champ->F);
+
+			ImGui::TreePop();
+		}
+	}
+
+	if (ImGui::TreeNode("Wards")) {
+		DrawGameObjects(reader.wards);
+		ImGui::TreePop();
+	}
+
+	// Draw other objects
+	if (ImGui::TreeNode("Other Objects")) {
+		DrawGameObjects(reader.otherObjects);
+		ImGui::TreePop();
+	}
+
+
+
 	ImGui::End();
-}
-
-void DebugView::DrawOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui) {
-
 }

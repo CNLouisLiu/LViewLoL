@@ -1,5 +1,6 @@
 f:\github\lviewlol\lview\debug\vc141.pdb
 f:\github\lviewlol\lview\debug\vc141.idb
+f:\github\lviewlol\lview\debug\visiontrackerview.obj
 f:\github\lviewlol\lview\debug\utils.obj
 f:\github\lviewlol\lview\debug\ui.obj
 f:\github\lviewlol\lview\debug\structs.obj
@@ -16,16 +17,13 @@ f:\github\lviewlol\lview\debug\imgui_demo.obj
 f:\github\lviewlol\lview\debug\imgui.obj
 f:\github\lviewlol\lview\debug\herotrackerview.obj
 f:\github\lviewlol\lview\debug\debugview.obj
+f:\github\lviewlol\lview\debug\baseview.obj
+f:\github\lviewlol\debug\lview.exe
+f:\github\lviewlol\debug\lview.ilk
 f:\github\lviewlol\debug\lview.pdb
 f:\github\lviewlol\lview\debug\lview.tlog\cl.command.1.tlog
 f:\github\lviewlol\lview\debug\lview.tlog\cl.read.1.tlog
 f:\github\lviewlol\lview\debug\lview.tlog\cl.write.1.tlog
-f:\github\lviewlol\lview\debug\lview.tlog\link.27984-cvtres.read.1.tlog
-f:\github\lviewlol\lview\debug\lview.tlog\link.27984-cvtres.write.1.tlog
-f:\github\lviewlol\lview\debug\lview.tlog\link.27984-rc.read.1.tlog
-f:\github\lviewlol\lview\debug\lview.tlog\link.27984-rc.write.1.tlog
-f:\github\lviewlol\lview\debug\lview.tlog\link.27984.read.1.tlog
-f:\github\lviewlol\lview\debug\lview.tlog\link.27984.write.1.tlog
 f:\github\lviewlol\lview\debug\lview.tlog\link.command.1.tlog
 f:\github\lviewlol\lview\debug\lview.tlog\link.read.1.tlog
 f:\github\lviewlol\lview\debug\lview.tlog\link.write.1.tlog
