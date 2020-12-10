@@ -38,20 +38,20 @@ public:
 	}
 
 private:
-	const char* message = nullptr;
-	int errorCode = 0;
+	const char*    message = nullptr;
+	int            errorCode = 0;
 };
 
 namespace Mem {
 
-	DWORD_PTR ReadPointer(HANDLE hProcess, DWORD_PTR addr);
-	float ReadFloat(HANDLE hProcess, DWORD_PTR addr);
-	void Read(HANDLE hProcess, DWORD_PTR addr, void* structure, int size);
-	DWORD ReadPointerFromBuffer(void* buff, int position);
+	DWORD_PTR      ReadPointer(HANDLE hProcess, DWORD_PTR addr);
+	float          ReadFloat(HANDLE hProcess, DWORD_PTR addr);
+	void           Read(HANDLE hProcess, DWORD_PTR addr, void* structure, int size);
+	DWORD          ReadPointerFromBuffer(void* buff, int position);
 };
 
 namespace Process {
-	BOOL IsProcessRunning(DWORD pid);
+	BOOL           IsProcessRunning(DWORD pid);
 };
 
 namespace Colors {

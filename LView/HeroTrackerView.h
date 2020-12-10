@@ -18,24 +18,20 @@ public:
 class HeroTrackerView : public BaseView {
 
 public:
-	const char* GetName();
-	void DrawSettings(LeagueMemoryReader& reader, UI& ui);
+	const char*    GetName();
+	void           DrawSettings(LeagueMemoryReader& reader, UI& ui);
 
-	void DrawMinimapOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui);
-	void DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui);
+	void           DrawMinimapOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui);
+	void           DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui);
 
 private:
 
-	int trackedHeroIndex = -1;
-
-	time_t timeOfLastStoredPosition = 0;
-	float timeBetweenTwoSteps = 10;
+	std::deque<TrackPoint*> track;
+	int                     trackedHeroIndex = -1;
+	time_t                  timeOfLastStoredPosition = 0;
+	float                   timeBetweenTwoSteps = 10;
 
 	// Settings
-	time_t secondsToTrack = 15;
-	bool drawTrackInWorld;
-
-	std::deque<TrackPoint*> track;
-
-	const float LEAGUE_MAP_BOUNDS = 15000.f;
+	time_t                  secondsToTrack = 15;
+	bool                    drawTrackInWorld;
 };

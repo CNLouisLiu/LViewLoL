@@ -8,13 +8,13 @@ class VisionTrackerView : public BaseView {
 
 public:
 	const char* GetName();
-	void DrawSettings(LeagueMemoryReader& reader, UI& ui);
+	void        DrawSettings(LeagueMemoryReader& reader, UI& ui);
 
-	void DrawMinimapOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui);
-	void DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& uis);
+	void        DrawMinimapOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui);
+	void        DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& uis);
 
 private:
 
-	bool showOverlayOnAllyWards;
+	bool        showOverlayOnAllyWards;
 
 };

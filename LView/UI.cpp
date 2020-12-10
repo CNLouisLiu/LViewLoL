@@ -1,26 +1,13 @@
 #include "UI.h"
 #include "Utils.h"
 #include "Structs.h"
-#include "imgui.h"
-#include "imgui_impl_dx9.h"
-#include "imgui_impl_win32.h"
 #include "LeagueMemoryReader.h"
-#include <d3d9.h>
-#include <dinput.h>
 #include <string>
 #include <list>
 
-
-// Data
-static LPDIRECT3D9              g_pD3D = NULL;
-static LPDIRECT3DDEVICE9        g_pd3dDevice = NULL;
-static D3DPRESENT_PARAMETERS    g_d3dpp = {};
-
-// Forward declarations of helper functions
-bool CreateDeviceD3D(HWND hWnd);
-void CleanupDeviceD3D();
-void ResetDevice();
-LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LPDIRECT3D9                        UI::g_pD3D = NULL;
+LPDIRECT3DDEVICE9                  UI::g_pd3dDevice = NULL;
+D3DPRESENT_PARAMETERS              UI::g_d3dpp = {};
 
 UI::UI(std::list<BaseView*> views) {
 	this->views = views;
@@ -211,8 +198,7 @@ void UI::Update(LeagueMemoryReader& reader) {
 
 
 // Helper functions
-
-bool CreateDeviceD3D(HWND hWnd)
+bool UI::CreateDeviceD3D(HWND hWnd)
 {
 	if ((g_pD3D = Direct3DCreate9(D3D_SDK_VERSION)) == NULL)
 		return false;
@@ -232,13 +218,13 @@ bool CreateDeviceD3D(HWND hWnd)
 	return true;
 }
 
-void CleanupDeviceD3D()
+void UI::CleanupDeviceD3D()
 {
 	if (g_pd3dDevice) { g_pd3dDevice->Release(); g_pd3dDevice = NULL; }
 	if (g_pD3D) { g_pD3D->Release(); g_pD3D = NULL; }
 }
 
-void ResetDevice()
+void UI::ResetDevice()
 {
 	ImGui_ImplDX9_InvalidateDeviceObjects();
 	HRESULT hr = g_pd3dDevice->Reset(&g_d3dpp);
@@ -251,7 +237,7 @@ void ResetDevice()
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // Win32 message handler
-LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT WINAPI UI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
 		return true;

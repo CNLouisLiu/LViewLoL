@@ -37,20 +37,18 @@ enum class SpellType {
 class Spell {
 
 public:
-	Spell(SpellType type)
-	:type(type) {	
-	}
+	            Spell(SpellType type) :type(type) {}
 
 
-	float GetRemainingCooldown(float gameTime);
+	float       GetRemainingCooldown(float gameTime);
 	const char* GetTypeStr();
-	void LoadFromMem(DWORD_PTR base, HANDLE hProcess);
+	void        LoadFromMem(DWORD_PTR base, HANDLE hProcess);
 
 public:
 	std::string name;
-	SpellType type;
-	int level = 0;
-	float readyAt = 0.f;
+	SpellType   type;
+	int         level = 0;
+	float       readyAt = 0.f;
 
 private:
 	std::string remainingCooldownStr;
@@ -59,34 +57,34 @@ private:
 class Renderer {
 	
 public:
-	int width, height;
+	int      width, height;
 
-	float viewMatrix[16];
-	float projMatrix[16];
-	float viewProjMatrix[16];
+	float    viewMatrix[16];
+	float    projMatrix[16];
+	float    viewProjMatrix[16];
 
-	void LoadFromMem(DWORD_PTR renderBase, DWORD_PTR moduleBase, HANDLE hProcess);
-	void MultiplyMatrices(float *out, float *a, int row1, int col1, float *b, int row2, int col2);
-	Vector2 WorldToScreen(Vector3 pos);
-	Vector2 WorldToMinimap(Vector3 pos);
-	void DrawCircleAt(ImDrawList* canvas, Vector3 worldPos, float radius, bool filled, int numPoints, ImColor color);
+	void     LoadFromMem(DWORD_PTR renderBase, DWORD_PTR moduleBase, HANDLE hProcess);
+	void     MultiplyMatrices(float *out, float *a, int row1, int col1, float *b, int row2, int col2);
+	Vector2  WorldToScreen(Vector3 pos);
+	Vector2  WorldToMinimap(Vector3 pos);
+	void     DrawCircleAt(ImDrawList* canvas, Vector3 worldPos, float radius, bool filled, int numPoints, ImColor color);
 };
 
 class GameObject {
 
 public:
-	GameObject() { buff = new BYTE[0x3000];  }
-	~GameObject() { delete[] buff; }
+	             GameObject() { buff = new BYTE[0x3000];  }
+	             ~GameObject() { delete[] buff; }
 
-	void LoadFromMem(DWORD_PTR base, HANDLE hProcess);
+	void         LoadFromMem(DWORD_PTR base, HANDLE hProcess);
 
-	short team;
-	float health;
-	float expiryAt;
-	bool isVisible;
-	std::string name;
-	Vector3 position;
-	DWORD address;
+	short        team;
+	float        health;
+	float        expiryAt;
+	bool         isVisible;
+	std::string  name;
+	Vector3      position;
+	DWORD        address;
 
 protected:
 	BYTE* buff;
@@ -105,13 +103,13 @@ public:
 		F(Spell(SpellType::F)) {
 	}
 
-	void LoadFromMem(DWORD_PTR base, HANDLE hProcess);
+	void    LoadFromMem(DWORD_PTR base, HANDLE hProcess);
 
 public:
-	float currentHealth;
+	float   currentHealth;
 
-	Spell Q, W, E, R, D, F;
+	Spell   Q, W, E, R, D, F;
 
 private:
-	DWORD spellSlotPtrs[6];
+	DWORD   spellSlotPtrs[6];
 };

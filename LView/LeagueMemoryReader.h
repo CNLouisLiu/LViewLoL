@@ -41,40 +41,40 @@ public:
 private:
 
 	// Process related
-	HANDLE hProcess;
-	DWORD pid;
-	HWND hWindow;
+	HANDLE                    hProcess;
+	DWORD                     pid;
+	HWND                      hWindow;
 
 	// Memory related
-	DWORD_PTR moduleBaseAddr;
-	DWORD moduleSize;
-	BOOL is64Bit = FALSE;
+	DWORD_PTR                 moduleBaseAddr;
+	DWORD                     moduleSize;
+	BOOL                      is64Bit = FALSE;
 
 public:
 	// Structs
-	static const size_t numMaxChamps = 10;
-	static const size_t numMaxMinions = 500;
+	static const size_t       numMaxChamps = 10;
+	static const size_t       numMaxMinions = 500;
+	 
+	Champion*                 champions[numMaxChamps];
+	GameObject*               minions[numMaxMinions];
+	std::vector<GameObject*>  wards;
+	std::vector<GameObject*>  others;
+	 
+	size_t                    numMinions = 0;
+	size_t                    numOtherObjects = 0;
+	size_t                    numChampions = 0;
+	int                       localPlayerIdx = 0;
 
-	Champion* champions[numMaxChamps];
-	GameObject* minions[numMaxMinions];
-	std::vector<GameObject*> wards;
-	std::vector<GameObject*> others;
+	Renderer                  renderer;
+	float                     gameTime;
 
-	size_t numMinions = 0;
-	size_t numOtherObjects = 0;
-	size_t numChampions = 0;
-	int localPlayerIdx = 0;
-
-	Renderer renderer;
-	float gameTime;
-
-	ReadBenchmark benchmark;
+	ReadBenchmark             benchmark;
 
 private:
-	std::set<std::string> wardNames = { "YellowTrinket", "JammerDevice", "SightWard" };
+	std::set<std::string>     wardNames = { "YellowTrinket", "JammerDevice", "SightWard" };
 
-	void ReadChampions();
-	void ReadRenderer();
-	void ReadMinions();
+	void                      ReadChampions();
+	void                      ReadRenderer();
+	void                      ReadMinions();
 
 };
