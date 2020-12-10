@@ -24,6 +24,8 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 UI::UI(std::list<BaseView*> views) {
 	this->views = views;
+	for (auto it = views.begin(); it != views.end(); ++it)
+		benchmarks[*it] = ViewBenchmark();
 }
 
 void UI::Start() {
@@ -103,6 +105,9 @@ void UI::Update(LeagueMemoryReader& reader) {
 
 	if (shouldRenderUI) {
 
+		high_resolution_clock::time_point timeBefore;
+		duration<float, std::milli> timeDuration;
+
 		// Draw world space overlay
 		auto io = ImGui::GetIO();
 		ImGui::SetNextWindowSize(io.DisplaySize);
@@ -120,7 +125,10 @@ void UI::Update(LeagueMemoryReader& reader) {
 		for (auto it = views.begin(); it != views.end(); ++it) {
 			BaseView* view = *it;
 			if (view->enabled) {
+				timeBefore = high_resolution_clock::now();
 				view->DrawWorldSpaceOverlay(reader, list, *this);
+				timeDuration = high_resolution_clock::now() - timeBefore;
+				benchmarks[view].drawWorldOverlayMs = timeDuration.count();
 			}
 		}
 		ImGui::End();
@@ -136,7 +144,10 @@ void UI::Update(LeagueMemoryReader& reader) {
 		for (auto it = views.begin(); it != views.end(); ++it) {
 			BaseView* view = *it;
 			if (view->enabled) {
+				timeBefore = high_resolution_clock::now();
 				view->DrawMinimapOverlay(reader, list, *this);
+				timeDuration = high_resolution_clock::now() - timeBefore;
+				benchmarks[view].drawMinimapOverlayMs = timeDuration.count();
 			}
 		}
 
@@ -149,12 +160,20 @@ void UI::Update(LeagueMemoryReader& reader) {
 			BaseView* view = *it;
 			if (ImGui::TreeNode(view->GetName())) {
 				ImGui::Checkbox("Enabled", &view->enabled);
+
+				timeBefore = high_resolution_clock::now();
 				view->DrawSettings(reader, *this);
+				timeDuration = high_resolution_clock::now() - timeBefore;
+				benchmarks[view].drawSettingsMs = timeDuration.count();
+
 				ImGui::TreePop();
 			}
 
 			if (view->enabled) {
+				timeBefore = high_resolution_clock::now();
 				view->DrawPanel(reader, *this);
+				timeDuration = high_resolution_clock::now() - timeBefore;
+				benchmarks[view].drawPanelMs = timeDuration.count();
 			}
 		}
 		ImGui::End();

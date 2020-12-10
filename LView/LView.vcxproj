@@ -156,6 +156,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseView.cpp" />
+    <ClCompile Include="BenchmarkingView.cpp" />
     <ClCompile Include="DebugView.cpp" />
     <ClCompile Include="HeroTrackerView.cpp" />
     <ClCompile Include="imgui.cpp" />
@@ -177,6 +178,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseView.h" />
+    <ClInclude Include="BenchmarkingView.h" />
     <ClInclude Include="DebugView.h" />
     <ClInclude Include="HeroTrackerView.h" />
     <ClInclude Include="imconfig.h" />

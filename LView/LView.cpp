@@ -10,6 +10,7 @@
 #include "SpellTrackerView.h"
 #include "HeroTrackerView.h"
 #include "VisionTrackerView.h"
+#include "BenchmarkingView.h"
 #include "DebugView.h"
 
 #include <chrono>
@@ -24,6 +25,8 @@ int main()
 	views.push_back(new SpellTrackerView());
 	views.push_back(new HeroTrackerView());
 	views.push_back(new VisionTrackerView());
+
+	views.push_back(new BenchmarkingView());
 	views.push_back(new DebugView());
 
 	// Init UI and hook

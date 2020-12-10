@@ -5,6 +5,15 @@
 #include <list>
 #include <vector>
 #include <set>
+#include <chrono>
+
+using namespace std::chrono;
+
+struct ReadBenchmark {
+	float readChampsMs;
+	float readRendererMs;
+	float readOtherObjectsMs;
+};
 
 class LeagueMemoryReader {
 
@@ -51,9 +60,11 @@ public:
 	Renderer renderer;
 	float gameTime;
 
+	ReadBenchmark benchmark;
+
 private:
 	DWORD* gameObjectPointers;
 	std::set<DWORD> gameObjectPointersAvoid; // Used to cull the number of ReadProcessMemory calls
-	std::set<std::string> wardNames = { "YellowTrinket", "JammerDevice" };
+	std::set<std::string> wardNames = { "YellowTrinket", "JammerDevice", "SightWard" };
 
 };

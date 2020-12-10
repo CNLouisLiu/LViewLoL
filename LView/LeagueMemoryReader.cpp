@@ -55,14 +55,18 @@ void LeagueMemoryReader::HookToProcess() {
 void LeagueMemoryReader::ReadStructs() {
 	
 	static int calls = 0;
-	
-		//gameObjectPointersAvoid.clear();
+
+	high_resolution_clock::time_point readTimeBegin;
+	duration<float, std::milli> readDuration;
 
 	//Read game time
 	gameTime = Mem::ReadFloat(hProcess, moduleBaseAddr + oGameTime);
 
 	if (gameTime > 0) {
+
 		// Read champs
+		readTimeBegin = high_resolution_clock::now();
+		
 		DWORD heroManagerPtr = Mem::ReadPointer(hProcess, moduleBaseAddr + oHeroList);
 		DWORD champListPtr = Mem::ReadPointer(hProcess, heroManagerPtr + oHeroListHeroArray);
 		Mem::Read(hProcess, heroManagerPtr + oHeroListNumChampions, &numChampions, 4);
@@ -79,16 +83,28 @@ void LeagueMemoryReader::ReadStructs() {
 			}
 		}
 
+		readDuration = high_resolution_clock::now() - readTimeBegin;
+		benchmark.readChampsMs = readDuration.count();
+
 		// Read renderer
+		readTimeBegin = high_resolution_clock::now();
+
 		DWORD rendererAddr = Mem::ReadPointer(hProcess, moduleBaseAddr + oRenderer);
 		renderer.LoadFromMem(rendererAddr, moduleBaseAddr, hProcess);
 
+		readDuration = high_resolution_clock::now() - readTimeBegin;
+		benchmark.readRendererMs = readDuration.count();
+
 		// Read other game objects
-
-		DWORD objManager = Mem::ReadPointer(hProcess, moduleBaseAddr + oObjManager);
-		Mem::Read(hProcess, Mem::ReadPointer(hProcess, objManager + oObjManagerObjArray), gameObjectPointers, 3000 * sizeof(DWORD));
-
 		if (++calls % 20 == 0) {
+			readTimeBegin = high_resolution_clock::now();
+
+			if (calls % 1000 == 0)
+				gameObjectPointersAvoid.clear();
+
+			DWORD objManager = Mem::ReadPointer(hProcess, moduleBaseAddr + oObjManager);
+			Mem::Read(hProcess, Mem::ReadPointer(hProcess, objManager + oObjManagerObjArray), gameObjectPointers, 3000 * sizeof(DWORD));
+
 			numOtherObjects = 0;
 			wards.clear();
 			for (int i = 0; i < GAME_OBJECT_ARRAY_SIZE - 1; ++i) {
@@ -102,8 +118,10 @@ void LeagueMemoryReader::ReadStructs() {
 					obj->LoadFromMem(ptrObj, hProcess);
 
 
-					if ((obj->team != 100 && obj->team != 200 && obj->team != 300) || obj->name.empty())
+					if ((obj->team != 100 && obj->team != 200 && obj->team != 300) || obj->name.empty()) {
+						gameObjectPointersAvoid.insert(ptrObj);
 						continue;
+					}
 					
 					numOtherObjects++;
 
@@ -115,6 +133,9 @@ void LeagueMemoryReader::ReadStructs() {
 				}
 
 			}
+
+			readDuration = high_resolution_clock::now() - readTimeBegin;
+			benchmark.readOtherObjectsMs = readDuration.count();
 		}
 	}
 }

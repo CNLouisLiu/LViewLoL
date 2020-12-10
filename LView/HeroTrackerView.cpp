@@ -29,14 +29,6 @@ void HeroTrackerView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 	}
 
 	ImGui::SliderInt("Seconds to Track###heroTrackerTrackSecs", (int*)&secondsToTrack, 5, 30);
-
-	if (ImGui::TreeNode("Help")) {
-		ImGui::Text("Please position and resize the \"Hero Tracker Overlay\"\n"
-			"window to cover the minimap. This setting will be saved\n"
-		    "This is necessarry for cheat detection prevention");
-		ImGui::TreePop();
-	}
-	
 }
 
 void HeroTrackerView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui) {

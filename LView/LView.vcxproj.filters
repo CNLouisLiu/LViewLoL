@@ -81,6 +81,9 @@
     <ClCompile Include="BaseView.cpp">
       <Filter>Source Files\Views</Filter>
     </ClCompile>
+    <ClCompile Include="BenchmarkingView.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -129,6 +132,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="VisionTrackerView.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="BenchmarkingView.h">
       <Filter>Source Files\Views</Filter>
     </ClInclude>
   </ItemGroup>
