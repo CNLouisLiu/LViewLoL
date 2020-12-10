@@ -44,9 +44,13 @@ private:
 
 namespace Mem {
 
-	DWORD_PTR      ReadPointer(HANDLE hProcess, DWORD_PTR addr);
-	float          ReadFloat(HANDLE hProcess, DWORD_PTR addr);
-	void           Read(HANDLE hProcess, DWORD_PTR addr, void* structure, int size);
+	/* Reads the pointer at the specified address from memory */
+	DWORD          ReadPointer(HANDLE hProcess, DWORD addr);
+
+	/* Reads bytes into the structure specified from memory*/
+	void           Read(HANDLE hProcess, DWORD addr, void* structure, int size);
+
+	/* Reads the pointer at the specified address from the specified buffer */
 	DWORD          ReadPointerFromBuffer(void* buff, int position);
 };
 

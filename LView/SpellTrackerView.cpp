@@ -46,24 +46,24 @@ void SpellTrackerView::DrawSpellButton(Spell& spell, float gameTime, ImDrawList*
 
 void SpellTrackerView::DrawSpellTrackerPanel(LeagueMemoryReader& reader) {
 	ImGui::Begin("SpellTracker");
-	for (size_t i = 0; i < reader.numChampions; ++i) {
+	for (auto it = reader.champions.begin(); it != reader.champions.end(); ++it) {
 
-		Champion* it = reader.champions[i];
-		if (it->team == reader.champions[reader.localPlayerIdx]->team) // Skip allies
+		Champion* champ = *it;
+		if (champ->team == reader.localChampion->team) // Skip allies
 			continue;
 
-		if (ImGui::TreeNode(it->name.c_str())) {
+		if (ImGui::TreeNode(champ->name.c_str())) {
 
 			ImGui::BeginGroup();
-			DrawSpellButton(it->Q, reader.gameTime, false);
-			DrawSpellButton(it->W, reader.gameTime, false);
-			DrawSpellButton(it->E, reader.gameTime, false);
-			DrawSpellButton(it->R, reader.gameTime, false);
+			DrawSpellButton(champ->Q, reader.gameTime, false);
+			DrawSpellButton(champ->W, reader.gameTime, false);
+			DrawSpellButton(champ->E, reader.gameTime, false);
+			DrawSpellButton(champ->R, reader.gameTime, false);
 			ImGui::EndGroup();
 
 			ImGui::BeginGroup();
-			DrawSpellButton(it->D, reader.gameTime, true);
-			DrawSpellButton(it->F, reader.gameTime, true);
+			DrawSpellButton(champ->D, reader.gameTime, true);
+			DrawSpellButton(champ->F, reader.gameTime, true);
 			ImGui::EndGroup();
 			
 			ImGui::TreePop();
@@ -76,9 +76,9 @@ void SpellTrackerView::DrawSpellTrackerOnChampions(LeagueMemoryReader& reader, I
 
 	showAdvanced = GetAsyncKeyState(VK_OEM_3) && 0x01;
 
-	int localPlayerTeam = reader.champions[reader.localPlayerIdx]->team;
-	for (size_t i = 0; i < reader.numChampions; ++i) {
-		Champion* champ = reader.champions[i];
+	int localPlayerTeam = reader.localChampion->team;
+	for (auto it = reader.champions.begin(); it != reader.champions.end(); ++it) {
+		Champion* champ = *it;
 		if (champ->currentHealth <= 0.f)
 			continue;
 		if (!champ->isVisible)
@@ -86,7 +86,7 @@ void SpellTrackerView::DrawSpellTrackerOnChampions(LeagueMemoryReader& reader, I
 		if ((champ->team == localPlayerTeam && !showOverlayOnAllies) ||
 			(champ->team != localPlayerTeam && !showOverlayOnEnemies))
 			continue;
-
+		
 		Vector2 pos = reader.renderer.WorldToScreen(champ->position);
 		ImVec2 imPos = ImVec2(pos.x - 60, pos.y);
 

@@ -13,7 +13,7 @@ void VisionTrackerView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDraw
 	
 	for (auto it = reader.wards.begin(); it != reader.wards.end(); ++it) {
 		GameObject* ward = *it;
-		if (!showOverlayOnAllyWards && ward->team == reader.champions[reader.localPlayerIdx]->team)
+		if (!showOverlayOnAllyWards && ward->team == reader.localChampion->team)
 			continue;
 
 		std::string text;
@@ -37,7 +37,7 @@ void VisionTrackerView::DrawMinimapOverlay(LeagueMemoryReader& reader, ImDrawLis
 
 	for (auto it = reader.wards.begin(); it != reader.wards.end(); ++it) {
 		GameObject* ward = *it;
-		if (ward->team == reader.champions[reader.localPlayerIdx]->team)
+		if (ward->team == reader.localChampion->team)
 			continue;
 
 		Vector2 screenPos = reader.renderer.WorldToMinimap(ward->position);

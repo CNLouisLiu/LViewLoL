@@ -70,8 +70,8 @@ void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 
 	// Draw champs
 	ImGui::Text("Champions");
-	for (size_t i = 0; i < reader.numChampions; ++i) {
-		Champion* champ = reader.champions[i];
+	for (auto it = reader.champions.begin(); it != reader.champions.end(); ++it) {
+		Champion* champ = *it;
 		if (ImGui::TreeNode(champ->name.c_str())) {
 			int team = champ->team;
 			ImGui::DragInt("Team", &team);

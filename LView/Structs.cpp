@@ -25,7 +25,7 @@ const char* Spell::GetTypeStr() {
 }
 
 void Spell::LoadFromMem(DWORD_PTR base, HANDLE hProcess) {
-	readyAt = Mem::ReadFloat(hProcess, base + oSpellSlotTime);
+	Mem::Read(hProcess, base + oSpellSlotTime, &readyAt, sizeof(float));
 	Mem::Read(hProcess, base + oSpellSlotLevel, &level, 4);
 
 	// Read static stuff

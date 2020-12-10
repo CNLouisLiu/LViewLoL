@@ -5,9 +5,9 @@
 #include <string>
 #include <list>
 
-LPDIRECT3D9                        UI::g_pD3D = NULL;
-LPDIRECT3DDEVICE9                  UI::g_pd3dDevice = NULL;
-D3DPRESENT_PARAMETERS              UI::g_d3dpp = {};
+LPDIRECT3D9                        UI::pD3D = NULL;
+LPDIRECT3DDEVICE9                  UI::pd3dDevice = NULL;
+D3DPRESENT_PARAMETERS              UI::d3dpp = {};
 
 UI::UI(std::list<BaseView*> views) {
 	this->views = views;
@@ -59,7 +59,7 @@ void UI::Start() {
 
 	// Setup Platform/Renderer backends
 	ImGui_ImplWin32_Init(hWindow);
-	ImGui_ImplDX9_Init(g_pd3dDevice);
+	ImGui_ImplDX9_Init(pd3dDevice);
 
 	// Make some fonts
 	fontConfigSmall.SizePixels = 10;
@@ -171,27 +171,27 @@ void UI::Update(LeagueMemoryReader& reader) {
 	// Render
 	timeBefore = high_resolution_clock::now();
 	
-	g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
-	g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	g_pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+	pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+	pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
 
 
 	ImVec4 clear_color = ImVec4(0.f, 0.f, 0.f, 0.0f);
 	D3DCOLOR clear_col_dx = D3DCOLOR_RGBA((int)(clear_color.x*255.0f), (int)(clear_color.y*255.0f), (int)(clear_color.z*255.0f), (int)(clear_color.w*255.0f));
-	g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, clear_col_dx, 1.0f, 0);
-	if (g_pd3dDevice->BeginScene() >= 0)
+	pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, clear_col_dx, 1.0f, 0);
+	if (pd3dDevice->BeginScene() >= 0)
 	{
 		ImGui::Render();
 		ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
-		g_pd3dDevice->EndScene();
+		pd3dDevice->EndScene();
 	}
-	HRESULT result = g_pd3dDevice->Present(NULL, NULL, NULL, NULL);
+	HRESULT result = pd3dDevice->Present(NULL, NULL, NULL, NULL);
 
 	timeDuration = high_resolution_clock::now() - timeBefore;
 	generalBenchmarks.renderTimeMs = timeDuration.count();
 
 	// Handle loss of D3D9 device
-	if (result == D3DERR_DEVICELOST && g_pd3dDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
+	if (result == D3DERR_DEVICELOST && pd3dDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
 		ResetDevice();
 
 }
@@ -200,19 +200,19 @@ void UI::Update(LeagueMemoryReader& reader) {
 // Helper functions
 bool UI::CreateDeviceD3D(HWND hWnd)
 {
-	if ((g_pD3D = Direct3DCreate9(D3D_SDK_VERSION)) == NULL)
+	if ((pD3D = Direct3DCreate9(D3D_SDK_VERSION)) == NULL)
 		return false;
 
 	// Create the D3DDevice
-	ZeroMemory(&g_d3dpp, sizeof(g_d3dpp));
-	g_d3dpp.Windowed = TRUE;
-	g_d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	g_d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
-	g_d3dpp.EnableAutoDepthStencil = TRUE;
-	g_d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
-	g_d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;           // Present with vsync
+	ZeroMemory(&d3dpp, sizeof(d3dpp));
+	d3dpp.Windowed = TRUE;
+	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
+	d3dpp.EnableAutoDepthStencil = TRUE;
+	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
+	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;           // Present with vsync
 	//g_d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;   // Present without vsync, maximum unthrottled framerate
-	if (g_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &g_d3dpp, &g_pd3dDevice) < 0)
+	if (pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &d3dpp, &pd3dDevice) < 0)
 		return false;
 
 	return true;
@@ -220,14 +220,14 @@ bool UI::CreateDeviceD3D(HWND hWnd)
 
 void UI::CleanupDeviceD3D()
 {
-	if (g_pd3dDevice) { g_pd3dDevice->Release(); g_pd3dDevice = NULL; }
-	if (g_pD3D) { g_pD3D->Release(); g_pD3D = NULL; }
+	if (pd3dDevice) { pd3dDevice->Release(); pd3dDevice = NULL; }
+	if (pD3D) { pD3D->Release(); pD3D = NULL; }
 }
 
 void UI::ResetDevice()
 {
 	ImGui_ImplDX9_InvalidateDeviceObjects();
-	HRESULT hr = g_pd3dDevice->Reset(&g_d3dpp);
+	HRESULT hr = pd3dDevice->Reset(&d3dpp);
 	if (hr == D3DERR_INVALIDCALL)
 		IM_ASSERT(0);
 	ImGui_ImplDX9_CreateDeviceObjects();
@@ -245,10 +245,10 @@ LRESULT WINAPI UI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	switch (msg)
 	{
 	case WM_SIZE:
-		if (g_pd3dDevice != NULL && wParam != SIZE_MINIMIZED)
+		if (pd3dDevice != NULL && wParam != SIZE_MINIMIZED)
 		{
-			g_d3dpp.BackBufferWidth = LOWORD(lParam);
-			g_d3dpp.BackBufferHeight = HIWORD(lParam);
+			d3dpp.BackBufferWidth = LOWORD(lParam);
+			d3dpp.BackBufferHeight = HIWORD(lParam);
 			ResetDevice();
 		}
 		return 0;

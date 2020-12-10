@@ -9,17 +9,17 @@ void HeroTrackerView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 	
 	ImGui::Checkbox("Draw Track in World", &drawTrackInWorld);
 
-	const char* comboFirstText = (trackedHeroIndex == -1 ? "None" : reader.champions[trackedHeroIndex]->name.c_str());
+	const char* comboFirstText = (trackedHero == nullptr ? "None" : trackedHero->name.c_str());
 	if (ImGui::BeginCombo("Champion to Track###heroTrackerHero", comboFirstText)) {
 	
 		bool selected = false;
 		if (ImGui::Selectable("None", &selected))
-			trackedHeroIndex = -1;
+			trackedHero = nullptr;
 		
-		for (size_t i = 0; i < reader.numChampions; ++i) {
+		for (auto it = reader.champions.begin(); it != reader.champions.end(); ++it) {
 			selected = false;
-			if (ImGui::Selectable(reader.champions[i]->name.c_str(), &selected)) {
-				trackedHeroIndex = i;
+			if (ImGui::Selectable((*it)->name.c_str(), &selected)) {
+				trackedHero = *it;
 				timeOfLastStoredPosition = 0;
 				track.clear();
 			}
@@ -46,11 +46,11 @@ void HeroTrackerView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawLi
 }
 
 void HeroTrackerView::DrawMinimapOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui) {
-	if (trackedHeroIndex != -1) {
+	if (trackedHero != nullptr) {
 		time_t currentTime = time(0) * 1000;
 		if (currentTime - timeOfLastStoredPosition > timeBetweenTwoSteps) {
 			timeOfLastStoredPosition = currentTime;
-			track.push_back(new TrackPoint(reader.champions[trackedHeroIndex]->position, currentTime));
+			track.push_back(new TrackPoint(trackedHero->position, currentTime));
 		}
 
 		while (track.size() > 0 && (currentTime - track.front()->time) > secondsToTrack * 1000) {

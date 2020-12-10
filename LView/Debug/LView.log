@@ -13,7 +13,6 @@
   imgui_tables.cpp
   imgui_widgets.cpp
   LeagueMemoryReader.cpp
-f:\github\lviewlol\lview\leaguememoryreader.cpp(102): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
   LView.cpp
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
   Offsets.h

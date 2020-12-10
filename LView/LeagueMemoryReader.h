@@ -20,16 +20,16 @@ class LeagueMemoryReader {
 public:
 	LeagueMemoryReader() {
 		for (int i = 0; i < numMaxChamps; ++i)
-			champions[i] = new Champion();
+			championsArray[i] = new Champion();
 		for (int i = 0; i < numMaxMinions; ++i)
-			minions[i] = new GameObject();
+			minionsArray[i] = new GameObject();
 	}
 
 	~LeagueMemoryReader() {
 		for (int i = 0; i < numMaxChamps; ++i)
-			delete champions[i];
+			delete championsArray[i];
 		for (int i = 0; i < numMaxMinions; ++i)
-			delete minions[i];
+			delete minionsArray[i];
 	}
 
 	bool IsLeagueWindowActive();
@@ -52,18 +52,10 @@ private:
 
 public:
 	// Structs
-	static const size_t       numMaxChamps = 10;
-	static const size_t       numMaxMinions = 500;
-	 
-	Champion*                 champions[numMaxChamps];
-	GameObject*               minions[numMaxMinions];
+	std::vector<Champion*>    champions;
 	std::vector<GameObject*>  wards;
 	std::vector<GameObject*>  others;
-	 
-	size_t                    numMinions = 0;
-	size_t                    numOtherObjects = 0;
-	size_t                    numChampions = 0;
-	int                       localPlayerIdx = 0;
+	Champion*                 localChampion;
 
 	Renderer                  renderer;
 	float                     gameTime;
@@ -71,6 +63,14 @@ public:
 	ReadBenchmark             benchmark;
 
 private:
+	static const size_t       numMaxChamps = 10;
+	static const size_t       numMaxMinions = 500;
+	size_t                    numMinions = 0;
+	size_t                    numChampions = 0;
+
+	Champion*                 championsArray[numMaxChamps];
+	GameObject*               minionsArray[numMaxMinions];
+
 	std::set<std::string>     wardNames = { "YellowTrinket", "JammerDevice", "SightWard" };
 
 	void                      ReadChampions();

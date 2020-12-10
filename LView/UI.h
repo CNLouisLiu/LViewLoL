@@ -49,9 +49,9 @@ private:
 	std::list<BaseView*>               views;
 
 	// DirectX stuff
-	static LPDIRECT3D9                 g_pD3D;
-	static LPDIRECT3DDEVICE9           g_pd3dDevice;
-	static D3DPRESENT_PARAMETERS       g_d3dpp;
+	static LPDIRECT3D9                 pD3D;
+	static LPDIRECT3DDEVICE9           pd3dDevice;
+	static D3DPRESENT_PARAMETERS       d3dpp;
 
 public:
 

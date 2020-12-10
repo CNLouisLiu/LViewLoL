@@ -73,6 +73,7 @@ void LeagueMemoryReader::ReadChampions() {
 	DWORD champListPtr = Mem::ReadPointer(hProcess, heroManagerPtr + oHeroListHeroArray);
 	Mem::Read(hProcess, heroManagerPtr + oHeroListNumChampions, &numChampions, 4);
 
+	champions.clear();
 	if (champListPtr != 0 && numChampions > 0 && numChampions <= numMaxChamps) {
 
 		for (size_t i = 0; i < numChampions; ++i) {
@@ -80,11 +81,15 @@ void LeagueMemoryReader::ReadChampions() {
 
 			if (heroPtr == 0)
 				break;
-			champions[i]->LoadFromMem(heroPtr, hProcess);
+			championsArray[i]->LoadFromMem(heroPtr, hProcess);
+			champions.push_back(championsArray[i]);
 		}
 	}
 	else
 		numChampions = 0;
+
+	if (numChampions > 0)
+		localChampion = championsArray[0];
 
 	readDuration = high_resolution_clock::now() - readTimeBegin;
 	benchmark.readChampsMs = readDuration.count();
@@ -99,7 +104,7 @@ void LeagueMemoryReader::ReadMinions() {
 	DWORD minionList = Mem::ReadPointer(hProcess, minionManager + oMinionListArray);
 	Mem::Read(hProcess, minionManager + oMinionNumMinions, &numMinions, 4);
 
-	if (minionList != 0 && numMinions > 0 & numMinions < numMaxMinions) {
+	if (minionList != 0 && numMinions > 0 && numMinions < numMaxMinions) {
 
 		wards.clear();
 		others.clear();
@@ -109,14 +114,14 @@ void LeagueMemoryReader::ReadMinions() {
 		for (size_t i = 0; i < numMinions; ++i) {
 			if (pointers[i] == 0)
 				break;
-			minions[i]->LoadFromMem(pointers[i], hProcess);
+			minionsArray[i]->LoadFromMem(pointers[i], hProcess);
 
-			if (wardNames.find(minions[i]->name) != wardNames.end()) {
-				wards.push_back(minions[i]);
-				minions[i]->expiryAt += gameTime;
+			if (wardNames.find(minionsArray[i]->name) != wardNames.end()) {
+				wards.push_back(minionsArray[i]);
+				minionsArray[i]->expiryAt += gameTime;
 			}
 			else
-				others.push_back(minions[i]);
+				others.push_back(minionsArray[i]);
 		}
 	}
 	else
@@ -128,10 +133,7 @@ void LeagueMemoryReader::ReadMinions() {
 
 void LeagueMemoryReader::ReadStructs() {
 	
-	static int calls = 0;
-
-	//Read game time
-	gameTime = Mem::ReadFloat(hProcess, moduleBaseAddr + oGameTime);
+	Mem::Read(hProcess, moduleBaseAddr + oGameTime, &gameTime, sizeof(float));
 
 	if (gameTime > 1) {
 

@@ -27,7 +27,7 @@ public:
 private:
 
 	std::deque<TrackPoint*> track;
-	int                     trackedHeroIndex = -1;
+	Champion*               trackedHero = nullptr;
 	time_t                  timeOfLastStoredPosition = 0;
 	float                   timeBetweenTwoSteps = 10;
 
