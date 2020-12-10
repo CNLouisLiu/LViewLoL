@@ -52,90 +52,91 @@ void LeagueMemoryReader::HookToProcess() {
 	}
 }
 
+void LeagueMemoryReader::ReadRenderer() {
+	high_resolution_clock::time_point readTimeBegin;
+	duration<float, std::milli> readDuration;
+	readTimeBegin = high_resolution_clock::now();
+	
+	DWORD rendererAddr = Mem::ReadPointer(hProcess, moduleBaseAddr + oRenderer);
+	renderer.LoadFromMem(rendererAddr, moduleBaseAddr, hProcess);
+
+	readDuration = high_resolution_clock::now() - readTimeBegin;
+	benchmark.readRendererMs = readDuration.count();
+}
+
+void LeagueMemoryReader::ReadChampions() {
+	high_resolution_clock::time_point readTimeBegin;
+	duration<float, std::milli> readDuration;
+	readTimeBegin = high_resolution_clock::now();
+
+	DWORD heroManagerPtr = Mem::ReadPointer(hProcess, moduleBaseAddr + oHeroList);
+	DWORD champListPtr = Mem::ReadPointer(hProcess, heroManagerPtr + oHeroListHeroArray);
+	Mem::Read(hProcess, heroManagerPtr + oHeroListNumChampions, &numChampions, 4);
+
+	if (champListPtr != 0 && numChampions > 0 && numChampions <= numMaxChamps) {
+
+		for (size_t i = 0; i < numChampions; ++i) {
+			DWORD heroPtr = Mem::ReadPointer(hProcess, champListPtr + i * 4);
+
+			if (heroPtr == 0)
+				break;
+			champions[i]->LoadFromMem(heroPtr, hProcess);
+		}
+	}
+	else
+		numChampions = 0;
+
+	readDuration = high_resolution_clock::now() - readTimeBegin;
+	benchmark.readChampsMs = readDuration.count();
+}
+
+void LeagueMemoryReader::ReadMinions() {
+	high_resolution_clock::time_point readTimeBegin;
+	duration<float, std::milli> readDuration;
+	readTimeBegin = high_resolution_clock::now();
+
+	DWORD minionManager = Mem::ReadPointer(hProcess, moduleBaseAddr + oMinionList);
+	DWORD minionList = Mem::ReadPointer(hProcess, minionManager + oMinionListArray);
+	Mem::Read(hProcess, minionManager + oMinionNumMinions, &numMinions, 4);
+
+	if (minionList != 0 && numMinions > 0 & numMinions < numMaxMinions) {
+
+		wards.clear();
+		others.clear();
+
+		DWORD pointers[numMaxMinions];
+		Mem::Read(hProcess, minionList, pointers, sizeof(DWORD) * numMinions);
+		for (size_t i = 0; i < numMinions; ++i) {
+			if (pointers[i] == 0)
+				break;
+			minions[i]->LoadFromMem(pointers[i], hProcess);
+
+			if (wardNames.find(minions[i]->name) != wardNames.end()) {
+				wards.push_back(minions[i]);
+				minions[i]->expiryAt += gameTime;
+			}
+			else
+				others.push_back(minions[i]);
+		}
+	}
+	else
+		numMinions = 0;
+
+	readDuration = high_resolution_clock::now() - readTimeBegin;
+	benchmark.readMinionsMs = readDuration.count();
+}
+
 void LeagueMemoryReader::ReadStructs() {
 	
 	static int calls = 0;
 
-	high_resolution_clock::time_point readTimeBegin;
-	duration<float, std::milli> readDuration;
-
 	//Read game time
 	gameTime = Mem::ReadFloat(hProcess, moduleBaseAddr + oGameTime);
 
-	if (gameTime > 0) {
+	if (gameTime > 1) {
 
-		// Read champs
-		readTimeBegin = high_resolution_clock::now();
-		
-		DWORD heroManagerPtr = Mem::ReadPointer(hProcess, moduleBaseAddr + oHeroList);
-		DWORD champListPtr = Mem::ReadPointer(hProcess, heroManagerPtr + oHeroListHeroArray);
-		Mem::Read(hProcess, heroManagerPtr + oHeroListNumChampions, &numChampions, 4);
-
-		if (champListPtr != 0 && numChampions > 0 && numChampions < 11) {
-
-			int i = 0;
-			for (size_t i = 0; i < numChampions; ++i) {
-				DWORD heroPtr = Mem::ReadPointer(hProcess, champListPtr + i * 4);
-
-				if (heroPtr != 0) {
-					champions[i]->LoadFromMem(heroPtr, hProcess);
-				}
-			}
-		}
-
-		readDuration = high_resolution_clock::now() - readTimeBegin;
-		benchmark.readChampsMs = readDuration.count();
-
-		// Read renderer
-		readTimeBegin = high_resolution_clock::now();
-
-		DWORD rendererAddr = Mem::ReadPointer(hProcess, moduleBaseAddr + oRenderer);
-		renderer.LoadFromMem(rendererAddr, moduleBaseAddr, hProcess);
-
-		readDuration = high_resolution_clock::now() - readTimeBegin;
-		benchmark.readRendererMs = readDuration.count();
-
-		// Read other game objects
-		if (++calls % 20 == 0) {
-			readTimeBegin = high_resolution_clock::now();
-
-			if (calls % 1000 == 0)
-				gameObjectPointersAvoid.clear();
-
-			DWORD objManager = Mem::ReadPointer(hProcess, moduleBaseAddr + oObjManager);
-			Mem::Read(hProcess, Mem::ReadPointer(hProcess, objManager + oObjManagerObjArray), gameObjectPointers, 3000 * sizeof(DWORD));
-
-			numOtherObjects = 0;
-			wards.clear();
-			for (int i = 0; i < GAME_OBJECT_ARRAY_SIZE - 1; ++i) {
-				DWORD ptrObj = gameObjectPointers[i];
-				if (gameObjectPointersAvoid.find(ptrObj) == gameObjectPointersAvoid.end()) {
-
-					if (numOtherObjects >= otherObjects.size()) {
-						otherObjects.push_back(new GameObject());
-					}
-					GameObject* obj = otherObjects[numOtherObjects];
-					obj->LoadFromMem(ptrObj, hProcess);
-
-
-					if ((obj->team != 100 && obj->team != 200 && obj->team != 300) || obj->name.empty()) {
-						gameObjectPointersAvoid.insert(ptrObj);
-						continue;
-					}
-					
-					numOtherObjects++;
-
-					if (wardNames.find(obj->name) != wardNames.end()) {
-						
-						obj->expiryAt += gameTime;
-						wards.push_back(obj);
-					}
-				}
-
-			}
-
-			readDuration = high_resolution_clock::now() - readTimeBegin;
-			benchmark.readOtherObjectsMs = readDuration.count();
-		}
+		ReadChampions();
+		ReadRenderer();
+		ReadMinions();
 	}
 }

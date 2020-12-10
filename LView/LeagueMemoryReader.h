@@ -12,21 +12,24 @@ using namespace std::chrono;
 struct ReadBenchmark {
 	float readChampsMs;
 	float readRendererMs;
-	float readOtherObjectsMs;
+	float readMinionsMs;
 };
 
 class LeagueMemoryReader {
 
 public:
 	LeagueMemoryReader() {
-		gameObjectPointers = new DWORD[GAME_OBJECT_ARRAY_SIZE];
-
-		for (int i = 0; i < 10; ++i)
+		for (int i = 0; i < numMaxChamps; ++i)
 			champions[i] = new Champion();
+		for (int i = 0; i < numMaxMinions; ++i)
+			minions[i] = new GameObject();
 	}
 
 	~LeagueMemoryReader() {
-		delete[] gameObjectPointers;
+		for (int i = 0; i < numMaxChamps; ++i)
+			delete champions[i];
+		for (int i = 0; i < numMaxMinions; ++i)
+			delete minions[i];
 	}
 
 	bool IsLeagueWindowActive();
@@ -49,10 +52,15 @@ private:
 
 public:
 	// Structs
-	Champion* champions[10];
-	std::vector<GameObject*> otherObjects;
-	std::vector<GameObject*> wards;
+	static const size_t numMaxChamps = 10;
+	static const size_t numMaxMinions = 500;
 
+	Champion* champions[numMaxChamps];
+	GameObject* minions[numMaxMinions];
+	std::vector<GameObject*> wards;
+	std::vector<GameObject*> others;
+
+	size_t numMinions = 0;
 	size_t numOtherObjects = 0;
 	size_t numChampions = 0;
 	int localPlayerIdx = 0;
@@ -63,8 +71,10 @@ public:
 	ReadBenchmark benchmark;
 
 private:
-	DWORD* gameObjectPointers;
-	std::set<DWORD> gameObjectPointersAvoid; // Used to cull the number of ReadProcessMemory calls
 	std::set<std::string> wardNames = { "YellowTrinket", "JammerDevice", "SightWard" };
+
+	void ReadChampions();
+	void ReadRenderer();
+	void ReadMinions();
 
 };

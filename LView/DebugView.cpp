@@ -28,6 +28,9 @@ void DrawMatrix(float* matrix, int rows, int cols) {
 }
 
 void DrawGameObjects(std::vector<GameObject*> gameObjects) {
+
+	int count = gameObjects.size();
+	ImGui::DragInt("Count", &count);
 	for (size_t i = 0; i < gameObjects.size(); ++i) {
 		GameObject* obj = gameObjects[i];
 
@@ -87,18 +90,17 @@ void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 		}
 	}
 
+
+
 	if (ImGui::TreeNode("Wards")) {
 		DrawGameObjects(reader.wards);
 		ImGui::TreePop();
 	}
 
-	// Draw other objects
-	if (ImGui::TreeNode("Other Objects")) {
-		DrawGameObjects(reader.otherObjects);
+	if (ImGui::TreeNode("Others")) {
+		DrawGameObjects(reader.others);
 		ImGui::TreePop();
 	}
-
-
 
 	ImGui::End();
 }

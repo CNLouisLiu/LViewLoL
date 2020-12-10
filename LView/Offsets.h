@@ -91,3 +91,8 @@
 #define oHeroList 0x1C5B580
 #define oHeroListHeroArray 0x4 
 #define oHeroListNumChampions 0x8 
+
+//Minion list
+#define oMinionList 0x28A9C24
+#define oMinionListArray 0x4
+#define oMinionNumMinions 0x8

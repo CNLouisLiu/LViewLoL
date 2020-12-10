@@ -10,7 +10,7 @@ void BenchmarkingView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 	if (ImGui::TreeNode("Memory Reader")) {
 		ImGui::DragFloat("Read Champs (ms)", &reader.benchmark.readChampsMs);
 		ImGui::DragFloat("Read Renderer (ms)", &reader.benchmark.readRendererMs);
-		ImGui::DragFloat("Read Other objects (ms)", &reader.benchmark.readOtherObjectsMs);
+		ImGui::DragFloat("Read Other objects (ms)", &reader.benchmark.readMinionsMs);
 		ImGui::TreePop();
 	}
 
