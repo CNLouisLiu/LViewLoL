@@ -82,7 +82,8 @@ void UI::RenderUI(LeagueMemoryReader& reader) {
 	high_resolution_clock::time_point timeBefore;
 	duration<float, std::milli> timeDuration;
 
-	// Draw world space overlay
+	// Draw world space overlay, this is just an overlay over the entire screen.
+	// Cheat authors are expected to properly draw into world space.
 	auto io = ImGui::GetIO();
 	ImGui::SetNextWindowSize(io.DisplaySize);
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
@@ -127,11 +128,11 @@ void UI::RenderUI(LeagueMemoryReader& reader) {
 	ImGui::End();
 	ImGui::PopStyleVar();
 
-	// Draw settings and other panels
 	ImGui::Begin("Settings");
 	ImGui::TextColored(Colors::Cyan, "LVIEW (External RPM Tool) by leryss");
 	ImGui::Separator();
 
+	// Saves the settings to file when button clicked
 	if (ImGui::Button("Save Settings")) {
 		for (auto it = views.begin(); it != views.end(); ++it) {
 			BaseView* view = *it;
@@ -144,12 +145,15 @@ void UI::RenderUI(LeagueMemoryReader& reader) {
 	int i = 0;
 	for (auto it = views.begin(); it != views.end(); ++it, ++i) {
 		BaseView* view = *it;
+
+		// Grey out the header of disabled cheats for readability
 		bool shouldPopColor = false;
 		if (!view->enabled) {
 			ImGui::PushStyleColor(ImGuiCol_Header, (ImVec4)Colors::Grey);
 			shouldPopColor = true;
 		}
 		
+		// Draw cheat settings, these will draw even if cheat is disabled
 		if (ImGui::CollapsingHeader(view->GetName())) {
 			ImGui::PushID(i);
 			ImGui::Checkbox("Enabled", &view->enabled);
@@ -161,6 +165,7 @@ void UI::RenderUI(LeagueMemoryReader& reader) {
 			viewBenchmarks[view].drawSettingsMs = timeDuration.count();
 		}
 
+		// If cheat enabled, draw all its panels if any
 		if (view->enabled) {
 			timeBefore = high_resolution_clock::now();
 			view->DrawPanel(reader, *this);
@@ -250,8 +255,8 @@ bool UI::CreateDeviceD3D(HWND hWnd)
 	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
 	d3dpp.EnableAutoDepthStencil = TRUE;
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
-	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;           // Present with vsync
-	//g_d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;   // Present without vsync, maximum unthrottled framerate
+	//d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;       // Present with vsync
+	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;   // Present without vsync, maximum unthrottled framerate
 	if (pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &d3dpp, &pd3dDevice) < 0)
 		return false;
 

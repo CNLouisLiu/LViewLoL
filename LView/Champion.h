@@ -25,5 +25,6 @@ public:
 	Spell   Q, W, E, R, D, F;
 
 private:
+	// Prealocated buffer
 	DWORD   spellSlotPtrs[6];
 };

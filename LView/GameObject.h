@@ -17,11 +17,19 @@ public:
 	float        armour;
 	float        magicResist;
 
+	/* Team of the object 100 = Blue, 200 = Red, 300 = Jungle */
 	short        team;
+
+	/* When the object expires (GameTime). Used for wards/shaco boxes etc */
 	float        expiryAt;
+
+	/* True whenever the object is visible by the players team */
 	bool         isVisible;
+
 	std::string  name;
 	Vector3      position;
+	
+	/* Address in memory. Used for debug purposes */
 	DWORD        address;
 
 protected:

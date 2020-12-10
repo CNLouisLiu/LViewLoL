@@ -2,17 +2,20 @@
 #include "BaseView.h"
 #include "UI.h"
 #include <deque>
+#include <chrono>
+
+using namespace std::chrono;
 
 class TrackPoint {
 
 public:
-	TrackPoint(Vector3 point, time_t registeredAt) {
+	TrackPoint(Vector3 point, high_resolution_clock::time_point registeredAt) {
 		pt = point;
 		time = registeredAt;
 	}
 
-	Vector3 pt;
-	time_t time;
+	Vector3                           pt;
+	high_resolution_clock::time_point time;
 };
 
 class HeroTrackerView : public BaseView {
@@ -28,12 +31,13 @@ public:
 
 private:
 
-	std::deque<TrackPoint*> track;
-	Champion*               trackedHero = nullptr;
-	time_t                  timeOfLastStoredPosition = 0;
-	float                   timeBetweenTwoSteps = 10;
+	std::deque<TrackPoint*>              track;
+	Champion*                            trackedHero = nullptr;
+	high_resolution_clock::time_point	 timeOfLastStoredPosition;
+	duration<float, std::milli>          timeDiff;
+	float                                timeBetweenTwoSteps = 400.f;
 
 	// Settings
-	time_t                  secondsToTrack = 15;
-	bool                    drawTrackInWorld;
+	float                                secondsToTrack;
+	bool                                 drawTrackInWorld;
 };
