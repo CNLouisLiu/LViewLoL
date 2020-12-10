@@ -139,9 +139,9 @@ void SpellTrackerView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawL
 
 void SpellTrackerView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 
-	ImGui::Checkbox("Show Overlay on Allies###spellTrackerOverlayAlly", &showOverlayOnAllies);
-	ImGui::Checkbox("Show Overlay on Enemies###spellTrackerOverlayEnemy", &showOverlayOnEnemies);
-	ImGui::Checkbox("Show Spell Tracker Panel###spellTrackerPanel", &showPanel);
+	ImGui::Checkbox("Show Overlay on Allies##showOverlayOnAllies", &showOverlayOnAllies);
+	ImGui::Checkbox("Show Overlay on Enemies##showOverlayOnEnemies", &showOverlayOnEnemies);
+	ImGui::Checkbox("Show Spell Tracker Panel##showPanel", &showPanel);
 }
 
 const char* SpellTrackerView::GetName() {

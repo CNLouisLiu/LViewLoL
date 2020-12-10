@@ -72,4 +72,5 @@ namespace Colors {
 	extern ImColor Red;
 	extern ImColor Blue;
 	extern ImColor Cyan;
+	extern ImColor Grey;
 }

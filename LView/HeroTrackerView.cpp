@@ -21,8 +21,8 @@ void HeroTrackerView::OnLoadSettings(ConfigSet& configs) {
 
 void HeroTrackerView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 	
-	ImGui::Checkbox("Draw Track in World", &drawTrackInWorld);
-	ImGui::SliderInt("Seconds to Track###heroTrackerTrackSecs", (int*)&secondsToTrack, 5, 30);
+	ImGui::Checkbox("Draw Track in World##drawTrackInWorld", &drawTrackInWorld);
+	ImGui::SliderInt("Seconds to Track##secondsToTrack", (int*)&secondsToTrack, 5, 30);
 	ImGui::Text("CHAMPION TO TRACK:");
 
 	static int selected = 0;

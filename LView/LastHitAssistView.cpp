@@ -20,8 +20,8 @@ void LastHitAssistView::OnLoadSettings(ConfigSet& configs) {
 }
 
 void LastHitAssistView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
-	ImGui::Checkbox("Show when to smite", &showSmiteLastHit);
-	ImGui::Checkbox("Show when to hit minions", &showMinionLastHit);
+	ImGui::Checkbox("Show when to smite##showSmiteLastHit", &showSmiteLastHit);
+	ImGui::Checkbox("Show when to hit minions##showMinionLastHit", &showMinionLastHit);
 }
 
 void LastHitAssistView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& uis) {

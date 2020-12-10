@@ -141,11 +141,20 @@ void UI::RenderUI(LeagueMemoryReader& reader) {
 		configs.SaveToFile(configFilePath);
 	}
 
-	for (auto it = views.begin(); it != views.end(); ++it) {
+	int i = 0;
+	for (auto it = views.begin(); it != views.end(); ++it, ++i) {
 		BaseView* view = *it;
+		bool shouldPopColor = false;
+		if (!view->enabled) {
+			ImGui::PushStyleColor(ImGuiCol_Header, (ImVec4)Colors::Grey);
+			shouldPopColor = true;
+		}
+		
 		if (ImGui::CollapsingHeader(view->GetName())) {
+			ImGui::PushID(i);
 			ImGui::Checkbox("Enabled", &view->enabled);
-
+			ImGui::PopID();
+			
 			timeBefore = high_resolution_clock::now();
 			view->DrawSettings(reader, *this);
 			timeDuration = high_resolution_clock::now() - timeBefore;
@@ -158,6 +167,9 @@ void UI::RenderUI(LeagueMemoryReader& reader) {
 			timeDuration = high_resolution_clock::now() - timeBefore;
 			viewBenchmarks[view].drawPanelMs = timeDuration.count();
 		}
+
+		if (shouldPopColor)
+			ImGui::PopStyleColor();
 	}
 	ImGui::End();
 }

@@ -16,8 +16,7 @@ std::map<std::string, std::string> Spell::summonerSpellNameDict = {
 	{std::string("SummonerDot"),                   std::string("Ignite")},
 	{std::string("SummonerSmite"),                 std::string("Smite")},
 	{std::string("S5_SummonerSmitePlayerGanker"),  std::string("Smite")},
-	{std::string("S5_SummonerSmitePlayerGanker"),  std::string("Smite")},
-	{std::string("S5_SummonerSmitePlayerGanker"),  std::string("Smite")},
+	{std::string("S5_SummonerSmitePlayerDuel"),  std::string("Smite")},
 }; 
 
 std::map<std::string, SummonerSpellType> Spell::summonerSpellTypeDict = {
@@ -33,7 +32,7 @@ std::map<std::string, SummonerSpellType> Spell::summonerSpellTypeDict = {
 	{std::string("SummonerDot"),                     SummonerSpellType::IGNITE},
 	{std::string("SummonerSmite"),                   SummonerSpellType::SMITE},
 	{std::string("S5_SummonerSmitePlayerGanker"),    SummonerSpellType::SMITE},
-	{std::string("S5_SummonerSmitePlayerGanker"),    SummonerSpellType::SMITE},
+	{std::string("S5_SummonerSmitePlayerDuel"),    SummonerSpellType::SMITE},
 
 };
 

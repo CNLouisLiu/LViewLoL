@@ -18,7 +18,7 @@ void VisionTrackerView::OnLoadSettings(ConfigSet& configs) {
 
 void VisionTrackerView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 
-	ImGui::Checkbox("Track ally wards", &showOverlayOnAllyWards);
+	ImGui::Checkbox("Track ally wards##showOverlayOnAllyWards", &showOverlayOnAllyWards);
 }
 
 void VisionTrackerView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& uis) {
