@@ -2,6 +2,7 @@
 #include <cmath>
 
 ImColor Colors::White  = ImColor::HSV(0.f, 0.f, 1.f);
+ImColor Colors::Yellow = ImColor::HSV(0.15f, 1.f, 1.f);
 ImColor Colors::Orange = ImColor::HSV(0.1f, 0.85f, 0.6f);
 ImColor Colors::Red    = ImColor::HSV(0.f, 1.f, 0.5f);
 ImColor Colors::Blue   = ImColor::HSV(0.65f, 1.f, 1.f);

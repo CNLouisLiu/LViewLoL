@@ -4,6 +4,18 @@ const char* VisionTrackerView::GetName() {
 	return "Vision Tracker";
 }
 
+void VisionTrackerView::OnSaveSettings(ConfigSet& configs) {
+	BaseView::OnSaveSettings(configs);
+
+	configs.Set<bool>("showOverlayOnAllyWards", showOverlayOnAllyWards);
+}
+
+void VisionTrackerView::OnLoadSettings(ConfigSet& configs) {
+	BaseView::OnLoadSettings(configs);
+
+	showOverlayOnAllyWards = configs.Get<bool>("showOverlayOnAllyWards", false);
+}
+
 void VisionTrackerView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 
 	ImGui::Checkbox("Track ally wards", &showOverlayOnAllyWards);

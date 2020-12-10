@@ -55,7 +55,7 @@
 #define oSpellSlotRemainingRechargeCD 0x64
 #define oSpellSlotTime 0x28
 #define oSpellSlotCD 0x18
-#define oSpellSlotDamage 0x90
+#define oSpellSlotDamage 0x94
 #define oSpellSlotSpellInfo 0x134
 #define oSpellSlotRemainingCD 0x28
 

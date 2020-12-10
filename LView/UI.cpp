@@ -67,6 +67,99 @@ void UI::Start() {
 	fontSmall = io.Fonts->AddFontDefault(&fontConfigSmall);
 	fontNormal = io.Fonts->AddFontDefault(&fontConfigNormal);
 
+	// Load configs
+	configs.LoadFromFile(configFilePath);
+	for (auto it = views.begin(); it != views.end(); ++it) {
+		BaseView* view = *it;
+		configs.SetPrefixKey(view->GetName());
+		view->OnLoadSettings(configs);
+	}
+
+}
+
+void UI::RenderUI(LeagueMemoryReader& reader) {
+
+	high_resolution_clock::time_point timeBefore;
+	duration<float, std::milli> timeDuration;
+
+	// Draw world space overlay
+	auto io = ImGui::GetIO();
+	ImGui::SetNextWindowSize(io.DisplaySize);
+	ImGui::SetNextWindowPos(ImVec2(0, 0));
+	ImGui::Begin("##Overlay", nullptr,
+		ImGuiWindowFlags_NoTitleBar |
+		ImGuiWindowFlags_NoResize |
+		ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoScrollbar |
+		ImGuiWindowFlags_NoSavedSettings |
+		ImGuiWindowFlags_NoInputs |
+		ImGuiWindowFlags_NoBackground
+	);
+	ImDrawList* list = ImGui::GetWindowDrawList();
+	for (auto it = views.begin(); it != views.end(); ++it) {
+		BaseView* view = *it;
+		if (view->enabled) {
+			timeBefore = high_resolution_clock::now();
+			view->DrawWorldSpaceOverlay(reader, list, *this);
+			timeDuration = high_resolution_clock::now() - timeBefore;
+			viewBenchmarks[view].drawWorldOverlayMs = timeDuration.count();
+		}
+	}
+	ImGui::End();
+
+	// Draw minimap overlay
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 2.0f);
+	ImGui::SetNextWindowBgAlpha(0.0f);
+	ImGui::Begin("Minimap Overlay", nullptr,
+		ImGuiWindowFlags_NoScrollbar
+	);
+	list = ImGui::GetWindowDrawList();
+	for (auto it = views.begin(); it != views.end(); ++it) {
+		BaseView* view = *it;
+		if (view->enabled) {
+			timeBefore = high_resolution_clock::now();
+			view->DrawMinimapOverlay(reader, list, *this);
+			timeDuration = high_resolution_clock::now() - timeBefore;
+			viewBenchmarks[view].drawMinimapOverlayMs = timeDuration.count();
+		}
+	}
+
+	ImGui::End();
+	ImGui::PopStyleVar();
+
+	// Draw settings and other panels
+	ImGui::Begin("Settings");
+	ImGui::TextColored(Colors::Cyan, "LVIEW (External RPM Tool) by leryss");
+	ImGui::Separator();
+
+	if (ImGui::Button("Save Settings")) {
+		for (auto it = views.begin(); it != views.end(); ++it) {
+			BaseView* view = *it;
+			configs.SetPrefixKey(view->GetName());
+			view->OnSaveSettings(configs);
+		}
+		configs.SaveToFile(configFilePath);
+	}
+
+	for (auto it = views.begin(); it != views.end(); ++it) {
+		BaseView* view = *it;
+		if (ImGui::CollapsingHeader(view->GetName())) {
+			ImGui::Checkbox("Enabled", &view->enabled);
+
+			timeBefore = high_resolution_clock::now();
+			view->DrawSettings(reader, *this);
+			timeDuration = high_resolution_clock::now() - timeBefore;
+			viewBenchmarks[view].drawSettingsMs = timeDuration.count();
+		}
+
+		if (view->enabled) {
+			timeBefore = high_resolution_clock::now();
+			view->DrawPanel(reader, *this);
+			timeDuration = high_resolution_clock::now() - timeBefore;
+			viewBenchmarks[view].drawPanelMs = timeDuration.count();
+		}
+	}
+	ImGui::End();
 }
 
 void UI::Update(LeagueMemoryReader& reader) {
@@ -93,78 +186,13 @@ void UI::Update(LeagueMemoryReader& reader) {
 	ImGui::NewFrame();
 	ImGui::PushFont(fontNormal);
 
-	if (shouldRenderUI) {
+	timeBefore = high_resolution_clock::now();
 
-		// Draw world space overlay
-		auto io = ImGui::GetIO();
-		ImGui::SetNextWindowSize(io.DisplaySize);
-		ImGui::SetNextWindowPos(ImVec2(0, 0));
-		ImGui::Begin("##Overlay", nullptr,
-			ImGuiWindowFlags_NoTitleBar |
-			ImGuiWindowFlags_NoResize |
-			ImGuiWindowFlags_NoMove |
-			ImGuiWindowFlags_NoScrollbar |
-			ImGuiWindowFlags_NoSavedSettings |
-			ImGuiWindowFlags_NoInputs |
-			ImGuiWindowFlags_NoBackground
-		);
-		ImDrawList* list = ImGui::GetWindowDrawList();
-		for (auto it = views.begin(); it != views.end(); ++it) {
-			BaseView* view = *it;
-			if (view->enabled) {
-				timeBefore = high_resolution_clock::now();
-				view->DrawWorldSpaceOverlay(reader, list, *this);
-				timeDuration = high_resolution_clock::now() - timeBefore;
-				viewBenchmarks[view].drawWorldOverlayMs = timeDuration.count();
-			}
-		}
-		ImGui::End();
+	if (shouldRenderUI)
+		RenderUI(reader);
 
-		// Draw minimap overlay
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 2.0f);
-		ImGui::SetNextWindowBgAlpha(0.0f);
-		ImGui::Begin("Minimap Overlay", nullptr,
-			ImGuiWindowFlags_NoScrollbar
-		);
-		list = ImGui::GetWindowDrawList();
-		for (auto it = views.begin(); it != views.end(); ++it) {
-			BaseView* view = *it;
-			if (view->enabled) {
-				timeBefore = high_resolution_clock::now();
-				view->DrawMinimapOverlay(reader, list, *this);
-				timeDuration = high_resolution_clock::now() - timeBefore;
-				viewBenchmarks[view].drawMinimapOverlayMs = timeDuration.count();
-			}
-		}
-
-		ImGui::End();
-		ImGui::PopStyleVar();
-
-		// Draw settings and other panels
-		ImGui::Begin("Settings");
-		for (auto it = views.begin(); it != views.end(); ++it) {
-			BaseView* view = *it;
-			if (ImGui::TreeNode(view->GetName())) {
-				ImGui::Checkbox("Enabled", &view->enabled);
-
-				timeBefore = high_resolution_clock::now();
-				view->DrawSettings(reader, *this);
-				timeDuration = high_resolution_clock::now() - timeBefore;
-				viewBenchmarks[view].drawSettingsMs = timeDuration.count();
-
-				ImGui::TreePop();
-			}
-
-			if (view->enabled) {
-				timeBefore = high_resolution_clock::now();
-				view->DrawPanel(reader, *this);
-				timeDuration = high_resolution_clock::now() - timeBefore;
-				viewBenchmarks[view].drawPanelMs = timeDuration.count();
-			}
-		}
-		ImGui::End();
-
-	}
+	timeDuration = high_resolution_clock::now() - timeBefore;
+	generalBenchmarks.processTimeMs = timeDuration.count();
 
 	ImGui::PopFont();
 	

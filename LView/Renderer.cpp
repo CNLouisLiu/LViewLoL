@@ -65,7 +65,7 @@ Vector2 Renderer::WorldToMinimap(Vector3 pos) {
 	return result;
 }
 
-void Renderer::DrawCircleAt(ImDrawList* canvas, Vector3 worldPos, float radius, bool filled, int numPoints, ImColor color) {
+void Renderer::DrawCircleAt(ImDrawList* canvas, Vector3 worldPos, float radius, bool filled, int numPoints, ImColor color, float thickness) {
 
 	ImVec2* points = new ImVec2[numPoints];
 	float step = 2 * 3.14 / numPoints;
@@ -81,7 +81,7 @@ void Renderer::DrawCircleAt(ImDrawList* canvas, Vector3 worldPos, float radius, 
 	if (filled)
 		canvas->AddConvexPolyFilled(points, numPoints, color);
 	else
-		canvas->AddPolyline(points, numPoints, color, true, 3.f);
+		canvas->AddPolyline(points, numPoints, color, true, thickness);
 
 	delete[] points;
 }

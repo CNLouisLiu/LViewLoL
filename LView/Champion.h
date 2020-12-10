@@ -7,16 +7,17 @@ class Champion : public GameObject {
 public:
 
 	Champion()
-		: Q(Spell(SpellType::Q)),
-		W(Spell(SpellType::W)),
-		E(Spell(SpellType::E)),
-		R(Spell(SpellType::R)),
-		D(Spell(SpellType::D)),
-		F(Spell(SpellType::F)) {
+		: Q(Spell(SpellSlot::Q)),
+		W(Spell(SpellSlot::W)),
+		E(Spell(SpellSlot::E)),
+		R(Spell(SpellSlot::R)),
+		D(Spell(SpellSlot::D)),
+		F(Spell(SpellSlot::F)) {
 	}
 
 	void    LoadFromMem(DWORD_PTR base, HANDLE hProcess);
 	float   GetBasicAttackDamage();
+	Spell*  GetSummonerSpell(SummonerSpellType type);
 
 public:
 	float   currentHealth;

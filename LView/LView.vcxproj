@@ -158,6 +158,7 @@
     <ClCompile Include="BaseView.cpp" />
     <ClCompile Include="BenchmarkingView.cpp" />
     <ClCompile Include="Champion.cpp" />
+    <ClCompile Include="ConfigSet.cpp" />
     <ClCompile Include="DebugView.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HeroTrackerView.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="BaseView.h" />
     <ClInclude Include="BenchmarkingView.h" />
     <ClInclude Include="Champion.h" />
+    <ClInclude Include="ConfigSet.h" />
     <ClInclude Include="DebugView.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HeroTrackerView.h" />

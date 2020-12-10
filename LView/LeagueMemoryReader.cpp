@@ -108,6 +108,7 @@ void LeagueMemoryReader::ReadMinions() {
 
 		wards.clear();
 		minions.clear();
+		jungle.clear();
 		others.clear();
 
 		DWORD pointers[numMaxMinions];
@@ -118,7 +119,9 @@ void LeagueMemoryReader::ReadMinions() {
 			GameObject* obj = minionsArray[i];
 			obj->LoadFromMem(pointers[i], hProcess);
 
-			if (wardNames.find(obj->name) != wardNames.end()) {
+			if (obj->team == 300)
+				jungle.push_back(obj);
+			else if (wardNames.find(obj->name) != wardNames.end()) {
 				wards.push_back(minionsArray[i]);
 				obj->expiryAt += gameTime;
 			}

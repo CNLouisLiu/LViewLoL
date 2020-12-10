@@ -5,30 +5,44 @@ const char* HeroTrackerView::GetName() {
 	return "Champion Hunter";
 }
 
+void HeroTrackerView::OnSaveSettings(ConfigSet& configs) {
+	BaseView::OnSaveSettings(configs);
+
+	configs.Set<int>("secondsToTrack", secondsToTrack);
+	configs.Set<bool>("drawTrackInWorld", drawTrackInWorld);
+}
+
+void HeroTrackerView::OnLoadSettings(ConfigSet& configs) {
+	BaseView::OnLoadSettings(configs);
+
+	secondsToTrack = configs.Get<int>("secondsToTrack", 15);
+	drawTrackInWorld = configs.Get<bool>("drawTrackInWorld", false);
+}
+
 void HeroTrackerView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 	
 	ImGui::Checkbox("Draw Track in World", &drawTrackInWorld);
+	ImGui::SliderInt("Seconds to Track###heroTrackerTrackSecs", (int*)&secondsToTrack, 5, 30);
+	ImGui::Text("CHAMPION TO TRACK:");
 
-	const char* comboFirstText = (trackedHero == nullptr ? "None" : trackedHero->name.c_str());
-	if (ImGui::BeginCombo("Champion to Track###heroTrackerHero", comboFirstText)) {
-	
-		bool selected = false;
-		if (ImGui::Selectable("None", &selected))
-			trackedHero = nullptr;
+	static int selected = 0;
+	if (ImGui::RadioButton("None", &selected, -1)) {
+		trackedHero = nullptr;
+	}
+	int i = 0;
+	for (auto it = reader.champions.begin(); it != reader.champions.end(); ++it, ++i) {
 		
-		for (auto it = reader.champions.begin(); it != reader.champions.end(); ++it) {
-			selected = false;
-			if (ImGui::Selectable((*it)->name.c_str(), &selected)) {
-				trackedHero = *it;
-				timeOfLastStoredPosition = 0;
-				track.clear();
-			}
+		Champion* champ = *it;
+		if (champ->team == reader.localChampion->team)
+			continue;
+		if (ImGui::RadioButton(champ->name.c_str(), &selected, i)) {
+			trackedHero = champ;
+			timeOfLastStoredPosition = 0;
+			track.clear();
 		}
-
-		ImGui::EndCombo();
 	}
 
-	ImGui::SliderInt("Seconds to Track###heroTrackerTrackSecs", (int*)&secondsToTrack, 5, 30);
+
 }
 
 void HeroTrackerView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui) {

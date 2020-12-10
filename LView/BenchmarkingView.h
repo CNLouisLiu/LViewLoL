@@ -5,5 +5,5 @@
 class BenchmarkingView : public BaseView {
 
 	const char* GetName();
-	void        DrawSettings(LeagueMemoryReader& reader, UI& ui);
+	void        DrawPanel(LeagueMemoryReader& reader, UI& ui);
 };

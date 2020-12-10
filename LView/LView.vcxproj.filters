@@ -96,6 +96,9 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files\Structs</Filter>
     </ClCompile>
+    <ClCompile Include="ConfigSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -166,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="Spell.h">
       <Filter>Source Files\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigSet.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

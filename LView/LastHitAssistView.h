@@ -4,6 +4,8 @@
 
 class LastHitAssistView: public BaseView {
 public:
+	void        OnSaveSettings(ConfigSet& configs);
+	void        OnLoadSettings(ConfigSet& configs);
 	const char* GetName();
 	void        DrawSettings(LeagueMemoryReader& reader, UI& ui);
 

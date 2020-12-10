@@ -68,6 +68,7 @@ namespace League {
 namespace Colors {
 	extern ImColor White;
 	extern ImColor Orange;
+	extern ImColor Yellow;
 	extern ImColor Red;
 	extern ImColor Blue;
 	extern ImColor Cyan;

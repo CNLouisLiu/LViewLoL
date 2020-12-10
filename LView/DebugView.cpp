@@ -10,8 +10,10 @@ void DrawSpell(Spell spell) {
 	if (ImGui::TreeNode(spell.GetTypeStr())) {
 		
 		ImGui::Button(spell.name.c_str());
+		ImGui::LabelText("Address Slot", "0x%08x", spell.addressSlot);
 		ImGui::DragFloat("Ready At", &spell.readyAt);
 		ImGui::DragInt("Level", &spell.level);
+		ImGui::DragFloat("Damage", &spell.damage);
 		ImGui::TreePop();
 	}
 }
@@ -97,8 +99,6 @@ void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 		}
 	}
 
-
-
 	if (ImGui::TreeNode("Wards")) {
 		DrawGameObjects(reader.wards);
 		ImGui::TreePop();
@@ -106,6 +106,11 @@ void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 
 	if (ImGui::TreeNode("Minions")) {
 		DrawGameObjects(reader.minions);
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Jungle")) {
+		DrawGameObjects(reader.jungle);
 		ImGui::TreePop();
 	}
 

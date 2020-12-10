@@ -1,12 +1,20 @@
 #pragma once
 #include "imgui.h"
 #include "LeagueMemoryReader.h"
+#include "ConfigSet.h"
 
 class UI;
 
 class BaseView {
 	
 public:
+
+	/* This is called once before the first frame */
+	virtual void        OnLoadSettings(ConfigSet& configs);
+
+	/* This is called when the user requests to save settings*/
+	virtual void        OnSaveSettings(ConfigSet& configs);
+
 	/* This is the name that will be specified in the Settings window */
 	virtual const char* GetName() = 0;
 

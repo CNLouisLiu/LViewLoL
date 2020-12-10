@@ -19,6 +19,8 @@ class HeroTrackerView : public BaseView {
 
 public:
 	const char*    GetName();
+	void           OnSaveSettings(ConfigSet& configs);
+	void           OnLoadSettings(ConfigSet& configs);
 	void           DrawSettings(LeagueMemoryReader& reader, UI& ui);
 
 	void           DrawMinimapOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui);

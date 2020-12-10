@@ -57,6 +57,8 @@ public:
 	std::vector<Champion*>    champions;
 	std::vector<GameObject*>  wards;
 	std::vector<GameObject*>  minions;
+	std::vector<GameObject*>  jungle;
+
 	std::vector<GameObject*>  others;
 	Champion*                 localChampion;
 

@@ -3,17 +3,18 @@
 #include "windows.h"
 #include <map>
 
-extern const char* gSpellTypeName[7];
-extern std::map<std::string, std::string> gSummonerSpellNameDict;
-
-enum class SpellType {
+enum class SpellSlot {
 	Q = 0, W, E, R, D, F, NONE
+};
+
+enum class SummonerSpellType {
+	HASTE, HEAL, BARRIER, EXHAUST, CLARITY, SNOWBALL, FLASH, TELEPORT, CLEANSE, IGNITE, SMITE, NONE
 };
 
 class Spell {
 
 public:
-	Spell(SpellType type) :type(type) {}
+	Spell(SpellSlot slot) :slot(slot) {}
 
 
 	float       GetRemainingCooldown(float gameTime);
@@ -21,11 +22,17 @@ public:
 	void        LoadFromMem(DWORD_PTR base, HANDLE hProcess);
 
 public:
-	std::string name;
-	SpellType   type;
-	int         level = 0;
-	float       readyAt = 0.f;
+	std::string   name;
+	SpellSlot     slot;
+	SummonerSpellType summonerSpellType;
+	int           level = 0;
+	float         readyAt = 0.f;
+	float         damage = 0.f;
+
+	DWORD         addressSlot;
 
 private:
-	std::string remainingCooldownStr;
+	static const char*                            spellTypeName[7];
+	static std::map<std::string, std::string>     summonerSpellNameDict;
+	static std::map<std::string, SummonerSpellType>   summonerSpellTypeDict;
 };

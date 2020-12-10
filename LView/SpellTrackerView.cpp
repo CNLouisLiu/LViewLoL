@@ -1,5 +1,20 @@
 #include "SpellTrackerView.h"
 
+void SpellTrackerView::OnSaveSettings(ConfigSet& configs) {
+	BaseView::OnSaveSettings(configs);
+
+	configs.Set<bool>("showOverlayOnAllies", showOverlayOnAllies);
+	configs.Set<bool>("showOverlayOnEnemies", showOverlayOnEnemies);
+	configs.Set<bool>("showPanel", showPanel);
+}
+
+void SpellTrackerView::OnLoadSettings(ConfigSet& configs) {
+	BaseView::OnLoadSettings(configs);
+
+	showOverlayOnAllies = configs.Get<bool>("showOverlayOnAllies", false);
+	showOverlayOnEnemies = configs.Get<bool>("showOverlayOnEnemies", true);
+	showPanel = configs.Get<bool>("showPanel", false);
+}
 
 ImColor GetHsvColorBasedOnCooldown(float cooldown) {
 	float hue = 0.25f; // GREEN

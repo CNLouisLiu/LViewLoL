@@ -27,6 +27,7 @@ struct ViewBenchmark {
 
 struct UIBenchmark {
 	float renderTimeMs;
+	float processTimeMs;
 };
 
 class UI {
@@ -37,6 +38,7 @@ public:
 	void           Update(LeagueMemoryReader& reader);
 
 private:
+	void           RenderUI(LeagueMemoryReader& reader);
 	bool           CreateDeviceD3D(HWND hWnd);
 	void           CleanupDeviceD3D();
 	static void    ResetDevice();
@@ -52,6 +54,9 @@ private:
 	static LPDIRECT3D9                 pD3D;
 	static LPDIRECT3DDEVICE9           pd3dDevice;
 	static D3DPRESENT_PARAMETERS       d3dpp;
+
+	ConfigSet                          configs;
+	std::string                        configFilePath = std::string("config.ini");
 
 public:
 

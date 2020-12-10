@@ -1,6 +1,5 @@
 f:\github\lviewlol\lview\debug\vc141.pdb
 f:\github\lviewlol\lview\debug\vc141.idb
-f:\github\lviewlol\lview\debug\spelltrackerview.obj
 f:\github\lviewlol\lview\debug\spell.obj
 f:\github\lviewlol\lview\debug\renderer.obj
 f:\github\lviewlol\lview\debug\offsets.obj
@@ -17,14 +16,16 @@ f:\github\lviewlol\lview\debug\imgui.obj
 f:\github\lviewlol\lview\debug\herotrackerview.obj
 f:\github\lviewlol\lview\debug\gameobject.obj
 f:\github\lviewlol\lview\debug\debugview.obj
+f:\github\lviewlol\lview\debug\configset.obj
 f:\github\lviewlol\lview\debug\champion.obj
 f:\github\lviewlol\lview\debug\benchmarkingview.obj
 f:\github\lviewlol\lview\debug\baseview.obj
 f:\github\lviewlol\lview\debug\visiontrackerview.obj
 f:\github\lviewlol\lview\debug\utils.obj
 f:\github\lviewlol\lview\debug\ui.obj
-f:\github\lviewlol\debug\lview.ilk
+f:\github\lviewlol\lview\debug\spelltrackerview.obj
 f:\github\lviewlol\debug\lview.exe
+f:\github\lviewlol\debug\lview.ilk
 f:\github\lviewlol\debug\lview.pdb
 f:\github\lviewlol\lview\debug\lview.tlog\cl.command.1.tlog
 f:\github\lviewlol\lview\debug\lview.tlog\cl.read.1.tlog

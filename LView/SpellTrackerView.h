@@ -5,6 +5,8 @@
 class SpellTrackerView : public BaseView {
 
 public:
+	void        OnSaveSettings(ConfigSet& configs);
+	void        OnLoadSettings(ConfigSet& configs);
 	const char* GetName();
 	void        DrawSettings(LeagueMemoryReader& reader, UI& ui);
 	void        DrawPanel(LeagueMemoryReader& reader, UI& ui);

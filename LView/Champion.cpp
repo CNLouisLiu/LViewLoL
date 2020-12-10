@@ -20,3 +20,11 @@ void Champion::LoadFromMem(DWORD_PTR base, HANDLE hProcess) {
 float Champion::GetBasicAttackDamage() {
 	return baseAttack + bonusAttack;
 }
+
+Spell* Champion::GetSummonerSpell(SummonerSpellType type) {
+	if (D.summonerSpellType == type)
+		return &D;
+	if (F.summonerSpellType == type)
+		return &F;
+	return nullptr;
+}

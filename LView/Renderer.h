@@ -16,5 +16,5 @@ public:
 	void     MultiplyMatrices(float *out, float *a, int row1, int col1, float *b, int row2, int col2);
 	Vector2  WorldToScreen(Vector3 pos);
 	Vector2  WorldToMinimap(Vector3 pos);
-	void     DrawCircleAt(ImDrawList* canvas, Vector3 worldPos, float radius, bool filled, int numPoints, ImColor color);
+	void     DrawCircleAt(ImDrawList* canvas, Vector3 worldPos, float radius, bool filled, int numPoints, ImColor color, float thickness = 3.f);
 };
