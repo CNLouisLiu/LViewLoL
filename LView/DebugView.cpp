@@ -74,8 +74,15 @@ void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 		Champion* champ = *it;
 		if (ImGui::TreeNode(champ->name.c_str())) {
 			int team = champ->team;
+			ImGui::LabelText("Address", "0x%08x", champ->address);
 			ImGui::DragInt("Team", &team);
+
 			ImGui::DragFloat("Current Health", &champ->currentHealth);
+			ImGui::DragFloat("Base Atk", &champ->baseAttack);
+			ImGui::DragFloat("Bonus Atk", &champ->bonusAttack);
+			ImGui::DragFloat("Armour", &champ->armour);
+			ImGui::DragFloat("Magic resist", &champ->magicResist);
+
 			ImGui::Checkbox("Is Visible", &champ->isVisible);
 			ImGui::LabelText("Position", "X:%.2f Y:%.2f Z:%.2f", champ->position.x, champ->position.y, champ->position.z);
 
@@ -94,6 +101,11 @@ void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 
 	if (ImGui::TreeNode("Wards")) {
 		DrawGameObjects(reader.wards);
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Minions")) {
+		DrawGameObjects(reader.minions);
 		ImGui::TreePop();
 	}
 

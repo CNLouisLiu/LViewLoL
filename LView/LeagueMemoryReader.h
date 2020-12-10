@@ -1,7 +1,9 @@
 #pragma once
 
 #include "windows.h"
-#include "Structs.h"
+#include "Champion.h"
+#include "GameObject.h"
+#include "Renderer.h"
 #include <list>
 #include <vector>
 #include <set>
@@ -54,6 +56,7 @@ public:
 	// Structs
 	std::vector<Champion*>    champions;
 	std::vector<GameObject*>  wards;
+	std::vector<GameObject*>  minions;
 	std::vector<GameObject*>  others;
 	Champion*                 localChampion;
 

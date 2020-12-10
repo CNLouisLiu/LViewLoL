@@ -107,6 +107,7 @@ void LeagueMemoryReader::ReadMinions() {
 	if (minionList != 0 && numMinions > 0 && numMinions < numMaxMinions) {
 
 		wards.clear();
+		minions.clear();
 		others.clear();
 
 		DWORD pointers[numMaxMinions];
@@ -114,14 +115,17 @@ void LeagueMemoryReader::ReadMinions() {
 		for (size_t i = 0; i < numMinions; ++i) {
 			if (pointers[i] == 0)
 				break;
-			minionsArray[i]->LoadFromMem(pointers[i], hProcess);
+			GameObject* obj = minionsArray[i];
+			obj->LoadFromMem(pointers[i], hProcess);
 
-			if (wardNames.find(minionsArray[i]->name) != wardNames.end()) {
+			if (wardNames.find(obj->name) != wardNames.end()) {
 				wards.push_back(minionsArray[i]);
-				minionsArray[i]->expiryAt += gameTime;
+				obj->expiryAt += gameTime;
 			}
+			else if (obj->name.find("Minion") != std::string::npos)
+				minions.push_back(obj);
 			else
-				others.push_back(minionsArray[i]);
+				others.push_back(obj);
 		}
 	}
 	else

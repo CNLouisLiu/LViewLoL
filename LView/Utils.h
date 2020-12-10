@@ -1,9 +1,11 @@
 #pragma once
 
+#include <string>
 #include <stdexcept>
 #include "windows.h"
 #include "imgui.h"
-#include <string>
+
+#include "Vector.h"
 
 class WinApiException : public std::runtime_error {
 
@@ -58,8 +60,15 @@ namespace Process {
 	BOOL           IsProcessRunning(DWORD pid);
 };
 
+namespace League {
+	float          Distance(Vector3 first, Vector3 second);
+	float          EffectiveHP(float health, float armour);
+}
+
 namespace Colors {
 	extern ImColor White;
 	extern ImColor Orange;
 	extern ImColor Red;
+	extern ImColor Blue;
+	extern ImColor Cyan;
 }
