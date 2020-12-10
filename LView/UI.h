@@ -16,6 +16,10 @@ struct ViewBenchmark {
 	float drawMinimapOverlayMs;
 };
 
+struct UIBenchmark {
+	float renderTimeMs;
+};
+
 class UI {
 
 public:
@@ -38,6 +42,7 @@ public:
 	ImFont* fontNormal;
 
 	/* Contains general benchmarking for the registered views */
-	std::map<BaseView*, ViewBenchmark> benchmarks;
+	std::map<BaseView*, ViewBenchmark> viewBenchmarks;
+	UIBenchmark generalBenchmarks;
 
 };

@@ -7,6 +7,8 @@ const char* BenchmarkingView::GetName() {
 
 void BenchmarkingView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 	
+	ImGui::DragFloat("Render Time", &ui.generalBenchmarks.renderTimeMs);
+
 	if (ImGui::TreeNode("Memory Reader")) {
 		ImGui::DragFloat("Read Champs (ms)", &reader.benchmark.readChampsMs);
 		ImGui::DragFloat("Read Renderer (ms)", &reader.benchmark.readRendererMs);
@@ -15,7 +17,7 @@ void BenchmarkingView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 	}
 
 	ImGui::Text("Cheat benchmarks");
-	for (auto it = ui.benchmarks.begin(); it != ui.benchmarks.end(); ++it) {
+	for (auto it = ui.viewBenchmarks.begin(); it != ui.viewBenchmarks.end(); ++it) {
 		if (ImGui::TreeNode(it->first->GetName())) {
 	
 			ImGui::DragFloat("Draw Settings (ms)", &it->second.drawSettingsMs);

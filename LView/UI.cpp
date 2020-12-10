@@ -25,7 +25,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 UI::UI(std::list<BaseView*> views) {
 	this->views = views;
 	for (auto it = views.begin(); it != views.end(); ++it)
-		benchmarks[*it] = ViewBenchmark();
+		viewBenchmarks[*it] = ViewBenchmark();
 }
 
 void UI::Start() {
@@ -65,6 +65,7 @@ void UI::Start() {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.ConfigWindowsMoveFromTitleBarOnly = true;
 
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
@@ -84,6 +85,8 @@ void UI::Start() {
 void UI::Update(LeagueMemoryReader& reader) {
 	
 	bool shouldRenderUI = reader.IsLeagueWindowActive();
+	high_resolution_clock::time_point timeBefore;
+	duration<float, std::milli> timeDuration;
 
 	if (shouldRenderUI) {
 		MSG msg;
@@ -105,9 +108,6 @@ void UI::Update(LeagueMemoryReader& reader) {
 
 	if (shouldRenderUI) {
 
-		high_resolution_clock::time_point timeBefore;
-		duration<float, std::milli> timeDuration;
-
 		// Draw world space overlay
 		auto io = ImGui::GetIO();
 		ImGui::SetNextWindowSize(io.DisplaySize);
@@ -128,7 +128,7 @@ void UI::Update(LeagueMemoryReader& reader) {
 				timeBefore = high_resolution_clock::now();
 				view->DrawWorldSpaceOverlay(reader, list, *this);
 				timeDuration = high_resolution_clock::now() - timeBefore;
-				benchmarks[view].drawWorldOverlayMs = timeDuration.count();
+				viewBenchmarks[view].drawWorldOverlayMs = timeDuration.count();
 			}
 		}
 		ImGui::End();
@@ -139,7 +139,6 @@ void UI::Update(LeagueMemoryReader& reader) {
 		ImGui::Begin("Minimap Overlay", nullptr,
 			ImGuiWindowFlags_NoScrollbar
 		);
-
 		list = ImGui::GetWindowDrawList();
 		for (auto it = views.begin(); it != views.end(); ++it) {
 			BaseView* view = *it;
@@ -147,7 +146,7 @@ void UI::Update(LeagueMemoryReader& reader) {
 				timeBefore = high_resolution_clock::now();
 				view->DrawMinimapOverlay(reader, list, *this);
 				timeDuration = high_resolution_clock::now() - timeBefore;
-				benchmarks[view].drawMinimapOverlayMs = timeDuration.count();
+				viewBenchmarks[view].drawMinimapOverlayMs = timeDuration.count();
 			}
 		}
 
@@ -164,7 +163,7 @@ void UI::Update(LeagueMemoryReader& reader) {
 				timeBefore = high_resolution_clock::now();
 				view->DrawSettings(reader, *this);
 				timeDuration = high_resolution_clock::now() - timeBefore;
-				benchmarks[view].drawSettingsMs = timeDuration.count();
+				viewBenchmarks[view].drawSettingsMs = timeDuration.count();
 
 				ImGui::TreePop();
 			}
@@ -173,7 +172,7 @@ void UI::Update(LeagueMemoryReader& reader) {
 				timeBefore = high_resolution_clock::now();
 				view->DrawPanel(reader, *this);
 				timeDuration = high_resolution_clock::now() - timeBefore;
-				benchmarks[view].drawPanelMs = timeDuration.count();
+				viewBenchmarks[view].drawPanelMs = timeDuration.count();
 			}
 		}
 		ImGui::End();
@@ -183,6 +182,8 @@ void UI::Update(LeagueMemoryReader& reader) {
 	ImGui::PopFont();
 	
 	// Render
+	timeBefore = high_resolution_clock::now();
+	
 	g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
 	g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	g_pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
@@ -198,6 +199,9 @@ void UI::Update(LeagueMemoryReader& reader) {
 		g_pd3dDevice->EndScene();
 	}
 	HRESULT result = g_pd3dDevice->Present(NULL, NULL, NULL, NULL);
+
+	timeDuration = high_resolution_clock::now() - timeBefore;
+	generalBenchmarks.renderTimeMs = timeDuration.count();
 
 	// Handle loss of D3D9 device
 	if (result == D3DERR_DEVICELOST && g_pd3dDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
