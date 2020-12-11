@@ -39,7 +39,9 @@ void DrawGameObject(GameObject* obj) {
 	ImGui::TextColored(Colors::Orange, obj->name.c_str());
 
 	int team = obj->team;
+	int type = (int)obj->type;
 	ImGui::LabelText("Address", "%#010x", &obj->address);
+	ImGui::DragInt("Type", &type);
 	ImGui::DragFloat("Expiry At", &obj->expiryAt);
 	ImGui::DragInt("Team", &team);
 	ImGui::DragFloat("Health", &obj->health);

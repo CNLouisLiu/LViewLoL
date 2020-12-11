@@ -30,14 +30,13 @@ void VisionTrackerView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDraw
 
 		std::string text;
 
-		if (ward->health > 3.0)
+		if (ward->type == WARD_PINK) {
 			text.append("Pink");
-		else if (ward->health > 1.0) {
+		}
+		else {
 			text.append("Ward:");
 			text.append(std::to_string((int)(ward->expiryAt - reader.gameTime)));
 		}
-		else
-			text.append("GWard");
 
 		Vector2 screenPos = reader.renderer.WorldToScreen(ward->position);
 		if (!reader.renderer.IsScreenPointOnScreen(screenPos))

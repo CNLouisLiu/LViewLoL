@@ -89,14 +89,12 @@ void SpellTrackerView::DrawSpellTrackerPanel(LeagueMemoryReader& reader) {
 
 void SpellTrackerView::DrawSpellTrackerOnChampions(LeagueMemoryReader& reader, ImDrawList* list) {
 
-	showAdvanced = GetAsyncKeyState(VK_OEM_3) && 0x01;
+	showAdvanced = Input::IsKeyDown(HKey::TILDE);
 
 	int localPlayerTeam = reader.localChampion->team;
 	for (auto it = reader.champions.begin(); it != reader.champions.end(); ++it) {
 		Champion* champ = *it;
-		if (champ->currentHealth <= 0.f)
-			continue;
-		if (!champ->isVisible)
+		if (champ->currentHealth <= 0.f || !champ->isVisible || champ == reader.localChampion)
 			continue;
 		if ((champ->team == localPlayerTeam && !showOverlayOnAllies) ||
 			(champ->team != localPlayerTeam && !showOverlayOnEnemies))

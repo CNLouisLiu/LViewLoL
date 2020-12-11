@@ -80,8 +80,6 @@ private:
 	Champion*                 championsArray[numMaxChamps];
 	GameObject*               minionsArray[numMaxMinions];
 
-	std::set<std::string>     wardNames = { "YellowTrinket", "JammerDevice", "SightWard" };
-	std::set<std::string>     jungleBlacklistNames = { "SRU_PlantRespawnMarker", "SRU_CampRespawnMarker", "TestCubeRender" };
  
 	void                      ReadChampions();
 	void                      ReadRenderer();

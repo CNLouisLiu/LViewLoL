@@ -71,7 +71,7 @@ Vector2 Renderer::WorldToMinimap(const Vector3& pos) {
 }
 
 bool Renderer::IsScreenPointOnScreen(const Vector2& point) {
-	return point.x >= 0.f && point.x <= width && point.y >= 0 && point.y <= height;
+	return point.x > 0.f && point.x < width && point.y > 0 && point.y < height;
 }
 
 bool Renderer::IsWorldPointOnScreen(const Vector3& point) {

@@ -10,6 +10,8 @@ void LastHitAssistView::OnSaveSettings(ConfigSet& configs) {
 
 	configs.Set<bool>("showSmiteLastHit", showSmiteLastHit);
 	configs.Set<bool>("showMinionLastHit", showMinionLastHit);
+	configs.Set<bool>("autoSmite", autoSmite);
+	configs.Set<int>("autoSmiteKey", toggleAutoSmite->GetKey());
 }
 
 void LastHitAssistView::OnLoadSettings(ConfigSet& configs) {
@@ -17,15 +19,22 @@ void LastHitAssistView::OnLoadSettings(ConfigSet& configs) {
 
 	showSmiteLastHit = configs.Get<bool>("showSmiteLastHit", false);
 	showMinionLastHit = configs.Get<bool>("showMinionLastHit", true);
+	autoSmite = configs.Get<bool>("autoSmite", true);
+	toggleAutoSmite = new KeySelector("Toggle Auto Smite##autoSmiteKey", (HKey)configs.Get<int>("autoSmiteKey", HKey::SPACE));
 }
 
 void LastHitAssistView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 	ImGui::Checkbox("Show when to smite##showSmiteLastHit", &showSmiteLastHit);
-	ImGui::Checkbox("Show when to hit minions##showMinionLastHit", &showMinionLastHit);
+	ImGui::Checkbox("Show when to last hit##showMinionLastHit", &showMinionLastHit);
+	ImGui::Checkbox("Autosmite##autoSmite", &autoSmite);
+	toggleAutoSmite->Draw();
 }
 
 void LastHitAssistView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& uis) {
 	
+	if (Input::WasKeyPressed(toggleAutoSmite->GetKey()))
+		autoSmite = autoSmite ^ true;
+	 
 	if (showMinionLastHit) {
 		for (auto it = reader.minions.begin(); it != reader.minions.end(); ++it) {
 			GameObject* minion = *it;
@@ -40,39 +49,30 @@ void LastHitAssistView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDraw
 			}
 		}
 	}
+
+	Spell* smite = reader.localChampion->GetSummonerSpell(SummonerSpellType::SMITE);
+	if (smite == nullptr)
+		return;
+
 	if (showSmiteLastHit) {
+		for (auto it = reader.jungle.begin(); it != reader.jungle.end(); ++it) {
+			GameObject* mob = *it;
 
-		Spell* smite = reader.localChampion->GetSummonerSpell(SummonerSpellType::SMITE);
-		if (smite != nullptr) {
-			for (auto it = reader.jungle.begin(); it != reader.jungle.end(); ++it) {
-				GameObject* mob = *it;
+			if (mob->health <= 0.f || !mob->isVisible)
+				continue;
 
-				// Skip plants and dead mobs
-				if (mob->health <= 1.f || !mob->isVisible)
-					continue;
-
-				if (mob->health - smite->damage <= 0.f && reader.renderer.IsWorldPointOnScreen(mob->position)) {
-					reader.renderer.DrawCircleAt(overlayCanvas, mob->position, mob->targetRadius*0.8f, false, 15, Colors::Yellow);
-				
-					/*if (autoSmite && mob == reader.hoveredJungle) {
-						INPUT input;
-						input.type = INPUT_KEYBOARD;
-						input.ki.wScan = 0x20;
-						input.ki.time = 0;
-						input.ki.dwExtraInfo = 0;
-						input.ki.wVk = 0;
-						input.ki.dwFlags = KEYEVENTF_SCANCODE;
-						SendInput(1, &input, sizeof(INPUT));
-
-						Sleep(30);
-						input.ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
-						SendInput(1, &input, sizeof(INPUT));
-					}*/
-				}
+			if (mob->IsOfTypes(SMITABLE, JUNGLE) && mob->health - smite->damage <= 0.f && reader.renderer.IsWorldPointOnScreen(mob->position)) {
+				reader.renderer.DrawCircleAt(overlayCanvas, mob->position, mob->targetRadius*0.8f, false, 15, Colors::Yellow);
 			}
 		}
 	}
 
-	
+	if (autoSmite) {
+
+		Vector2 screenPos = reader.renderer.WorldToScreen(reader.localChampion->position);
+		overlayCanvas->AddText(ImVec2(screenPos.x, screenPos.y), Colors::Yellow, "AutoSmiteOn");
+		if(reader.hoveredJungle != nullptr && reader.hoveredJungle->IsOfTypes(SMITABLE, JUNGLE) && (reader.hoveredJungle->health - smite->damage <= 0.f))
+			smite->Trigger();
+	}
 
 }

@@ -3,7 +3,9 @@
 #include "Offsets.h"
 
 BYTE Spell::buffer[0x150];
-const char* Spell::spellTypeName[7] = { "Q", "W", "E", "R", "D", "F", "?" };
+const char* Spell::spellTypeName[6] = { "Q", "W", "E", "R", "D", "F"};
+const HKey   Spell::spellSlotKey[6]  = { HKey::Q, HKey::W, HKey::E, HKey::R, HKey::D, HKey::F };
+
 std::map<std::string, std::string> Spell::summonerSpellNameDict = {
 	{std::string("SummonerHaste"),                 std::string("Ghost")},
 	{std::string("SummonerHeal"),                  std::string("Heal")},
@@ -43,6 +45,10 @@ float Spell::GetRemainingCooldown(float gameTime) {
 
 const char* Spell::GetTypeStr() {
 	return spellTypeName[(int)slot];
+}
+
+void Spell::Trigger() {
+	Input::PressKey(spellSlotKey[(int)slot]);
 }
 
 void Spell::LoadFromMem(DWORD_PTR base, HANDLE hProcess) {

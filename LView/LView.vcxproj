@@ -169,6 +169,9 @@
     <ClCompile Include="imgui_impl_win32.cpp" />
     <ClCompile Include="imgui_tables.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
+    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="KeySelector.cpp" />
+    <ClCompile Include="KeySelector.h" />
     <ClCompile Include="LastHitAssistView.cpp" />
     <ClCompile Include="LeagueMemoryReader.cpp" />
     <ClCompile Include="LView.cpp" />
@@ -196,6 +199,7 @@
     <ClInclude Include="imstb_rectpack.h" />
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="LastHitAssistView.h" />
     <ClInclude Include="LeagueMemoryReader.h" />
     <ClInclude Include="Renderer.h" />

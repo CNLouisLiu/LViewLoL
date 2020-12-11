@@ -143,21 +143,19 @@ void LeagueMemoryReader::ReadMinions() {
 			distance = League::Distance(renderer.WorldToScreen(obj->position), cursorPosition);
 
 			// Filter minions e.g wards, jungle minions, lane minions etc
-			if (obj->team == 300) {
-				if (jungleBlacklistNames.find(obj->name) == jungleBlacklistNames.end()) {
-					jungle.push_back(obj);
-					if (distance <= minDistanceJungle && distance < obj->targetRadius) {
-						minDistanceJungle = distance;
-						hoveredJungle = obj;
-					}
+			GameObjectType type = obj->type;
+			if (type & GameObjectType::JUNGLE) {
+				jungle.push_back(obj);
+				if (distance <= minDistanceJungle && distance < obj->targetRadius) {
+					minDistanceJungle = distance;
+					hoveredJungle = obj;
 				}
-					
 			}
-			else if (wardNames.find(obj->name) != wardNames.end()) {
+			else if (type & GameObjectType::WARD) {
 				wards.push_back(minionsArray[i]);
 				obj->expiryAt += gameTime;
 			}
-			else if (obj->name.find("Minion") != std::string::npos) {
+			else if (type & GameObjectType::MINION) {
 				minions.push_back(obj);
 				if (distance <= minDistanceMinion && distance < obj->targetRadius) {
 					minDistanceMinion = distance;

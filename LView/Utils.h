@@ -5,6 +5,7 @@
 #include "windows.h"
 #include "imgui.h"
 
+#include "Input.h"
 #include "Vector.h"
 
 class WinApiException : public std::runtime_error {

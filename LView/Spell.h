@@ -2,6 +2,7 @@
 #include <string>
 #include "windows.h"
 #include <map>
+#include "Input.h"
 
 enum class SpellSlot {
 	Q = 0, W, E, R, D, F, NONE
@@ -20,6 +21,7 @@ public:
 	float       GetRemainingCooldown(float gameTime);
 	const char* GetTypeStr();
 	void        LoadFromMem(DWORD_PTR base, HANDLE hProcess);
+	void        Trigger();
 
 public:
 	std::string   name;
@@ -33,7 +35,8 @@ public:
 
 private:
 	static BYTE                                       buffer[0x150];
-	static const char*                                spellTypeName[7];
+	static const char*                                spellTypeName[6];
+	static const HKey                                  spellSlotKey[6];
 	static std::map<std::string, std::string>         summonerSpellNameDict;
 	static std::map<std::string, SummonerSpellType>   summonerSpellTypeDict;
 };
