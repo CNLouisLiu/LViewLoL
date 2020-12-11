@@ -1,61 +1,8 @@
-﻿  BaseView.cpp
-  BenchmarkingView.cpp
+﻿  SpellTrackerView.cpp
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-  Champion.cpp
-  ConfigSet.cpp
-  DebugView.cpp
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-  GameObject.cpp
-  HeroTrackerView.cpp
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-f:\github\lviewlol\lview\configset.h(31): warning C4244: 'return': conversion from 'int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-  f:\github\lviewlol\lview\herotrackerview.cpp(18): note: see reference to function template instantiation 'T ConfigSet::Get<float>(std::string,T)' being compiled
-          with
-          [
-              T=float
-          ]
-  imgui.cpp
-  imgui_demo.cpp
-  imgui_draw.cpp
-  imgui_impl_dx9.cpp
-  imgui_impl_win32.cpp
-  imgui_tables.cpp
-  imgui_widgets.cpp
-  Input.cpp
-  KeySelector.cpp
-  KeySelector.h
-  LastHitAssistView.cpp
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-f:\github\lviewlol\lview\configset.h(33): warning C4244: 'return': conversion from 'float' to 'T', possible loss of data
-          with
-          [
-              T=int
-          ]
-  f:\github\lviewlol\lview\lasthitassistview.cpp(23): note: see reference to function template instantiation 'T ConfigSet::Get<int>(std::string,T)' being compiled
-          with
-          [
-              T=int
-          ]
-  LeagueMemoryReader.cpp
-  LView.cpp
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-  Generating Code...
-  Compiling...
-  Offsets.h
-  Renderer.cpp
-f:\github\lviewlol\lview\renderer.cpp(84): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  Spell.cpp
-  SpellTrackerView.cpp
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-  UI.cpp
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-  Utils.cpp
-  VisionTrackerView.cpp
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-  Generating Code...
-Debug\KeySelector.obj : warning LNK4042: object specified more than once; extras ignored
+f:\github\lviewlol\lview\spelltrackerview.h(29): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+f:\github\lviewlol\lview\spelltrackerview.h(30): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+f:\github\lviewlol\lview\spelltrackerview.h(31): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+f:\github\lviewlol\lview\spelltrackerview.h(32): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+f:\github\lviewlol\lview\spelltrackerview.h(33): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
   LView.vcxproj -> F:\Github\LViewLoL\Debug\LView.exe
