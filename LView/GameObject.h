@@ -17,6 +17,9 @@ public:
 	float        armour;
 	float        magicResist;
 
+	/* How close does the mouse cursor have to be to select the object */
+	float        targetRadius;
+
 	/* Team of the object 100 = Blue, 200 = Red, 300 = Jungle */
 	short        team;
 

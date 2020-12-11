@@ -51,6 +51,8 @@ void HeroTrackerView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawLi
 		int nrStep = 0;
 		for (auto it = track.begin(); it != track.end(); ++it) {
 
+			if (!reader.renderer.IsWorldPointOnScreen((*it)->pt))
+				continue;
 			reader.renderer.DrawCircleAt(overlayCanvas, (*it)->pt, 30.f, false, 10, ImColor::HSV(0.6f - 0.2f*nrStep / track.size(), 1.f, 1.f));
 			nrStep++;
 		}

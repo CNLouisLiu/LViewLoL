@@ -14,4 +14,5 @@ public:
 private:
 	bool        showSmiteLastHit;
 	bool        showMinionLastHit;
+	bool        autoSmite = true;
 };

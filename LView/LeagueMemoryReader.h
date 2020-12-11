@@ -62,6 +62,10 @@ public:
 	std::vector<GameObject*>  others;
 	Champion*                 localChampion;
 
+	GameObject*               hoveredChampion;
+	GameObject*               hoveredMinion;
+	GameObject*               hoveredJungle;
+
 	Renderer                  renderer;
 	float                     gameTime;
 
@@ -77,7 +81,8 @@ private:
 	GameObject*               minionsArray[numMaxMinions];
 
 	std::set<std::string>     wardNames = { "YellowTrinket", "JammerDevice", "SightWard" };
-
+	std::set<std::string>     jungleBlacklistNames = { "SRU_PlantRespawnMarker", "SRU_CampRespawnMarker", "TestCubeRender" };
+ 
 	void                      ReadChampions();
 	void                      ReadRenderer();
 	void                      ReadMinions();

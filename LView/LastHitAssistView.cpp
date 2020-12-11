@@ -35,7 +35,8 @@ void LastHitAssistView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDraw
 				continue;
 
 			if (League::EffectiveHP(minion->health, minion->armour) - reader.localChampion->GetBasicAttackDamage() <= 0.f) {
-				reader.renderer.DrawCircleAt(overlayCanvas, minion->position, 50.f, false, 15, Colors::Cyan);
+				if(reader.renderer.IsWorldPointOnScreen(minion->position))
+					reader.renderer.DrawCircleAt(overlayCanvas, minion->position, minion->targetRadius*0.8f, false, 15, Colors::Cyan);
 			}
 		}
 	}
@@ -50,11 +51,28 @@ void LastHitAssistView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDraw
 				if (mob->health <= 1.f || !mob->isVisible)
 					continue;
 
-				if (mob->health - smite->damage <= 0.f) {
-					reader.renderer.DrawCircleAt(overlayCanvas, mob->position, 50.f, false, 15, Colors::Yellow);
+				if (mob->health - smite->damage <= 0.f && reader.renderer.IsWorldPointOnScreen(mob->position)) {
+					reader.renderer.DrawCircleAt(overlayCanvas, mob->position, mob->targetRadius*0.8f, false, 15, Colors::Yellow);
+				
+					/*if (autoSmite && mob == reader.hoveredJungle) {
+						INPUT input;
+						input.type = INPUT_KEYBOARD;
+						input.ki.wScan = 0x20;
+						input.ki.time = 0;
+						input.ki.dwExtraInfo = 0;
+						input.ki.wVk = 0;
+						input.ki.dwFlags = KEYEVENTF_SCANCODE;
+						SendInput(1, &input, sizeof(INPUT));
+
+						Sleep(30);
+						input.ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
+						SendInput(1, &input, sizeof(INPUT));
+					}*/
 				}
 			}
 		}
 	}
+
+	
 
 }

@@ -39,7 +39,11 @@ BOOL Process::IsProcessRunning(DWORD pid)
 	return ret == WAIT_TIMEOUT;
 }
 
-float League::Distance(Vector3 first, Vector3 second) {
+float League::Distance(const Vector2& first,const Vector2& second) {
+	return sqrt(pow(first.x - second.x, 2) + pow(first.y - second.y, 2));
+}
+
+float League::Distance(const Vector3& first, const Vector3& second) {
 	return sqrt(pow(first.x - second.x, 2) + pow(first.y - second.y, 2) + pow(first.z - second.z, 2));
 }
 

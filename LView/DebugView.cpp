@@ -10,7 +10,7 @@ void DrawSpell(Spell spell) {
 	if (ImGui::TreeNode(spell.GetTypeStr())) {
 		
 		ImGui::Button(spell.name.c_str());
-		ImGui::LabelText("Address Slot", "0x%08x", spell.addressSlot);
+		ImGui::LabelText("Address Slot", "%#010x", spell.addressSlot);
 		ImGui::DragFloat("Ready At", &spell.readyAt);
 		ImGui::DragInt("Level", &spell.level);
 		ImGui::DragFloat("Damage", &spell.damage);
@@ -29,24 +29,32 @@ void DrawMatrix(float* matrix, int rows, int cols) {
 	}
 }
 
+void DrawGameObject(GameObject* obj) {
+
+	if (obj == nullptr) {
+		ImGui::TextColored((ImVec4)Colors::Red, "nullptr");
+		return;
+	}
+
+	ImGui::TextColored(Colors::Orange, obj->name.c_str());
+
+	int team = obj->team;
+	ImGui::LabelText("Address", "%#010x", &obj->address);
+	ImGui::DragFloat("Expiry At", &obj->expiryAt);
+	ImGui::DragInt("Team", &team);
+	ImGui::DragFloat("Health", &obj->health);
+	ImGui::DragFloat("Radius", &obj->targetRadius);
+	ImGui::Checkbox("Is Visible", &obj->isVisible);
+	ImGui::LabelText("Position", "X:%.2f Y:%.2f Z:%.2f", obj->position.x, obj->position.y, obj->position.z);
+}
+
 void DrawGameObjects(std::vector<GameObject*> gameObjects) {
 
 	int count = gameObjects.size();
 	ImGui::DragInt("Count", &count);
 	for (size_t i = 0; i < gameObjects.size(); ++i) {
-		GameObject* obj = gameObjects[i];
-
-		ImGui::TextColored(Colors::Orange, obj->name.c_str());
-			int team = obj->team;
-			ImGui::LabelText("Address", "0x%08x", &obj->address);
-			ImGui::DragFloat("Expiry At", &obj->expiryAt);
-			ImGui::DragInt("Team", &team);
-			ImGui::DragFloat("Health", &obj->health);
-			ImGui::Checkbox("Is Visible", &obj->isVisible);
-			ImGui::LabelText("Position", "X:%.2f Y:%.2f Z:%.2f", obj->position.x, obj->position.y, obj->position.z);
-
-			ImGui::Separator();
-
+		DrawGameObject(gameObjects[i]);
+		ImGui::Separator();
 	}
 }
 
@@ -56,7 +64,19 @@ void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 
 	ImGui::LabelText("GameTime", "%.2f", reader.gameTime);
 	
-	ImGui::Text("Engine Objects");
+	if (ImGui::TreeNode("Hovered Object")) {
+		ImGui::Text("Hovered Champ");
+		DrawGameObject(reader.hoveredChampion);
+
+		ImGui::Text("Hovered Minion");
+		DrawGameObject(reader.hoveredMinion);
+
+		ImGui::Text("Hovered Jungle");
+		DrawGameObject(reader.hoveredJungle);
+
+		ImGui::TreePop();
+	}
+
 	// Draw renderer
 	if (ImGui::TreeNode("Renderer")) {
 
@@ -71,33 +91,36 @@ void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 	}
 
 	// Draw champs
-	ImGui::Text("Champions");
-	for (auto it = reader.champions.begin(); it != reader.champions.end(); ++it) {
-		Champion* champ = *it;
-		if (ImGui::TreeNode(champ->name.c_str())) {
-			int team = champ->team;
-			ImGui::LabelText("Address", "0x%08x", champ->address);
-			ImGui::DragInt("Team", &team);
+	if (ImGui::TreeNode("Champions")) {
+		for (auto it = reader.champions.begin(); it != reader.champions.end(); ++it) {
+			Champion* champ = *it;
+			if (ImGui::TreeNode(champ->name.c_str())) {
+				int team = champ->team;
+				ImGui::LabelText("Address", "%#010x", champ->address);
+				ImGui::DragInt("Team", &team);
 
-			ImGui::DragFloat("Current Health", &champ->currentHealth);
-			ImGui::DragFloat("Base Atk", &champ->baseAttack);
-			ImGui::DragFloat("Bonus Atk", &champ->bonusAttack);
-			ImGui::DragFloat("Armour", &champ->armour);
-			ImGui::DragFloat("Magic resist", &champ->magicResist);
+				ImGui::DragFloat("Current Health", &champ->currentHealth);
+				ImGui::DragFloat("Base Atk", &champ->baseAttack);
+				ImGui::DragFloat("Bonus Atk", &champ->bonusAttack);
+				ImGui::DragFloat("Armour", &champ->armour);
+				ImGui::DragFloat("Magic resist", &champ->magicResist);
 
-			ImGui::Checkbox("Is Visible", &champ->isVisible);
-			ImGui::LabelText("Position", "X:%.2f Y:%.2f Z:%.2f", champ->position.x, champ->position.y, champ->position.z);
+				ImGui::Checkbox("Is Visible", &champ->isVisible);
+				ImGui::LabelText("Position", "X:%.2f Y:%.2f Z:%.2f", champ->position.x, champ->position.y, champ->position.z);
 
-			DrawSpell(champ->Q);
-			DrawSpell(champ->W);
-			DrawSpell(champ->E);
-			DrawSpell(champ->R);
-			DrawSpell(champ->D);
-			DrawSpell(champ->F);
+				DrawSpell(champ->Q);
+				DrawSpell(champ->W);
+				DrawSpell(champ->E);
+				DrawSpell(champ->R);
+				DrawSpell(champ->D);
+				DrawSpell(champ->F);
 
-			ImGui::TreePop();
+				ImGui::TreePop();
+			}
 		}
+		ImGui::TreePop();
 	}
+	
 
 	if (ImGui::TreeNode("Wards")) {
 		DrawGameObjects(reader.wards);

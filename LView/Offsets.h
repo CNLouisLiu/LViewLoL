@@ -7,6 +7,7 @@
 //CObject
 #define oObjIndex 0x20
 #define oObjTeam 0x4C
+#define oObjTargetRadius 0x88
 #define oObjNetworkID 0xCC 
 #define oObjPos 0x1D8 
 #define oObjVisibility 0x270

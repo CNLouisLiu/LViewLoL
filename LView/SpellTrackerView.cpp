@@ -103,9 +103,10 @@ void SpellTrackerView::DrawSpellTrackerOnChampions(LeagueMemoryReader& reader, I
 			continue;
 		
 		Vector2 pos = reader.renderer.WorldToScreen(champ->position);
+		if (!reader.renderer.IsScreenPointOnScreen(pos))
+			continue;
+
 		ImVec2 imPos = ImVec2(pos.x - 60, pos.y);
-
-
 		DrawSpellButton(champ->Q, reader.gameTime, list, imPos);
 		imPos.x += 35;
 

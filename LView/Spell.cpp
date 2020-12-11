@@ -2,6 +2,7 @@
 #include "Utils.h"
 #include "Offsets.h"
 
+BYTE Spell::buffer[0x150];
 const char* Spell::spellTypeName[7] = { "Q", "W", "E", "R", "D", "F", "?" };
 std::map<std::string, std::string> Spell::summonerSpellNameDict = {
 	{std::string("SummonerHaste"),                 std::string("Ghost")},
@@ -16,7 +17,7 @@ std::map<std::string, std::string> Spell::summonerSpellNameDict = {
 	{std::string("SummonerDot"),                   std::string("Ignite")},
 	{std::string("SummonerSmite"),                 std::string("Smite")},
 	{std::string("S5_SummonerSmitePlayerGanker"),  std::string("Smite")},
-	{std::string("S5_SummonerSmitePlayerDuel"),    std::string("Smite")},
+	{std::string("S5_SummonerSmiteDuel"),          std::string("Smite")},
 }; 
 
 std::map<std::string, SummonerSpellType> Spell::summonerSpellTypeDict = {
@@ -32,7 +33,7 @@ std::map<std::string, SummonerSpellType> Spell::summonerSpellTypeDict = {
 	{std::string("SummonerDot"),                     SummonerSpellType::IGNITE},
 	{std::string("SummonerSmite"),                   SummonerSpellType::SMITE},
 	{std::string("S5_SummonerSmitePlayerGanker"),    SummonerSpellType::SMITE},
-	{std::string("S5_SummonerSmitePlayerDuel"),      SummonerSpellType::SMITE},
+	{std::string("S5_SummonerSmiteDuel"),            SummonerSpellType::SMITE},
 
 };
 
@@ -46,16 +47,18 @@ const char* Spell::GetTypeStr() {
 
 void Spell::LoadFromMem(DWORD_PTR base, HANDLE hProcess) {
 
-	// TODO: Must optimize
 	addressSlot = base;
-	Mem::Read(hProcess, base + oSpellSlotTime, &readyAt, sizeof(float));
-	Mem::Read(hProcess, base + oSpellSlotLevel, &level, 4);
-	Mem::Read(hProcess, base + oSpellSlotDamage, &damage, sizeof(float));
+	Mem::Read(hProcess, base, buffer, 0x150);
 
-	DWORD spellInfoPtr = Mem::ReadPointer(hProcess, base + oSpellSlotSpellInfo);
+	memcpy(&readyAt, buffer + oSpellSlotTime, sizeof(float));
+	memcpy(&level, buffer + oSpellSlotLevel, sizeof(int));
+	memcpy(&damage, buffer + oSpellSlotDamage, sizeof(float));
+
+	DWORD spellInfoPtr;
+	memcpy(&spellInfoPtr, buffer + oSpellSlotSpellInfo, sizeof(DWORD));
+	
 	DWORD spellDataPtr = Mem::ReadPointer(hProcess, spellInfoPtr + oSpellInfoSpellData);
 	DWORD spellNamePtr = Mem::ReadPointer(hProcess, spellDataPtr + oSpellDataSpellName);
-
 
 	char buff[50];
 	Mem::Read(hProcess, spellNamePtr, buff, 50);

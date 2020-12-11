@@ -42,7 +42,7 @@ int main()
 		std::cout << exception.GetErrorMessage() << std::endl;
 	}
 
-	float millisPerFrame = 20;
+	float millisPerFrame = 10;
 	float frameTimeLength;
 	high_resolution_clock::time_point frameTimeBegin;
 	duration<float, std::milli> diff;
@@ -72,8 +72,8 @@ int main()
 		diff = (high_resolution_clock::now() - frameTimeBegin);
 		frameTimeLength = diff.count();
 		//std::cout << frameTimeLength << std::endl;
-		//if(frameTimeLength > 0 && frameTimeLength < millisPerFrame)
-		//	Sleep((DWORD)(millisPerFrame - frameTimeLength));
+		if(frameTimeLength > 0 && frameTimeLength < millisPerFrame)
+			Sleep((DWORD)(millisPerFrame - frameTimeLength));
 	}
 }
 

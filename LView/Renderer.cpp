@@ -29,31 +29,36 @@ void Renderer::MultiplyMatrices(float *out, float *a, int row1, int col1, float 
 	}
 }
 
-Vector2 Renderer::WorldToScreen(Vector3 pos) {
-	Vector2 returnVec = { 0.f, 0.f };
-
+Vector2 Renderer::WorldToScreen(const Vector3& pos) {
+	
+	Vector2 out = { 0.f, 0.f };
 	Vector2 screen = { (float)width, (float)height };
-
-	Vector4 clipCoords;
+	static Vector4 clipCoords;
 	clipCoords.x = pos.x * viewProjMatrix[0] + pos.y * viewProjMatrix[4] + pos.z * viewProjMatrix[8] + viewProjMatrix[12];
 	clipCoords.y = pos.x * viewProjMatrix[1] + pos.y * viewProjMatrix[5] + pos.z * viewProjMatrix[9] + viewProjMatrix[13];
 	clipCoords.z = pos.x * viewProjMatrix[2] + pos.y * viewProjMatrix[6] + pos.z * viewProjMatrix[10] + viewProjMatrix[14];
 	clipCoords.w = pos.x * viewProjMatrix[3] + pos.y * viewProjMatrix[7] + pos.z * viewProjMatrix[11] + viewProjMatrix[15];
 
-	if (clipCoords.w < 0.05f) return returnVec;
+	if (clipCoords.w > 0.05f) {
+		Vector3 M;
+		M.x = clipCoords.x / clipCoords.w;
+		M.y = clipCoords.y / clipCoords.w;
+		M.z = clipCoords.z / clipCoords.w;
 
-	Vector3 M;
-	M.x = clipCoords.x / clipCoords.w;
-	M.y = clipCoords.y / clipCoords.w;
-	M.z = clipCoords.z / clipCoords.w;
+		out.x = (screen.x / 2.f * M.x) + (M.x + screen.x / 2.f);
+		out.y = -(screen.y / 2.f * M.y) + (M.y + screen.y / 2.f);
+	}
 
-	returnVec.x = (screen.x / 2.f * M.x) + (M.x + screen.x / 2.f);
-	returnVec.y = -(screen.y / 2.f * M.y) + (M.y + screen.y / 2.f);
-
-	return returnVec;
+	return out;
 }
 
-Vector2 Renderer::WorldToMinimap(Vector3 pos) {
+Vector2 Renderer::GetCursorPosition() {
+	POINT pos;
+	GetCursorPos(&pos);
+	return { (float)pos.x, (float)pos.y };
+}
+
+Vector2 Renderer::WorldToMinimap(const Vector3& pos) {
 
 	ImVec2 wPos = ImGui::GetWindowPos();
 	ImVec2 wSize = ImGui::GetWindowSize();
@@ -65,15 +70,24 @@ Vector2 Renderer::WorldToMinimap(Vector3 pos) {
 	return result;
 }
 
-void Renderer::DrawCircleAt(ImDrawList* canvas, Vector3 worldPos, float radius, bool filled, int numPoints, ImColor color, float thickness) {
+bool Renderer::IsScreenPointOnScreen(const Vector2& point) {
+	return point.x >= 0.f && point.x <= width && point.y >= 0 && point.y <= height;
+}
+
+bool Renderer::IsWorldPointOnScreen(const Vector3& point) {
+	return IsScreenPointOnScreen(WorldToScreen(point));
+}
+
+void Renderer::DrawCircleAt(ImDrawList* canvas, const Vector3& worldPos, float radius, bool filled, int numPoints, ImColor color, float thickness) {
 
 	ImVec2* points = new ImVec2[numPoints];
-	float step = 2 * 3.14 / numPoints;
+	float step = 6.2831 / numPoints;
 
 	int i = 0;
-	for (float theta = 0; theta < 2 * 3.14; theta += step, i++) {
+	for (float theta = 0; theta < 6.2831; theta += step, i++) {
 		Vector3 worldSpace = { worldPos.x + radius * cos(theta), worldPos.y, worldPos.z - radius * sin(theta) };
 		Vector2 screenSpace = WorldToScreen(worldSpace);
+
 		points[i].x = screenSpace.x;
 		points[i].y = screenSpace.y;
 	}

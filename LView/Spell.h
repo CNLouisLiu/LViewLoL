@@ -32,7 +32,8 @@ public:
 	DWORD         addressSlot;
 
 private:
-	static const char*                            spellTypeName[7];
-	static std::map<std::string, std::string>     summonerSpellNameDict;
+	static BYTE                                       buffer[0x150];
+	static const char*                                spellTypeName[7];
+	static std::map<std::string, std::string>         summonerSpellNameDict;
 	static std::map<std::string, SummonerSpellType>   summonerSpellTypeDict;
 };

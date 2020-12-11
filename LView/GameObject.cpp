@@ -17,6 +17,8 @@ void GameObject::LoadFromMem(DWORD_PTR base, HANDLE hProcess) {
 	memcpy(&armour, &buff[oObjArmor], sizeof(float));
 	memcpy(&magicResist, &buff[oObjMagicRes], sizeof(float));
 
+	memcpy(&targetRadius, &buff[oObjTargetRadius], sizeof(float));
+
 	char nameBuff[50];
 	Mem::Read(hProcess, Mem::ReadPointerFromBuffer(buff, oObjChampionName), nameBuff, 50);
 

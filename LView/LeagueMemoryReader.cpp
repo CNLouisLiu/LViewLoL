@@ -3,6 +3,7 @@
 #include "Utils.h"
 #include "Structs.h"
 #include "psapi.h"
+#include <limits>
 #include <stdexcept>
 
 bool LeagueMemoryReader::IsLeagueWindowActive() {
@@ -73,16 +74,29 @@ void LeagueMemoryReader::ReadChampions() {
 	DWORD champListPtr = Mem::ReadPointer(hProcess, heroManagerPtr + oHeroListHeroArray);
 	Mem::Read(hProcess, heroManagerPtr + oHeroListNumChampions, &numChampions, 4);
 
+	float minDistance = std::numeric_limits<float>::infinity();
+	float distance;
+	Vector2 cursorPosition = renderer.GetCursorPosition();
+	hoveredChampion = nullptr;
+
 	champions.clear();
 	if (champListPtr != 0 && numChampions > 0 && numChampions <= numMaxChamps) {
 
 		for (size_t i = 0; i < numChampions; ++i) {
 			DWORD heroPtr = Mem::ReadPointer(hProcess, champListPtr + i * 4);
+			Champion* champ = championsArray[i];
 
 			if (heroPtr == 0)
 				break;
-			championsArray[i]->LoadFromMem(heroPtr, hProcess);
-			champions.push_back(championsArray[i]);
+
+			champ->LoadFromMem(heroPtr, hProcess);
+			champions.push_back(champ);
+			
+			distance = League::Distance(renderer.WorldToScreen(champ->position), cursorPosition);
+			if (distance <= minDistance && distance < champ->targetRadius) {
+				minDistance = distance;
+				hoveredChampion = champ;
+			}
 		}
 	}
 	else
@@ -104,6 +118,13 @@ void LeagueMemoryReader::ReadMinions() {
 	DWORD minionList = Mem::ReadPointer(hProcess, minionManager + oMinionListArray);
 	Mem::Read(hProcess, minionManager + oMinionNumMinions, &numMinions, 4);
 
+	float minDistanceMinion = std::numeric_limits<float>::infinity();
+	float minDistanceJungle = std::numeric_limits<float>::infinity();
+	float distance;
+	Vector2 cursorPosition = renderer.GetCursorPosition();
+	hoveredMinion = nullptr;
+	hoveredJungle = nullptr;
+
 	if (minionList != 0 && numMinions > 0 && numMinions < numMaxMinions) {
 
 		wards.clear();
@@ -119,14 +140,30 @@ void LeagueMemoryReader::ReadMinions() {
 			GameObject* obj = minionsArray[i];
 			obj->LoadFromMem(pointers[i], hProcess);
 
-			if (obj->team == 300)
-				jungle.push_back(obj);
+			distance = League::Distance(renderer.WorldToScreen(obj->position), cursorPosition);
+
+			// Filter minions e.g wards, jungle minions, lane minions etc
+			if (obj->team == 300) {
+				if (jungleBlacklistNames.find(obj->name) == jungleBlacklistNames.end()) {
+					jungle.push_back(obj);
+					if (distance <= minDistanceJungle && distance < obj->targetRadius) {
+						minDistanceJungle = distance;
+						hoveredJungle = obj;
+					}
+				}
+					
+			}
 			else if (wardNames.find(obj->name) != wardNames.end()) {
 				wards.push_back(minionsArray[i]);
 				obj->expiryAt += gameTime;
 			}
-			else if (obj->name.find("Minion") != std::string::npos)
+			else if (obj->name.find("Minion") != std::string::npos) {
 				minions.push_back(obj);
+				if (distance <= minDistanceMinion && distance < obj->targetRadius) {
+					minDistanceMinion = distance;
+					hoveredMinion = obj;
+				}
+			}
 			else
 				others.push_back(obj);
 		}
