@@ -37,6 +37,8 @@ private:
 	duration<float, std::milli>          timeDiff;
 	float                                timeBetweenTwoSteps = 400.f;
 
+	bool                                 firstFrame = true;
+	int                                  selectedIdx = 0;
 	// Settings
 	float                                secondsToTrack;
 	bool                                 drawTrackInWorld;

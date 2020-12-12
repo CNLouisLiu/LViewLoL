@@ -8,7 +8,14 @@ enum HKey {
 };
 
 namespace Input {
+	/* Presses and releases a key with a short delay in between */
 	void PressKey(HKey key);
+
+	/* Simple function to check if a key was pressed. The drawback is that only one key can be used by a single caller
+	   If a key is pressed the first caller of this function with that specified key will consume the even and all subsequent calls will return false.
+	*/
 	bool WasKeyPressed(HKey key);
+
+	/* Checks if a key is being held down. */
 	bool IsKeyDown(HKey key);
 }

@@ -20,8 +20,6 @@ public:
 	Spell*  GetSummonerSpell(SummonerSpellType type);
 
 public:
-	float   currentHealth;
-
 	Spell   Q, W, E, R, D, F;
 
 private:

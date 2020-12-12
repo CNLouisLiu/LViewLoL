@@ -81,10 +81,10 @@ bool Renderer::IsWorldPointOnScreen(const Vector3& point) {
 void Renderer::DrawCircleAt(ImDrawList* canvas, const Vector3& worldPos, float radius, bool filled, int numPoints, ImColor color, float thickness) {
 
 	ImVec2* points = new ImVec2[numPoints];
-	float step = 6.2831 / numPoints;
+	float step = 6.2831f / numPoints;
 
 	int i = 0;
-	for (float theta = 0; theta < 6.2831; theta += step, i++) {
+	for (float theta = 0.f; theta < 6.2831f; theta += step, i++) {
 		Vector3 worldSpace = { worldPos.x + radius * cos(theta), worldPos.y, worldPos.z - radius * sin(theta) };
 		Vector2 screenSpace = WorldToScreen(worldSpace);
 

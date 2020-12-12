@@ -1,5 +1,6 @@
 #include "HeroTrackerView.h"
 #include <ctime>
+#include "Spell.h"
 
 const char* HeroTrackerView::GetName() {
 	return "Champion Hunter";
@@ -25,24 +26,24 @@ void HeroTrackerView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 	ImGui::SliderFloat("Seconds to Track##secondsToTrack", &secondsToTrack, 5, 30);
 	ImGui::Text("CHAMPION TO TRACK:");
 
-	static int selected = 0;
-	if (ImGui::RadioButton("None", &selected, -1)) {
+	if (ImGui::RadioButton("None", &selectedIdx, -1)) {
 		trackedHero = nullptr;
+		track.clear();
 	}
+
 	int i = 0;
 	for (auto it = reader.champions.begin(); it != reader.champions.end(); ++it, ++i) {
 		
 		Champion* champ = *it;
 		if (champ->team == reader.localChampion->team)
 			continue;
-		if (ImGui::RadioButton(champ->name.c_str(), &selected, i)) {
+
+		if (ImGui::RadioButton(champ->name.c_str(), &selectedIdx, i)) {
 			trackedHero = champ;
 			track.clear();
 			timeOfLastStoredPosition = high_resolution_clock::now();
 		}
 	}
-
-
 }
 
 void HeroTrackerView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui) {
@@ -60,6 +61,21 @@ void HeroTrackerView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawLi
 }
 
 void HeroTrackerView::DrawMinimapOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui) {
+	
+	// First frame, we are defaulting the tracking to the enemy jungler :)
+	if (firstFrame) {
+		firstFrame = false;
+		int i = 0;
+		for (auto it = reader.champions.begin(); it != reader.champions.end(); ++it, ++i) {
+			Champion* champ = *it;
+			if (champ->team != reader.localChampion->team && champ->GetSummonerSpell(SummonerSpellType::SMITE) != nullptr) {
+				trackedHero = champ;
+				selectedIdx = i;
+				break;
+			}
+		}
+	}
+
 	if (trackedHero != nullptr) {
 		high_resolution_clock::time_point timeNow = high_resolution_clock::now();
 		timeDiff = timeNow - timeOfLastStoredPosition;
@@ -85,7 +101,8 @@ void HeroTrackerView::DrawMinimapOverlay(LeagueMemoryReader& reader, ImDrawList*
 		for (auto it = track.begin(); it != track.end(); ++it) {
 
 			Vector2 pos = reader.renderer.WorldToMinimap((*it)->pt);
-			overlayCanvas->AddCircleFilled(ImVec2(pos.x, pos.y), 4.f, ImColor::HSV(0.6f - 0.2f*nrStep / track.size(), 1.f, 1.f), 4);
+			float step = 0.2f*nrStep / track.size();
+			overlayCanvas->AddCircleFilled(ImVec2(pos.x, pos.y), 2.5f + step, ImColor::HSV(0.6f - step, 1.f, 1.f), 4);
 
 			nrStep++;
 		}

@@ -23,15 +23,13 @@ public:
 	LeagueMemoryReader() {
 		for (int i = 0; i < numMaxChamps; ++i)
 			championsArray[i] = new Champion();
-		for (int i = 0; i < numMaxMinions; ++i)
-			minionsArray[i] = new GameObject();
+		bufferObject = new GameObject();
 	}
 
 	~LeagueMemoryReader() {
 		for (int i = 0; i < numMaxChamps; ++i)
 			delete championsArray[i];
-		for (int i = 0; i < numMaxMinions; ++i)
-			delete minionsArray[i];
+		delete bufferObject;
 	}
 
 	bool IsLeagueWindowActive();
@@ -53,36 +51,34 @@ private:
 	BOOL                      is64Bit = FALSE;
 
 public:
-	// Structs
-	std::vector<Champion*>    champions;
-	std::vector<GameObject*>  wards;
-	std::vector<GameObject*>  minions;
-	std::vector<GameObject*>  jungle;
+	/* Lists of objects by category */
+	std::vector<Champion*>      champions;
+	std::vector<GameObject*>    wards;
+	std::vector<GameObject*>    minions;
+	std::vector<GameObject*>    jungle;
+	std::vector<GameObject*>    others;
 
-	std::vector<GameObject*>  others;
-	Champion*                 localChampion;
+	/* A map between the indexObject member of the object and the object itself */
+	std::map<unsigned int, GameObject*>  idxToObjectMap;
+	  
+	Champion*                            localChampion;
+	GameObject*                          hoveredObject;
 
-	GameObject*               hoveredChampion;
-	GameObject*               hoveredMinion;
-	GameObject*               hoveredJungle;
-
-	Renderer                  renderer;
-	float                     gameTime;
-
-	ReadBenchmark             benchmark;
+	Renderer                             renderer;
+	float                                gameTime;
+	ReadBenchmark                        benchmark;
 
 private:
-	static const size_t       numMaxChamps = 10;
-	static const size_t       numMaxMinions = 500;
-	size_t                    numMinions = 0;
-	size_t                    numChampions = 0;
+	static const size_t         numMaxChamps = 10;
+	static const size_t         numMaxMobs = 500;
+	float                       minDistanceToCursor;
 
-	Champion*                 championsArray[numMaxChamps];
-	GameObject*               minionsArray[numMaxMinions];
+	Champion*                   championsArray[numMaxChamps];
 
- 
-	void                      ReadChampions();
-	void                      ReadRenderer();
-	void                      ReadMinions();
+	GameObject*                 bufferObject;
+	
+	void                        ReadChampions();
+	void                        ReadRenderer();
+	void                        ReadMinions();
 
 };

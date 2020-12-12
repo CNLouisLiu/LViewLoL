@@ -29,25 +29,36 @@ void DrawMatrix(float* matrix, int rows, int cols) {
 	}
 }
 
-void DrawGameObject(GameObject* obj) {
+void DrawGameObject(GameObject* obj, bool openItem = false) {
+
 
 	if (obj == nullptr) {
 		ImGui::TextColored((ImVec4)Colors::Red, "nullptr");
 		return;
 	}
 
-	ImGui::TextColored(Colors::Orange, obj->name.c_str());
+	std::string nodeName(obj->name);
+	nodeName = nodeName.append("_");
+	nodeName = nodeName.append(std::to_string((unsigned int)obj->objectIndex));
 
-	int team = obj->team;
-	int type = (int)obj->type;
-	ImGui::LabelText("Address", "%#010x", &obj->address);
-	ImGui::DragInt("Type", &type);
-	ImGui::DragFloat("Expiry At", &obj->expiryAt);
-	ImGui::DragInt("Team", &team);
-	ImGui::DragFloat("Health", &obj->health);
-	ImGui::DragFloat("Radius", &obj->targetRadius);
-	ImGui::Checkbox("Is Visible", &obj->isVisible);
-	ImGui::LabelText("Position", "X:%.2f Y:%.2f Z:%.2f", obj->position.x, obj->position.y, obj->position.z);
+	if(openItem)
+		ImGui::SetNextItemOpen(true);
+	if (ImGui::TreeNode(nodeName.c_str())) {
+
+		int team = obj->team;
+		int type = (int)obj->type;
+		ImGui::LabelText("Address", "%#010x", obj->address);
+		ImGui::DragInt("Type", &type);
+		ImGui::DragInt("Team", &team);
+		ImGui::DragFloat("Health", &obj->health);
+		ImGui::DragFloat("Radius", &obj->targetRadius);
+		ImGui::DragFloat("Expires In", &obj->expiresIn);
+		ImGui::DragFloat("Last Visible At", &obj->lastVisibleAt);
+		ImGui::Checkbox("Is Visible", &obj->isVisible);
+		ImGui::LabelText("Position", "X:%.2f Y:%.2f Z:%.2f", obj->position.x, obj->position.y, obj->position.z);
+
+		ImGui::TreePop();
+	}
 }
 
 void DrawGameObjects(std::vector<GameObject*> gameObjects) {
@@ -55,7 +66,7 @@ void DrawGameObjects(std::vector<GameObject*> gameObjects) {
 	int count = gameObjects.size();
 	ImGui::DragInt("Count", &count);
 	for (size_t i = 0; i < gameObjects.size(); ++i) {
-		DrawGameObject(gameObjects[i]);
+		DrawGameObject(gameObjects[i], false);
 		ImGui::Separator();
 	}
 }
@@ -67,14 +78,7 @@ void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 	ImGui::LabelText("GameTime", "%.2f", reader.gameTime);
 	
 	if (ImGui::TreeNode("Hovered Object")) {
-		ImGui::Text("Hovered Champ");
-		DrawGameObject(reader.hoveredChampion);
-
-		ImGui::Text("Hovered Minion");
-		DrawGameObject(reader.hoveredMinion);
-
-		ImGui::Text("Hovered Jungle");
-		DrawGameObject(reader.hoveredJungle);
+		DrawGameObject(reader.hoveredObject, true);
 
 		ImGui::TreePop();
 	}
@@ -101,7 +105,7 @@ void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 				ImGui::LabelText("Address", "%#010x", champ->address);
 				ImGui::DragInt("Team", &team);
 
-				ImGui::DragFloat("Current Health", &champ->currentHealth);
+				ImGui::DragFloat("Current Health", &champ->health);
 				ImGui::DragFloat("Base Atk", &champ->baseAttack);
 				ImGui::DragFloat("Bonus Atk", &champ->bonusAttack);
 				ImGui::DragFloat("Armour", &champ->armour);
@@ -145,4 +149,41 @@ void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 	}
 
 	ImGui::End();
+}
+
+void DebugView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui) {
+
+	if (Input::WasKeyPressed(showHoveredObjectKeySelector->GetSelectedKey()))
+		showHoveredObject ^= true;
+	if (showHoveredObject && reader.hoveredObject != nullptr) {
+
+		Vector2 cursorPos = reader.renderer.GetCursorPosition();
+		ImGui::SetNextWindowPos(ImVec2(cursorPos.x, cursorPos.y));
+
+		ImGui::Begin("##DebugHovered", nullptr,
+			ImGuiWindowFlags_NoTitleBar |
+			ImGuiWindowFlags_NoScrollbar |
+			ImGuiWindowFlags_NoSavedSettings |
+			ImGuiWindowFlags_NoInputs |
+			ImGuiWindowFlags_AlwaysAutoResize
+		);
+
+		DrawGameObject(reader.hoveredObject, true);
+		ImGui::End();
+	}
+}
+
+void DebugView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
+	ImGui::Checkbox("Show info on hovered obj##debugShowHoveredObject", &showHoveredObject);
+	showHoveredObjectKeySelector->DrawImGuiWidget();
+}
+
+void DebugView::OnSaveSettings(ConfigSet& configs) {
+	configs.Set<bool>("showHoveredObject", showHoveredObject);
+	configs.Set<int>("showHoveredObjectKey", showHoveredObjectKeySelector->GetSelectedKey());
+}
+
+void DebugView::OnLoadSettings(ConfigSet& configs) {
+	showHoveredObject = configs.Get<bool>("showHoveredObject", false);
+	showHoveredObjectKeySelector = new KeySelector("Key Show info on hovered object", (HKey)configs.Get<int>("showHoveredObjectKey", HKey::NO_KEY));
 }

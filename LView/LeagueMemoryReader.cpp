@@ -72,35 +72,36 @@ void LeagueMemoryReader::ReadChampions() {
 
 	DWORD heroManagerPtr = Mem::ReadPointer(hProcess, moduleBaseAddr + oHeroList);
 	DWORD champListPtr = Mem::ReadPointer(hProcess, heroManagerPtr + oHeroListHeroArray);
+	DWORD numChampions = 0;
 	Mem::Read(hProcess, heroManagerPtr + oHeroListNumChampions, &numChampions, 4);
 
-	float minDistance = std::numeric_limits<float>::infinity();
 	float distance;
 	Vector2 cursorPosition = renderer.GetCursorPosition();
-	hoveredChampion = nullptr;
 
 	champions.clear();
-	if (champListPtr != 0 && numChampions > 0 && numChampions <= numMaxChamps) {
+	if (champListPtr == 0 || numChampions < 0 || numChampions > numMaxChamps) {
+		numChampions = 0;
+	}
 
-		for (size_t i = 0; i < numChampions; ++i) {
-			DWORD heroPtr = Mem::ReadPointer(hProcess, champListPtr + i * 4);
-			Champion* champ = championsArray[i];
+	for (size_t i = 0; i < numChampions; ++i) {
+		DWORD heroPtr = Mem::ReadPointer(hProcess, champListPtr + i * 4);
+		Champion* champ = championsArray[i];
 
-			if (heroPtr == 0)
-				break;
+		if (heroPtr == 0)
+			break;
 
-			champ->LoadFromMem(heroPtr, hProcess);
-			champions.push_back(champ);
-			
-			distance = League::Distance(renderer.WorldToScreen(champ->position), cursorPosition);
-			if (distance <= minDistance && distance < champ->targetRadius) {
-				minDistance = distance;
-				hoveredChampion = champ;
-			}
+		champ->LoadFromMem(heroPtr, hProcess);
+		if (champ->isVisible)
+			champ->lastVisibleAt = gameTime;
+
+		champions.push_back(champ);
+
+		distance = League::Distance(renderer.WorldToScreen(champ->position), cursorPosition);
+		if (distance < minDistanceToCursor && distance < champ->targetRadius) {
+			minDistanceToCursor = distance;
+			hoveredObject = champ;
 		}
 	}
-	else
-		numChampions = 0;
 
 	if (numChampions > 0)
 		localChampion = championsArray[0];
@@ -114,60 +115,71 @@ void LeagueMemoryReader::ReadMinions() {
 	duration<float, std::milli> readDuration;
 	readTimeBegin = high_resolution_clock::now();
 
-	DWORD minionManager = Mem::ReadPointer(hProcess, moduleBaseAddr + oMinionList);
-	DWORD minionList = Mem::ReadPointer(hProcess, minionManager + oMinionListArray);
-	Mem::Read(hProcess, minionManager + oMinionNumMinions, &numMinions, 4);
-
-	float minDistanceMinion = std::numeric_limits<float>::infinity();
-	float minDistanceJungle = std::numeric_limits<float>::infinity();
+	DWORD mobManager = Mem::ReadPointer(hProcess, moduleBaseAddr + oMinionList);
+	DWORD mobList = Mem::ReadPointer(hProcess, mobManager + oMinionListArray);
+	DWORD numMobs = 0;
+	Mem::Read(hProcess, mobManager + oMinionNumMinions, &numMobs, 4);
+	
 	float distance;
 	Vector2 cursorPosition = renderer.GetCursorPosition();
-	hoveredMinion = nullptr;
-	hoveredJungle = nullptr;
 
-	if (minionList != 0 && numMinions > 0 && numMinions < numMaxMinions) {
-
-		wards.clear();
-		minions.clear();
-		jungle.clear();
-		others.clear();
-
-		DWORD pointers[numMaxMinions];
-		Mem::Read(hProcess, minionList, pointers, sizeof(DWORD) * numMinions);
-		for (size_t i = 0; i < numMinions; ++i) {
-			if (pointers[i] == 0)
-				break;
-			GameObject* obj = minionsArray[i];
-			obj->LoadFromMem(pointers[i], hProcess);
-
-			distance = League::Distance(renderer.WorldToScreen(obj->position), cursorPosition);
-
-			// Filter minions e.g wards, jungle minions, lane minions etc
-			GameObjectType type = obj->type;
-			if (type & GameObjectType::JUNGLE) {
-				jungle.push_back(obj);
-				if (distance <= minDistanceJungle && distance < obj->targetRadius) {
-					minDistanceJungle = distance;
-					hoveredJungle = obj;
-				}
-			}
-			else if (type & GameObjectType::WARD) {
-				wards.push_back(minionsArray[i]);
-				obj->expiryAt += gameTime;
-			}
-			else if (type & GameObjectType::MINION) {
-				minions.push_back(obj);
-				if (distance <= minDistanceMinion && distance < obj->targetRadius) {
-					minDistanceMinion = distance;
-					hoveredMinion = obj;
-				}
-			}
-			else
-				others.push_back(obj);
-		}
+	// Validate pointers
+	if (mobList == 0 || numMobs < 0 || numMobs >= numMaxMobs) {
+		numMobs = 0;
 	}
-	else
-		numMinions = 0;
+
+	wards.clear();
+	minions.clear();
+	jungle.clear();
+	others.clear();
+
+	static DWORD pointers[numMaxMobs];
+	Mem::Read(hProcess, mobList, pointers, sizeof(DWORD) * numMobs);
+	for (size_t i = 0; i < numMobs; ++i) {
+		if (pointers[i] == 0)
+			break;
+		GameObject* obj;
+
+		// Load mob object
+		bufferObject->LoadFromMem(pointers[i], hProcess, true);
+		obj = bufferObject;
+
+		auto it = idxToObjectMap.find(bufferObject->objectIndex);
+		if (it == idxToObjectMap.end()) {
+			idxToObjectMap[bufferObject->objectIndex] = bufferObject;
+			bufferObject = new GameObject();
+		}
+		else {
+			bufferObject->lastVisibleAt = it->second->lastVisibleAt;
+			bufferObject = it->second;
+			idxToObjectMap[it->second->objectIndex] = obj;
+		}
+
+		if (obj->isVisible) {
+			obj->lastVisibleAt = gameTime;
+		}
+
+		// Check if the object is the closest we found relative to cursor so far
+		distance = League::Distance(renderer.WorldToScreen(obj->position), cursorPosition);
+		if (distance < minDistanceToCursor && distance < obj->targetRadius) {
+			minDistanceToCursor = distance;
+			hoveredObject = obj;
+		}
+
+		// Filter minions e.g wards, jungle, minions etc
+		GameObjectType type = obj->type;
+		if (type & GameObjectType::JUNGLE) {
+			jungle.push_back(obj);
+		}
+		else if (type & GameObjectType::WARD) {
+			wards.push_back(obj);
+		}
+		else if (type & GameObjectType::MINION) {
+			minions.push_back(obj);
+		}
+		else
+			others.push_back(obj);
+	}
 
 	readDuration = high_resolution_clock::now() - readTimeBegin;
 	benchmark.readMinionsMs = readDuration.count();
@@ -179,6 +191,9 @@ void LeagueMemoryReader::ReadStructs() {
 
 	if (gameTime > 1) {
 
+		hoveredObject = nullptr;
+		minDistanceToCursor = std::numeric_limits<float>::infinity();
+		
 		ReadChampions();
 		ReadRenderer();
 		ReadMinions();

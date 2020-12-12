@@ -11,7 +11,7 @@ void LastHitAssistView::OnSaveSettings(ConfigSet& configs) {
 	configs.Set<bool>("showSmiteLastHit", showSmiteLastHit);
 	configs.Set<bool>("showMinionLastHit", showMinionLastHit);
 	configs.Set<bool>("autoSmite", autoSmite);
-	configs.Set<int>("autoSmiteKey", toggleAutoSmite->GetKey());
+	configs.Set<int>("autoSmiteKey", toggleAutoSmite->GetSelectedKey());
 }
 
 void LastHitAssistView::OnLoadSettings(ConfigSet& configs) {
@@ -27,12 +27,12 @@ void LastHitAssistView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 	ImGui::Checkbox("Show when to smite##showSmiteLastHit", &showSmiteLastHit);
 	ImGui::Checkbox("Show when to last hit##showMinionLastHit", &showMinionLastHit);
 	ImGui::Checkbox("Autosmite##autoSmite", &autoSmite);
-	toggleAutoSmite->Draw();
+	toggleAutoSmite->DrawImGuiWidget();
 }
 
 void LastHitAssistView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& uis) {
 	
-	if (Input::WasKeyPressed(toggleAutoSmite->GetKey()))
+	if (Input::WasKeyPressed(toggleAutoSmite->GetSelectedKey()))
 		autoSmite = autoSmite ^ true;
 	 
 	if (showMinionLastHit) {
@@ -71,7 +71,7 @@ void LastHitAssistView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDraw
 
 		Vector2 screenPos = reader.renderer.WorldToScreen(reader.localChampion->position);
 		overlayCanvas->AddText(ImVec2(screenPos.x, screenPos.y), Colors::Yellow, "AutoSmiteOn");
-		if(reader.hoveredJungle != nullptr && reader.hoveredJungle->IsOfTypes(SMITABLE, JUNGLE) && (reader.hoveredJungle->health - smite->damage <= 0.f))
+		if(reader.hoveredObject != nullptr && reader.hoveredObject->IsOfTypes(SMITABLE, JUNGLE) && (reader.hoveredObject->health - smite->damage <= 0.f))
 			smite->Trigger();
 	}
 

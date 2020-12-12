@@ -6,7 +6,6 @@ void Champion::LoadFromMem(DWORD_PTR base, HANDLE hProcess) {
 	GameObject::LoadFromMem(base, hProcess);
 
 	memcpy(&spellSlotPtrs, &buff[oObjSpellBook], sizeof(DWORD) * 6);
-	memcpy(&currentHealth, &buff[oObjHealth], sizeof(float));
 
 	Q.LoadFromMem(spellSlotPtrs[0], hProcess);
 	W.LoadFromMem(spellSlotPtrs[1], hProcess);
@@ -15,6 +14,8 @@ void Champion::LoadFromMem(DWORD_PTR base, HANDLE hProcess) {
 
 	D.LoadFromMem(spellSlotPtrs[4], hProcess);
 	F.LoadFromMem(spellSlotPtrs[5], hProcess);
+
+	type = (GameObjectType) (type | PLAYER);
 }
 
 float Champion::GetBasicAttackDamage() {

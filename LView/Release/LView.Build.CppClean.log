@@ -1,10 +1,9 @@
 f:\github\lviewlol\lview\release\vc141.pdb
-f:\github\lviewlol\lview\release\spell.obj
-f:\github\lviewlol\lview\release\renderer.obj
-f:\github\lviewlol\lview\release\offsets.obj
 f:\github\lviewlol\lview\release\lview.obj
 f:\github\lviewlol\lview\release\leaguememoryreader.obj
 f:\github\lviewlol\lview\release\lasthitassistview.obj
+f:\github\lviewlol\lview\release\keyselector.obj
+f:\github\lviewlol\lview\release\input.obj
 f:\github\lviewlol\lview\release\imgui_widgets.obj
 f:\github\lviewlol\lview\release\imgui_tables.obj
 f:\github\lviewlol\lview\release\imgui_impl_win32.obj
@@ -23,6 +22,9 @@ f:\github\lviewlol\lview\release\visiontrackerview.obj
 f:\github\lviewlol\lview\release\utils.obj
 f:\github\lviewlol\lview\release\ui.obj
 f:\github\lviewlol\lview\release\spelltrackerview.obj
+f:\github\lviewlol\lview\release\spell.obj
+f:\github\lviewlol\lview\release\renderer.obj
+f:\github\lviewlol\lview\release\offsets.obj
 f:\github\lviewlol\release\lview.exe
 f:\github\lviewlol\release\lview.pdb
 f:\github\lviewlol\release\lview.ipdb

@@ -4,6 +4,18 @@
 #include "Vector.h"
 #include "windows.h"
 
+/* 
+	This beautiful thing is the object encoding enum. Everything about the game object type 
+	is compressed in a single integer. First we have the categories that set the bits of the
+	integer from 2^6 to 2^32. The bits below 2^6 are equivalent of the id of a specific object
+
+	Example BARON = JUNGLE | OBJECTIVE | SMITABLE + 6 is part of categories JUNGLE, OBJECTIVE
+	and SMITABLE and has the object index 6. The object index must be unique or we could risk
+	collisions.
+	
+	Use IsOfTypes to check if an object has any of the categories provided
+	e.g baronObj.IsOfType(SMITABLE, JUNGLE) will return true.
+*/
 enum GameObjectType {
 	NO_OBJ              = 0,
 	WARD                = (1 << 6),
@@ -13,6 +25,7 @@ enum GameObjectType {
 	DRAGON              = (1 << 10),
 	SMITABLE            = (1 << 11),
 	PLANT               = (1 << 12),
+	PLAYER              = (1 << 13),
 
 	WARD_PINK           = WARD + 1,
 
@@ -54,7 +67,7 @@ public:
 	GameObject() { buff = new BYTE[0x3000]; }
 	~GameObject() { delete[] buff; }
 
-	void           LoadFromMem(DWORD_PTR base, HANDLE hProcess);
+	bool           LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad = true);
 
 	bool           IsOfTypes(GameObjectType type1);
 	bool           IsOfTypes(GameObjectType type1, GameObjectType type2);
@@ -76,14 +89,20 @@ public:
 	/* Team of the object 100 = Blue, 200 = Red, 300 = Jungle */
 	short          team;
 
-	/* When the object expires (GameTime). Used for wards/shaco boxes etc */
-	float          expiryAt;
+	/* In how many seconds the object expires */
+	float          expiresIn;
 
 	/* True whenever the object is visible by the players team */
 	bool           isVisible;
 
 	/* Address in memory. Used for debug purposes */
 	DWORD          address;
+
+	/* The gameTime when this object was last visible */
+	float          lastVisibleAt;
+
+	/* Unique identifier of the object in game */
+	unsigned int   objectIndex;
 
 protected:
 	BYTE* buff;

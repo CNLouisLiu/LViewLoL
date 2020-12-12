@@ -3064,7 +3064,8 @@ static void ShowDemoWindowPopups()
             ImGui::OpenPopup("my_select_popup");
         ImGui::SameLine();
         ImGui::TextUnformatted(selected_fish == -1 ? "<None>" : names[selected_fish]);
-        if (ImGui::BeginPopup("my_select_popup"))
+        
+		if (ImGui::BeginPopup("my_select_popup"))
         {
             ImGui::Text("Aquarium");
             ImGui::Separator();

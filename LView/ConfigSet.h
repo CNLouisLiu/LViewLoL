@@ -2,6 +2,7 @@
 #include <string>
 #include <map>
 
+/* This class is used to store key value pairs for cheat configurations */
 class ConfigSet {
 
 public:
@@ -13,6 +14,11 @@ public:
 
 	void LoadFromFile(std::string filePath);
 	void SaveToFile(std::string filePath);
+
+	/* Sets a prefix to the keys provided to Set() Get() functions.
+       This is done in order to avoid configuration conflicts between
+	   different cheats.
+	*/
 	void SetPrefixKey(std::string prefixKey);
 
 private:
@@ -32,7 +38,7 @@ T ConfigSet::Get(std::string key, T defaultVal) {
 	else if (std::is_same<T, float>::value)
 		return std::stof(val);
 	else if (std::is_same<T, bool>::value) {
-		return (bool)std::stod(val);
+		return std::stod(val);
 	}
 	
 	throw new std::runtime_error("Unsupported config value type");

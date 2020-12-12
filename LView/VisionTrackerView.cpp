@@ -25,6 +25,8 @@ void VisionTrackerView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDraw
 	
 	for (auto it = reader.wards.begin(); it != reader.wards.end(); ++it) {
 		GameObject* ward = *it;
+		if (ward->health == 0.f)
+			continue;
 		if (!showOverlayOnAllyWards && ward->team == reader.localChampion->team)
 			continue;
 
@@ -35,7 +37,7 @@ void VisionTrackerView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDraw
 		}
 		else {
 			text.append("Ward:");
-			text.append(std::to_string((int)(ward->expiryAt - reader.gameTime)));
+			text.append(std::to_string((int)(ward->expiresIn + ward->lastVisibleAt - reader.gameTime)));
 		}
 
 		Vector2 screenPos = reader.renderer.WorldToScreen(ward->position);
