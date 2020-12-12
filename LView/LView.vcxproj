@@ -202,6 +202,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="LastHitAssistView.h" />
     <ClInclude Include="LeagueMemoryReader.h" />
+    <ClInclude Include="MemoryLoadable.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Spell.h" />
     <ClInclude Include="SpellTrackerView.h" />

@@ -61,7 +61,7 @@ bool GameObject::IsOfTypes(GameObjectType type1, GameObjectType type2, GameObjec
 	return (type & compoundType) == compoundType;
 }
 
-bool GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
+void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 
 	address = base;
 	Mem::Read(hProcess, base, buff, 0x3000);
@@ -77,6 +77,7 @@ bool GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 	memcpy(&targetRadius, &buff[oObjTargetRadius], sizeof(float));
 	memcpy(&isVisible, &buff[oObjVisibility], sizeof(bool));
 	memcpy(&objectIndex, &buff[oObjIndex], sizeof(int));
+	memcpy(&attackRange, &buff[oObjAtkRange], sizeof(float));
 
 	char nameBuff[50];
 	Mem::Read(hProcess, Mem::ReadPointerFromBuffer(buff, oObjChampionName), nameBuff, 50);
@@ -91,6 +92,4 @@ bool GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 		type = GameObjectType::NO_OBJ;
 	else
 		type = it->second;
-	
-	return true;
 }

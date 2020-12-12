@@ -15,7 +15,7 @@ public:
 		F(Spell(SpellSlot::F)) {
 	}
 
-	void    LoadFromMem(DWORD_PTR base, HANDLE hProcess);
+	void    LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad = true) override;
 	float   GetBasicAttackDamage();
 	Spell*  GetSummonerSpell(SummonerSpellType type);
 

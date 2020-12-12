@@ -3,6 +3,7 @@
 #include "windows.h"
 #include <map>
 #include "Input.h"
+#include "MemoryLoadable.h"
 
 enum class SpellSlot {
 	Q = 0, W, E, R, D, F, NONE
@@ -12,7 +13,7 @@ enum class SummonerSpellType {
 	HASTE, HEAL, BARRIER, EXHAUST, CLARITY, SNOWBALL, FLASH, TELEPORT, CLEANSE, IGNITE, SMITE, NONE
 };
 
-class Spell {
+class Spell: MemoryLoadable {
 
 public:
 	Spell(SpellSlot slot) :slot(slot) {}
@@ -20,7 +21,7 @@ public:
 
 	float       GetRemainingCooldown(float gameTime);
 	const char* GetTypeStr();
-	void        LoadFromMem(DWORD_PTR base, HANDLE hProcess);
+	void        LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad = true);
 	void        Trigger();
 
 public:

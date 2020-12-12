@@ -24,10 +24,10 @@
 #define oObjBuffMgr 0x213C
 #define oObjSpellBook 0x2B60  
 #define oObjChampionName 0x2F44
-#define oObjLevel 0x369C // 10.24 me
+#define oObjLevel 0x369C 
 #define oObjSourceIndex 0x290
 #define oObjPerk1 0x3888 // 8D 8E ? ? ? ? E8 ? ? ? ? 8B CE E8 ? ? ? ? A1 // esi+[offset]h // 81 EC ? ? ? ? A1 ? ? ? ? 33 C4 89 84 24 ? ? ? ? 53 8B 9C 24 ? ? ? ? 56 8B F1 88 5C 24 0C // fn + 19F
-#define oObjPerk2 0x2C8 // 8D 8B ? ? ? ? E8 ? ? ? ? 5F 5E 8D // ebx+[offset]h // E8 ? ? ? ? 8D B3 ? ? ? ? C7 83 ? ? ? ? ? ? ? ? C7 83 ? ? ? ? ? ? ? ? 8B CE // sub_XXX + 44
+#define oObjPerk2 0x2C8  // 8D 8B ? ? ? ? E8 ? ? ? ? 5F 5E 8D // ebx+[offset]h // E8 ? ? ? ? 8D B3 ? ? ? ? C7 83 ? ? ? ? ? ? ? ? C7 83 ? ? ? ? ? ? ? ? 8B CE // sub_XXX + 44
 #define oObjExpiry 0x298
 #define oInhiRemainingRespawnTime 0xFF4
 
@@ -48,7 +48,6 @@
 #define oRendererHeight 0x14
 #define oRendererViewMat 0x60
 #define oRendererProjMat 0xA0
-
 
 //oSpellSlot
 #define oSpellSlotRemainingCharge 0x58
@@ -97,3 +96,8 @@
 #define oMinionList 0x28A9C24
 #define oMinionListArray 0x4
 #define oMinionNumMinions 0x8
+
+// Turrets
+#define oTurretList 0x34F12B8
+#define oTurretListArray 0x4
+#define oTurretNumTurrets 0x8

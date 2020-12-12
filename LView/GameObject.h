@@ -3,6 +3,7 @@
 #include <map>
 #include "Vector.h"
 #include "windows.h"
+#include "MemoryLoadable.h"
 
 /* 
 	This beautiful thing is the object encoding enum. Everything about the game object type 
@@ -26,6 +27,7 @@ enum GameObjectType {
 	SMITABLE            = (1 << 11),
 	PLANT               = (1 << 12),
 	PLAYER              = (1 << 13),
+	TURRET              = (1 << 14),
 
 	WARD_PINK           = WARD + 1,
 
@@ -61,13 +63,13 @@ enum GameObjectType {
 	PLANT_VISION        = JUNGLE | PLANT + 26,
 };
 
-class GameObject {
+class GameObject: MemoryLoadable {
 
 public:
 	GameObject() { buff = new BYTE[0x3000]; }
 	~GameObject() { delete[] buff; }
 
-	bool           LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad = true);
+	void           LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad = true);
 
 	bool           IsOfTypes(GameObjectType type1);
 	bool           IsOfTypes(GameObjectType type1, GameObjectType type2);
@@ -78,6 +80,7 @@ public:
 	float          bonusAttack;
 	float          armour;
 	float          magicResist;
+	float          attackRange;
 
 	std::string    name;
 	Vector3        position;

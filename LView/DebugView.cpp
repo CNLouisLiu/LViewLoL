@@ -52,6 +52,7 @@ void DrawGameObject(GameObject* obj, bool openItem = false) {
 		ImGui::DragInt("Team", &team);
 		ImGui::DragFloat("Health", &obj->health);
 		ImGui::DragFloat("Radius", &obj->targetRadius);
+		ImGui::DragFloat("Attack Range", &obj->attackRange);
 		ImGui::DragFloat("Expires In", &obj->expiresIn);
 		ImGui::DragFloat("Last Visible At", &obj->lastVisibleAt);
 		ImGui::Checkbox("Is Visible", &obj->isVisible);
@@ -61,14 +62,18 @@ void DrawGameObject(GameObject* obj, bool openItem = false) {
 	}
 }
 
-void DrawGameObjects(std::vector<GameObject*> gameObjects) {
+void DrawGameObjects(const char* objectType, std::vector<GameObject*> gameObjects) {
 
-	int count = gameObjects.size();
-	ImGui::DragInt("Count", &count);
-	for (size_t i = 0; i < gameObjects.size(); ++i) {
-		DrawGameObject(gameObjects[i], false);
-		ImGui::Separator();
+	if (ImGui::TreeNode(objectType)) {
+		int count = gameObjects.size();
+		ImGui::DragInt("Count", &count);
+		for (size_t i = 0; i < gameObjects.size(); ++i) {
+			DrawGameObject(gameObjects[i], false);
+			ImGui::Separator();
+		}
+		ImGui::TreePop();
 	}
+
 }
 
 void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
@@ -127,26 +132,11 @@ void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 		ImGui::TreePop();
 	}
 	
-
-	if (ImGui::TreeNode("Wards")) {
-		DrawGameObjects(reader.wards);
-		ImGui::TreePop();
-	}
-
-	if (ImGui::TreeNode("Minions")) {
-		DrawGameObjects(reader.minions);
-		ImGui::TreePop();
-	}
-
-	if (ImGui::TreeNode("Jungle")) {
-		DrawGameObjects(reader.jungle);
-		ImGui::TreePop();
-	}
-
-	if (ImGui::TreeNode("Others")) {
-		DrawGameObjects(reader.others);
-		ImGui::TreePop();
-	}
+	DrawGameObjects("Wards", reader.wards);
+	DrawGameObjects("Minions", reader.minions);
+	DrawGameObjects("Jungle", reader.jungle);
+	DrawGameObjects("Turrets", reader.turrets);
+	DrawGameObjects("Others", reader.others);
 
 	ImGui::End();
 }

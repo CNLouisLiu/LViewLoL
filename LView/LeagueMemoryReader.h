@@ -15,21 +15,20 @@ struct ReadBenchmark {
 	float readChampsMs;
 	float readRendererMs;
 	float readMinionsMs;
+	float readTurretsMs;
 };
 
 class LeagueMemoryReader {
 
 public:
 	LeagueMemoryReader() {
-		for (int i = 0; i < numMaxChamps; ++i)
-			championsArray[i] = new Champion();
-		bufferObject = new GameObject();
+		bufferGameObject = new GameObject();
+		bufferChampion = new Champion();
 	}
 
 	~LeagueMemoryReader() {
-		for (int i = 0; i < numMaxChamps; ++i)
-			delete championsArray[i];
-		delete bufferObject;
+		delete bufferGameObject;
+		delete bufferChampion;
 	}
 
 	bool IsLeagueWindowActive();
@@ -56,10 +55,13 @@ public:
 	std::vector<GameObject*>    wards;
 	std::vector<GameObject*>    minions;
 	std::vector<GameObject*>    jungle;
+	std::vector<GameObject*>    turrets;
 	std::vector<GameObject*>    others;
 
 	/* A map between the indexObject member of the object and the object itself */
 	std::map<unsigned int, GameObject*>  idxToObjectMap;
+	/* Used to clear idxToObjectMap for objects that are no longer in game */
+	std::set<unsigned int>               updatedThisFrame;
 	  
 	Champion*                            localChampion;
 	GameObject*                          hoveredObject;
@@ -70,15 +72,66 @@ public:
 
 private:
 	static const size_t         numMaxChamps = 10;
+	static const size_t         numMaxTurrets = 24;
 	static const size_t         numMaxMobs = 500;
 	float                       minDistanceToCursor;
 
-	Champion*                   championsArray[numMaxChamps];
-
-	GameObject*                 bufferObject;
+	// Buffers use for avoiding to reinstantiate game objects
+	GameObject*                 bufferGameObject;
+	Champion*                   bufferChampion;
 	
 	void                        ReadChampions();
 	void                        ReadRenderer();
-	void                        ReadMinions();
+	void                        ReadMobs();
+	void                        ReadTurrets();
+	void                        FindHoveredObject();
 
+	template<typename T, typename std::enable_if<std::is_base_of<MemoryLoadable, T>::value>::type* = nullptr>
+	void                        ReadGameObjectList(std::vector<T*>& readInto, T** bufferObject, DWORD numMaxObjects, DWORD baseAddr);
 };
+
+template<typename T, typename std::enable_if<std::is_base_of<MemoryLoadable, T>::value>::type*>
+void LeagueMemoryReader::ReadGameObjectList(std::vector<T*>& readInto, T** bufferObject, DWORD numMaxObjects, DWORD baseAddr) {
+
+	DWORD listManagerPtr = Mem::ReadPointer(hProcess, moduleBaseAddr + baseAddr);
+	DWORD listPtr = Mem::ReadPointer(hProcess, listManagerPtr + 0x4);
+	DWORD numObjects = 0;
+	Mem::Read(hProcess, listManagerPtr + 0x8, &numObjects, 4);
+
+	readInto.clear();
+	if (listPtr == 0 || numObjects < 0 || numObjects > numMaxObjects) {
+		numObjects = 0;
+	}
+
+	static DWORD pointers[500];
+	Mem::Read(hProcess, listPtr, pointers, numObjects * sizeof(DWORD));
+
+	for (size_t i = 0; i < numObjects; ++i) {
+
+		if (pointers[i] == 0)
+			break;
+		
+		T* obj = *bufferObject;
+		obj->LoadFromMem(pointers[i], hProcess, true);
+		
+		auto it = idxToObjectMap.find(obj->objectIndex);
+		if (it == idxToObjectMap.end()) {
+			idxToObjectMap[obj->objectIndex] = obj;
+			*bufferObject = new T();
+		}
+		else {
+			obj->lastVisibleAt = it->second->lastVisibleAt;
+
+			T* temp = obj;
+			*bufferObject = (T*)it->second;
+			idxToObjectMap[it->second->objectIndex] = obj;
+		}
+
+		if (obj->isVisible) {
+			obj->lastVisibleAt = gameTime;
+		}
+
+		readInto.push_back(obj);
+		updatedThisFrame.insert(obj->objectIndex);
+	}
+}

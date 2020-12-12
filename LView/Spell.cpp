@@ -51,7 +51,7 @@ void Spell::Trigger() {
 	Input::PressKey(spellSlotKey[(int)slot]);
 }
 
-void Spell::LoadFromMem(DWORD_PTR base, HANDLE hProcess) {
+void Spell::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 
 	addressSlot = base;
 	Mem::Read(hProcess, base, buffer, 0x150);

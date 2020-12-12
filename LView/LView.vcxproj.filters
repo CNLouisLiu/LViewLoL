@@ -188,5 +188,8 @@
     <ClInclude Include="Input.h">
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="MemoryLoadable.h">
+      <Filter>Source Files\Structs</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #include "Champion.h"
 #include "Offsets.h"
 
-void Champion::LoadFromMem(DWORD_PTR base, HANDLE hProcess) {
+void Champion::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 
 	GameObject::LoadFromMem(base, hProcess);
 
@@ -14,7 +14,7 @@ void Champion::LoadFromMem(DWORD_PTR base, HANDLE hProcess) {
 
 	D.LoadFromMem(spellSlotPtrs[4], hProcess);
 	F.LoadFromMem(spellSlotPtrs[5], hProcess);
-
+	
 	type = (GameObjectType) (type | PLAYER);
 }
 
