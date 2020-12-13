@@ -102,7 +102,6 @@ void LeagueMemoryReader::ReadMobs() {
 
 	// Filter minions e.g wards, jungle, minions etc
 	minions.clear();
-	wards.clear();
 	jungle.clear();
 	auto it = others.begin();
 	while (it != others.end()) {
@@ -110,10 +109,6 @@ void LeagueMemoryReader::ReadMobs() {
 		GameObjectType type = obj->type;
 		if (type & GameObjectType::JUNGLE) {
 			jungle.push_back(obj);
-			it = others.erase(it);
-		}
-		else if (type & GameObjectType::WARD) {
-			wards.push_back(obj);
 			it = others.erase(it);
 		}
 		else if (type & GameObjectType::MINION) {

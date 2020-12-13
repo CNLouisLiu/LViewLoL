@@ -1,6 +1,7 @@
 #include "Renderer.h"
 #include "Offsets.h"
 #include "Utils.h"
+#include <algorithm>
 
 
 void Renderer::LoadFromMem(DWORD_PTR renderBase, DWORD_PTR moduleBase, HANDLE hProcess) {
@@ -70,21 +71,23 @@ Vector2 Renderer::WorldToMinimap(const Vector3& pos) {
 	return result;
 }
 
-bool Renderer::IsScreenPointOnScreen(const Vector2& point) {
-	return point.x > 0.f && point.x < width && point.y > 0 && point.y < height;
+bool Renderer::IsScreenPointOnScreen(const Vector2& point, float offsetX, float offsetY) {
+	return point.x > -offsetX && point.x < (width + offsetX) && point.y > -offsetY && point.y < (height + offsetY);
 }
 
-bool Renderer::IsWorldPointOnScreen(const Vector3& point) {
-	return IsScreenPointOnScreen(WorldToScreen(point));
+bool Renderer::IsWorldPointOnScreen(const Vector3& point, float offsetX, float offsetY) {
+	return IsScreenPointOnScreen(WorldToScreen(point), offsetX, offsetY);
 }
 
 void Renderer::DrawCircleAt(ImDrawList* canvas, const Vector3& worldPos, float radius, bool filled, int numPoints, ImColor color, float thickness) {
 
-	ImVec2* points = new ImVec2[numPoints];
-	float step = 6.2831f / numPoints;
+	if (numPoints >= 200)
+		return;
+	static ImVec2 points[200];
 
-	int i = 0;
-	for (float theta = 0.f; theta < 6.2831f; theta += step, i++) {
+	float step = 6.2831f / numPoints;
+	float theta = 0.f;
+	for (int i = 0; i < numPoints; i++, theta += step) {
 		Vector3 worldSpace = { worldPos.x + radius * cos(theta), worldPos.y, worldPos.z - radius * sin(theta) };
 		Vector2 screenSpace = WorldToScreen(worldSpace);
 
@@ -96,6 +99,4 @@ void Renderer::DrawCircleAt(ImDrawList* canvas, const Vector3& worldPos, float r
 		canvas->AddConvexPolyFilled(points, numPoints, color);
 	else
 		canvas->AddPolyline(points, numPoints, color, true, thickness);
-
-	delete[] points;
 }

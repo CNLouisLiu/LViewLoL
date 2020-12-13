@@ -132,7 +132,6 @@ void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 		ImGui::TreePop();
 	}
 	
-	DrawGameObjects("Wards", reader.wards);
 	DrawGameObjects("Minions", reader.minions);
 	DrawGameObjects("Jungle", reader.jungle);
 	DrawGameObjects("Turrets", reader.turrets);
@@ -169,11 +168,13 @@ void DebugView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 }
 
 void DebugView::OnSaveSettings(ConfigSet& configs) {
+	BaseView::OnSaveSettings(configs);
 	configs.Set<bool>("showHoveredObject", showHoveredObject);
 	configs.Set<int>("showHoveredObjectKey", showHoveredObjectKeySelector->GetSelectedKey());
 }
 
 void DebugView::OnLoadSettings(ConfigSet& configs) {
+	BaseView::OnLoadSettings(configs);
 	showHoveredObject = configs.Get<bool>("showHoveredObject", false);
 	showHoveredObjectKeySelector = new KeySelector("Key Show info on hovered object", (HKey)configs.Get<int>("showHoveredObjectKey", HKey::NO_KEY));
 }

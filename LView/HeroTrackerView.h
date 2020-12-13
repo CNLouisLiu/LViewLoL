@@ -31,8 +31,8 @@ public:
 
 private:
 
-	std::deque<TrackPoint*>              track;
-	Champion*                            trackedHero = nullptr;
+	std::deque<TrackPoint>               track;
+	unsigned int                         trackedHeroIndex = 0;
 	high_resolution_clock::time_point	 timeOfLastStoredPosition;
 	duration<float, std::milli>          timeDiff;
 	float                                timeBetweenTwoSteps = 400.f;

@@ -27,7 +27,7 @@ void HeroTrackerView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 	ImGui::Text("CHAMPION TO TRACK:");
 
 	if (ImGui::RadioButton("None", &selectedIdx, -1)) {
-		trackedHero = nullptr;
+		trackedHeroIndex = 0;
 		track.clear();
 	}
 
@@ -39,7 +39,7 @@ void HeroTrackerView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 			continue;
 
 		if (ImGui::RadioButton(champ->name.c_str(), &selectedIdx, i)) {
-			trackedHero = champ;
+			trackedHeroIndex = champ->objectIndex;
 			track.clear();
 			timeOfLastStoredPosition = high_resolution_clock::now();
 		}
@@ -52,9 +52,9 @@ void HeroTrackerView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawLi
 		int nrStep = 0;
 		for (auto it = track.begin(); it != track.end(); ++it) {
 
-			if (!reader.renderer.IsWorldPointOnScreen((*it)->pt))
+			if (!reader.renderer.IsWorldPointOnScreen(it->pt))
 				continue;
-			reader.renderer.DrawCircleAt(overlayCanvas, (*it)->pt, 30.f, false, 10, ImColor::HSV(0.6f - 0.2f*nrStep / track.size(), 1.f, 1.f));
+			reader.renderer.DrawCircleAt(overlayCanvas, it->pt, 30.f, false, 10, ImColor::HSV(0.6f - 0.2f*nrStep / track.size(), 1.f, 1.f));
 			nrStep++;
 		}
 	}
@@ -69,25 +69,27 @@ void HeroTrackerView::DrawMinimapOverlay(LeagueMemoryReader& reader, ImDrawList*
 		for (auto it = reader.champions.begin(); it != reader.champions.end(); ++it, ++i) {
 			Champion* champ = *it;
 			if (champ->team != reader.localChampion->team && champ->GetSummonerSpell(SummonerSpellType::SMITE) != nullptr) {
-				trackedHero = champ;
+				trackedHeroIndex = champ->objectIndex;
 				selectedIdx = i;
 				break;
 			}
 		}
 	}
 
-	if (trackedHero != nullptr) {
+	if (trackedHeroIndex != 0) {
+
+		Champion* trackedHero = (Champion*)reader.idxToObjectMap[trackedHeroIndex];
 		high_resolution_clock::time_point timeNow = high_resolution_clock::now();
 		timeDiff = timeNow - timeOfLastStoredPosition;
 		if (timeDiff.count() > timeBetweenTwoSteps) {
 			timeOfLastStoredPosition = timeNow;
-			track.push_back(new TrackPoint(trackedHero->position, timeNow));
+			track.push_back(TrackPoint(trackedHero->position, timeNow));
 		}
 
 		// Remove expired tracks 
 		auto it = track.begin();
 		while (it != track.end()) {
-			timeDiff = timeNow - (*it)->time;
+			timeDiff = timeNow - it->time;
 			if (timeDiff.count() > 1000.f * secondsToTrack) {
 				it = track.erase(it);
 			}
@@ -100,7 +102,7 @@ void HeroTrackerView::DrawMinimapOverlay(LeagueMemoryReader& reader, ImDrawList*
 		float nrStep = 0.f;
 		for (auto it = track.begin(); it != track.end(); ++it) {
 
-			Vector2 pos = reader.renderer.WorldToMinimap((*it)->pt);
+			Vector2 pos = reader.renderer.WorldToMinimap(it->pt);
 			float step = 0.2f*nrStep / track.size();
 			overlayCanvas->AddCircleFilled(ImVec2(pos.x, pos.y), 2.5f + step, ImColor::HSV(0.6f - step, 1.f, 1.f), 4);
 

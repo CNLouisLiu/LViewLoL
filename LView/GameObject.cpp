@@ -3,7 +3,7 @@
 #include "Offsets.h"
 
 std::map<std::string, GameObjectType>  GameObject::gameObjectNameTypeDict = {
-	
+
 	// Minions
 	{"SRU_OrderMinionMelee",     GameObjectType::MINION_MELEE},
 	{"SRU_OrderMinionRanged",    GameObjectType::MINION_RANGED},
@@ -44,6 +44,12 @@ std::map<std::string, GameObjectType>  GameObject::gameObjectNameTypeDict = {
 	{"YellowTrinket",            GameObjectType::WARD},
 	{"SightWard",                GameObjectType::WARD},
 	{"JammerDevice",             GameObjectType::WARD_PINK},
+
+	// Shits
+	{"ShacoBox",                 GameObjectType::SHACO_BOX},
+	{"TeemoMushroom",            GameObjectType::TEEMO_MUSHROOM},
+	{"Shaco",                    GameObjectType::SHACO_CLONE},
+	{"Leblanc",                  GameObjectType::LEBLANC_CLONE},
 	
 };
 

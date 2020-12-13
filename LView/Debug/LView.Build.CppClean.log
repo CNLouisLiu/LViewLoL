@@ -1,10 +1,10 @@
 f:\github\lviewlol\lview\debug\vc141.pdb
 f:\github\lviewlol\lview\debug\vc141.idb
-f:\github\lviewlol\lview\debug\lview.obj
 f:\github\lviewlol\lview\debug\leaguememoryreader.obj
 f:\github\lviewlol\lview\debug\lasthitassistview.obj
 f:\github\lviewlol\lview\debug\keyselector.obj
 f:\github\lviewlol\lview\debug\input.obj
+f:\github\lviewlol\lview\debug\indicatorsview.obj
 f:\github\lviewlol\lview\debug\imgui_widgets.obj
 f:\github\lviewlol\lview\debug\imgui_tables.obj
 f:\github\lviewlol\lview\debug\imgui_impl_win32.obj
@@ -26,6 +26,7 @@ f:\github\lviewlol\lview\debug\spelltrackerview.obj
 f:\github\lviewlol\lview\debug\spell.obj
 f:\github\lviewlol\lview\debug\renderer.obj
 f:\github\lviewlol\lview\debug\offsets.obj
+f:\github\lviewlol\lview\debug\lview.obj
 f:\github\lviewlol\debug\lview.exe
 f:\github\lviewlol\debug\lview.ilk
 f:\github\lviewlol\debug\lview.pdb

@@ -19,17 +19,20 @@
 */
 enum GameObjectType {
 	NO_OBJ              = 0,
-	WARD                = (1 << 6),
-	MINION              = (1 << 7),
-	JUNGLE              = (1 << 8),
-	OBJECTIVE           = (1 << 9),
-	DRAGON              = (1 << 10),
-	SMITABLE            = (1 << 11),
-	PLANT               = (1 << 12),
-	PLAYER              = (1 << 13),
-	TURRET              = (1 << 14),
+	INVISIBLE           = (1 << 7),
+	MINION              = (1 << 8),
+	JUNGLE              = (1 << 9),
+	OBJECTIVE           = (1 << 10),
+	DRAGON              = (1 << 11),
+	SMITABLE            = (1 << 12),
+	PLANT               = (1 << 13),
+	PLAYER              = (1 << 14),
+	TURRET              = (1 << 15),
+	EXPIRABLE           = (1 << 16),
+	CLONE               = (1 << 17),
 
-	WARD_PINK           = WARD + 1,
+	WARD                = INVISIBLE | EXPIRABLE + 1,
+	WARD_PINK           = INVISIBLE + 2,
 
 	MINION_CANNON       = MINION + 3,
 	MINION_MELEE        = MINION + 4,
@@ -61,6 +64,12 @@ enum GameObjectType {
 	PLANT_EXPLOSION     = JUNGLE | PLANT + 24, 
 	PLANT_HEALING       = JUNGLE | PLANT + 25,
 	PLANT_VISION        = JUNGLE | PLANT + 26,
+
+	SHACO_BOX           = INVISIBLE | EXPIRABLE + 27,
+	TEEMO_MUSHROOM      = INVISIBLE | EXPIRABLE + 28,
+
+	SHACO_CLONE         = CLONE + 29,
+	LEBLANC_CLONE       = CLONE + 30,
 };
 
 class GameObject: MemoryLoadable {

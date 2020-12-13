@@ -50,3 +50,7 @@ float League::Distance(const Vector3& first, const Vector3& second) {
 float League::EffectiveHP(float health, float armour) {
 	return (1.f + armour / 100.f) * health;
 }
+
+float League::Clamp(float val, float lo, float hi) {
+	return (val < lo) ? lo : (hi < val) ? hi : val;
+}

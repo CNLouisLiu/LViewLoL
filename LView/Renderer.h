@@ -25,10 +25,10 @@ public:
 	void     DrawCircleAt(ImDrawList* canvas, const Vector3& worldPos, float radius, bool filled, int numPoints, ImColor color, float thickness = 3.f);
 
 	/* Used to determine if a converted point from world space to screen space is on screen to avoid unnecessary draw calls */
-	bool     IsScreenPointOnScreen(const Vector2& point);
+	bool     IsScreenPointOnScreen(const Vector2& point, float offsetX = 0.f, float offsetY = 0.f);
 
 	/* Same as IsScreenPointOnScreen but for world space */
-	bool     IsWorldPointOnScreen(const Vector3& point);
+	bool     IsWorldPointOnScreen(const Vector3& point, float offsetX = 0.f, float offsetY = 0.f);
 
 	Vector2  GetCursorPosition();
 

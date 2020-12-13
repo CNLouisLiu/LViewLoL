@@ -111,6 +111,9 @@
     <ClCompile Include="KeySelector.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="IndicatorsView.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UI.h">
@@ -190,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="MemoryLoadable.h">
       <Filter>Source Files\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="IndicatorsView.h">
+      <Filter>Source Files\Views</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

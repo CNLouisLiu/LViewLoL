@@ -22,15 +22,14 @@ void UI::Start() {
 	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, L"LVIEWCLASS", NULL };
 	RegisterClassEx(&wc);
 	hWindow = CreateWindowExA(
-		WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_NOACTIVATE, //WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TRANSPARENT
+		WS_EX_TOPMOST | WS_EX_NOACTIVATE | WS_EX_LAYERED, //WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TRANSPARENT
 		"LVIEWCLASS", "LVIEW",
 		WS_POPUP,
 		1, 1, 1920, 1080,
 		nullptr, nullptr, GetModuleHandle(0), nullptr);
 
 	SetLayeredWindowAttributes(hWindow, 0, 0, LWA_ALPHA);
-	SetLayeredWindowAttributes(hWindow, 0, RGB(0, 0, 0), LWA_COLORKEY);
-
+	SetLayeredWindowAttributes(hWindow, 0, 0, LWA_COLORKEY);
 
 	if (hWindow == NULL) {
 		throw WinApiException("Failed to create overlay window");
@@ -74,7 +73,6 @@ void UI::Start() {
 		configs.SetPrefixKey(view->GetName());
 		view->OnLoadSettings(configs);
 	}
-
 }
 
 void UI::RenderUI(LeagueMemoryReader& reader) {
@@ -85,6 +83,8 @@ void UI::RenderUI(LeagueMemoryReader& reader) {
 	// Draw world space overlay, this is just an overlay over the entire screen.
 	// Cheat authors are expected to properly draw into world space.
 	auto io = ImGui::GetIO();
+	ImDrawList* list;
+
 	ImGui::SetNextWindowSize(io.DisplaySize);
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
 	ImGui::Begin("##Overlay", nullptr,
@@ -96,7 +96,7 @@ void UI::RenderUI(LeagueMemoryReader& reader) {
 		ImGuiWindowFlags_NoInputs |
 		ImGuiWindowFlags_NoBackground
 	);
-	ImDrawList* list = ImGui::GetWindowDrawList();
+	list = ImGui::GetWindowDrawList();
 	for (auto it = views.begin(); it != views.end(); ++it) {
 		BaseView* view = *it;
 		if (view->enabled) {
@@ -217,9 +217,8 @@ void UI::Update(LeagueMemoryReader& reader) {
 	timeBefore = high_resolution_clock::now();
 	
 	pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
-	pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
-
 
 	ImVec4 clear_color = ImVec4(0.f, 0.f, 0.f, 0.0f);
 	D3DCOLOR clear_col_dx = D3DCOLOR_RGBA((int)(clear_color.x*255.0f), (int)(clear_color.y*255.0f), (int)(clear_color.z*255.0f), (int)(clear_color.w*255.0f));

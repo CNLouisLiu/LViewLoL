@@ -12,6 +12,7 @@
 #include "VisionTrackerView.h"
 #include "BenchmarkingView.h"
 #include "LastHitAssistView.h"
+#include "IndicatorsView.h"
 #include "DebugView.h"
 
 #include <chrono>
@@ -27,6 +28,7 @@ int main()
 	views.push_back(new HeroTrackerView());
 	views.push_back(new VisionTrackerView());
 	views.push_back(new LastHitAssistView());
+	views.push_back(new IndicatorsView());
 
 	views.push_back(new BenchmarkingView());
 	views.push_back(new DebugView());

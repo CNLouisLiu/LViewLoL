@@ -4,6 +4,7 @@
 #include "Champion.h"
 #include "GameObject.h"
 #include "Renderer.h"
+#include "Offsets.h"
 #include <list>
 #include <vector>
 #include <set>
@@ -52,7 +53,6 @@ private:
 public:
 	/* Lists of objects by category */
 	std::vector<Champion*>      champions;
-	std::vector<GameObject*>    wards;
 	std::vector<GameObject*>    minions;
 	std::vector<GameObject*>    jungle;
 	std::vector<GameObject*>    turrets;
@@ -106,27 +106,25 @@ void LeagueMemoryReader::ReadGameObjectList(std::vector<T*>& readInto, T** buffe
 	static DWORD pointers[500];
 	Mem::Read(hProcess, listPtr, pointers, numObjects * sizeof(DWORD));
 
-	for (size_t i = 0; i < numObjects; ++i) {
+	for (size_t i = 0; i <= numObjects; ++i) {
 
 		if (pointers[i] == 0)
 			break;
 		
-		T* obj = *bufferObject;
+		unsigned int objIndex;
+		Mem::Read(hProcess, pointers[i] + oObjIndex, &objIndex, sizeof(unsigned int));
+
+		T* obj;
+		auto it = idxToObjectMap.find(objIndex);
+		if (it == idxToObjectMap.end()) {
+			obj = new T();
+			idxToObjectMap[objIndex] = obj;
+		}
+		else
+			obj = (T*)it->second;
+
 		obj->LoadFromMem(pointers[i], hProcess, true);
 		
-		auto it = idxToObjectMap.find(obj->objectIndex);
-		if (it == idxToObjectMap.end()) {
-			idxToObjectMap[obj->objectIndex] = obj;
-			*bufferObject = new T();
-		}
-		else {
-			obj->lastVisibleAt = it->second->lastVisibleAt;
-
-			T* temp = obj;
-			*bufferObject = (T*)it->second;
-			idxToObjectMap[it->second->objectIndex] = obj;
-		}
-
 		if (obj->isVisible) {
 			obj->lastVisibleAt = gameTime;
 		}
