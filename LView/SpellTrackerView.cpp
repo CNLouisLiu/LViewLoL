@@ -62,15 +62,16 @@ void DrawSummonerSpellButton(Spell& spell, float gameTime, UI& ui, ImDrawList* d
 
 void SpellTrackerView::DrawSpellTrackerOnChampions(LeagueMemoryReader& reader, UI& ui, ImDrawList* list) {
 
-	int localPlayerTeam = reader.localChampion->team;
 	for (auto it = reader.champions.begin(); it != reader.champions.end(); ++it) {
 		Champion* champ = *it;
-		if (champ->health <= 1.f || !champ->isVisible) // If champion is dead or not visible skip
+		if (!champ->isAlive || !champ->isVisible) // If champion is dead or not visible skip
 			continue;
 		if (champ == reader.localChampion && !showOverlayOnSelf)
 			continue;
-		if ((champ->team == localPlayerTeam && champ != reader.localChampion && !showOverlayOnAllies) || 
-         	(champ->team != localPlayerTeam && !showOverlayOnEnemies))
+
+		bool isEnemy = champ->IsEnemyTo(reader.localChampion);
+		if ((!isEnemy && champ != reader.localChampion && !showOverlayOnAllies) || 
+         	(isEnemy && !showOverlayOnEnemies))
 			continue;
 		
 		Vector2 pos = reader.renderer.WorldToScreen(champ->position);

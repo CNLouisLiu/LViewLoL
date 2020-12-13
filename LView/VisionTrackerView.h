@@ -17,6 +17,9 @@ public:
 
 private:
 
-	bool        showOverlayOnAllyWards;
+	bool        showClones;
+	bool        showInvisibles;
 
+	void        DrawInvisibles(LeagueMemoryReader& reader, ImDrawList* overlayCanvas);
+	void        DrawClones(LeagueMemoryReader& reader, ImDrawList* overlayCanvas);
 };

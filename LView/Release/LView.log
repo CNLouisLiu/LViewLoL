@@ -1,10 +1,87 @@
-﻿  LeagueMemoryReader.cpp
+﻿  BaseView.cpp
+  BenchmarkingView.cpp
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  Champion.cpp
+  ConfigSet.cpp
+  DebugView.cpp
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+f:\github\lviewlol\lview\configset.h(39): warning C4244: 'return': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+  f:\github\lviewlol\lview\debugview.cpp(181): note: see reference to function template instantiation 'T ConfigSet::Get<int>(std::string,T)' being compiled
+          with
+          [
+              T=int
+          ]
+f:\github\lviewlol\lview\configset.h(41): warning C4244: 'return': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+  GameObject.cpp
+  HeroTrackerView.cpp
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+f:\github\lviewlol\lview\configset.h(37): warning C4244: 'return': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  f:\github\lviewlol\lview\herotrackerview.cpp(19): note: see reference to function template instantiation 'T ConfigSet::Get<float>(std::string,T)' being compiled
+          with
+          [
+              T=float
+          ]
+f:\github\lviewlol\lview\configset.h(41): warning C4244: 'return': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_impl_dx9.cpp
+  imgui_impl_win32.cpp
+  imgui_tables.cpp
+  imgui_widgets.cpp
+  IndicatorsView.cpp
+  Input.cpp
+  KeySelector.cpp
+  KeySelector.h
+  LastHitAssistView.cpp
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+f:\github\lviewlol\lview\configset.h(39): warning C4244: 'return': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+  f:\github\lviewlol\lview\lasthitassistview.cpp(23): note: see reference to function template instantiation 'T ConfigSet::Get<int>(std::string,T)' being compiled
+          with
+          [
+              T=int
+          ]
+f:\github\lviewlol\lview\configset.h(41): warning C4244: 'return': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+  LeagueMemoryReader.cpp
+  Compiling...
+  LView.cpp
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  Offsets.h
+  Renderer.cpp
+  Spell.cpp
+  SpellTrackerView.cpp
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  UI.cpp
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  Utils.cpp
   VisionTrackerView.cpp
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
 Release\KeySelector.obj : warning LNK4042: object specified more than once; extras ignored
   Generating code
-  2 of 2650 functions (<0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    3 functions had inline decision re-evaluated but remain unchanged
+  All 2884 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   LView.vcxproj -> F:\Github\LViewLoL\Release\LView.exe

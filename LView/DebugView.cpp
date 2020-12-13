@@ -51,10 +51,12 @@ void DrawGameObject(GameObject* obj, bool openItem = false) {
 		ImGui::DragInt("Type", &type);
 		ImGui::DragInt("Team", &team);
 		ImGui::DragFloat("Health", &obj->health);
-		ImGui::DragFloat("Radius", &obj->targetRadius);
-		ImGui::DragFloat("Attack Range", &obj->attackRange);
+		ImGui::DragFloat("Target Radius", &obj->targetRadius);
+		ImGui::DragFloat("Gameplay Radius", &obj->gameplayRadius);
+		ImGui::DragFloat("Attack Range", &obj->baseAttackRange);
 		ImGui::DragFloat("Expires In", &obj->expiresIn);
 		ImGui::DragFloat("Last Visible At", &obj->lastVisibleAt);
+		ImGui::Checkbox("Is Alive", &obj->isAlive);
 		ImGui::Checkbox("Is Visible", &obj->isVisible);
 		ImGui::LabelText("Position", "X:%.2f Y:%.2f Z:%.2f", obj->position.x, obj->position.y, obj->position.z);
 

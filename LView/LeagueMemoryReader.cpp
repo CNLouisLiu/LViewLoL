@@ -120,7 +120,7 @@ void LeagueMemoryReader::ReadMobs() {
 	}
 
 	readDuration = high_resolution_clock::now() - readTimeBegin;
-	benchmark.readMinionsMs = readDuration.count();
+	benchmark.readMobsMs = readDuration.count();
 }
 
 void LeagueMemoryReader::FindHoveredObject() {

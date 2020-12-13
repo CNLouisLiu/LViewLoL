@@ -2,12 +2,31 @@
 #include "Utils.h"
 #include "Structs.h"
 #include "LeagueMemoryReader.h"
+#include "Dwmapi.h"
 #include <string>
 #include <list>
 
 LPDIRECT3D9                        UI::pD3D = NULL;
 LPDIRECT3DDEVICE9                  UI::pd3dDevice = NULL;
 D3DPRESENT_PARAMETERS              UI::d3dpp = {};
+
+std::string RandomString(const int len) {
+
+	std::string tmp_s;
+	static const char alphanum[] =
+		"0123456789"
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		"abcdefghijklmnopqrstuvwxyz";
+
+	srand(time(0));
+	tmp_s.reserve(len);
+
+	for (int i = 0; i < len; ++i)
+		tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];
+
+
+	return tmp_s;
+}
 
 UI::UI(std::list<BaseView*> views) {
 	this->views = views;
@@ -19,17 +38,24 @@ void UI::Start() {
 
 
 	// Create transparent window
-	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, L"LVIEWCLASS", NULL };
-	RegisterClassEx(&wc);
+	std::string windowClassName = RandomString(10);
+	std::string windowName = RandomString(10);
+	SetConsoleTitleA(windowName.c_str());
+	
+	// Create window with random name & class name
+	WNDCLASSEXA wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, windowClassName.c_str(), NULL };
+	RegisterClassExA(&wc);
 	hWindow = CreateWindowExA(
-		WS_EX_TOPMOST | WS_EX_NOACTIVATE | WS_EX_LAYERED, //WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TRANSPARENT
-		"LVIEWCLASS", "LVIEW",
+		WS_EX_TOPMOST | WS_EX_NOACTIVATE | WS_EX_LAYERED,
+		windowClassName.c_str(), windowName.c_str(),
 		WS_POPUP,
 		1, 1, 1920, 1080,
 		nullptr, nullptr, GetModuleHandle(0), nullptr);
 
-	SetLayeredWindowAttributes(hWindow, 0, 0, LWA_ALPHA);
-	SetLayeredWindowAttributes(hWindow, 0, 0, LWA_COLORKEY);
+	ShowWindow(hWindow, SW_SHOW);
+	
+	// Make the window a little bit transparent
+	SetLayeredWindowAttributes(hWindow, RGB(0, 0, 0), 200, LWA_COLORKEY | LWA_ALPHA);
 
 	if (hWindow == NULL) {
 		throw WinApiException("Failed to create overlay window");
@@ -39,14 +65,10 @@ void UI::Start() {
 	if (!CreateDeviceD3D(hWindow))
 	{
 		CleanupDeviceD3D();
-		UnregisterClass(wc.lpszClassName, wc.hInstance);
+		UnregisterClassA(wc.lpszClassName, wc.hInstance);
 		throw std::runtime_error("Failed to create D3D device");
 	}
 
-	// Show the window
-	ShowWindow(hWindow, SW_SHOWDEFAULT);
-	UpdateWindow(hWindow);
-	
 	// Setup imgui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -73,6 +95,8 @@ void UI::Start() {
 		configs.SetPrefixKey(view->GetName());
 		view->OnLoadSettings(configs);
 	}
+
+	ImGui::GetStyle().Alpha = 1.f;
 }
 
 void UI::RenderUI(LeagueMemoryReader& reader) {
@@ -215,29 +239,23 @@ void UI::Update(LeagueMemoryReader& reader) {
 	
 	// Render
 	timeBefore = high_resolution_clock::now();
-	
-	pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
-	pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
 
-	ImVec4 clear_color = ImVec4(0.f, 0.f, 0.f, 0.0f);
-	D3DCOLOR clear_col_dx = D3DCOLOR_RGBA((int)(clear_color.x*255.0f), (int)(clear_color.y*255.0f), (int)(clear_color.z*255.0f), (int)(clear_color.w*255.0f));
-	pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, clear_col_dx, 1.0f, 0);
+	pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
 	if (pd3dDevice->BeginScene() >= 0)
 	{
 		ImGui::Render();
 		ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 		pd3dDevice->EndScene();
+
 	}
 	HRESULT result = pd3dDevice->Present(NULL, NULL, NULL, NULL);
-
-	timeDuration = high_resolution_clock::now() - timeBefore;
-	generalBenchmarks.renderTimeMs = timeDuration.count();
 
 	// Handle loss of D3D9 device
 	if (result == D3DERR_DEVICELOST && pd3dDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
 		ResetDevice();
 
+	timeDuration = high_resolution_clock::now() - timeBefore;
+	generalBenchmarks.renderTimeMs = timeDuration.count();
 }
 
 

@@ -15,7 +15,7 @@ using namespace std::chrono;
 struct ReadBenchmark {
 	float readChampsMs;
 	float readRendererMs;
-	float readMinionsMs;
+	float readMobsMs;
 	float readTurretsMs;
 };
 
@@ -106,7 +106,7 @@ void LeagueMemoryReader::ReadGameObjectList(std::vector<T*>& readInto, T** buffe
 	static DWORD pointers[500];
 	Mem::Read(hProcess, listPtr, pointers, numObjects * sizeof(DWORD));
 
-	for (size_t i = 0; i <= numObjects; ++i) {
+	for (size_t i = 0; i < numObjects; ++i) {
 
 		if (pointers[i] == 0)
 			break;
@@ -119,11 +119,13 @@ void LeagueMemoryReader::ReadGameObjectList(std::vector<T*>& readInto, T** buffe
 		if (it == idxToObjectMap.end()) {
 			obj = new T();
 			idxToObjectMap[objIndex] = obj;
+			obj->LoadFromMem(pointers[i], hProcess, true);
 		}
-		else
+		else {
 			obj = (T*)it->second;
-
-		obj->LoadFromMem(pointers[i], hProcess, true);
+			obj->LoadFromMem(pointers[i], hProcess, false);
+		}
+		
 		
 		if (obj->isVisible) {
 			obj->lastVisibleAt = gameTime;

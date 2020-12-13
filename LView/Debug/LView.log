@@ -1,3 +1,62 @@
-﻿  VisionTrackerView.cpp
+﻿  BaseView.cpp
+  BenchmarkingView.cpp
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-  LView.vcxproj -> F:\Github\LViewLoL\Debug\LView.exe
+  DebugView.cpp
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+f:\github\lviewlol\lview\configset.h(39): warning C4244: 'return': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+  f:\github\lviewlol\lview\debugview.cpp(181): note: see reference to function template instantiation 'T ConfigSet::Get<int>(std::string,T)' being compiled
+          with
+          [
+              T=int
+          ]
+f:\github\lviewlol\lview\configset.h(41): warning C4244: 'return': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+  HeroTrackerView.cpp
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+f:\github\lviewlol\lview\configset.h(37): warning C4244: 'return': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  f:\github\lviewlol\lview\herotrackerview.cpp(19): note: see reference to function template instantiation 'T ConfigSet::Get<float>(std::string,T)' being compiled
+          with
+          [
+              T=float
+          ]
+f:\github\lviewlol\lview\configset.h(41): warning C4244: 'return': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  IndicatorsView.cpp
+  LastHitAssistView.cpp
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+f:\github\lviewlol\lview\configset.h(39): warning C4244: 'return': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+  f:\github\lviewlol\lview\lasthitassistview.cpp(23): note: see reference to function template instantiation 'T ConfigSet::Get<int>(std::string,T)' being compiled
+          with
+          [
+              T=int
+          ]
+f:\github\lviewlol\lview\configset.h(41): warning C4244: 'return': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+  LeagueMemoryReader.cpp
+  SpellTrackerView.cpp
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  VisionTrackerView.cpp
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  Generating Code...
+  LView.vcxproj -> F:\Github\LViewLoL\Debug\ConsoleApplication.exe

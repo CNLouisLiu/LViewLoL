@@ -11,6 +11,7 @@
 #define oObjNetworkID 0xCC 
 #define oObjPos 0x1D8 
 #define oObjVisibility 0x270
+#define oObjSpawnCount 0x284
 #define oObjHealth 0xD98 
 #define oObjMana 0x298
 #define oObjMaxMana 0x2A8
@@ -19,15 +20,10 @@
 #define oObjBonusMagicRes 0x1284 
 #define oObjBaseAtk 0x1250
 #define oObjBonusAtk 0x11D0 
-#define oObjMoveSpeed 0x1290 
-#define oObjAtkRange 0x1298 
-#define oObjBuffMgr 0x213C
+#define oObjMoveSpeed 0x1290
 #define oObjSpellBook 0x2B60  
 #define oObjChampionName 0x2F44
 #define oObjLevel 0x369C 
-#define oObjSourceIndex 0x290
-#define oObjPerk1 0x3888 // 8D 8E ? ? ? ? E8 ? ? ? ? 8B CE E8 ? ? ? ? A1 // esi+[offset]h // 81 EC ? ? ? ? A1 ? ? ? ? 33 C4 89 84 24 ? ? ? ? 53 8B 9C 24 ? ? ? ? 56 8B F1 88 5C 24 0C // fn + 19F
-#define oObjPerk2 0x2C8  // 8D 8B ? ? ? ? E8 ? ? ? ? 5F 5E 8D // ebx+[offset]h // E8 ? ? ? ? 8D B3 ? ? ? ? C7 83 ? ? ? ? ? ? ? ? C7 83 ? ? ? ? ? ? ? ? 8B CE // sub_XXX + 44
 #define oObjExpiry 0x298
 #define oInhiRemainingRespawnTime 0xFF4
 
@@ -101,3 +97,8 @@
 #define oTurretList 0x34F12B8
 #define oTurretListArray 0x4
 #define oTurretNumTurrets 0x8
+
+#define oUnitComponentInfo 0x2F1C
+#define oUnitProperties 0x1C
+#define oUnitAttackRange 0x1CC
+#define oUnitBoundingRadius 0x454

@@ -45,7 +45,7 @@ void LastHitAssistView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDraw
 
 			if (League::EffectiveHP(minion->health, minion->armour) - reader.localChampion->GetBasicAttackDamage() <= 0.f) {
 				if(reader.renderer.IsWorldPointOnScreen(minion->position))
-					reader.renderer.DrawCircleAt(overlayCanvas, minion->position, minion->targetRadius*0.8f, false, 15, Colors::Cyan);
+					reader.renderer.DrawCircleAt(overlayCanvas, minion->position, minion->gameplayRadius, false, 15, Colors::Cyan);
 			}
 		}
 	}
@@ -58,7 +58,7 @@ void LastHitAssistView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDraw
 		for (auto it = reader.jungle.begin(); it != reader.jungle.end(); ++it) {
 			GameObject* mob = *it;
 
-			if (mob->health <= 0.f || !mob->isVisible)
+			if (!mob->isAlive || !mob->isVisible)
 				continue;
 
 			if (mob->IsOfTypes(SMITABLE, JUNGLE) && mob->health - smite->damage <= 0.f && reader.renderer.IsWorldPointOnScreen(mob->position)) {

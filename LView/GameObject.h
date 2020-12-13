@@ -75,8 +75,8 @@ enum GameObjectType {
 class GameObject: MemoryLoadable {
 
 public:
-	GameObject() { buff = new BYTE[0x3000]; }
-	~GameObject() { delete[] buff; }
+	GameObject() { buff = new BYTE[0x3000]; buffDeep = new BYTE[0x500]; }
+	~GameObject() { delete[] buff; delete[] buffDeep; }
 
 	void           LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad = true);
 
@@ -84,12 +84,17 @@ public:
 	bool           IsOfTypes(GameObjectType type1, GameObjectType type2);
 	bool           IsOfTypes(GameObjectType type1, GameObjectType type2, GameObjectType type3);
 
+	float          GetAttackRange();
+	bool           IsEnemyTo(GameObject* other);
+	bool           IsAllyTo(GameObject* other);
+
 	float          health;
 	float          baseAttack;
 	float          bonusAttack;
 	float          armour;
 	float          magicResist;
-	float          attackRange;
+	float          baseAttackRange;
+	bool           isAlive;
 
 	std::string    name;
 	Vector3        position;
@@ -97,6 +102,9 @@ public:
 
 	/* How close does the mouse cursor have to be to select the object */
 	float          targetRadius;
+
+	/* Basically the bounding radius of the model of the object */
+	float          gameplayRadius;
 
 	/* Team of the object 100 = Blue, 200 = Red, 300 = Jungle */
 	short          team;
@@ -118,6 +126,7 @@ public:
 
 protected:
 	BYTE* buff;
+	BYTE* buffDeep;
 
 private:
 	static std::map<std::string, GameObjectType>  gameObjectNameTypeDict;

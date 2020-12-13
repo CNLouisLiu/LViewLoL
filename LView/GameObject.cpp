@@ -83,19 +83,51 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 	memcpy(&targetRadius, &buff[oObjTargetRadius], sizeof(float));
 	memcpy(&isVisible, &buff[oObjVisibility], sizeof(bool));
 	memcpy(&objectIndex, &buff[oObjIndex], sizeof(int));
-	memcpy(&attackRange, &buff[oObjAtkRange], sizeof(float));
+	
+	// Check if alive
+	DWORD spawnCount;
+	memcpy(&spawnCount, &buff[oObjSpawnCount], sizeof(int));
+	isAlive = (spawnCount % 2 == 0);
 
-	char nameBuff[50];
-	Mem::Read(hProcess, Mem::ReadPointerFromBuffer(buff, oObjChampionName), nameBuff, 50);
+	// Get name
+	if (deepLoad) {
+		char nameBuff[50];
+		Mem::Read(hProcess, Mem::ReadPointerFromBuffer(buff, oObjChampionName), nameBuff, 50);
 
-	if (nameBuff[0] < 65 || nameBuff[0] > 122)
-		name = std::string("");
-	else
-		name = std::string(nameBuff);
+		if (nameBuff[0] < 65 || nameBuff[0] > 122)
+			name = std::string("");
+		else
+			name = std::string(nameBuff);
 
-	auto it = gameObjectNameTypeDict.find(name);
-	if (it == gameObjectNameTypeDict.end())
-		type = GameObjectType::NO_OBJ;
-	else
-		type = it->second;
+		auto it = gameObjectNameTypeDict.find(name);
+		if (it == gameObjectNameTypeDict.end())
+			type = GameObjectType::NO_OBJ;
+		else
+			type = it->second;
+	}
+
+	if (deepLoad) {
+		DWORD unitComponentInfoPtr;
+		memcpy(&unitComponentInfoPtr, &buff[oUnitComponentInfo], sizeof(DWORD));
+		
+		DWORD unitProperties = Mem::ReadPointer(hProcess, unitComponentInfoPtr + oUnitProperties);
+		Mem::Read(hProcess, unitProperties, buffDeep, 0x500);
+		memcpy(&gameplayRadius, &buffDeep[oUnitBoundingRadius], sizeof(float));
+		memcpy(&baseAttackRange, &buffDeep[oUnitAttackRange], sizeof(float));
+
+		if (gameplayRadius > 200.f) // When its greater than 200.f its the default value which is 65.f
+			gameplayRadius = 65.f;
+	}
+}
+
+float GameObject::GetAttackRange() {
+	return baseAttackRange + gameplayRadius;
+}
+
+bool GameObject::IsEnemyTo(GameObject* other) {
+	return this->team != other->team;
+}
+
+bool GameObject::IsAllyTo(GameObject* other) {
+	return this->team == other->team;
 }

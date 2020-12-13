@@ -35,7 +35,7 @@ void HeroTrackerView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
 	for (auto it = reader.champions.begin(); it != reader.champions.end(); ++it, ++i) {
 		
 		Champion* champ = *it;
-		if (champ->team == reader.localChampion->team)
+		if (champ->IsAllyTo(reader.localChampion))
 			continue;
 
 		if (ImGui::RadioButton(champ->name.c_str(), &selectedIdx, i)) {

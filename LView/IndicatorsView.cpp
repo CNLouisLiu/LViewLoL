@@ -14,16 +14,17 @@ void IndicatorsView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawLis
 	}
 
 	if (showPlayerAtkRange) {
+
 		for (auto it = reader.champions.begin(); it != reader.champions.end(); ++it) {
 			Champion* champ = *it;
 
-			if (champ->team == reader.localChampion->team)
+			if (!champ->IsEnemyTo(reader.localChampion))
 				continue;
 			float distance = League::Distance(champ->position, reader.localChampion->position);
-			if (distance <= reader.localChampion->attackRange + 65)
+			if (distance <= reader.localChampion->GetAttackRange())
 				reader.renderer.DrawCircleAt(overlayCanvas, champ->position, champ->targetRadius, false, 20, Colors::Red);
 		}
-		reader.renderer.DrawCircleAt(overlayCanvas, reader.localChampion->position, reader.localChampion->attackRange + 65, false, 70, Colors::Orange);
+		reader.renderer.DrawCircleAt(overlayCanvas, reader.localChampion->position, reader.localChampion->GetAttackRange(), false, 70, Colors::Orange);
 	}
 }
 

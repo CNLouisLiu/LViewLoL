@@ -69,5 +69,4 @@ public:
 	/* Contains general benchmarking for the registered views */
 	std::map<BaseView*, ViewBenchmark> viewBenchmarks;
 	UIBenchmark                        generalBenchmarks;
-
 };
