@@ -8,10 +8,10 @@ class DebugView : public BaseView {
 
 public:
 	const char*    GetName();
-	void           DrawPanel(LeagueMemoryReader& reade, UI& uir);
-	void           DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui);
+	void           DrawPanel(const MemSnapshot& snapshot, const MiscToolbox& toolbox);
+	void           DrawWorldSpaceOverlay(const MemSnapshot& snapshot, const MiscToolbox& toolbox);
 
-	void           DrawSettings(LeagueMemoryReader& reader, UI& ui);
+	void           DrawSettings(const MemSnapshot& snapshot, const MiscToolbox& toolbox);
 	void           OnSaveSettings(ConfigSet& configs);
 	void           OnLoadSettings(ConfigSet& configs);
 private:

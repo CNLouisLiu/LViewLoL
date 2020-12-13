@@ -24,10 +24,10 @@ public:
 	const char*    GetName();
 	void           OnSaveSettings(ConfigSet& configs);
 	void           OnLoadSettings(ConfigSet& configs);
-	void           DrawSettings(LeagueMemoryReader& reader, UI& ui);
+	void           DrawSettings(const MemSnapshot& snapshot, const MiscToolbox& toolbox);
 
-	void           DrawMinimapOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui);
-	void           DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui);
+	void           DrawMinimapOverlay(const MemSnapshot& snapshot, const MiscToolbox& toolbox);
+	void           DrawWorldSpaceOverlay(const MemSnapshot& snapshot, const MiscToolbox& toolbox);
 
 private:
 

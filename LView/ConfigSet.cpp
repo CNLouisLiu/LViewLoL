@@ -20,7 +20,11 @@ void ConfigSet::LoadFromFile(std::string filePath) {
 }
 
 void ConfigSet::SetPrefixKey(std::string prefix) {
-	prefixKey = prefix + ".";
+	prefixKey = prefix;
+}
+
+std::string ConfigSet::GetPrefixKey() {
+	return prefixKey;
 }
 
 void ConfigSet::SaveToFile(std::string filePath) {

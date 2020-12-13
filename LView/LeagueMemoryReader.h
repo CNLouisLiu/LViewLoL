@@ -5,19 +5,13 @@
 #include "GameObject.h"
 #include "Renderer.h"
 #include "Offsets.h"
+#include "MemSnapshot.h"
 #include <list>
 #include <vector>
 #include <set>
 #include <chrono>
 
 using namespace std::chrono;
-
-struct ReadBenchmark {
-	float readChampsMs;
-	float readRendererMs;
-	float readMobsMs;
-	float readTurretsMs;
-};
 
 class LeagueMemoryReader {
 
@@ -35,9 +29,7 @@ public:
 	bool IsLeagueWindowActive();
 	bool IsHookedToProcess();
 	void HookToProcess();
-
-	void ReadStructs();
-	
+	void MakeSnapshot(MemSnapshot& ms);
 private:
 
 	// Process related
@@ -49,26 +41,7 @@ private:
 	DWORD_PTR                 moduleBaseAddr;
 	DWORD                     moduleSize;
 	BOOL                      is64Bit = FALSE;
-
-public:
-	/* Lists of objects by category */
-	std::vector<Champion*>      champions;
-	std::vector<GameObject*>    minions;
-	std::vector<GameObject*>    jungle;
-	std::vector<GameObject*>    turrets;
-	std::vector<GameObject*>    others;
-
-	/* A map between the indexObject member of the object and the object itself */
-	std::map<unsigned int, GameObject*>  idxToObjectMap;
-	/* Used to clear idxToObjectMap for objects that are no longer in game */
-	std::set<unsigned int>               updatedThisFrame;
-	  
-	Champion*                            localChampion;
-	GameObject*                          hoveredObject;
-
-	Renderer                             renderer;
-	float                                gameTime;
-	ReadBenchmark                        benchmark;
+	DWORD                     numPerformedReads;
 
 private:
 	static const size_t         numMaxChamps = 10;
@@ -80,18 +53,20 @@ private:
 	GameObject*                 bufferGameObject;
 	Champion*                   bufferChampion;
 	
-	void                        ReadChampions();
-	void                        ReadRenderer();
-	void                        ReadMobs();
-	void                        ReadTurrets();
-	void                        FindHoveredObject();
+	void                        ReadChampions(MemSnapshot& snapshot);
+	void                        ReadRenderer(MemSnapshot& snapshot);
+	void                        ReadMobs(MemSnapshot& snapshot);
+	void                        ReadTurrets(MemSnapshot& snapshot);
+	GameObject*                 FindHoveredObject(MemSnapshot& ms);
 
 	template<typename T, typename std::enable_if<std::is_base_of<MemoryLoadable, T>::value>::type* = nullptr>
-	void                        ReadGameObjectList(std::vector<T*>& readInto, T** bufferObject, DWORD numMaxObjects, DWORD baseAddr);
+	void                        ReadGameObjectList(std::vector<T*>& readInto, DWORD numMaxObjects, DWORD baseAddr, MemSnapshot& snapshot);
 };
 
 template<typename T, typename std::enable_if<std::is_base_of<MemoryLoadable, T>::value>::type*>
-void LeagueMemoryReader::ReadGameObjectList(std::vector<T*>& readInto, T** bufferObject, DWORD numMaxObjects, DWORD baseAddr) {
+void LeagueMemoryReader::ReadGameObjectList(std::vector<T*>& readInto, DWORD numMaxObjects, DWORD baseAddr, MemSnapshot& snapshot) {
+
+	auto& idxToObjectMap = snapshot.idxToObjectMap;
 
 	DWORD listManagerPtr = Mem::ReadPointer(hProcess, moduleBaseAddr + baseAddr);
 	DWORD listPtr = Mem::ReadPointer(hProcess, listManagerPtr + 0x4);
@@ -128,10 +103,10 @@ void LeagueMemoryReader::ReadGameObjectList(std::vector<T*>& readInto, T** buffe
 		
 		
 		if (obj->isVisible) {
-			obj->lastVisibleAt = gameTime;
+			obj->lastVisibleAt = snapshot.gameTime;
 		}
 
 		readInto.push_back(obj);
-		updatedThisFrame.insert(obj->objectIndex);
+		snapshot.updatedThisFrame.insert(obj->objectIndex);
 	}
 }

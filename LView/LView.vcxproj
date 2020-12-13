@@ -166,6 +166,7 @@
     <ClCompile Include="BaseView.cpp" />
     <ClCompile Include="BenchmarkingView.cpp" />
     <ClCompile Include="Champion.cpp" />
+    <ClCompile Include="ChampionMasterView.cpp" />
     <ClCompile Include="ConfigSet.cpp" />
     <ClCompile Include="DebugView.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -188,14 +189,18 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Spell.cpp" />
     <ClCompile Include="SpellTrackerView.cpp" />
+    <ClCompile Include="TFCardPickerView.cpp" />
+    <ClCompile Include="TFCardPickerView.h" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="VisionTrackerView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseView.h" />
+    <ClInclude Include="Benchmark.h" />
     <ClInclude Include="BenchmarkingView.h" />
     <ClInclude Include="Champion.h" />
+    <ClInclude Include="ChampionMasterView.h" />
     <ClInclude Include="ConfigSet.h" />
     <ClInclude Include="DebugView.h" />
     <ClInclude Include="GameObject.h" />
@@ -213,6 +218,8 @@
     <ClInclude Include="LastHitAssistView.h" />
     <ClInclude Include="LeagueMemoryReader.h" />
     <ClInclude Include="MemoryLoadable.h" />
+    <ClInclude Include="MemSnapshot.h" />
+    <ClInclude Include="MiscToolbox.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Spell.h" />
     <ClInclude Include="SpellTrackerView.h" />

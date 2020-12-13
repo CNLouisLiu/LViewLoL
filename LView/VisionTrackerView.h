@@ -10,16 +10,16 @@ public:
 	void        OnSaveSettings(ConfigSet& configs);
 	void        OnLoadSettings(ConfigSet& configs);
 	const char* GetName();
-	void        DrawSettings(LeagueMemoryReader& reader, UI& ui);
+	void        DrawSettings(const MemSnapshot& snapshot, const MiscToolbox& toolbox);
 
-	void        DrawMinimapOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui);
-	void        DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& uis);
+	void        DrawMinimapOverlay(const MemSnapshot& snapshot, const MiscToolbox& toolbox);
+	void        DrawWorldSpaceOverlay(const MemSnapshot& snapshot, const MiscToolbox& toolbox);
 
 private:
 
 	bool        showClones;
 	bool        showInvisibles;
 
-	void        DrawInvisibles(LeagueMemoryReader& reader, ImDrawList* overlayCanvas);
-	void        DrawClones(LeagueMemoryReader& reader, ImDrawList* overlayCanvas);
+	void        DrawInvisibles(const MemSnapshot& snapshot, const MiscToolbox& toolbox);
+	void        DrawClones(const MemSnapshot& snapshot, const MiscToolbox& toolbox);
 };

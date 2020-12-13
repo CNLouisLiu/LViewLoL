@@ -28,6 +28,15 @@
     <Filter Include="Source Files\Utils">
       <UniqueIdentifier>{896ec100-64c0-4b57-aba6-5b62f361dff3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Views\ChampionViews">
+      <UniqueIdentifier>{9cb885cb-cfeb-4448-90b9-cfc04b851012}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Views\DevelopmentViews">
+      <UniqueIdentifier>{be4303f4-c82a-4a3a-b24e-f0cce563427c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Structs\GameRelated">
+      <UniqueIdentifier>{3f16e38a-ff17-45e9-9c82-26e29044bd89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LView.cpp">
@@ -66,9 +75,6 @@
     <ClCompile Include="HeroTrackerView.cpp">
       <Filter>Source Files\Views</Filter>
     </ClCompile>
-    <ClCompile Include="DebugView.cpp">
-      <Filter>Source Files\Views</Filter>
-    </ClCompile>
     <ClCompile Include="LeagueMemoryReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -78,23 +84,8 @@
     <ClCompile Include="BaseView.cpp">
       <Filter>Source Files\Views</Filter>
     </ClCompile>
-    <ClCompile Include="BenchmarkingView.cpp">
-      <Filter>Source Files\Views</Filter>
-    </ClCompile>
     <ClCompile Include="LastHitAssistView.cpp">
       <Filter>Source Files\Views</Filter>
-    </ClCompile>
-    <ClCompile Include="Spell.cpp">
-      <Filter>Source Files\Structs</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Source Files\Structs</Filter>
-    </ClCompile>
-    <ClCompile Include="Champion.cpp">
-      <Filter>Source Files\Structs</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files\Structs</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp">
       <Filter>Source Files\Utils</Filter>
@@ -113,6 +104,33 @@
     </ClCompile>
     <ClCompile Include="IndicatorsView.cpp">
       <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="BenchmarkingView.cpp">
+      <Filter>Source Files\Views\DevelopmentViews</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugView.cpp">
+      <Filter>Source Files\Views\DevelopmentViews</Filter>
+    </ClCompile>
+    <ClCompile Include="ChampionMasterView.cpp">
+      <Filter>Source Files\Views\ChampionViews</Filter>
+    </ClCompile>
+    <ClCompile Include="Champion.cpp">
+      <Filter>Source Files\Structs\GameRelated</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\Structs\GameRelated</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source Files\Structs\GameRelated</Filter>
+    </ClCompile>
+    <ClCompile Include="Spell.cpp">
+      <Filter>Source Files\Structs\GameRelated</Filter>
+    </ClCompile>
+    <ClCompile Include="TFCardPickerView.h">
+      <Filter>Source Files\Views\ChampionViews</Filter>
+    </ClCompile>
+    <ClCompile Include="TFCardPickerView.cpp">
+      <Filter>Source Files\Views\ChampionViews</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -152,34 +170,16 @@
     <ClInclude Include="HeroTrackerView.h">
       <Filter>Source Files\Views</Filter>
     </ClInclude>
-    <ClInclude Include="DebugView.h">
-      <Filter>Source Files\Views</Filter>
-    </ClInclude>
     <ClInclude Include="LeagueMemoryReader.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="VisionTrackerView.h">
       <Filter>Source Files\Views</Filter>
     </ClInclude>
-    <ClInclude Include="BenchmarkingView.h">
-      <Filter>Source Files\Views</Filter>
-    </ClInclude>
     <ClInclude Include="LastHitAssistView.h">
       <Filter>Source Files\Views</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Source Files\Structs</Filter>
-    </ClInclude>
-    <ClInclude Include="Champion.h">
-      <Filter>Source Files\Structs</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Source Files\Structs</Filter>
-    </ClInclude>
     <ClInclude Include="Vector.h">
-      <Filter>Source Files\Structs</Filter>
-    </ClInclude>
-    <ClInclude Include="Spell.h">
       <Filter>Source Files\Structs</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
@@ -191,11 +191,41 @@
     <ClInclude Include="Input.h">
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="MemoryLoadable.h">
-      <Filter>Source Files\Structs</Filter>
-    </ClInclude>
     <ClInclude Include="IndicatorsView.h">
       <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="ChampionMasterView.h">
+      <Filter>Source Files\Views\ChampionViews</Filter>
+    </ClInclude>
+    <ClInclude Include="BenchmarkingView.h">
+      <Filter>Source Files\Views\DevelopmentViews</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugView.h">
+      <Filter>Source Files\Views\DevelopmentViews</Filter>
+    </ClInclude>
+    <ClInclude Include="Benchmark.h">
+      <Filter>Source Files\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="MemSnapshot.h">
+      <Filter>Source Files\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="MiscToolbox.h">
+      <Filter>Source Files\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Champion.h">
+      <Filter>Source Files\Structs\GameRelated</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Source Files\Structs\GameRelated</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryLoadable.h">
+      <Filter>Source Files\Structs\GameRelated</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Source Files\Structs\GameRelated</Filter>
+    </ClInclude>
+    <ClInclude Include="Spell.h">
+      <Filter>Source Files\Structs\GameRelated</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

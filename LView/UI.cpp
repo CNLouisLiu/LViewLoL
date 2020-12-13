@@ -3,6 +3,7 @@
 #include "Structs.h"
 #include "LeagueMemoryReader.h"
 #include "Dwmapi.h"
+#include "Benchmark.h"
 #include <string>
 #include <list>
 
@@ -18,7 +19,7 @@ std::string RandomString(const int len) {
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 		"abcdefghijklmnopqrstuvwxyz";
 
-	srand(time(0));
+	srand((time_t)time(0));
 	tmp_s.reserve(len);
 
 	for (int i = 0; i < len; ++i)
@@ -31,7 +32,7 @@ std::string RandomString(const int len) {
 UI::UI(std::list<BaseView*> views) {
 	this->views = views;
 	for (auto it = views.begin(); it != views.end(); ++it)
-		viewBenchmarks[*it] = ViewBenchmark();
+		miscToolbox.viewBenchmarks[*it] = new ViewBenchmark();
 }
 
 void UI::Start() {
@@ -83,10 +84,10 @@ void UI::Start() {
 	ImGui_ImplDX9_Init(pd3dDevice);
 
 	// Make some fonts
-	fontConfigSmall.SizePixels = 10;
-	fontConfigNormal.SizePixels = 13;
-	fontSmall = io.Fonts->AddFontDefault(&fontConfigSmall);
-	fontNormal = io.Fonts->AddFontDefault(&fontConfigNormal);
+	miscToolbox.fontConfigSmall.SizePixels = 10;
+	miscToolbox.fontConfigNormal.SizePixels = 13;
+	miscToolbox.fontSmall = io.Fonts->AddFontDefault(&miscToolbox.fontConfigSmall);
+	miscToolbox.fontNormal = io.Fonts->AddFontDefault(&miscToolbox.fontConfigNormal);
 
 	// Load configs
 	configs.LoadFromFile(configFilePath);
@@ -99,7 +100,7 @@ void UI::Start() {
 	ImGui::GetStyle().Alpha = 1.f;
 }
 
-void UI::RenderUI(LeagueMemoryReader& reader) {
+void UI::RenderUI(MemSnapshot& memSnapshot) {
 
 	high_resolution_clock::time_point timeBefore;
 	duration<float, std::milli> timeDuration;
@@ -125,9 +126,12 @@ void UI::RenderUI(LeagueMemoryReader& reader) {
 		BaseView* view = *it;
 		if (view->enabled) {
 			timeBefore = high_resolution_clock::now();
-			view->DrawWorldSpaceOverlay(reader, list, *this);
+
+			miscToolbox.canvas = list;
+			view->DrawWorldSpaceOverlay(memSnapshot, miscToolbox);
+
 			timeDuration = high_resolution_clock::now() - timeBefore;
-			viewBenchmarks[view].drawWorldOverlayMs = timeDuration.count();
+			miscToolbox.viewBenchmarks[view]->drawWorldOverlayMs = timeDuration.count();
 		}
 	}
 	ImGui::End();
@@ -143,9 +147,12 @@ void UI::RenderUI(LeagueMemoryReader& reader) {
 		BaseView* view = *it;
 		if (view->enabled) {
 			timeBefore = high_resolution_clock::now();
-			view->DrawMinimapOverlay(reader, list, *this);
+
+			miscToolbox.canvas = list;
+			view->DrawMinimapOverlay(memSnapshot, miscToolbox);
+
 			timeDuration = high_resolution_clock::now() - timeBefore;
-			viewBenchmarks[view].drawMinimapOverlayMs = timeDuration.count();
+			miscToolbox.viewBenchmarks[view]->drawMinimapOverlayMs = timeDuration.count();
 		}
 	}
 
@@ -184,17 +191,21 @@ void UI::RenderUI(LeagueMemoryReader& reader) {
 			ImGui::PopID();
 			
 			timeBefore = high_resolution_clock::now();
-			view->DrawSettings(reader, *this);
+
+			view->DrawSettings(memSnapshot, miscToolbox);
+
 			timeDuration = high_resolution_clock::now() - timeBefore;
-			viewBenchmarks[view].drawSettingsMs = timeDuration.count();
+			miscToolbox.viewBenchmarks[view]->drawSettingsMs = timeDuration.count();
 		}
 
 		// If cheat enabled, draw all its panels if any
 		if (view->enabled) {
 			timeBefore = high_resolution_clock::now();
-			view->DrawPanel(reader, *this);
+
+			view->DrawPanel(memSnapshot, miscToolbox);
+
 			timeDuration = high_resolution_clock::now() - timeBefore;
-			viewBenchmarks[view].drawPanelMs = timeDuration.count();
+			miscToolbox.viewBenchmarks[view]->drawPanelMs = timeDuration.count();
 		}
 
 		if (shouldPopColor)
@@ -203,16 +214,15 @@ void UI::RenderUI(LeagueMemoryReader& reader) {
 	ImGui::End();
 }
 
-void UI::Update(LeagueMemoryReader& reader) {
+void UI::Update(MemSnapshot& memSnapshot, bool skipRender) {
 	
-	bool shouldRenderUI = reader.IsLeagueWindowActive();
 	high_resolution_clock::time_point timeBefore;
 	duration<float, std::milli> timeDuration;
 
-	if (shouldRenderUI) {
-		MSG msg;
-		ZeroMemory(&msg, sizeof(MSG));
-
+	MSG msg;
+	ZeroMemory(&msg, sizeof(MSG));
+	
+	if (skipRender) {
 		// Poll and handle messages (inputs, window resize, etc.)
 		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
 		{
@@ -225,15 +235,16 @@ void UI::Update(LeagueMemoryReader& reader) {
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-	ImGui::PushFont(fontNormal);
+	ImGui::PushFont(miscToolbox.fontNormal);
 
 	timeBefore = high_resolution_clock::now();
 
-	if (shouldRenderUI)
-		RenderUI(reader);
+	if (skipRender) {
+		RenderUI(memSnapshot);
+	}
 
-	timeDuration = high_resolution_clock::now() - timeBefore;
-	generalBenchmarks.processTimeMs = timeDuration.count();
+	timeDuration = high_resolution_clock::now() - timeBefore;	
+	miscToolbox.generalBenchmarks->processTimeMs = timeDuration.count();
 
 	ImGui::PopFont();
 	
@@ -255,7 +266,7 @@ void UI::Update(LeagueMemoryReader& reader) {
 		ResetDevice();
 
 	timeDuration = high_resolution_clock::now() - timeBefore;
-	generalBenchmarks.renderTimeMs = timeDuration.count();
+	miscToolbox.generalBenchmarks->renderTimeMs = timeDuration.count();
 }
 
 

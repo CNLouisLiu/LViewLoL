@@ -1,6 +1,7 @@
 #include "Input.h"
 #include "windows.h"
 #include <chrono>
+#include "Vector.h"
 
 using namespace std::chrono;
 
@@ -49,4 +50,11 @@ bool Input::IsKeyDown(HKey key) {
 		return false;
 
 	return GetAsyncKeyState(virtualKey);
+}
+
+Vector2 Input::GetCursorPosition()
+{
+	POINT pos;
+	GetCursorPos(&pos);
+	return { (float)pos.x, (float)pos.y };
 }

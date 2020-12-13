@@ -18,15 +18,15 @@ void VisionTrackerView::OnLoadSettings(ConfigSet& configs) {
 	showClones = configs.Get<bool>("showClones", true);
 }
 
-void VisionTrackerView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
+void VisionTrackerView::DrawSettings(const MemSnapshot& snapshot, const MiscToolbox& toolbox) {
 
 	ImGui::Checkbox("Track invisible stuff(Wards, Shaco Boxes, etc)##visionTracker.showInvisibles", &showInvisibles);
 	ImGui::Checkbox("Track clones (Shaco, LeBlanc, etc)##visionTracker.showClones", &showClones);
 }
 
-void VisionTrackerView::DrawInvisibles(LeagueMemoryReader& reader, ImDrawList* overlayCanvas) {
-	Champion* localChampion = reader.localChampion;
-	for (auto it = reader.others.begin(); it != reader.others.end(); ++it) {
+void VisionTrackerView::DrawInvisibles(const MemSnapshot& snapshot, const MiscToolbox& toolbox) {
+	Champion* localChampion = snapshot.localChampion;
+	for (auto it = snapshot.others.begin(); it != snapshot.others.end(); ++it) {
 		GameObject* obj = *it;
 		if (obj->health == 0.f || !obj->IsOfTypes(INVISIBLE))
 			continue;
@@ -63,56 +63,56 @@ void VisionTrackerView::DrawInvisibles(LeagueMemoryReader& reader, ImDrawList* o
 		// If expirable draw a timer for it
 		if (obj->IsOfTypes(EXPIRABLE)) {
 			text.append(":");
-			int expiresIn = (int)(obj->expiresIn + obj->lastVisibleAt - reader.gameTime);
+			int expiresIn = (int)(obj->expiresIn + obj->lastVisibleAt - snapshot.gameTime);
 			if (expiresIn <= 0)
 				continue;
 			text.append(std::to_string(expiresIn));
 		}
 
-		Vector2 screenPos = reader.renderer.WorldToScreen(obj->position);
-		if (!reader.renderer.IsScreenPointOnScreen(screenPos))
+		Vector2 screenPos = snapshot.renderer->WorldToScreen(obj->position);
+		if (!snapshot.renderer->IsScreenPointOnScreen(screenPos))
 			continue;
-		overlayCanvas->AddRectFilled(ImVec2(screenPos.x - 5.f, screenPos.y - 2.f), ImVec2(screenPos.x + text.length() * 8.f, screenPos.y + 15.f), Colors::White);
-		overlayCanvas->AddText(ImVec2(screenPos.x, screenPos.y), Colors::Red, text.c_str());
+		toolbox.canvas->AddRectFilled(ImVec2(screenPos.x - 5.f, screenPos.y - 2.f), ImVec2(screenPos.x + text.length() * 8.f, screenPos.y + 15.f), Colors::White);
+		toolbox.canvas->AddText(ImVec2(screenPos.x, screenPos.y), Colors::Red, text.c_str());
 		if (radiusCircle > 0.f)
-			reader.renderer.DrawCircleAt(overlayCanvas, obj->position, radiusCircle, fillCircle, 30, colorCircle);
+			snapshot.renderer->DrawCircleAt(toolbox.canvas, obj->position, radiusCircle, fillCircle, 30, colorCircle);
 
 	}
 }
 
-void VisionTrackerView::DrawClones(LeagueMemoryReader& reader, ImDrawList* overlayCanvas) {
+void VisionTrackerView::DrawClones(const MemSnapshot& snapshot, const MiscToolbox& toolbox) {
 	
-	Champion* localChampion = reader.localChampion;
-	for (auto it = reader.others.begin(); it != reader.others.end(); ++it) {
+	Champion* localChampion = snapshot.localChampion;
+	for (auto it = snapshot.others.begin(); it != snapshot.others.end(); ++it) {
 		GameObject* obj = *it;
 		if (obj->IsOfTypes(CLONE) && obj->IsEnemyTo(localChampion)) {
 			std::string text = obj->name;
 			text.append("Clone");
 
-			Vector2 screenPos = reader.renderer.WorldToScreen(obj->position);
-			if (!reader.renderer.IsScreenPointOnScreen(screenPos))
+			Vector2 screenPos = snapshot.renderer->WorldToScreen(obj->position);
+			if (!snapshot.renderer->IsScreenPointOnScreen(screenPos))
 				continue;
-			overlayCanvas->AddRectFilled(ImVec2(screenPos.x - 5.f, screenPos.y - 2.f), ImVec2(screenPos.x + text.length() * 8.f, screenPos.y + 15.f), Colors::White);
-			overlayCanvas->AddText(ImVec2(screenPos.x, screenPos.y), Colors::Red, text.c_str());
+			toolbox.canvas->AddRectFilled(ImVec2(screenPos.x - 5.f, screenPos.y - 2.f), ImVec2(screenPos.x + text.length() * 8.f, screenPos.y + 15.f), Colors::White);
+			toolbox.canvas->AddText(ImVec2(screenPos.x, screenPos.y), Colors::Red, text.c_str());
 		}
 	}
 }
 
-void VisionTrackerView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& uis) {
+void VisionTrackerView::DrawWorldSpaceOverlay(const MemSnapshot& snapshot, const MiscToolbox& toolbox) {
 	
 	if (showInvisibles)
-		DrawInvisibles(reader, overlayCanvas);
+		DrawInvisibles(snapshot, toolbox);
 	if (showClones)
-		DrawClones(reader, overlayCanvas);
+		DrawClones(snapshot, toolbox);
 }
 
-void VisionTrackerView::DrawMinimapOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui) {
+void VisionTrackerView::DrawMinimapOverlay(const MemSnapshot& snapshot, const MiscToolbox& toolbox) {
 
-	for (auto it = reader.others.begin(); it != reader.others.end(); ++it) {
+	for (auto it = snapshot.others.begin(); it != snapshot.others.end(); ++it) {
 		GameObject* ward = *it;
-		if (ward->IsEnemyTo(reader.localChampion) && (ward->type == WARD || ward->type == WARD_PINK)) {
-			Vector2 screenPos = reader.renderer.WorldToMinimap(ward->position);
-			overlayCanvas->AddCircle(ImVec2(screenPos.x, screenPos.y), 15.f, Colors::Red, 10);
+		if (ward->IsEnemyTo(snapshot.localChampion) && (ward->type == WARD || ward->type == WARD_PINK)) {
+			Vector2 screenPos = snapshot.renderer->WorldToMinimap(ward->position);
+			toolbox.canvas->AddCircle(ImVec2(screenPos.x, screenPos.y), 15.f, Colors::Red, 10);
 		}
 	}
 }

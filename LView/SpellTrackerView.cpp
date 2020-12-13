@@ -26,29 +26,29 @@ ImColor GetHsvColorBasedOnCooldown(float cooldown) {
 	return ImColor::HSV(hue, 1.f, 0.5f);
 }
 
-void SpellTrackerView::DrawWorldSpellButton(Spell& spell, float gameTime, ImDrawList* drawList, ImVec2& position) {
+void SpellTrackerView::DrawWorldSpellButton(Spell& spell, float gameTime, const MiscToolbox& toolbox, ImVec2& position) {
 	float remainingCooldown = spell.GetRemainingCooldown(gameTime);
 
 	// Draw button with cooldown
-	drawList->AddRectFilled(ImVec2(position.x - 5, position.y), ImVec2(position.x + 25, position.y + 13), GetHsvColorBasedOnCooldown(remainingCooldown));
+	toolbox.canvas->AddRectFilled(ImVec2(position.x - 5, position.y), ImVec2(position.x + 25, position.y + 13), GetHsvColorBasedOnCooldown(remainingCooldown));
 	if (remainingCooldown > 0.f)
-		drawList->AddText(position, ImColor::HSV(0.f, 0.f, 1.f), std::to_string((int)remainingCooldown).c_str());
+		toolbox.canvas->AddText(position, ImColor::HSV(0.f, 0.f, 1.f), std::to_string((int)remainingCooldown).c_str());
 	else
-		drawList->AddText(position, ImColor::HSV(0.f, 0.f, 1.f), spell.GetTypeStr());
+		toolbox.canvas->AddText(position, ImColor::HSV(0.f, 0.f, 1.f), spell.GetTypeStr());
 
 	// Draw level of skill below cooldown button
 	ImVec2 pos = ImVec2(position.x, position.y);
 	for (int i = 0; i < spell.level; ++i) {
-		drawList->AddRectFilled(ImVec2(position.x - 4 + i*5, position.y + 13), ImVec2(position.x + i*5, position.y + 15), ImColor::HSV(0.2f, 1.f, 1.f));
+		toolbox.canvas->AddRectFilled(ImVec2(position.x - 4 + i*5, position.y + 13), ImVec2(position.x + i*5, position.y + 15), ImColor::HSV(0.2f, 1.f, 1.f));
 	}
 }
 
-void DrawSummonerSpellButton(Spell& spell, float gameTime, UI& ui, ImDrawList* drawList, ImVec2& position) {
+void DrawSummonerSpellButton(Spell& spell, float gameTime, const MiscToolbox& toolbox, ImVec2& position) {
 	float remainingCooldown = spell.GetRemainingCooldown(gameTime);
 
 	// Draw button with cooldown
-	ImGui::PushFont(ui.fontSmall);
-	drawList->AddRectFilled(ImVec2(position.x - 5, position.y), ImVec2(position.x + 60, position.y + 10), GetHsvColorBasedOnCooldown(remainingCooldown));
+	ImGui::PushFont(toolbox.fontSmall);
+	toolbox.canvas->AddRectFilled(ImVec2(position.x - 5, position.y), ImVec2(position.x + 60, position.y + 10), GetHsvColorBasedOnCooldown(remainingCooldown));
 	
 	std::string text = spell.name;
 	if (remainingCooldown > 0.f) {
@@ -56,54 +56,54 @@ void DrawSummonerSpellButton(Spell& spell, float gameTime, UI& ui, ImDrawList* d
 		text.append(std::to_string((int)remainingCooldown));
 	}
 
-	drawList->AddText(position, ImColor::HSV(0.f, 0.f, 1.f), text.c_str());
+	toolbox.canvas->AddText(position, ImColor::HSV(0.f, 0.f, 1.f), text.c_str());
 	ImGui::PopFont();
 }
 
-void SpellTrackerView::DrawSpellTrackerOnChampions(LeagueMemoryReader& reader, UI& ui, ImDrawList* list) {
+void SpellTrackerView::DrawSpellTrackerOnChampions(const MemSnapshot& snapshot, const MiscToolbox& toolbox) {
 
-	for (auto it = reader.champions.begin(); it != reader.champions.end(); ++it) {
+	for (auto it = snapshot.champions.begin(); it != snapshot.champions.end(); ++it) {
 		Champion* champ = *it;
 		if (!champ->isAlive || !champ->isVisible) // If champion is dead or not visible skip
 			continue;
-		if (champ == reader.localChampion && !showOverlayOnSelf)
+		if (champ == snapshot.localChampion && !showOverlayOnSelf)
 			continue;
 
-		bool isEnemy = champ->IsEnemyTo(reader.localChampion);
-		if ((!isEnemy && champ != reader.localChampion && !showOverlayOnAllies) || 
+		bool isEnemy = champ->IsEnemyTo(snapshot.localChampion);
+		if ((!isEnemy && champ != snapshot.localChampion && !showOverlayOnAllies) ||
          	(isEnemy && !showOverlayOnEnemies))
 			continue;
 		
-		Vector2 pos = reader.renderer.WorldToScreen(champ->position);
-		if (!reader.renderer.IsScreenPointOnScreen(pos))
+		Vector2 pos = snapshot.renderer->WorldToScreen(champ->position);
+		if (!snapshot.renderer->IsScreenPointOnScreen(pos))
 			continue;
 
 		ImVec2 imPos = ImVec2(pos.x - 60, pos.y);
-		DrawWorldSpellButton(champ->Q, reader.gameTime, list, imPos);
+		DrawWorldSpellButton(champ->Q, snapshot.gameTime, toolbox, imPos);
 		imPos.x += 35;
 
-		DrawWorldSpellButton(champ->W, reader.gameTime, list, imPos);
+		DrawWorldSpellButton(champ->W, snapshot.gameTime, toolbox, imPos);
 		imPos.x += 35;
 
-		DrawWorldSpellButton(champ->E, reader.gameTime, list, imPos);
+		DrawWorldSpellButton(champ->E, snapshot.gameTime, toolbox, imPos);
 		imPos.x += 35;
 
-		DrawWorldSpellButton(champ->R, reader.gameTime, list, imPos);
+		DrawWorldSpellButton(champ->R, snapshot.gameTime, toolbox, imPos);
 
 		imPos.x -= 105;
 		imPos.y -= 12;
-		DrawSummonerSpellButton(champ->D, reader.gameTime, ui, list, imPos);
+		DrawSummonerSpellButton(champ->D, snapshot.gameTime, toolbox, imPos);
 		imPos.x += 70;
 
-		DrawSummonerSpellButton(champ->F, reader.gameTime, ui, list, imPos);
+		DrawSummonerSpellButton(champ->F, snapshot.gameTime, toolbox, imPos);
 	}
 }
 
-void SpellTrackerView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui) {
-	DrawSpellTrackerOnChampions(reader, ui, overlayCanvas);
+void SpellTrackerView::DrawWorldSpaceOverlay(const MemSnapshot& snapshot, const MiscToolbox& toolbox) {
+	DrawSpellTrackerOnChampions(snapshot, toolbox);
 }
 
-void SpellTrackerView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
+void SpellTrackerView::DrawSettings(const MemSnapshot& snapshot, const MiscToolbox& toolbox) {
 
 	ImGui::Checkbox("Show Overlay on Allies##showOverlayOnAllies", &showOverlayOnAllies);
 	ImGui::Checkbox("Show Overlay on Enemies##showOverlayOnEnemies", &showOverlayOnEnemies);

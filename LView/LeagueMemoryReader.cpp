@@ -51,114 +51,120 @@ void LeagueMemoryReader::HookToProcess() {
 	else {
 		throw WinApiException("Couldn't retrieve league base address");
 	}
+
+	numPerformedReads = 0;
 }
 
-void LeagueMemoryReader::ReadRenderer() {
+void LeagueMemoryReader::ReadRenderer(MemSnapshot& ms) {
 	high_resolution_clock::time_point readTimeBegin;
 	duration<float, std::milli> readDuration;
 	readTimeBegin = high_resolution_clock::now();
 	
 	DWORD rendererAddr = Mem::ReadPointer(hProcess, moduleBaseAddr + oRenderer);
-	renderer.LoadFromMem(rendererAddr, moduleBaseAddr, hProcess);
+	ms.renderer->LoadFromMem(rendererAddr, moduleBaseAddr, hProcess);
 
 	readDuration = high_resolution_clock::now() - readTimeBegin;
-	benchmark.readRendererMs = readDuration.count();
+	ms.benchmark->readRendererMs = readDuration.count();
 }
 
-void LeagueMemoryReader::ReadChampions() {
+void LeagueMemoryReader::ReadChampions(MemSnapshot& ms) {
 	high_resolution_clock::time_point readTimeBegin;
 	duration<float, std::milli> readDuration;
 	readTimeBegin = high_resolution_clock::now();
 
-	ReadGameObjectList<Champion>(champions, &bufferChampion, numMaxChamps, oHeroList);
-	localChampion = champions[0];
+	ReadGameObjectList<Champion>(ms.champions, numMaxChamps, oHeroList, ms);
 
 	readDuration = high_resolution_clock::now() - readTimeBegin;
-	benchmark.readChampsMs = readDuration.count();
+	ms.benchmark->readChampsMs = readDuration.count();
 }
 
-void LeagueMemoryReader::ReadTurrets() {
+void LeagueMemoryReader::ReadTurrets(MemSnapshot& ms) {
 	high_resolution_clock::time_point readTimeBegin;
 	duration<float, std::milli> readDuration;
 	readTimeBegin = high_resolution_clock::now();
 
-	ReadGameObjectList<GameObject>(turrets, &bufferGameObject, numMaxTurrets, oTurretList);
-	for (auto it = turrets.begin(); it != turrets.end(); ++it) {
+	ReadGameObjectList<GameObject>(ms.turrets, numMaxTurrets, oTurretList, ms);
+	for (auto it = ms.turrets.begin(); it != ms.turrets.end(); ++it) {
 		GameObject* obj = *it;
 		obj->type = GameObjectType::TURRET;
 		obj->targetRadius = 100.f;
 	}
 
 	readDuration = high_resolution_clock::now() - readTimeBegin;
-	benchmark.readTurretsMs = readDuration.count();
+	ms.benchmark->readTurretsMs = readDuration.count();
 }
 
-void LeagueMemoryReader::ReadMobs() {
+void LeagueMemoryReader::ReadMobs(MemSnapshot& ms) {
 	high_resolution_clock::time_point readTimeBegin;
 	duration<float, std::milli> readDuration;
 	readTimeBegin = high_resolution_clock::now();
 
-	ReadGameObjectList<GameObject>(others, &bufferGameObject, numMaxMobs, oMinionList);
+	ReadGameObjectList<GameObject>(ms.others, numMaxMobs, oMinionList, ms);
 
 	// Filter minions e.g wards, jungle, minions etc
-	minions.clear();
-	jungle.clear();
-	auto it = others.begin();
-	while (it != others.end()) {
+	ms.minions.clear();
+	ms.jungle.clear();
+	auto it = ms.others.begin();
+	while (it != ms.others.end()) {
 		GameObject* obj = *it;
 		GameObjectType type = obj->type;
 		if (type & GameObjectType::JUNGLE) {
-			jungle.push_back(obj);
-			it = others.erase(it);
+			ms.jungle.push_back(obj);
+			it = ms.others.erase(it);
 		}
 		else if (type & GameObjectType::MINION) {
-			minions.push_back(obj);
-			it = others.erase(it);
+			ms.minions.push_back(obj);
+			it = ms.others.erase(it);
 		}
 		else
 			++it;
 	}
 
 	readDuration = high_resolution_clock::now() - readTimeBegin;
-	benchmark.readMobsMs = readDuration.count();
+	ms.benchmark->readMobsMs = readDuration.count();
 }
 
-void LeagueMemoryReader::FindHoveredObject() {
+GameObject* LeagueMemoryReader::FindHoveredObject(MemSnapshot& ms) {
 	
-	Vector2 cursorPos = renderer.GetCursorPosition();
+	Vector2 cursorPos = Input::GetCursorPosition();
 	float minDistance = std::numeric_limits<float>::infinity();
 	float distance;
-	hoveredObject = nullptr;
+	GameObject* hoveredObject = nullptr;
 
-	for (auto it = idxToObjectMap.begin(); it != idxToObjectMap.end(); ++it) {
-		distance = League::Distance(cursorPos, renderer.WorldToScreen(it->second->position));
+	for (auto it = ms.idxToObjectMap.begin(); it != ms.idxToObjectMap.end(); ++it) {
+		distance = League::Distance(cursorPos, ms.renderer->WorldToScreen(it->second->position));
 		if (distance < minDistance && distance < it->second->targetRadius) {
 			hoveredObject = it->second;
 			minDistance = distance;
 		}
 	}
+
+	return hoveredObject;
 }
 
-void LeagueMemoryReader::ReadStructs() {
+void LeagueMemoryReader::MakeSnapshot(MemSnapshot& ms) {
 	
-	Mem::Read(hProcess, moduleBaseAddr + oGameTime, &gameTime, sizeof(float));
+	Mem::Read(hProcess, moduleBaseAddr + oGameTime, &ms.gameTime, sizeof(float));
 
-	if (gameTime > 1) {
-		updatedThisFrame.clear();
+	if (ms.gameTime > 1) {
+		ms.updatedThisFrame.clear();
 
-		ReadChampions();
-		ReadRenderer();
-		ReadMobs();
-		ReadTurrets();
+		ReadChampions(ms);
+		ReadRenderer(ms);
+		ReadMobs(ms);
+		ReadTurrets(ms);
+		ms.localChampion = ms.champions[0];
 
-		auto it = idxToObjectMap.begin();
-		while (it != idxToObjectMap.end()) {
-			if (updatedThisFrame.find(it->first) == updatedThisFrame.end())
-				it = idxToObjectMap.erase(it);
+		// Clear up objects that were deleted in game
+		auto it = ms.idxToObjectMap.begin();
+		while (it != ms.idxToObjectMap.end()) {
+			if (ms.updatedThisFrame.find(it->first) == ms.updatedThisFrame.end())
+				it = ms.idxToObjectMap.erase(it);
 			else
 				++it;
 		}
 
-		FindHoveredObject();
+		ms.hoveredObject = FindHoveredObject(ms);
+		ms.numSnapshot += 1;
 	}
 }

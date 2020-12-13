@@ -21,6 +21,8 @@ public:
 	*/
 	void SetPrefixKey(std::string prefixKey);
 
+	std::string GetPrefixKey();
+
 private:
 	std::string                        prefixKey;
 	std::map<std::string, std::string> rawValues;
@@ -28,7 +30,7 @@ private:
 
 template <class T>
 T ConfigSet::Get(std::string key, T defaultVal) {
-	auto it = rawValues.find(prefixKey + key);
+	auto it = rawValues.find(prefixKey + "." +  key);
 	if (it == rawValues.end())
 		return defaultVal;
 
@@ -46,5 +48,5 @@ T ConfigSet::Get(std::string key, T defaultVal) {
 
 template <class T>
 void ConfigSet::Set(std::string key, T value) {
-	rawValues[(prefixKey + key)] = std::to_string(value);
+	rawValues[(prefixKey + "." + key)] = std::to_string(value);
 }

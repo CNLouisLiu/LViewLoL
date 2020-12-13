@@ -5,9 +5,9 @@ class IndicatorsView : public BaseView {
 
 public:
 	const char*    GetName();
-	void           DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui);
+	void           DrawWorldSpaceOverlay(const MemSnapshot& snapshot, const MiscToolbox& toolbox);
 
-	void           DrawSettings(LeagueMemoryReader& reader, UI& ui);
+	void           DrawSettings(const MemSnapshot& snapshot, const MiscToolbox& toolbox);
 	void           OnSaveSettings(ConfigSet& configs);
 	void           OnLoadSettings(ConfigSet& configs);
 

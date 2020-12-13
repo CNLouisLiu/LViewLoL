@@ -30,7 +30,7 @@ void Renderer::MultiplyMatrices(float *out, float *a, int row1, int col1, float 
 	}
 }
 
-Vector2 Renderer::WorldToScreen(const Vector3& pos) {
+Vector2 Renderer::WorldToScreen(const Vector3& pos) const {
 	
 	Vector2 out = { 0.f, 0.f };
 	Vector2 screen = { (float)width, (float)height };
@@ -53,13 +53,7 @@ Vector2 Renderer::WorldToScreen(const Vector3& pos) {
 	return out;
 }
 
-Vector2 Renderer::GetCursorPosition() {
-	POINT pos;
-	GetCursorPos(&pos);
-	return { (float)pos.x, (float)pos.y };
-}
-
-Vector2 Renderer::WorldToMinimap(const Vector3& pos) {
+Vector2 Renderer::WorldToMinimap(const Vector3& pos) const {
 
 	ImVec2 wPos = ImGui::GetWindowPos();
 	ImVec2 wSize = ImGui::GetWindowSize();
@@ -71,15 +65,15 @@ Vector2 Renderer::WorldToMinimap(const Vector3& pos) {
 	return result;
 }
 
-bool Renderer::IsScreenPointOnScreen(const Vector2& point, float offsetX, float offsetY) {
+bool Renderer::IsScreenPointOnScreen(const Vector2& point, float offsetX, float offsetY) const {
 	return point.x > -offsetX && point.x < (width + offsetX) && point.y > -offsetY && point.y < (height + offsetY);
 }
 
-bool Renderer::IsWorldPointOnScreen(const Vector3& point, float offsetX, float offsetY) {
+bool Renderer::IsWorldPointOnScreen(const Vector3& point, float offsetX, float offsetY) const {
 	return IsScreenPointOnScreen(WorldToScreen(point), offsetX, offsetY);
 }
 
-void Renderer::DrawCircleAt(ImDrawList* canvas, const Vector3& worldPos, float radius, bool filled, int numPoints, ImColor color, float thickness) {
+void Renderer::DrawCircleAt(ImDrawList* canvas, const Vector3& worldPos, float radius, bool filled, int numPoints, ImColor color, float thickness) const {
 
 	if (numPoints >= 200)
 		return;

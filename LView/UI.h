@@ -18,27 +18,15 @@
 
 using namespace std::chrono;
 
-struct ViewBenchmark {
-	float drawSettingsMs;
-	float drawPanelMs;
-	float drawWorldOverlayMs;
-	float drawMinimapOverlayMs;
-};
-
-struct UIBenchmark {
-	float renderTimeMs;
-	float processTimeMs;
-};
-
 class UI {
 
 public:
 	               UI(std::list<BaseView*> views);
 	void           Start();
-	void           Update(LeagueMemoryReader& reader);
+	void           Update(MemSnapshot& memSnapshot, bool skipRender);
 
 private:
-	void           RenderUI(LeagueMemoryReader& reader);
+	void           RenderUI(MemSnapshot& memSnapshot);
 	bool           CreateDeviceD3D(HWND hWnd);
 	void           CleanupDeviceD3D();
 	static void    ResetDevice();
@@ -58,15 +46,5 @@ private:
 	ConfigSet                          configs;
 	std::string                        configFilePath = std::string("config.ini");
 
-public:
-
-	/* Font sizes are not dynamic in imgui so we have to create separate fonts */
-	ImFontConfig                       fontConfigSmall;
-	ImFontConfig                       fontConfigNormal;
-	ImFont*                            fontSmall;
-	ImFont*                            fontNormal;
-
-	/* Contains general benchmarking for the registered views */
-	std::map<BaseView*, ViewBenchmark> viewBenchmarks;
-	UIBenchmark                        generalBenchmarks;
+	MiscToolbox                        miscToolbox;
 };

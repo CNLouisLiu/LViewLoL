@@ -1,4 +1,5 @@
 #pragma once
+#include "Vector.h"
 
 /* Took from https://www.millisecond.com/support/docs/v6/html/language/scancodes.htm */
 enum HKey {
@@ -9,13 +10,16 @@ enum HKey {
 
 namespace Input {
 	/* Presses and releases a key with a short delay in between */
-	void PressKey(HKey key);
+	void     PressKey(HKey key);
 
 	/* Simple function to check if a key was pressed. The drawback is that only one key can be used by a single caller
 	   If a key is pressed the first caller of this function with that specified key will consume the even and all subsequent calls will return false.
 	*/
-	bool WasKeyPressed(HKey key);
+	bool     WasKeyPressed(HKey key);
 
 	/* Checks if a key is being held down. */
-	bool IsKeyDown(HKey key);
+	bool     IsKeyDown(HKey key);
+
+	/* Gets current position of cursor on screen */
+	Vector2  GetCursorPosition();
 }

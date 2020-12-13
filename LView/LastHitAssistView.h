@@ -8,9 +8,9 @@ public:
 	void         OnSaveSettings(ConfigSet& configs);
 	void         OnLoadSettings(ConfigSet& configs);
 	const char*  GetName();
-	void         DrawSettings(LeagueMemoryReader& reader, UI& ui);
+	void         DrawSettings(const MemSnapshot& snapshot, const MiscToolbox& toolbox);
 
-	void         DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& uis);
+	void         DrawWorldSpaceOverlay(const MemSnapshot& snapshot, const MiscToolbox& toolbox);
 
 private:
 	KeySelector* toggleAutoSmite;

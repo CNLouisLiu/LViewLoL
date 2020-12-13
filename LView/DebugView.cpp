@@ -78,14 +78,14 @@ void DrawGameObjects(const char* objectType, std::vector<GameObject*> gameObject
 
 }
 
-void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
+void DebugView::DrawPanel(const MemSnapshot& snapshot, const MiscToolbox& toolbox) {
 
 	ImGui::Begin("Debug");
 
-	ImGui::LabelText("GameTime", "%.2f", reader.gameTime);
+	ImGui::LabelText("GameTime", "%.2f", snapshot.gameTime);
 	
 	if (ImGui::TreeNode("Hovered Object")) {
-		DrawGameObject(reader.hoveredObject, true);
+		DrawGameObject(snapshot.hoveredObject, true);
 
 		ImGui::TreePop();
 	}
@@ -93,19 +93,19 @@ void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 	// Draw renderer
 	if (ImGui::TreeNode("Renderer")) {
 
-		ImGui::DragInt("Width", &reader.renderer.width);
-		ImGui::DragInt("Height", &reader.renderer.height);
+		ImGui::DragInt("Width", &snapshot.renderer->width);
+		ImGui::DragInt("Height", &snapshot.renderer->height);
 
 		ImGui::Text("View Matrix");
-		DrawMatrix(reader.renderer.viewMatrix, 4, 4);
+		DrawMatrix(snapshot.renderer->viewMatrix, 4, 4);
 		ImGui::Text("Projection Matrix");
-		DrawMatrix(reader.renderer.projMatrix, 4, 4);
+		DrawMatrix(snapshot.renderer->projMatrix, 4, 4);
 		ImGui::TreePop();
 	}
 
 	// Draw champs
 	if (ImGui::TreeNode("Champions")) {
-		for (auto it = reader.champions.begin(); it != reader.champions.end(); ++it) {
+		for (auto it = snapshot.champions.begin(); it != snapshot.champions.end(); ++it) {
 			Champion* champ = *it;
 			if (ImGui::TreeNode(champ->name.c_str())) {
 				int team = champ->team;
@@ -134,21 +134,21 @@ void DebugView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {
 		ImGui::TreePop();
 	}
 	
-	DrawGameObjects("Minions", reader.minions);
-	DrawGameObjects("Jungle", reader.jungle);
-	DrawGameObjects("Turrets", reader.turrets);
-	DrawGameObjects("Others", reader.others);
+	DrawGameObjects("Minions", snapshot.minions);
+	DrawGameObjects("Jungle", snapshot.jungle);
+	DrawGameObjects("Turrets", snapshot.turrets);
+	DrawGameObjects("Others", snapshot.others);
 
 	ImGui::End();
 }
 
-void DebugView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui) {
+void DebugView::DrawWorldSpaceOverlay(const MemSnapshot& snapshot, const MiscToolbox& toolbox) {
 
 	if (Input::WasKeyPressed(showHoveredObjectKeySelector->GetSelectedKey()))
 		showHoveredObject ^= true;
-	if (showHoveredObject && reader.hoveredObject != nullptr) {
+	if (showHoveredObject && snapshot.hoveredObject != nullptr) {
 
-		Vector2 cursorPos = reader.renderer.GetCursorPosition();
+		Vector2 cursorPos = Input::GetCursorPosition();
 		ImGui::SetNextWindowPos(ImVec2(cursorPos.x, cursorPos.y));
 
 		ImGui::Begin("##DebugHovered", nullptr,
@@ -159,12 +159,12 @@ void DebugView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* ov
 			ImGuiWindowFlags_AlwaysAutoResize
 		);
 
-		DrawGameObject(reader.hoveredObject, true);
+		DrawGameObject(snapshot.hoveredObject, true);
 		ImGui::End();
 	}
 }
 
-void DebugView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
+void DebugView::DrawSettings(const MemSnapshot& snapshot, const MiscToolbox& toolbox) {
 	ImGui::Checkbox("Show info on hovered obj##debugShowHoveredObject", &showHoveredObject);
 	showHoveredObjectKeySelector->DrawImGuiWidget();
 }

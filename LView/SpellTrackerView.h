@@ -8,13 +8,13 @@ public:
 	void        OnSaveSettings(ConfigSet& configs);
 	void        OnLoadSettings(ConfigSet& configs);
 	const char* GetName();
-	void        DrawSettings(LeagueMemoryReader& reader, UI& ui);
 
-	void        DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui);
+	void        DrawSettings(const MemSnapshot& snapshot, const MiscToolbox& toolbox);
+	void        DrawWorldSpaceOverlay(const MemSnapshot& snapshot, const MiscToolbox& toolbox);
 
 private:
-	void        DrawSpellTrackerOnChampions(LeagueMemoryReader& reader, UI& ui, ImDrawList* list);
-	void        DrawWorldSpellButton(Spell& spell, float gameTime, ImDrawList* drawList, ImVec2& position);
+	void        DrawSpellTrackerOnChampions(const MemSnapshot& snapshot, const MiscToolbox& toolbox);
+	void        DrawWorldSpellButton(Spell& spell, float gameTime, const MiscToolbox& toolbox, ImVec2& position);
 
 private:
 	bool        showOverlayOnAllies;

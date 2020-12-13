@@ -10,13 +10,19 @@
 #include "SpellTrackerView.h"
 #include "HeroTrackerView.h"
 #include "VisionTrackerView.h"
-#include "BenchmarkingView.h"
 #include "LastHitAssistView.h"
 #include "IndicatorsView.h"
+
+#include "ChampionMasterView.h"
+#include "TFCardPickerView.h"
+
+#include "BenchmarkingView.h"
 #include "DebugView.h"
 
 #include <chrono>
 #include "UI.h"
+#include <map>
+#include <list>
 
 using namespace std::chrono;
 
@@ -29,6 +35,11 @@ int main()
 	views.push_back(new VisionTrackerView());
 	views.push_back(new LastHitAssistView());
 	views.push_back(new IndicatorsView());
+	views.push_back(new ChampionMasterView (
+		std::map<std::string, std::list<BaseView*>>({ 
+			{ "TwistedFate", std::list<BaseView*>({new TFCardPickerView()})  }
+		})
+	));
 
 	views.push_back(new BenchmarkingView());
 	views.push_back(new DebugView());
@@ -49,6 +60,8 @@ int main()
 	high_resolution_clock::time_point frameTimeBegin;
 	duration<float, std::milli> diff;
 
+	MemSnapshot memSnapshot;
+
 	// Main loop
 	while (true) {
 	
@@ -57,10 +70,11 @@ int main()
 		try {
 			if (!reader.IsHookedToProcess()) {
 				reader.HookToProcess();
+				memSnapshot = MemSnapshot();
 			}
 			else {
-				reader.ReadStructs();
-				ui.Update(reader);
+				reader.MakeSnapshot(memSnapshot);
+				ui.Update(memSnapshot, reader.IsLeagueWindowActive());
 			}
 		}
 		catch (WinApiException exception) {

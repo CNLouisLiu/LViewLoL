@@ -8,8 +8,8 @@ void BaseView::OnSaveSettings(ConfigSet& configs) {
 	configs.Set<bool>("enabled", enabled);
 }
 
-void BaseView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {};
-void BaseView::DrawPanel(LeagueMemoryReader& reader, UI& ui) {};
+void BaseView::DrawSettings(const MemSnapshot& snapshot, const MiscToolbox& toolbox) {};
+void BaseView::DrawPanel(const MemSnapshot& snapshot, const MiscToolbox& toolbox) {};
 
-void BaseView::DrawMinimapOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui) {};
-void BaseView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui) {};
+void BaseView::DrawMinimapOverlay(const MemSnapshot& snapshot, const MiscToolbox& toolbox) {};
+void BaseView::DrawWorldSpaceOverlay(const MemSnapshot& snapshot, const MiscToolbox& toolbox) {};

@@ -4,31 +4,31 @@
 const char* IndicatorsView::GetName() {
 	return "Indicators";
 }
-void IndicatorsView::DrawWorldSpaceOverlay(LeagueMemoryReader& reader, ImDrawList* overlayCanvas, UI& ui) {
+void IndicatorsView::DrawWorldSpaceOverlay(const MemSnapshot& snapshot, const MiscToolbox& toolbox) {
 
 	if (showTurretRange) {
-		for (auto it = reader.turrets.begin(); it != reader.turrets.end(); ++it) {
-			if (reader.renderer.IsWorldPointOnScreen((*it)->position, 0, 0))
-				reader.renderer.DrawCircleAt(overlayCanvas, (*it)->position, 750 + reader.localChampion->targetRadius, false, 70, Colors::Cyan);
+		for (auto it = snapshot.turrets.begin(); it != snapshot.turrets.end(); ++it) {
+			if (snapshot.renderer->IsWorldPointOnScreen((*it)->position, 0, 0))
+				snapshot.renderer->DrawCircleAt(toolbox.canvas, (*it)->position, 750 + snapshot.localChampion->targetRadius, false, 70, Colors::Cyan);
 		}
 	}
 
 	if (showPlayerAtkRange) {
 
-		for (auto it = reader.champions.begin(); it != reader.champions.end(); ++it) {
+		for (auto it = snapshot.champions.begin(); it != snapshot.champions.end(); ++it) {
 			Champion* champ = *it;
 
-			if (!champ->IsEnemyTo(reader.localChampion))
+			if (!champ->IsEnemyTo(snapshot.localChampion))
 				continue;
-			float distance = League::Distance(champ->position, reader.localChampion->position);
-			if (distance <= reader.localChampion->GetAttackRange())
-				reader.renderer.DrawCircleAt(overlayCanvas, champ->position, champ->targetRadius, false, 20, Colors::Red);
+			float distance = League::Distance(champ->position, snapshot.localChampion->position);
+			if (distance <= snapshot.localChampion->GetAttackRange())
+				snapshot.renderer->DrawCircleAt(toolbox.canvas, champ->position, champ->targetRadius, false, 20, Colors::Red);
 		}
-		reader.renderer.DrawCircleAt(overlayCanvas, reader.localChampion->position, reader.localChampion->GetAttackRange(), false, 70, Colors::Orange);
+		snapshot.renderer->DrawCircleAt(toolbox.canvas, snapshot.localChampion->position, snapshot.localChampion->GetAttackRange(), false, 70, Colors::Orange);
 	}
 }
 
-void IndicatorsView::DrawSettings(LeagueMemoryReader& reader, UI& ui) {
+void IndicatorsView::DrawSettings(const MemSnapshot& snapshot, const MiscToolbox& toolbox) {
 	ImGui::Checkbox("Show Turret Range", &showTurretRange);
 	ImGui::Checkbox("Show Basic Attack Range", &showPlayerAtkRange);
 }
