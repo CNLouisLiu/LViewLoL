@@ -36,11 +36,11 @@ T ConfigSet::Get(std::string key, T defaultVal) {
 
 	std::string& val = it->second;
 	if (std::is_same<T, int>::value)
-		return std::stoi(val);
+		return (int)std::stoi(val);
 	else if (std::is_same<T, float>::value)
-		return std::stof(val);
+		return (float)std::stof(val);
 	else if (std::is_same<T, bool>::value) {
-		return std::stod(val);
+		return (bool)std::stod(val);
 	}
 	
 	throw new std::runtime_error("Unsupported config value type");

@@ -18,9 +18,4 @@ public:
 private:
 	const char*                 comboName;
 	int                         selectedKey = 0;
-
-	static const int            numKeys = 18;
-	static const char*          keyNames[numKeys];
-	static const HKey           keyValues[numKeys];
-	static std::map<HKey, int>  keyToIndex;
 };

@@ -56,8 +56,9 @@ void ChampionMasterView::DrawSettings(const MemSnapshot& snapshot, const MiscToo
 	if (!firstFrameElapsed) {
 		auto listIt = championViews.find(snapshot.localChampion->name);
 		if (!firstFrameElapsed && listIt == championViews.end()) {
-			ImGui::TextColored(Colors::Orange, "Sorry no scripts available for %s :(", snapshot.localChampion->name);
-			this->enabled = false;
+			ImGui::TextColored(Colors::Orange, "Sorry no scripts available for %s :(", snapshot.localChampion->name.c_str());
+ 			this->enabled = false;
+			return;
 		}
 		firstFrameElapsed = true;
 		currentViews = listIt->second;

@@ -74,7 +74,8 @@ int main()
 			}
 			else {
 				reader.MakeSnapshot(memSnapshot);
-				ui.Update(memSnapshot, reader.IsLeagueWindowActive());
+				if(memSnapshot.gameTime > 1)
+					ui.Update(memSnapshot, reader.IsLeagueWindowActive());
 			}
 		}
 		catch (WinApiException exception) {
