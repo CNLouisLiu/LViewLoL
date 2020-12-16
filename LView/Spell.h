@@ -10,7 +10,7 @@ enum class SpellSlot {
 };
 
 enum class SummonerSpellType {
-	HASTE, HEAL, BARRIER, EXHAUST, CLARITY, SNOWBALL, FLASH, TELEPORT, CLEANSE, IGNITE, SMITE, NONE
+	NONE, GHOST, HEAL, BARRIER, EXHAUST, CLARITY, SNOWBALL, FLASH, TELEPORT, CLEANSE, IGNITE, SMITE
 };
 
 class Spell: MemoryLoadable {
@@ -25,19 +25,19 @@ public:
 	void        Trigger();
 
 public:
-	std::string   name;
-	SpellSlot     slot;
+	std::string       name;
+	SpellSlot         slot;
 	SummonerSpellType summonerSpellType;
-	int           level = 0;
-	float         readyAt = 0.f;
-	float         damage = 0.f;
+	int               level = 0;
+	float             readyAt = 0.f;
+	float             value = 0.f;
 
-	DWORD         addressSlot;
+	DWORD             addressSlot;
 
 private:
-	static BYTE                                       buffer[0x150];
-	static const char*                                spellTypeName[6];
+	static BYTE                                        buffer[0x150];
+	static const char*                                 spellTypeName[6];
 	static const HKey                                  spellSlotKey[6];
-	static std::map<std::string, std::string>         summonerSpellNameDict;
-	static std::map<std::string, SummonerSpellType>   summonerSpellTypeDict;
+	static std::map<std::string, std::string>          summonerSpellNameDict;
+	static std::map<std::string, SummonerSpellType>    summonerSpellTypeDict;
 };

@@ -23,7 +23,7 @@ std::map<std::string, std::string> Spell::summonerSpellNameDict = {
 }; 
 
 std::map<std::string, SummonerSpellType> Spell::summonerSpellTypeDict = {
-	{std::string("SummonerHaste"),                   SummonerSpellType::HASTE},
+	{std::string("SummonerHaste"),                   SummonerSpellType::GHOST},
 	{std::string("SummonerHeal"),                    SummonerSpellType::HEAL},
 	{std::string("SummonerBarrier"),                 SummonerSpellType::BARRIER},
 	{std::string("SummonerExhaust"),                 SummonerSpellType::EXHAUST},
@@ -58,7 +58,7 @@ void Spell::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 
 	memcpy(&readyAt, buffer + oSpellSlotTime, sizeof(float));
 	memcpy(&level, buffer + oSpellSlotLevel, sizeof(int));
-	memcpy(&damage, buffer + oSpellSlotDamage, sizeof(float));
+	memcpy(&value, buffer + oSpellSlotDamage, sizeof(float));
 
 	DWORD spellInfoPtr;
 	memcpy(&spellInfoPtr, buffer + oSpellSlotSpellInfo, sizeof(DWORD));

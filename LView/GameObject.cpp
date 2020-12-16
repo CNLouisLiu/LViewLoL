@@ -67,6 +67,16 @@ bool GameObject::IsOfTypes(GameObjectType type1, GameObjectType type2, GameObjec
 	return (type & compoundType) == compoundType;
 }
 
+bool ContainsOnlyASCII(const char* buff, int maxSize) {
+	for (int i = 0; i < maxSize; ++i) {
+		if (buff[i] == 0)
+			return true;
+		if ((unsigned char)buff[i] > 127)
+			return false;
+	}
+	return true;
+}
+
 void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 
 	address = base;
@@ -94,10 +104,10 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 		char nameBuff[50];
 		Mem::Read(hProcess, Mem::ReadPointerFromBuffer(buff, oObjChampionName), nameBuff, 50);
 
-		if (nameBuff[0] < 65 || nameBuff[0] > 122)
-			name = std::string("");
-		else
+		if (ContainsOnlyASCII(nameBuff, 50))
 			name = std::string(nameBuff);
+		else
+			name = std::string("");
 
 		auto it = gameObjectNameTypeDict.find(name);
 		if (it == gameObjectNameTypeDict.end())

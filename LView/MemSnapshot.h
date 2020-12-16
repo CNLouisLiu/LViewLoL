@@ -17,9 +17,9 @@ struct MemSnapshot {
 	std::vector<GameObject*>    others;
 
 	/* A map between the indexObject member of the object and the object itself */
-	std::map<unsigned int, GameObject*>  idxToObjectMap;
+	std::map<int, GameObject*>  idxToObjectMap;
 	/* Used to clear idxToObjectMap for objects that are no longer in game */
-	std::set<unsigned int>               updatedThisFrame;
+	std::set<int>               updatedThisFrame;
 
 	Champion*                            localChampion = nullptr;
 	GameObject*                          hoveredObject = nullptr;

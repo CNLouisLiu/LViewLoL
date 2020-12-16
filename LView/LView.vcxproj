@@ -95,12 +95,13 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>
       </LanguageStandard>
+      <AdditionalIncludeDirectories>F:\Github\LViewLoL\LView\boost;F:\Github\LViewLoL\LView\external_includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>F:\Github\LView\LView\external_libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Dwmapi.lib;d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>F:\Github\LViewLoL\LView\boost\stage\lib;F:\Github\LViewLoL\LView\external_libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>boost_python39-vc141-mt-gd-x32-1_75.lib;python39_d.lib;d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
@@ -113,10 +114,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>F:\Github\LViewLoL\LView\external_includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>F:\Github\LViewLoL\LView\external_libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>python39_d.lib;python39.lib;d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -132,14 +136,15 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>
       </LanguageStandard>
+      <AdditionalIncludeDirectories>F:\Github\LViewLoL\LView\boost;F:\Github\LViewLoL\LView\external_includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>F:\Github\LView\LView\external_libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Dwmapi.lib;d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>F:\Github\LViewLoL\LView\boost\stage\lib;F:\Github\LViewLoL\LView\external_libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>boost_python39-vc141-mt-x32-1_75.lib;python39.lib;d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
@@ -154,23 +159,21 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>F:\Github\LViewLoL\LView\external_includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>F:\Github\LViewLoL\LView\external_libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>python39_d.lib;python39.lib;d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaseView.cpp" />
-    <ClCompile Include="BenchmarkingView.cpp" />
     <ClCompile Include="Champion.cpp" />
-    <ClCompile Include="ChampionMasterView.cpp" />
     <ClCompile Include="ConfigSet.cpp" />
-    <ClCompile Include="DebugView.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="HeroTrackerView.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_demo.cpp" />
     <ClCompile Include="imgui_draw.cpp" />
@@ -178,33 +181,23 @@
     <ClCompile Include="imgui_impl_win32.cpp" />
     <ClCompile Include="imgui_tables.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
-    <ClCompile Include="IndicatorsView.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="KeySelector.cpp" />
-    <ClCompile Include="KeySelector.h" />
-    <ClCompile Include="LastHitAssistView.cpp" />
     <ClCompile Include="LeagueMemoryReader.cpp" />
     <ClCompile Include="LView.cpp" />
     <ClCompile Include="Offsets.h" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Script.cpp" />
+    <ClCompile Include="ScriptManager.cpp" />
     <ClCompile Include="Spell.cpp" />
-    <ClCompile Include="SpellTrackerView.cpp" />
-    <ClCompile Include="TFCardPickerView.cpp" />
-    <ClCompile Include="TFCardPickerView.h" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Utils.cpp" />
-    <ClCompile Include="VisionTrackerView.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseView.h" />
     <ClInclude Include="Benchmark.h" />
-    <ClInclude Include="BenchmarkingView.h" />
     <ClInclude Include="Champion.h" />
-    <ClInclude Include="ChampionMasterView.h" />
     <ClInclude Include="ConfigSet.h" />
-    <ClInclude Include="DebugView.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="HeroTrackerView.h" />
+    <ClInclude Include="PyGame.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
     <ClInclude Include="imgui_impl_dx9.h" />
@@ -213,20 +206,20 @@
     <ClInclude Include="imstb_rectpack.h" />
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
-    <ClInclude Include="IndicatorsView.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="LastHitAssistView.h" />
     <ClInclude Include="LeagueMemoryReader.h" />
     <ClInclude Include="MemoryLoadable.h" />
     <ClInclude Include="MemSnapshot.h" />
     <ClInclude Include="MiscToolbox.h" />
+    <ClInclude Include="PyImguiInterface.h" />
+    <ClInclude Include="PyStructs.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Script.h" />
+    <ClInclude Include="ScriptManager.h" />
     <ClInclude Include="Spell.h" />
-    <ClInclude Include="SpellTrackerView.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector.h" />
-    <ClInclude Include="VisionTrackerView.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

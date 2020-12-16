@@ -122,7 +122,7 @@ public:
 	float          lastVisibleAt;
 
 	/* Unique identifier of the object in game */
-	unsigned int   objectIndex;
+	int            objectIndex;
 
 protected:
 	BYTE* buff;

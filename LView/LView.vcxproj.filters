@@ -19,23 +19,17 @@
     <Filter Include="Source Files\imgui">
       <UniqueIdentifier>{462e78dd-f859-45e0-8411-dd4643618c9a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Views">
-      <UniqueIdentifier>{262e5243-30e2-4274-bdc0-712389700312}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Structs">
       <UniqueIdentifier>{c41e4a3e-5831-4f46-b805-716fdeccd807}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Utils">
       <UniqueIdentifier>{896ec100-64c0-4b57-aba6-5b62f361dff3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Views\ChampionViews">
-      <UniqueIdentifier>{9cb885cb-cfeb-4448-90b9-cfc04b851012}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Views\DevelopmentViews">
-      <UniqueIdentifier>{be4303f4-c82a-4a3a-b24e-f0cce563427c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Structs\GameRelated">
       <UniqueIdentifier>{3f16e38a-ff17-45e9-9c82-26e29044bd89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Python">
+      <UniqueIdentifier>{277024ac-8f44-404e-aec4-a058949713dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -69,23 +63,8 @@
     <ClCompile Include="imgui_impl_dx9.cpp">
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="SpellTrackerView.cpp">
-      <Filter>Source Files\Views</Filter>
-    </ClCompile>
-    <ClCompile Include="HeroTrackerView.cpp">
-      <Filter>Source Files\Views</Filter>
-    </ClCompile>
     <ClCompile Include="LeagueMemoryReader.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VisionTrackerView.cpp">
-      <Filter>Source Files\Views</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseView.cpp">
-      <Filter>Source Files\Views</Filter>
-    </ClCompile>
-    <ClCompile Include="LastHitAssistView.cpp">
-      <Filter>Source Files\Views</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp">
       <Filter>Source Files\Utils</Filter>
@@ -95,24 +74,6 @@
     </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>Source Files\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="KeySelector.h">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="KeySelector.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="IndicatorsView.cpp">
-      <Filter>Source Files\Views</Filter>
-    </ClCompile>
-    <ClCompile Include="BenchmarkingView.cpp">
-      <Filter>Source Files\Views\DevelopmentViews</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugView.cpp">
-      <Filter>Source Files\Views\DevelopmentViews</Filter>
-    </ClCompile>
-    <ClCompile Include="ChampionMasterView.cpp">
-      <Filter>Source Files\Views\ChampionViews</Filter>
     </ClCompile>
     <ClCompile Include="Champion.cpp">
       <Filter>Source Files\Structs\GameRelated</Filter>
@@ -126,11 +87,11 @@
     <ClCompile Include="Spell.cpp">
       <Filter>Source Files\Structs\GameRelated</Filter>
     </ClCompile>
-    <ClCompile Include="TFCardPickerView.h">
-      <Filter>Source Files\Views\ChampionViews</Filter>
+    <ClCompile Include="ScriptManager.cpp">
+      <Filter>Source Files\Python</Filter>
     </ClCompile>
-    <ClCompile Include="TFCardPickerView.cpp">
-      <Filter>Source Files\Views\ChampionViews</Filter>
+    <ClCompile Include="Script.cpp">
+      <Filter>Source Files\Python</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,23 +122,8 @@
     <ClInclude Include="imgui_impl_dx9.h">
       <Filter>Source Files\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="BaseView.h">
-      <Filter>Source Files\Views</Filter>
-    </ClInclude>
-    <ClInclude Include="SpellTrackerView.h">
-      <Filter>Source Files\Views</Filter>
-    </ClInclude>
-    <ClInclude Include="HeroTrackerView.h">
-      <Filter>Source Files\Views</Filter>
-    </ClInclude>
     <ClInclude Include="LeagueMemoryReader.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VisionTrackerView.h">
-      <Filter>Source Files\Views</Filter>
-    </ClInclude>
-    <ClInclude Include="LastHitAssistView.h">
-      <Filter>Source Files\Views</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h">
       <Filter>Source Files\Structs</Filter>
@@ -191,22 +137,7 @@
     <ClInclude Include="Input.h">
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="IndicatorsView.h">
-      <Filter>Source Files\Views</Filter>
-    </ClInclude>
-    <ClInclude Include="ChampionMasterView.h">
-      <Filter>Source Files\Views\ChampionViews</Filter>
-    </ClInclude>
-    <ClInclude Include="BenchmarkingView.h">
-      <Filter>Source Files\Views\DevelopmentViews</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugView.h">
-      <Filter>Source Files\Views\DevelopmentViews</Filter>
-    </ClInclude>
     <ClInclude Include="Benchmark.h">
-      <Filter>Source Files\Structs</Filter>
-    </ClInclude>
-    <ClInclude Include="MemSnapshot.h">
       <Filter>Source Files\Structs</Filter>
     </ClInclude>
     <ClInclude Include="MiscToolbox.h">
@@ -226,6 +157,24 @@
     </ClInclude>
     <ClInclude Include="Spell.h">
       <Filter>Source Files\Structs\GameRelated</Filter>
+    </ClInclude>
+    <ClInclude Include="MemSnapshot.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="PyStructs.h">
+      <Filter>Source Files\Python</Filter>
+    </ClInclude>
+    <ClInclude Include="PyImguiInterface.h">
+      <Filter>Source Files\Python</Filter>
+    </ClInclude>
+    <ClInclude Include="PyGame.h">
+      <Filter>Source Files\Python</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptManager.h">
+      <Filter>Source Files\Python</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>Source Files\Python</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

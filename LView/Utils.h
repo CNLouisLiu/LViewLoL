@@ -69,11 +69,15 @@ namespace League {
 }
 
 namespace Colors {
-	extern ImColor White;
-	extern ImColor Orange;
-	extern ImColor Yellow;
-	extern ImColor Red;
-	extern ImColor Blue;
-	extern ImColor Cyan;
-	extern ImColor Grey;
+	static const ImVec4 BLACK = ImVec4(0.f, 0.f, 0.f, 1.f);
+	static const ImVec4 WHITE = ImVec4(1.f, 1.f, 1.f, 1.f);
+	static const ImVec4 RED = ImVec4(1.f, 0.f, 0.f, 1.f);
+	static const ImVec4 GREEN = ImVec4(0.f, 1.f, 0.f, 1.f);
+	static const ImVec4 YELLOW = ImVec4(1.f, 1.f, 0.f, 1.f);
+	static const ImVec4 CYAN = ImVec4(0.f, 1.f, 1.f, 1.f);
+	static const ImVec4 PURPLE = ImVec4(1.f, 0.f, 1.f, 1.f);
+	static const ImVec4 GRAY = ImVec4(0.5f, 0.5f, 0.5f, 1.f);
+	static const ImVec4 ORANGE = ImVec4(1.f, 0.54f, 0.f, 1.f);
+	static const ImVec4 BLUE = ImVec4(0.f, 0.f, 1.f, 1.f);
+	static const ImVec4 BROWN = ImVec4(0.54f, 0.27f, 0.06f, 1.f);
 }

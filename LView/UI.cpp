@@ -2,8 +2,9 @@
 #include "Utils.h"
 #include "Structs.h"
 #include "LeagueMemoryReader.h"
-#include "Dwmapi.h"
 #include "Benchmark.h"
+#include "PyGame.h"
+
 #include <string>
 #include <list>
 
@@ -29,14 +30,10 @@ std::string RandomString(const int len) {
 	return tmp_s;
 }
 
-UI::UI(std::list<BaseView*> views) {
-	this->views = views;
-	for (auto it = views.begin(); it != views.end(); ++it)
-		miscToolbox.viewBenchmarks[*it] = new ViewBenchmark();
+UI::UI() {
 }
 
 void UI::Start() {
-
 
 	// Create transparent window
 	std::string windowClassName = RandomString(10);
@@ -89,15 +86,10 @@ void UI::Start() {
 	miscToolbox.fontSmall = io.Fonts->AddFontDefault(&miscToolbox.fontConfigSmall);
 	miscToolbox.fontNormal = io.Fonts->AddFontDefault(&miscToolbox.fontConfigNormal);
 
-	// Load configs
-	configs.LoadFromFile(configFilePath);
-	for (auto it = views.begin(); it != views.end(); ++it) {
-		BaseView* view = *it;
-		configs.SetPrefixKey(view->GetName());
-		view->OnLoadSettings(configs);
-	}
-
 	ImGui::GetStyle().Alpha = 1.f;
+
+	configs.LoadFromFile(configFilePath);
+	scriptManager.LoadAll(configs.GetStr("scriptsFolder", "."), configs);
 }
 
 void UI::RenderUI(MemSnapshot& memSnapshot) {
@@ -105,10 +97,10 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 	high_resolution_clock::time_point timeBefore;
 	duration<float, std::milli> timeDuration;
 
-	// Draw world space overlay, this is just an overlay over the entire screen.
-	// Cheat authors are expected to properly draw into world space.
+	PyGame state = PyGame::ConstructFromMemSnapshot(memSnapshot);
+
 	auto io = ImGui::GetIO();
-	ImDrawList* list;
+	ImDrawList* overlayDrawList, *minimapDrawList;
 
 	ImGui::SetNextWindowSize(io.DisplaySize);
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
@@ -121,19 +113,7 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 		ImGuiWindowFlags_NoInputs |
 		ImGuiWindowFlags_NoBackground
 	);
-	list = ImGui::GetWindowDrawList();
-	for (auto it = views.begin(); it != views.end(); ++it) {
-		BaseView* view = *it;
-		if (view->enabled) {
-			timeBefore = high_resolution_clock::now();
-
-			miscToolbox.canvas = list;
-			view->DrawWorldSpaceOverlay(memSnapshot, miscToolbox);
-
-			timeDuration = high_resolution_clock::now() - timeBefore;
-			miscToolbox.viewBenchmarks[view]->drawWorldOverlayMs = timeDuration.count();
-		}
-	}
+	state.overlay = ImGui::GetWindowDrawList();
 	ImGui::End();
 
 	// Draw minimap overlay
@@ -142,75 +122,55 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 	ImGui::Begin("Minimap Overlay", nullptr,
 		ImGuiWindowFlags_NoScrollbar
 	);
-	list = ImGui::GetWindowDrawList();
-	for (auto it = views.begin(); it != views.end(); ++it) {
-		BaseView* view = *it;
-		if (view->enabled) {
-			timeBefore = high_resolution_clock::now();
-
-			miscToolbox.canvas = list;
-			view->DrawMinimapOverlay(memSnapshot, miscToolbox);
-
-			timeDuration = high_resolution_clock::now() - timeBefore;
-			miscToolbox.viewBenchmarks[view]->drawMinimapOverlayMs = timeDuration.count();
-		}
-	}
-
+	state.minimapPos = ImGui::GetWindowPos();
+	state.minimapSize = ImGui::GetWindowSize();
 	ImGui::End();
 	ImGui::PopStyleVar();
 
-	ImGui::Begin("Settings");
-	ImGui::TextColored(Colors::Cyan, "LVIEW (External RPM Tool) by leryss");
-	ImGui::Separator();
+	
 
-	// Saves the settings to file when button clicked
-	if (ImGui::Button("Save Settings")) {
-		for (auto it = views.begin(); it != views.end(); ++it) {
-			BaseView* view = *it;
-			configs.SetPrefixKey(view->GetName());
-			view->OnSaveSettings(configs);
-		}
+	ImGui::Begin("Settings");
+	ImGui::TextColored(Colors::CYAN, "LVIEW (External RPM Tool) by leryss");
+
+	ImGui::Text("Script Settings");
+	if (ImGui::Button("Save script settings")) {
+		scriptManager.SaveScriptConfigs(configs);
 		configs.SaveToFile(configFilePath);
 	}
 
-	int i = 0;
-	for (auto it = views.begin(); it != views.end(); ++it, ++i) {
-		BaseView* view = *it;
+	for (auto it = scriptManager.scripts.begin(); it != scriptManager.scripts.end(); ++it) {
+		Script& script = *it;
 
-		// Grey out the header of disabled cheats for readability
-		bool shouldPopColor = false;
-		if (!view->enabled) {
-			ImGui::PushStyleColor(ImGuiCol_Header, (ImVec4)Colors::Grey);
-			shouldPopColor = true;
-		}
-		
-		// Draw cheat settings, these will draw even if cheat is disabled
-		if (ImGui::CollapsingHeader(view->GetName())) {
-			ImGui::PushID(i);
-			ImGui::Checkbox("Enabled", &view->enabled);
-			ImGui::PopID();
-			
-			timeBefore = high_resolution_clock::now();
 
-			view->DrawSettings(memSnapshot, miscToolbox);
+		// If we got any load/execution script error we should print it in bright red
+		if (!script.loadError.empty() || !script.execError.empty()) {
+			ImGui::PushStyleColor(ImGuiCol_Header, Colors::RED);
+			if (ImGui::CollapsingHeader(script.name.c_str())) {
+				if (ImGui::Button("Reload script"))
+					scriptManager.ReloadScript(script, configs);
 
-			timeDuration = high_resolution_clock::now() - timeBefore;
-			miscToolbox.viewBenchmarks[view]->drawSettingsMs = timeDuration.count();
-		}
-
-		// If cheat enabled, draw all its panels if any
-		if (view->enabled) {
-			timeBefore = high_resolution_clock::now();
-
-			view->DrawPanel(memSnapshot, miscToolbox);
-
-			timeDuration = high_resolution_clock::now() - timeBefore;
-			miscToolbox.viewBenchmarks[view]->drawPanelMs = timeDuration.count();
-		}
-
-		if (shouldPopColor)
+				ImGui::TextColored(Colors::RED, script.loadError.c_str());
+				ImGui::TextColored(Colors::RED, script.execError.c_str());
+			}
 			ImGui::PopStyleColor();
+		}
+		// No error script can execute freely
+		else {
+			if (ImGui::CollapsingHeader(script.name.c_str())) {
+				ImGui::Checkbox("Enabled", &script.enabled);
+				if (ImGui::Button("Reload script"))
+					scriptManager.ReloadScript(script, configs);
+
+				script.ExecDrawSettings(state, imguiInterface);
+			}
+			if(script.enabled)
+				script.ExecUpdate(state, imguiInterface);
+		}
+
 	}
+	ImGui::Separator();
+
+	// Saves the settings to file when button clicked
 	ImGui::End();
 }
 

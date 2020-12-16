@@ -86,8 +86,11 @@ void LeagueMemoryReader::ReadGameObjectList(std::vector<T*>& readInto, DWORD num
 		if (pointers[i] == 0)
 			break;
 		
-		unsigned int objIndex;
-		Mem::Read(hProcess, pointers[i] + oObjIndex, &objIndex, sizeof(unsigned int));
+		int objIndex;
+		Mem::Read(hProcess, pointers[i] + oObjIndex, &objIndex, sizeof(int));
+
+		if (objIndex == 0)
+			continue;
 
 		T* obj;
 		auto it = idxToObjectMap.find(objIndex);

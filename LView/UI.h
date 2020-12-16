@@ -1,7 +1,6 @@
 #pragma once
 #include "Structs.h"
 #include "LeagueMemoryReader.h"
-#include "BaseView.h"
 
 #include <chrono>
 #include <map>
@@ -12,16 +11,25 @@
 #include "imgui_impl_dx9.h"
 #include "imgui_impl_win32.h"
 
+#include <boost/python.hpp>
+#include "Python.h"
+
+#include "ConfigSet.h"
+#include "MiscToolbox.h"
+#include "ScriptManager.h"
+
 #include <d3d9.h>
 #include <dinput.h>
 
+#include "PyImguiInterface.h"
 
 using namespace std::chrono;
+using namespace boost::python;
 
 class UI {
 
 public:
-	               UI(std::list<BaseView*> views);
+	               UI();
 	void           Start();
 	void           Update(MemSnapshot& memSnapshot, bool skipRender);
 
@@ -32,11 +40,11 @@ private:
 	static void    ResetDevice();
 	static LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+
 private: 
 	HWND                               hWindow;
 
 	Renderer                           renderer;
-	std::list<BaseView*>               views;
 
 	// DirectX stuff
 	static LPDIRECT3D9                 pD3D;
@@ -47,4 +55,7 @@ private:
 	std::string                        configFilePath = std::string("config.ini");
 
 	MiscToolbox                        miscToolbox;
+
+	ScriptManager                      scriptManager;
+	PyImguiInterface                   imguiInterface;
 };

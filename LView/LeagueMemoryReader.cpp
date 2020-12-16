@@ -158,8 +158,10 @@ void LeagueMemoryReader::MakeSnapshot(MemSnapshot& ms) {
 		// Clear up objects that were deleted in game
 		auto it = ms.idxToObjectMap.begin();
 		while (it != ms.idxToObjectMap.end()) {
-			if (ms.updatedThisFrame.find(it->first) == ms.updatedThisFrame.end())
+			if (ms.updatedThisFrame.find(it->first) == ms.updatedThisFrame.end()) {
+				delete it->second;
 				it = ms.idxToObjectMap.erase(it);
+			}
 			else
 				++it;
 		}

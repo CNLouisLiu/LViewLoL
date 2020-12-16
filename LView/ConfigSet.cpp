@@ -39,3 +39,57 @@ void ConfigSet::SaveToFile(std::string filePath) {
 
 	file.close();
 }
+
+int ConfigSet::GetInt(const char* key, int defaultVal) {
+	auto it = rawValues.find(prefixKey + "::" + key);
+	if (it == rawValues.end())
+		return defaultVal;
+
+	std::string& val = it->second;
+
+	return std::stoi(val);
+}
+
+float ConfigSet::GetFloat(const char* key, float defaultVal) {
+	auto it = rawValues.find(prefixKey + "::" + key);
+	if (it == rawValues.end())
+		return defaultVal;
+
+	std::string& val = it->second;
+
+	return std::stof(val);
+}
+
+bool ConfigSet::GetBool(const char* key, bool defaultVal) {
+	auto it = rawValues.find(prefixKey + "::" + key);
+	if (it == rawValues.end())
+		return defaultVal;
+
+	std::string& val = it->second;
+
+	return std::stod(val);
+}
+
+std::string ConfigSet::GetStr(const char* key, const char* defaultVal) {
+	auto it = rawValues.find(prefixKey + "::" + key);
+	if (it == rawValues.end())
+		return defaultVal;
+
+	return it->second;
+}
+
+void ConfigSet::SetInt(const char* key, int value) {
+	rawValues[(prefixKey + "::" + key)] = std::to_string(value);
+}
+
+void ConfigSet::SetFloat(const char* key, float value) {
+	rawValues[(prefixKey + "::" + key)] = std::to_string(value);
+}
+
+void ConfigSet::SetBool(const char* key, bool value) {
+	rawValues[(prefixKey + "::" + key)] = std::to_string(value);
+}
+
+void ConfigSet::SetStr(const char* key, const char* value) {
+	rawValues[(prefixKey + "::" + key)] = value;
+}
