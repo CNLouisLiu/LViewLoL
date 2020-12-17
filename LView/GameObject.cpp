@@ -53,18 +53,26 @@ std::map<std::string, GameObjectType>  GameObject::gameObjectNameTypeDict = {
 	
 };
 
-bool GameObject::IsOfTypes(GameObjectType type1) {
+bool GameObject::IsOfOneType(const GameObjectType& type1) {
 	return (type & type1) == type1;
 }
 
-bool GameObject::IsOfTypes(GameObjectType type1, GameObjectType type2) {
+bool GameObject::IsOfTwoTypes(const GameObjectType& type1, const GameObjectType& type2) {
 	GameObjectType compoundType = (GameObjectType)(type1 | type2);
 	return (type & compoundType) == compoundType;
 }
 
-bool GameObject::IsOfTypes(GameObjectType type1, GameObjectType type2, GameObjectType type3) {
+bool GameObject::IsOfThreeTypes(const GameObjectType& type1, const GameObjectType& type2, const GameObjectType& type3) {
 	GameObjectType compoundType = (GameObjectType)(type1 | type2 | type3);
 	return (type & compoundType) == compoundType;
+}
+
+bool GameObject::IsEqualTo(const GameObject& other) {
+	return this->objectIndex == other.objectIndex;
+}
+
+bool GameObject::IsNotEqualTo(const GameObject& other) {
+	return this->objectIndex != other.objectIndex;
 }
 
 bool ContainsOnlyASCII(const char* buff, int maxSize) {
@@ -89,7 +97,7 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 	memcpy(&bonusAttack, &buff[oObjBonusAtk], sizeof(float));
 	memcpy(&armour, &buff[oObjArmor], sizeof(float));
 	memcpy(&magicResist, &buff[oObjMagicRes], sizeof(float));
-	memcpy(&expiresIn, &buff[oObjExpiry], sizeof(float));
+	memcpy(&duration, &buff[oObjExpiry], sizeof(float));
 	memcpy(&targetRadius, &buff[oObjTargetRadius], sizeof(float));
 	memcpy(&isVisible, &buff[oObjVisibility], sizeof(bool));
 	memcpy(&objectIndex, &buff[oObjIndex], sizeof(int));
@@ -134,10 +142,10 @@ float GameObject::GetAttackRange() {
 	return baseAttackRange + gameplayRadius;
 }
 
-bool GameObject::IsEnemyTo(GameObject* other) {
-	return this->team != other->team;
+bool GameObject::IsEnemyTo(const GameObject& other) {
+	return this->team != other.team;
 }
 
-bool GameObject::IsAllyTo(GameObject* other) {
-	return this->team == other->team;
+bool GameObject::IsAllyTo(const GameObject& other) {
+	return this->team == other.team;
 }

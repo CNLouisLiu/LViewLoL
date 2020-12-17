@@ -80,13 +80,15 @@ public:
 
 	void           LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad = true);
 
-	bool           IsOfTypes(GameObjectType type1);
-	bool           IsOfTypes(GameObjectType type1, GameObjectType type2);
-	bool           IsOfTypes(GameObjectType type1, GameObjectType type2, GameObjectType type3);
+	bool           IsOfOneType(const GameObjectType& type1);
+	bool           IsOfTwoTypes(const GameObjectType& type1, const GameObjectType& type2);
+	bool           IsOfThreeTypes(const GameObjectType& type1, const GameObjectType& type2, const GameObjectType& type3);
+	bool           IsEqualTo(const GameObject& other);
+	bool           IsNotEqualTo(const GameObject& other);
 
 	float          GetAttackRange();
-	bool           IsEnemyTo(GameObject* other);
-	bool           IsAllyTo(GameObject* other);
+	bool           IsEnemyTo(const GameObject& other);
+	bool           IsAllyTo(const GameObject& other);
 
 	float          health;
 	float          baseAttack;
@@ -110,7 +112,7 @@ public:
 	short          team;
 
 	/* In how many seconds the object expires */
-	float          expiresIn;
+	float          duration;
 
 	/* True whenever the object is visible by the players team */
 	bool           isVisible;

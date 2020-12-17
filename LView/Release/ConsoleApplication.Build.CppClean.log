@@ -1,5 +1,6 @@
 f:\github\lviewlol\lview\release\vc141.pdb
 f:\github\lviewlol\lview\release\utils.obj
+f:\github\lviewlol\lview\release\ui.obj
 f:\github\lviewlol\lview\release\spell.obj
 f:\github\lviewlol\lview\release\scriptmanager.obj
 f:\github\lviewlol\lview\release\script.obj
@@ -18,12 +19,12 @@ f:\github\lviewlol\lview\release\imgui.obj
 f:\github\lviewlol\lview\release\gameobject.obj
 f:\github\lviewlol\lview\release\configset.obj
 f:\github\lviewlol\lview\release\champion.obj
-f:\github\lviewlol\lview\release\ui.obj
+f:\github\lviewlol\release\consoleapplication.exe
+f:\github\lviewlol\release\consoleapplication.pdb
 f:\github\lviewlol\release\consoleapplication.lib
 f:\github\lviewlol\release\consoleapplication.exp
 f:\github\lviewlol\release\consoleapplication.ipdb
 f:\github\lviewlol\release\consoleapplication.iobj
-f:\github\lviewlol\release\consoleapplication.pdb
 f:\github\lviewlol\lview\release\lview.tlog\cl.command.1.tlog
 f:\github\lviewlol\lview\release\lview.tlog\cl.read.1.tlog
 f:\github\lviewlol\lview\release\lview.tlog\cl.write.1.tlog

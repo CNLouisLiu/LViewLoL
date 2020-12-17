@@ -36,51 +36,51 @@ public:
 	};
 
 	//Exposed methods
-	Vector2 WorldToScreen(Vector3 pos) {
+	Vector2 WorldToScreen(const Vector3& pos) {
 		return renderer->WorldToScreen(pos);
 	}
 
-	Vector2 WorldToMinimap(Vector3 pos) {
+	Vector2 WorldToMinimap(const Vector3& pos) {
 		return renderer->WorldToMinimap(pos);
 	}
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(IsScreenPointOnScreenOverloads, IsScreenPointOnScreen, 1, 3);
-	bool IsScreenPointOnScreen(Vector2 point, float offsetX = 0.f, float offsetY = 0.f) {
+	bool IsScreenPointOnScreen(const Vector2& point, float offsetX = 0.f, float offsetY = 0.f) {
 		return renderer->IsScreenPointOnScreen(point, offsetX, offsetY);
 	}
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(IsWorldPointOnScreenOverloads, IsWorldPointOnScreen, 1, 3);
-	bool IsWorldPointOnScreen(Vector3 point, float offsetX = 0.f, float offsetY = 0.f) {
+	bool IsWorldPointOnScreen(const Vector3& point, float offsetX = 0.f, float offsetY = 0.f) {
 		return renderer->IsWorldPointOnScreen(point, offsetX, offsetY);
 	}
 
-	void DrawCircle(Vector2 center, float radius, int numPoints, float thickness, ImVec4 color) {
+	void DrawCircle(const Vector2& center, float radius, int numPoints, float thickness, const ImVec4& color) {
 		overlay->AddCircle(ImVec2(center.x, center.y), radius, ImColor(color), 30, thickness);
 	}
 
-	void DrawCircleFilled(Vector2 center, float radius, int numPoints, ImVec4 color) {
+	void DrawCircleFilled(const Vector2& center, float radius, int numPoints, const ImVec4& color) {
 		overlay->AddCircleFilled(ImVec2(center.x, center.y), radius, ImColor(color), 30);
 	}
 
-	void DrawTxt(Vector2 pos, const char* text, ImVec4 color) {
+	void DrawTxt(const Vector2& pos, const char* text, const ImVec4& color) {
 		overlay->AddText(ImVec2(pos.x, pos.y), ImColor(color), text);
 	}
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DrawRectOverloads, DrawRect, 2, 3);
-	void DrawRect(Vector4 box, ImVec4 color, float rounding = 0) {
+	void DrawRect(const Vector4& box, const ImVec4& color, float rounding = 0) {
 		overlay->AddRect(ImVec2(box.x, box.y), ImVec2(box.z, box.w), ImColor(color), rounding);
 	}
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DrawRectFilledOverloads, DrawRectFilled, 2, 3);
-	void DrawRectFilled(Vector4 box, ImVec4 color, float rounding = 0) {
+	void DrawRectFilled(const Vector4& box, const ImVec4& color, float rounding = 0) {
 		overlay->AddRectFilled(ImVec2(box.x, box.y), ImVec2(box.z, box.w), ImColor(color), rounding);
 	}
 
-	void DrawCircleWorld (Vector3 center, float radius, int numPoints, float thickness, ImVec4 color) {
+	void DrawCircleWorld (const Vector3& center, float radius, int numPoints, float thickness, const ImVec4& color) {
 		renderer->DrawCircleAt(overlay, center, radius, false, numPoints, ImColor(color), thickness);
 	}
 
-	void DrawCircleWorldFilled(Vector3 center, float radius, int numPoints, ImVec4 color) {
+	void DrawCircleWorldFilled(const Vector3& center, float radius, int numPoints, const ImVec4& color) {
 		renderer->DrawCircleAt(overlay, center, radius, true, numPoints, ImColor(color));
 	}
 

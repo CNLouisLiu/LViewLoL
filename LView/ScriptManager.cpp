@@ -20,7 +20,7 @@ void ScriptManager::LoadAll(std::string scriptsLocation, ConfigSet& configs)
 				scripts.push_back(Script());
 				scripts.back().Load(fileName.c_str());
 				if (scripts.back().loadError.empty())
-					LoadScriptConfig(scripts.back(), configs);
+					ProvideScriptWithConfigs(scripts.back(), configs);
 			}
 		} while (FindNextFileA(hFind, &findData));
 	}
@@ -33,16 +33,16 @@ void ScriptManager::ReloadScript(Script& script, ConfigSet& configs)
 {
 	script.Load(script.name.c_str());
 	if(script.loadError.empty())
-		LoadScriptConfig(script, configs);
+		ProvideScriptWithConfigs(script, configs);
 }
 
-void ScriptManager::SaveScriptConfigs(ConfigSet& configs) {
+void ScriptManager::CollectAllScriptConfigs(ConfigSet& configs) {
 	for (auto it = scripts.begin(); it != scripts.end(); ++it) {
-		SaveScriptConfig(*it, configs);
+		CollectScriptConfigs(*it, configs);
 	}
 }
 
-void ScriptManager::SaveScriptConfig(Script & script, ConfigSet & configs)
+void ScriptManager::CollectScriptConfigs(Script & script, ConfigSet & configs)
 {
 	configs.SetPrefixKey(script.name);
 	configs.SetBool("enabled", script.enabled);
@@ -50,7 +50,7 @@ void ScriptManager::SaveScriptConfig(Script & script, ConfigSet & configs)
 	configs.SetPrefixKey("");
 }
 
-void ScriptManager::LoadScriptConfig(Script & script, ConfigSet & configs)
+void ScriptManager::ProvideScriptWithConfigs(Script & script, ConfigSet & configs)
 {
 	configs.SetPrefixKey(script.name);
 	script.enabled = configs.GetBool("enabled", true);

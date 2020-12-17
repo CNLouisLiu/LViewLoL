@@ -1,6 +1,12 @@
 from lview import *
 from pprint import pprint
 
+lview_script_info = {
+	"script": "Object Explorer",
+	"author": "leryss",
+	"description": "Provides a way to explore in game objects"
+}
+
 def draw_spell(spell, ui):
 	
 	if ui.treenode(str(spell.slot)):
@@ -22,7 +28,7 @@ def draw_game_object(obj, ui, additional_draw = None, set_open=False):
 	if ui.treenode("{}_{}".format(obj.name, obj.id)):
 		ui.labeltext("name", obj.name, Color.ORANGE)
 		ui.labeltext("type", str(obj.type), Color.CYAN)
-		ui.labeltext("pos", f"x={obj.pos.x}, y={obj.pos.y}, z={obj.pos.z}")
+		ui.labeltext("pos", f"x={obj.pos.x:.2f}, y={obj.pos.y:.2f}, z={obj.pos.z:.2f}")
 		ui.dragint("id", obj.id)
 		
 		ui.separator()
@@ -41,7 +47,7 @@ def draw_game_object(obj, ui, additional_draw = None, set_open=False):
 		ui.dragfloat("gameplay_radius", obj.gameplay_radius)
 		
 		ui.separator()
-		ui.dragfloat("expires_in", obj.expires_in)
+		ui.dragfloat("duration", obj.duration)
 		ui.dragfloat("last_visible_at", obj.last_visible_at)
 		ui.checkbox("is_visible", obj.is_visible)
 		
@@ -78,7 +84,6 @@ def lview_draw_settings(objs, ui):
 	
 def lview_update(objs, ui):
 	
-	objs.draw_circle_world_filled(objs.local_champ.pos, 500, 50, Color.BLUE)
 	ui.begin("Object Viewer")
 	
 	ui.text("Hovered Object")

@@ -7,40 +7,40 @@ class PyImguiInterface {
 
 public:
 
-	void begin(const char* name) {
+	void Begin(const char* name) {
 		ImGui::Begin(name);
 	}
 
-	void end() {
+	void End() {
 		ImGui::End();
 	}
 
-	bool button(const char* text) {
+	bool Button(const char* text) {
 		return ImGui::Button(text);
 	}
 	
-	bool colorButton(const char* text, object color) {
+	bool ColorButton(const char* text, object color) {
 		return ImGui::ColorButton(text, extract<ImVec4>(color));
 	}
 
-	bool checkbox(const char* text, bool enabled) {
+	bool Checkbox(const char* text, bool enabled) {
 		ImGui::Checkbox(text, &enabled);
 		return enabled;
 	}
 
-	void text(const char* text) {
+	void Text(const char* text) {
 		ImGui::Text(text);
 	}
 
-	void textColored(const char* text, object color) {
+	void TextColored(const char* text, object color) {
 		ImGui::TextColored(extract<ImVec4>(color), text);
 	}
 
-	void labelText(const char* label, const char* text) {
+	void LabelText(const char* label, const char* text) {
 		ImGui::LabelText(label, text);
 	}
 
-	void labelTextColored(const char* label, const char* text, object color) {
+	void LabelTextColored(const char* label, const char* text, object color) {
 		ImVec4 col = extract<ImVec4>(color);
 
 		ImGui::PushStyleColor(ImGuiCol_Text, col);
@@ -48,53 +48,53 @@ public:
 		ImGui::PopStyleColor();
 	}
 
-	ImVec4 colorPicker(const char* label, object color) {
+	ImVec4 ColorPicker(const char* label, object color) {
 		ImVec4 col = extract<ImVec4>(color);
 		ImGui::ColorPicker4(label, (float*)&col);
 		return col;
 	} 
 
-	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(dragIntOverloads, dragInt, 2, 5);
-	int dragInt(const char* text, int i, int step = 1, int minVal = 0, int maxVal = 0) {
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DragIntOverloads, DragInt, 2, 5);
+	int DragInt(const char* text, int i, int step = 1, int minVal = 0, int maxVal = 0) {
 		ImGui::DragInt(text, &i, step, minVal, maxVal);
 		return i;
 	}
 
-	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(dragFloatOverloads, dragFloat, 2, 5);
-	int dragFloat(const char* text, float i, float step = 1, float minVal = 0, float maxVal = 0) {
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DragFloatOverloads, DragFloat, 2, 5);
+	int DragFloat(const char* text, float i, float step = 1, float minVal = 0, float maxVal = 0) {
 		ImGui::DragFloat(text, &i, step, minVal, maxVal);
 		return i;
 	}
 
-	void separator() {
+	void Separator() {
 		ImGui::Separator();
 	}
 
-	bool collapsingHeader(const char* text) {
+	bool CollapsingHeader(const char* text) {
 		return ImGui::CollapsingHeader(text);
 	}
 
-	bool treeNode(const char* text) {
+	bool TreeNode(const char* text) {
 		return ImGui::TreeNode(text);
 	}
 
-	void setNextItemOpen() {
+	void SetNextItemOpen() {
 		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 	}
 
-	void treePop() {
+	void TreePop() {
 		ImGui::TreePop();
 	}
 
-	void sameline() {
+	void SameLine() {
 		ImGui::SameLine();
 	}
 
-	void beginGroup() {
+	void BeginGroup() {
 		ImGui::BeginGroup();
 	}
 
-	void endGroup() {
+	void EndGroup() {
 		ImGui::EndGroup();
 	}
 
@@ -108,7 +108,7 @@ public:
 		ImGui::SameLine();
 	}
 
-	int keyselect(const char* label, int key) {
+	int KeySelect(const char* label, int key) {
 		static int callNum = 0;
 
 		ImGui::PushID(label);

@@ -85,31 +85,34 @@ void LeagueMemoryReader::ReadGameObjectList(std::vector<T*>& readInto, DWORD num
 
 		if (pointers[i] == 0)
 			break;
-		
+
 		int objIndex;
 		Mem::Read(hProcess, pointers[i] + oObjIndex, &objIndex, sizeof(int));
-
-		if (objIndex == 0)
-			continue;
 
 		T* obj;
 		auto it = idxToObjectMap.find(objIndex);
 		if (it == idxToObjectMap.end()) {
 			obj = new T();
-			idxToObjectMap[objIndex] = obj;
 			obj->LoadFromMem(pointers[i], hProcess, true);
+			idxToObjectMap[obj->objectIndex] = obj;
 		}
 		else {
 			obj = (T*)it->second;
 			obj->LoadFromMem(pointers[i], hProcess, false);
+
+			// If the object changed its id for whatever the fuck reason then we update the map with the new index
+			if (objIndex != obj->objectIndex) {
+				idxToObjectMap[obj->objectIndex] = obj;
+			}
 		}
-		
 		
 		if (obj->isVisible) {
 			obj->lastVisibleAt = snapshot.gameTime;
 		}
 
-		readInto.push_back(obj);
-		snapshot.updatedThisFrame.insert(obj->objectIndex);
+		if (obj->objectIndex != 0) {
+			readInto.push_back(obj);
+			snapshot.updatedThisFrame.insert(obj->objectIndex);
+		}
 	}
 }

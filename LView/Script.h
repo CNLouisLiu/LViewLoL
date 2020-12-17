@@ -15,9 +15,13 @@ public:
 
 private:
 	void LoadFunc(PyObject** loadInto, const char* funcName);
+	void LoadInfo();
 
 public:
+	std::string description;
+	std::string author;
 	std::string name;
+
 	std::string loadError;
 	std::string execError; 
 

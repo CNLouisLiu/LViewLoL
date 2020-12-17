@@ -133,12 +133,13 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 	ImGui::TextColored(Colors::CYAN, "LVIEW (External RPM Tool) by leryss");
 
 	ImGui::Text("Script Settings");
-	if (ImGui::Button("Save script settings")) {
-		scriptManager.SaveScriptConfigs(configs);
+	if (ImGui::Button("Save all script settings")) {
+		scriptManager.CollectAllScriptConfigs(configs);
 		configs.SaveToFile(configFilePath);
 	}
 
-	for (auto it = scriptManager.scripts.begin(); it != scriptManager.scripts.end(); ++it) {
+	int idAboutNode = 10000;
+	for (auto it = scriptManager.scripts.begin(); it != scriptManager.scripts.end(); ++it, ++idAboutNode) {
 		Script& script = *it;
 
 
@@ -157,10 +158,21 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 		// No error script can execute freely
 		else {
 			if (ImGui::CollapsingHeader(script.name.c_str())) {
-				ImGui::Checkbox("Enabled", &script.enabled);
+				if (ImGui::TreeNode(&idAboutNode, "About")) {
+					ImGui::LabelText("Author", script.author.c_str());
+					ImGui::TextWrapped(script.description.c_str());
+					ImGui::TreePop();
+				}
+				
 				if (ImGui::Button("Reload script"))
 					scriptManager.ReloadScript(script, configs);
+				ImGui::SameLine();
+				if (ImGui::Button("Save settings")) {
+					scriptManager.CollectScriptConfigs(script, configs);
+					configs.SaveToFile(configFilePath);
+				}
 
+				ImGui::Checkbox("Enabled", &script.enabled);
 				script.ExecDrawSettings(state, imguiInterface);
 			}
 			if(script.enabled)

@@ -1,7 +1,7 @@
-x64/*
-Debug/*
-Release/*
-LView/boost/*
-LView/Debug/*
-LView/Release/*
-LView/x64/*
+x64/
+Debug/
+Release/
+LView/boost/
+LView/Debug/
+LView/Release/
+LView/x64/
