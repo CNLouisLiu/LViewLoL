@@ -14,8 +14,8 @@ public:
 	void ExecSaveCfg(const ConfigSet& cfg);
 
 private:
-	void LoadFunc(PyObject** loadInto, const char* funcName);
-	void LoadInfo();
+	bool LoadFunc(PyObject** loadInto, const char* funcName);
+	bool LoadInfo();
 
 public:
 	std::string description;

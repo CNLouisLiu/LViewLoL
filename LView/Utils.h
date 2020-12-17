@@ -69,7 +69,7 @@ namespace League {
 }
 
 namespace Colors {
-	static const ImVec4 BLACK       = ImVec4(0.f,   0.f,   0.f,   1.f);
+	static const ImVec4 BLACK       = ImVec4(0.06f, 0.06f, 0.06f, 1.f);
 	static const ImVec4 WHITE       = ImVec4(1.f,   1.f,   1.f,   1.f);
 	static const ImVec4 RED         = ImVec4(1.f,   0.f,   0.f,   1.f);
 	static const ImVec4 DARK_RED    = ImVec4(0.6f,  0.f,   0.f,   1.f);

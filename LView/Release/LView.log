@@ -9,7 +9,7 @@ f:\github\lviewlol\lview\ui.cpp(98): warning C4101: 'timeDuration': unreferenced
 f:\github\lviewlol\lview\ui.cpp(103): warning C4101: 'minimapDrawList': unreferenced local variable
      Creating library F:\Github\LViewLoL\Release\ConsoleApplication.lib and object F:\Github\LViewLoL\Release\ConsoleApplication.exp
   Generating code
-  1 of 6910 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  2 of 7147 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     3 functions had inline decision re-evaluated but remain unchanged
   Finished generating code

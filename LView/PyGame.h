@@ -84,6 +84,21 @@ public:
 		renderer->DrawCircleAt(overlay, center, radius, true, numPoints, ImColor(color));
 	}
 
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DrawButtonOverloads, DrawButton, 4, 5);
+	void DrawButton(const Vector2& p, const char* text, ImVec4& colorButton, ImVec4& colorText, float rounding = 0) {
+		int txtSize = strlen(text);
+		overlay->AddRectFilled(ImVec2(p.x, p.y), ImVec2(p.x + txtSize * 7.2f + 5, p.y + 17), ImColor(colorButton), rounding);
+		overlay->AddText(ImVec2(p.x + 5, p.y + 2), ImColor(colorText), text);
+	}
+
+	void PressKey(int key) {
+		Input::PressKey((HKey)key);
+	}
+
+	bool WasKeyPressed(int key) {
+		return Input::WasKeyPressed((HKey)key);
+	}
+
 	static PyGame ConstructFromMemSnapshot(MemSnapshot& snapshot) {
 		PyGame gs;
 

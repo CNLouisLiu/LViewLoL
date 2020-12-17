@@ -1,23 +1,58 @@
 #include "Script.h"
 #include <stdio.h>
 
-void Script::LoadFunc(PyObject** loadInto, const char* funcName) {
-	PyObject* pyFuncName = PyUnicode_FromString(funcName);
-	*loadInto = PyObject_GetAttr(moduleObj, pyFuncName);
-	if (*loadInto == NULL) {
-		printf("   [^] No %s function found\n", funcName);
-	}
-	Py_DECREF(pyFuncName);
+std::string GetPyError()
+{
+	PyObject *exc, *val, *tb;
+	PyErr_Fetch(&exc, &val, &tb);
+	PyErr_NormalizeException(&exc, &val, &tb);
+
+	PyObject* errValStr = PyObject_Str(val);
+	PyObject* errExcLineNum = PyObject_Str(PyObject_GetAttrString(tb, "tb_lineno"));
+	PyObject* errExcType = PyObject_Str(exc);
+
+	std::string returnVal = "Exception ";
+	returnVal.append(extract<std::string>(errExcType));
+	returnVal.append(" occured on line: ");
+	returnVal.append(extract<std::string>(errExcLineNum));
+	returnVal.append("\n");
+	returnVal.append(extract<std::string>(errValStr));
+
+	return returnVal;
 }
 
-void Script::LoadInfo() {
+bool Script::LoadFunc(PyObject** loadInto, const char* funcName) {
+	PyObject* pyFuncName = PyUnicode_FromString(funcName);
+	*loadInto = PyObject_GetAttr(moduleObj, pyFuncName);
+	Py_DECREF(pyFuncName);
+
+	return *loadInto != NULL;
+}
+
+bool Script::LoadInfo() {
 	PyObject* dictName = PyUnicode_FromString("lview_script_info");
-	dict d = dict(handle<>(PyObject_GetAttr(moduleObj, dictName)));
+	PyObject* dictAttr = PyObject_GetAttr(moduleObj, dictName);
 	Py_DECREF(dictName);
 
-	author = extract<std::string>(d.get("author"));
-	description = extract<std::string>(d.get("description"));
-	name = extract<std::string>(d.get("script"));
+	if (dictAttr == NULL) {
+		loadError = std::string("No `lview_script_info` dictionary found in script");
+		return false;
+	}
+
+	try {
+		dict d = dict(handle<>(dictAttr));
+
+		author = extract<std::string>(d.get("author"));
+		description = extract<std::string>(d.get("description"));
+		name = extract<std::string>(d.get("script"));
+	}
+	catch (error_already_set) {
+		
+		loadError = std::string("Script info dictionary contains wrong values types or missing values");
+		return false;
+	}
+	
+	return true;
 }
 
 void Script::Load(const char * file)
@@ -39,34 +74,15 @@ void Script::Load(const char * file)
 		loadError = extract<std::string>(PyObject_Str(pvalue));
 	}
 	else {
-		LoadInfo();
-		LoadFunc(&updateFunc, "lview_update");
-		LoadFunc(&drawSettingsFunc, "lview_draw_settings");
-		LoadFunc(&loadCfgFunc, "lview_load_cfg");
-		LoadFunc(&saveCfgFunc, "lview_save_cfg");
+		if (LoadInfo() &&
+			LoadFunc(&updateFunc, "lview_update") &&
+			LoadFunc(&drawSettingsFunc, "lview_draw_settings") &&
+			LoadFunc(&loadCfgFunc, "lview_load_cfg") &&
+			LoadFunc(&saveCfgFunc, "lview_save_cfg")) {
 
-		loadError.clear();
+			loadError.clear();
+		}
 	}
-}
-
-std::string GetPyError()
-{
-	PyObject *exc, *val, *tb;
-	PyErr_Fetch(&exc, &val, &tb);
-	PyErr_NormalizeException(&exc, &val, &tb);
-
-	PyObject* errValStr = PyObject_Str(val);
-	PyObject* errExcLineNum = PyObject_Str(PyObject_GetAttrString(tb, "tb_lineno"));
-	PyObject* errExcType = PyObject_Str(exc);
-
-	std::string returnVal = "Exception ";
-	returnVal.append(extract<std::string>(errExcType));
-	returnVal.append(" occured on line: ");
-	returnVal.append(extract<std::string>(errExcLineNum));
-	returnVal.append("\n");
-	returnVal.append(extract<std::string>(errValStr));
-
-	return returnVal;
 }
 
 void Script::ExecUpdate(const PyGame & state, const PyImguiInterface & ui)

@@ -130,18 +130,21 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 	
 
 	ImGui::Begin("Settings");
-	ImGui::TextColored(Colors::CYAN, "LVIEW (External RPM Tool) by leryss");
-
-	ImGui::Text("Script Settings");
+	ImGui::TextColored(Colors::CYAN, "LVIEW (External RPM Scripting Engine) by leryss");
+	
 	if (ImGui::Button("Save all script settings")) {
 		scriptManager.CollectAllScriptConfigs(configs);
 		configs.SaveToFile(configFilePath);
 	}
+	ImGui::SameLine();
+	if (ImGui::Button("Reload all scripts")) {
+		scriptManager.LoadAll(configs.GetStr("scriptsFolder", "."), configs);
+	}
 
+	ImGui::Text("Script Settings");
 	int idAboutNode = 10000;
 	for (auto it = scriptManager.scripts.begin(); it != scriptManager.scripts.end(); ++it, ++idAboutNode) {
 		Script& script = *it;
-
 
 		// If we got any load/execution script error we should print it in bright red
 		if (!script.loadError.empty() || !script.execError.empty()) {
@@ -157,13 +160,24 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 		}
 		// No error script can execute freely
 		else {
+
+			// Gray out disabled cheat
+			bool shouldPopColor = false;
+			if (!script.enabled) {
+				ImGui::PushStyleColor(ImGuiCol_Header, Colors::GRAY);
+				shouldPopColor = true;
+			}
+
 			if (ImGui::CollapsingHeader(script.name.c_str())) {
+
+				// Draw about section
 				if (ImGui::TreeNode(&idAboutNode, "About")) {
 					ImGui::LabelText("Author", script.author.c_str());
 					ImGui::TextWrapped(script.description.c_str());
 					ImGui::TreePop();
 				}
 				
+				// Draw some general script buttons
 				if (ImGui::Button("Reload script"))
 					scriptManager.ReloadScript(script, configs);
 				ImGui::SameLine();
@@ -171,12 +185,15 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 					scriptManager.CollectScriptConfigs(script, configs);
 					configs.SaveToFile(configFilePath);
 				}
-
 				ImGui::Checkbox("Enabled", &script.enabled);
+			
+				// Call script to draw its settings
 				script.ExecDrawSettings(state, imguiInterface);
 			}
 			if(script.enabled)
 				script.ExecUpdate(state, imguiInterface);
+			if(shouldPopColor)
+				ImGui::PopStyleColor();
 		}
 
 	}

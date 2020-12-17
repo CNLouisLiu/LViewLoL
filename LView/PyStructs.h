@@ -24,6 +24,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("value",                &Spell::value)
 
 		.def("get_current_cooldown",          &Spell::GetRemainingCooldown)
+		.def("trigger",                       &Spell::Trigger)
 		;
 
 	class_<GameObject>("Obj")
@@ -60,32 +61,38 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("R", &Champion::R)
 		.def_readonly("D", &Champion::D)
 		.def_readonly("F", &Champion::F)
+
+		.def("get_summoner_spell", &Champion::GetSummonerSpell, return_value_policy<reference_existing_object>())
 		;
 
 
 	class_<PyGame>("Game")
-		.def_readonly("all_objs",     &PyGame::allObjects)
-		.def_readonly("champs",       &PyGame::champs)
-		.def_readonly("minions",      &PyGame::minions)
-		.def_readonly("jungle",       &PyGame::jungle)
-		.def_readonly("turrets",      &PyGame::turrets)
-		.def_readonly("others",       &PyGame::others)
-		.def_readonly("hovered_obj",  &PyGame::GetHoveredObject)
-		.def_readonly("local_champ",  &PyGame::GetLocalChampion)
-		.def_readonly("time",         &PyGame::gameTime)
+		.def_readonly("all_objs",        &PyGame::allObjects)
+		.def_readonly("champs",          &PyGame::champs)
+		.def_readonly("minions",         &PyGame::minions)
+		.def_readonly("jungle",          &PyGame::jungle)
+		.def_readonly("turrets",         &PyGame::turrets)
+		.def_readonly("others",          &PyGame::others)
+		.def_readonly("hovered_obj",     &PyGame::GetHoveredObject)
+		.def_readonly("local_champ",     &PyGame::GetLocalChampion)
+		.def_readonly("time",            &PyGame::gameTime)
 
-		.def("is_point_on_screen",    &PyGame::IsScreenPointOnScreen, PyGame::IsScreenPointOnScreenOverloads())
-		.def("is_point_on_screen",    &PyGame::IsWorldPointOnScreen,  PyGame::IsWorldPointOnScreenOverloads())
-		.def("world_to_screen",       &PyGame::WorldToScreen)
-		.def("world_to_minimap",      &PyGame::WorldToMinimap)
+		.def("is_point_on_screen",       &PyGame::IsScreenPointOnScreen, PyGame::IsScreenPointOnScreenOverloads())
+		.def("is_point_on_screen",       &PyGame::IsWorldPointOnScreen,  PyGame::IsWorldPointOnScreenOverloads())
+		.def("world_to_screen",          &PyGame::WorldToScreen)
+		.def("world_to_minimap",         &PyGame::WorldToMinimap)
 
 		.def("draw_circle",              &PyGame::DrawCircle)
 		.def("draw_circle_filled",       &PyGame::DrawCircleFilled)
 		.def("draw_circle_world",        &PyGame::DrawCircleWorld)
 		.def("draw_circle_world_filled", &PyGame::DrawCircleWorldFilled)
 		.def("draw_text",                &PyGame::DrawTxt)
-		.def("draw_rect",                &PyGame::DrawRect, PyGame::DrawRectOverloads())
-		.def("draw_rect_filled",         &PyGame::DrawRectFilled, PyGame::DrawRectFilledOverloads())
+		.def("draw_rect",                &PyGame::DrawRect,             PyGame::DrawRectOverloads())
+		.def("draw_rect_filled",         &PyGame::DrawRectFilled,       PyGame::DrawRectFilledOverloads())
+		.def("draw_button",              &PyGame::DrawButton,           PyGame::DrawButtonOverloads())
+
+		.def("press_key",                &PyGame::PressKey)
+		.def("was_key_pressed",          &PyGame::WasKeyPressed)
 		;
 
 	class_<PyImguiInterface>("UI")
@@ -170,7 +177,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.value("F", SpellSlot::F)
 		;
 
-	enum_<SummonerSpellType>("SummmonerSpellType")
+	enum_<SummonerSpellType>("SummonerSpellType")
 		.value("GHOST",    SummonerSpellType::GHOST)
 		.value("HEAL",     SummonerSpellType::HEAL)
 		.value("BARRIER",  SummonerSpellType::BARRIER)

@@ -47,6 +47,9 @@ def lview_update(game, ui):
 	global paint_circles
 	
 	for obj in game.others:
+		if obj.is_ally_to(game.local_champ):
+			continue
+			
 		is_invisible = obj.is_type(ObjType.INVISIBLE)
 		is_clone = obj.is_type(ObjType.CLONE)
 		
@@ -63,8 +66,7 @@ def lview_update(game, ui):
 			
 			p = game.world_to_screen(obj.pos)
 			if game.is_point_on_screen(p):	
-				game.draw_rect_filled(Vec4(p.x, p.y, p.x + 9*len(txt), p.y + 16), Color.WHITE, 10.0)
-				game.draw_text(Vec2(p.x + 5, p.y + 2), txt, Color.ORANGE)
+				game.draw_button(p, txt, Color.WHITE, Color.BLACK, 10)
 			
 				# Draw range circles
 				if show_circle_map[obj_str]:
