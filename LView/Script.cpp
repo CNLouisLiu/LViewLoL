@@ -93,7 +93,6 @@ void Script::ExecUpdate(const PyGame & state, const PyImguiInterface & ui)
 		}
 	}
 	catch (error_already_set) {
-		//PyErr_Print();
 		loadError = GetPyError();
 	}
 }
@@ -110,11 +109,11 @@ void Script::ExecDrawSettings(const PyGame & state, const PyImguiInterface & ui)
 	}
 }
 
-void Script::ExecLoadCfg(const ConfigSet & cfg)
+void Script::ExecLoadCfg()
 {
 	try {
 		if (NULL != drawSettingsFunc) {
-			call<void>(loadCfgFunc, boost::ref(cfg));
+			call<void>(loadCfgFunc, boost::ref(*ConfigSet::Get()));
 		}
 	}
 	catch (error_already_set) {
@@ -122,11 +121,11 @@ void Script::ExecLoadCfg(const ConfigSet & cfg)
 	}
 }
 
-void Script::ExecSaveCfg(const ConfigSet & cfg)
+void Script::ExecSaveCfg()
 {
 	try {
 		if (NULL != drawSettingsFunc) {
-			call<void>(saveCfgFunc, boost::ref(cfg));
+			call<void>(saveCfgFunc, boost::ref(*ConfigSet::Get()));
 		}
 	}
 	catch (error_already_set) {

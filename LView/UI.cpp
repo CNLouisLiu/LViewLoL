@@ -30,7 +30,7 @@ std::string RandomString(const int len) {
 	return tmp_s;
 }
 
-UI::UI() {
+UI::UI(): configs(*(ConfigSet::Get())){
 }
 
 void UI::Start() {
@@ -87,9 +87,7 @@ void UI::Start() {
 	miscToolbox.fontNormal = io.Fonts->AddFontDefault(&miscToolbox.fontConfigNormal);
 
 	ImGui::GetStyle().Alpha = 1.f;
-
-	configs.LoadFromFile(configFilePath);
-	scriptManager.LoadAll(configs.GetStr("scriptsFolder", "."), configs);
+	scriptManager.LoadAll(configs.GetStr("scriptsFolder", "."));
 }
 
 void UI::RenderUI(MemSnapshot& memSnapshot) {
@@ -133,12 +131,12 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 	ImGui::TextColored(Colors::CYAN, "LVIEW (External RPM Scripting Engine) by leryss");
 	
 	if (ImGui::Button("Save all script settings")) {
-		scriptManager.CollectAllScriptConfigs(configs);
-		configs.SaveToFile(configFilePath);
+		scriptManager.CollectAllScriptConfigs();
+		configs.SaveToFile();
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Reload all scripts")) {
-		scriptManager.LoadAll(configs.GetStr("scriptsFolder", "."), configs);
+		scriptManager.LoadAll(configs.GetStr("scriptsFolder", "."));
 	}
 
 	ImGui::Text("Script Settings");
@@ -151,7 +149,7 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 			ImGui::PushStyleColor(ImGuiCol_Header, Colors::RED);
 			if (ImGui::CollapsingHeader(script.name.c_str())) {
 				if (ImGui::Button("Reload script"))
-					scriptManager.ReloadScript(script, configs);
+					scriptManager.ReloadScript(script);
 
 				ImGui::TextColored(Colors::RED, script.loadError.c_str());
 				ImGui::TextColored(Colors::RED, script.execError.c_str());
@@ -179,11 +177,11 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 				
 				// Draw some general script buttons
 				if (ImGui::Button("Reload script"))
-					scriptManager.ReloadScript(script, configs);
+					scriptManager.ReloadScript(script);
 				ImGui::SameLine();
 				if (ImGui::Button("Save settings")) {
-					scriptManager.CollectScriptConfigs(script, configs);
-					configs.SaveToFile(configFilePath);
+					scriptManager.CollectScriptConfigs(script);
+					configs.SaveToFile();
 				}
 				ImGui::Checkbox("Enabled", &script.enabled);
 			

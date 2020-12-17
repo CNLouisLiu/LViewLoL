@@ -7,7 +7,7 @@ using namespace boost::python;
 class PyGame {
 
 public:
-	Renderer*   renderer;
+	GameRenderer*   renderer;
 
 	ImDrawList* overlay;
 	ImVec2      minimapPos, minimapSize;

@@ -4,7 +4,7 @@
 #include <map>
 #include "Benchmark.h"
 #include "Champion.h"
-#include "Renderer.h"
+#include "GameRenderer.h"
 #include "GameObject.h"
 
 struct MemSnapshot {
@@ -24,7 +24,7 @@ struct MemSnapshot {
 	Champion*                            localChampion = nullptr;
 	GameObject*                          hoveredObject = nullptr;
 
-	Renderer*                            renderer = new Renderer();
+	GameRenderer*                            renderer = new GameRenderer();
 	ReadBenchmark*                       benchmark = new ReadBenchmark();
 	int			                         numSnapshot = 0;
 	float                                gameTime;

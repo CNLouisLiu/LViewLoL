@@ -1,11 +1,13 @@
 #include "ConfigSet.h"
 #include <fstream>
 
-void ConfigSet::LoadFromFile(std::string filePath) {
+ConfigSet* ConfigSet::instance = nullptr;
+
+void ConfigSet::LoadFromFile() {
 	std::string line;
 	size_t delimiterIdx;
 
-	std::ifstream file(filePath);
+	std::ifstream file("config.ini");
 	if (file.is_open()) {
 		while (std::getline(file, line)) {
 			delimiterIdx = line.find("=");
@@ -27,9 +29,9 @@ std::string ConfigSet::GetPrefixKey() {
 	return prefixKey;
 }
 
-void ConfigSet::SaveToFile(std::string filePath) {
+void ConfigSet::SaveToFile() {
 
-	std::ofstream file(filePath);
+	std::ofstream file("config.ini");
 	if (!file.is_open())
 		throw std::runtime_error("Couldn't open file to save config set");
 
@@ -47,6 +49,8 @@ int ConfigSet::GetInt(const char* key, int defaultVal) {
 
 	std::string& val = it->second;
 
+	if (val.substr(0, 2).compare("0x") == 0)
+		return std::stoi(val, nullptr, 16);
 	return std::stoi(val);
 }
 

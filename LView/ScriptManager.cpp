@@ -1,7 +1,7 @@
 #include "ScriptManager.h"
 #include <filesystem>
 
-void ScriptManager::LoadAll(std::string scriptsLocation, ConfigSet& configs)
+void ScriptManager::LoadAll(std::string scriptsLocation)
 {
 	try {
 		scripts.clear();
@@ -20,7 +20,7 @@ void ScriptManager::LoadAll(std::string scriptsLocation, ConfigSet& configs)
 				scripts.push_back(Script());
 				scripts.back().Load(fileName.c_str());
 				if (scripts.back().loadError.empty())
-					ProvideScriptWithConfigs(scripts.back(), configs);
+					ProvideScriptWithConfigs(scripts.back());
 			}
 		} while (FindNextFileA(hFind, &findData));
 	}
@@ -29,31 +29,35 @@ void ScriptManager::LoadAll(std::string scriptsLocation, ConfigSet& configs)
 	}
 }
 
-void ScriptManager::ReloadScript(Script& script, ConfigSet& configs)
+void ScriptManager::ReloadScript(Script& script)
 {
 	script.Load(script.name.c_str());
 	if(script.loadError.empty())
-		ProvideScriptWithConfigs(script, configs);
+		ProvideScriptWithConfigs(script);
 }
 
-void ScriptManager::CollectAllScriptConfigs(ConfigSet& configs) {
+void ScriptManager::CollectAllScriptConfigs() {
 	for (auto it = scripts.begin(); it != scripts.end(); ++it) {
-		CollectScriptConfigs(*it, configs);
+		CollectScriptConfigs(*it);
 	}
 }
 
-void ScriptManager::CollectScriptConfigs(Script & script, ConfigSet & configs)
+void ScriptManager::CollectScriptConfigs(Script & script)
 {
+	ConfigSet& configs = *(ConfigSet::Get());
+
 	configs.SetPrefixKey(script.name);
 	configs.SetBool("enabled", script.enabled);
-	script.ExecSaveCfg(configs);
+	script.ExecSaveCfg();
 	configs.SetPrefixKey("");
 }
 
-void ScriptManager::ProvideScriptWithConfigs(Script & script, ConfigSet & configs)
+void ScriptManager::ProvideScriptWithConfigs(Script & script)
 {
+	ConfigSet& configs = *(ConfigSet::Get());
+
 	configs.SetPrefixKey(script.name);
 	script.enabled = configs.GetBool("enabled", true);
-	script.ExecLoadCfg(configs);
+	script.ExecLoadCfg();
 	configs.SetPrefixKey("");
 }

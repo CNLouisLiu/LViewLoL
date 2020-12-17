@@ -3,7 +3,7 @@
 #include "windows.h"
 #include "Champion.h"
 #include "GameObject.h"
-#include "Renderer.h"
+#include "GameRenderer.h"
 #include "Offsets.h"
 #include "MemSnapshot.h"
 #include <list>
@@ -87,7 +87,7 @@ void LeagueMemoryReader::ReadGameObjectList(std::vector<T*>& readInto, DWORD num
 			break;
 
 		int objIndex;
-		Mem::Read(hProcess, pointers[i] + oObjIndex, &objIndex, sizeof(int));
+		Mem::Read(hProcess, pointers[i] + Offsets::ObjIndex, &objIndex, sizeof(int));
 
 		T* obj;
 		auto it = idxToObjectMap.find(objIndex);

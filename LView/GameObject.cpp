@@ -90,27 +90,27 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 	address = base;
 	Mem::Read(hProcess, base, buff, 0x3000);
 
-	memcpy(&team, &buff[oObjTeam], sizeof(short));
-	memcpy(&position, &buff[oObjPos], sizeof(Vector3));
-	memcpy(&health, &buff[oObjHealth], sizeof(float));
-	memcpy(&baseAttack, &buff[oObjBaseAtk], sizeof(float));
-	memcpy(&bonusAttack, &buff[oObjBonusAtk], sizeof(float));
-	memcpy(&armour, &buff[oObjArmor], sizeof(float));
-	memcpy(&magicResist, &buff[oObjMagicRes], sizeof(float));
-	memcpy(&duration, &buff[oObjExpiry], sizeof(float));
-	memcpy(&targetRadius, &buff[oObjTargetRadius], sizeof(float));
-	memcpy(&isVisible, &buff[oObjVisibility], sizeof(bool));
-	memcpy(&objectIndex, &buff[oObjIndex], sizeof(int));
+	memcpy(&team,        &buff[Offsets::ObjTeam], sizeof(short));
+	memcpy(&position,    &buff[Offsets::ObjPos], sizeof(Vector3));
+	memcpy(&health,      &buff[Offsets::ObjHealth], sizeof(float));
+	memcpy(&baseAttack,  &buff[Offsets::ObjBaseAtk], sizeof(float));
+	memcpy(&bonusAttack, &buff[Offsets::ObjBonusAtk], sizeof(float));
+	memcpy(&armour,      &buff[Offsets::ObjArmor], sizeof(float));
+	memcpy(&magicResist, &buff[Offsets::ObjMagicRes], sizeof(float));
+	memcpy(&duration,    &buff[Offsets::ObjExpiry], sizeof(float));
+	memcpy(&targetRadius,&buff[Offsets::ObjTargetRadius], sizeof(float));
+	memcpy(&isVisible,   &buff[Offsets::ObjVisibility], sizeof(bool));
+	memcpy(&objectIndex, &buff[Offsets::ObjIndex], sizeof(int));
 	
 	// Check if alive
 	DWORD spawnCount;
-	memcpy(&spawnCount, &buff[oObjSpawnCount], sizeof(int));
+	memcpy(&spawnCount, &buff[Offsets::ObjSpawnCount], sizeof(int));
 	isAlive = (spawnCount % 2 == 0);
 
 	// Get name
 	if (deepLoad) {
 		char nameBuff[50];
-		Mem::Read(hProcess, Mem::ReadPointerFromBuffer(buff, oObjChampionName), nameBuff, 50);
+		Mem::Read(hProcess, Mem::ReadPointerFromBuffer(buff, Offsets::ObjName), nameBuff, 50);
 
 		if (ContainsOnlyASCII(nameBuff, 50))
 			name = std::string(nameBuff);
@@ -126,12 +126,12 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 
 	if (deepLoad) {
 		DWORD unitComponentInfoPtr;
-		memcpy(&unitComponentInfoPtr, &buff[oUnitComponentInfo], sizeof(DWORD));
+		memcpy(&unitComponentInfoPtr, &buff[Offsets::UnitComponentInfo], sizeof(DWORD));
 		
-		DWORD unitProperties = Mem::ReadPointer(hProcess, unitComponentInfoPtr + oUnitProperties);
+		DWORD unitProperties = Mem::ReadPointer(hProcess, unitComponentInfoPtr + Offsets::UnitProperties);
 		Mem::Read(hProcess, unitProperties, buffDeep, 0x500);
-		memcpy(&gameplayRadius, &buffDeep[oUnitBoundingRadius], sizeof(float));
-		memcpy(&baseAttackRange, &buffDeep[oUnitAttackRange], sizeof(float));
+		memcpy(&gameplayRadius, &buffDeep[Offsets::UnitBoundingRadius], sizeof(float));
+		memcpy(&baseAttackRange, &buffDeep[Offsets::UnitAttackRange], sizeof(float));
 
 		if (gameplayRadius > 200.f) // When its greater than 200.f its the default value which is 65.f
 			gameplayRadius = 65.f;

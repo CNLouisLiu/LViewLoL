@@ -5,7 +5,7 @@ void Champion::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 
 	GameObject::LoadFromMem(base, hProcess);
 
-	memcpy(&spellSlotPtrs, &buff[oObjSpellBook], sizeof(DWORD) * 6);
+	memcpy(&spellSlotPtrs, &buff[Offsets::ObjSpellBook], sizeof(DWORD) * 6);
 
 	Q.LoadFromMem(spellSlotPtrs[0], hProcess);
 	W.LoadFromMem(spellSlotPtrs[1], hProcess);

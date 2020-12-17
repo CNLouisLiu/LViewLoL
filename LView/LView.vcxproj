@@ -184,8 +184,9 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="LeagueMemoryReader.cpp" />
     <ClCompile Include="LView.cpp" />
+    <ClCompile Include="Offsets.cpp" />
     <ClCompile Include="Offsets.h" />
-    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="GameRenderer.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="ScriptManager.cpp" />
     <ClCompile Include="Spell.cpp" />
@@ -213,7 +214,7 @@
     <ClInclude Include="MiscToolbox.h" />
     <ClInclude Include="PyImguiInterface.h" />
     <ClInclude Include="PyStructs.h" />
-    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="GameRenderer.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="ScriptManager.h" />
     <ClInclude Include="Spell.h" />

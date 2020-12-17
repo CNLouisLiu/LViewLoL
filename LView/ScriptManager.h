@@ -5,13 +5,13 @@
 class ScriptManager {
 
 public:
-	void LoadAll(std::string scriptsLocation, ConfigSet& configs);
-	void ReloadScript(Script& script, ConfigSet& configs);
-	void CollectAllScriptConfigs(ConfigSet& configs);
+	void LoadAll(std::string scriptsLocation);
+	void ReloadScript(Script& script);
+	void CollectAllScriptConfigs();
 
 
-	void CollectScriptConfigs(Script& script, ConfigSet& configs);
-	void ProvideScriptWithConfigs(Script& script, ConfigSet& configs);
+	void CollectScriptConfigs(Script& script);
+	void ProvideScriptWithConfigs(Script& script);
 
 public:
 	std::vector<Script> scripts;

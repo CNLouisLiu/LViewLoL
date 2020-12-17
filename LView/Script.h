@@ -10,8 +10,8 @@ public:
 	void Load(const char* file);
 	void ExecUpdate(const PyGame& state, const PyImguiInterface& ui);
 	void ExecDrawSettings(const PyGame& state, const PyImguiInterface& ui);
-	void ExecLoadCfg(const ConfigSet& cfg);
-	void ExecSaveCfg(const ConfigSet& cfg);
+	void ExecLoadCfg();
+	void ExecSaveCfg();
 
 private:
 	bool LoadFunc(PyObject** loadInto, const char* funcName);

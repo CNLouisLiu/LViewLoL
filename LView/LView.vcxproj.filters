@@ -81,9 +81,6 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files\Structs\GameRelated</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Source Files\Structs\GameRelated</Filter>
-    </ClCompile>
     <ClCompile Include="Spell.cpp">
       <Filter>Source Files\Structs\GameRelated</Filter>
     </ClCompile>
@@ -92,6 +89,12 @@
     </ClCompile>
     <ClCompile Include="Script.cpp">
       <Filter>Source Files\Python</Filter>
+    </ClCompile>
+    <ClCompile Include="GameRenderer.cpp">
+      <Filter>Source Files\Structs\GameRelated</Filter>
+    </ClCompile>
+    <ClCompile Include="Offsets.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -152,9 +155,6 @@
     <ClInclude Include="MemoryLoadable.h">
       <Filter>Source Files\Structs\GameRelated</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Source Files\Structs\GameRelated</Filter>
-    </ClInclude>
     <ClInclude Include="Spell.h">
       <Filter>Source Files\Structs\GameRelated</Filter>
     </ClInclude>
@@ -175,6 +175,9 @@
     </ClInclude>
     <ClInclude Include="Script.h">
       <Filter>Source Files\Python</Filter>
+    </ClInclude>
+    <ClInclude Include="GameRenderer.h">
+      <Filter>Source Files\Structs\GameRelated</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,6 +6,7 @@
 #include "Utils.h"
 #include "Structs.h"
 #include "LeagueMemoryReader.h"
+#include "Offsets.h"
 
 #include <chrono>
 #include "UI.h"
@@ -16,7 +17,10 @@ using namespace std::chrono;
 
 int main()
 {
+	printf("[+] Loading offsets\n");
+	Offsets::LoadFromConfigs();
 
+	printf("[+] Initializing PyModule\n");
 	PyImport_AppendInittab("lview", &PyInit_lview);
 	Py_Initialize();
 

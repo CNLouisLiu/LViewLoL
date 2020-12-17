@@ -60,7 +60,7 @@ void LeagueMemoryReader::ReadRenderer(MemSnapshot& ms) {
 	duration<float, std::milli> readDuration;
 	readTimeBegin = high_resolution_clock::now();
 	
-	DWORD rendererAddr = Mem::ReadPointer(hProcess, moduleBaseAddr + oRenderer);
+	DWORD rendererAddr = Mem::ReadPointer(hProcess, moduleBaseAddr + Offsets::Renderer);
 	ms.renderer->LoadFromMem(rendererAddr, moduleBaseAddr, hProcess);
 
 	readDuration = high_resolution_clock::now() - readTimeBegin;
@@ -72,7 +72,7 @@ void LeagueMemoryReader::ReadChampions(MemSnapshot& ms) {
 	duration<float, std::milli> readDuration;
 	readTimeBegin = high_resolution_clock::now();
 
-	ReadGameObjectList<Champion>(ms.champions, numMaxChamps, oHeroList, ms);
+	ReadGameObjectList<Champion>(ms.champions, numMaxChamps, Offsets::HeroList, ms);
 
 	readDuration = high_resolution_clock::now() - readTimeBegin;
 	ms.benchmark->readChampsMs = readDuration.count();
@@ -83,7 +83,7 @@ void LeagueMemoryReader::ReadTurrets(MemSnapshot& ms) {
 	duration<float, std::milli> readDuration;
 	readTimeBegin = high_resolution_clock::now();
 
-	ReadGameObjectList<GameObject>(ms.turrets, numMaxTurrets, oTurretList, ms);
+	ReadGameObjectList<GameObject>(ms.turrets, numMaxTurrets, Offsets::TurretList, ms);
 	for (auto it = ms.turrets.begin(); it != ms.turrets.end(); ++it) {
 		GameObject* obj = *it;
 		obj->type = GameObjectType::TURRET;
@@ -99,7 +99,7 @@ void LeagueMemoryReader::ReadMobs(MemSnapshot& ms) {
 	duration<float, std::milli> readDuration;
 	readTimeBegin = high_resolution_clock::now();
 
-	ReadGameObjectList<GameObject>(ms.others, numMaxMobs, oMinionList, ms);
+	ReadGameObjectList<GameObject>(ms.others, numMaxMobs, Offsets::MinionList, ms);
 
 	// Filter minions e.g wards, jungle, minions etc
 	ms.minions.clear();
@@ -144,7 +144,7 @@ GameObject* LeagueMemoryReader::FindHoveredObject(MemSnapshot& ms) {
 
 void LeagueMemoryReader::MakeSnapshot(MemSnapshot& ms) {
 	
-	Mem::Read(hProcess, moduleBaseAddr + oGameTime, &ms.gameTime, sizeof(float));
+	Mem::Read(hProcess, moduleBaseAddr + Offsets::GameTime, &ms.gameTime, sizeof(float));
 
 	if (ms.gameTime > 1) {
 		ms.updatedThisFrame.clear();

@@ -44,15 +44,14 @@ private:
 private: 
 	HWND                               hWindow;
 
-	Renderer                           renderer;
+	GameRenderer                           renderer;
 
 	// DirectX stuff
 	static LPDIRECT3D9                 pD3D;
 	static LPDIRECT3DDEVICE9           pd3dDevice;
 	static D3DPRESENT_PARAMETERS       d3dpp;
 
-	ConfigSet                          configs;
-	std::string                        configFilePath = std::string("config.ini");
+	ConfigSet&                         configs;
 
 	MiscToolbox                        miscToolbox;
 

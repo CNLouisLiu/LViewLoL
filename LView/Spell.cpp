@@ -56,15 +56,15 @@ void Spell::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 	addressSlot = base;
 	Mem::Read(hProcess, base, buffer, 0x150);
 
-	memcpy(&readyAt, buffer + oSpellSlotTime, sizeof(float));
-	memcpy(&level, buffer + oSpellSlotLevel, sizeof(int));
-	memcpy(&value, buffer + oSpellSlotDamage, sizeof(float));
+	memcpy(&readyAt, buffer + Offsets::SpellSlotTime, sizeof(float));
+	memcpy(&level, buffer + Offsets::SpellSlotLevel, sizeof(int));
+	memcpy(&value, buffer + Offsets::SpellSlotDamage, sizeof(float));
 
 	DWORD spellInfoPtr;
-	memcpy(&spellInfoPtr, buffer + oSpellSlotSpellInfo, sizeof(DWORD));
+	memcpy(&spellInfoPtr, buffer + Offsets::SpellSlotSpellInfo, sizeof(DWORD));
 	
-	DWORD spellDataPtr = Mem::ReadPointer(hProcess, spellInfoPtr + oSpellInfoSpellData);
-	DWORD spellNamePtr = Mem::ReadPointer(hProcess, spellDataPtr + oSpellDataSpellName);
+	DWORD spellDataPtr = Mem::ReadPointer(hProcess, spellInfoPtr + Offsets::SpellInfoSpellData);
+	DWORD spellNamePtr = Mem::ReadPointer(hProcess, spellDataPtr + Offsets::SpellDataSpellName);
 
 	char buff[50];
 	Mem::Read(hProcess, spellNamePtr, buff, 50);
