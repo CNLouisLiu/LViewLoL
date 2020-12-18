@@ -211,7 +211,6 @@
     <ClInclude Include="LeagueMemoryReader.h" />
     <ClInclude Include="MemoryLoadable.h" />
     <ClInclude Include="MemSnapshot.h" />
-    <ClInclude Include="MiscToolbox.h" />
     <ClInclude Include="PyImguiInterface.h" />
     <ClInclude Include="PyStructs.h" />
     <ClInclude Include="GameRenderer.h" />

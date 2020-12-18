@@ -3,6 +3,9 @@
 #include "PyImguiInterface.h"
 #include "Python.h"
 #include "ConfigSet.h"
+#include <chrono>
+
+using namespace std::chrono;
 
 class Script {
 
@@ -18,14 +21,16 @@ private:
 	bool LoadInfo();
 
 public:
-	std::string description;
-	std::string author;
-	std::string name;
+	std::string                  description;
+	std::string                  author;
+	std::string                  name;
 
-	std::string loadError;
-	std::string execError; 
+	std::string                  loadError;
+	std::string                  execError; 
 
-	bool enabled;
+	duration<float, std::milli>  updateTimeMs;
+
+	bool                         enabled;
 
 private:
 	PyObject* moduleObj;

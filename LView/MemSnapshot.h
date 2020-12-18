@@ -21,11 +21,17 @@ struct MemSnapshot {
 	/* Used to clear idxToObjectMap for objects that are no longer in game */
 	std::set<int>               updatedThisFrame;
 
+	/* The champion of the player running the app */
 	Champion*                            localChampion = nullptr;
+	/* The object below the mouse */
 	GameObject*                          hoveredObject = nullptr;
 
-	GameRenderer*                            renderer = new GameRenderer();
-	ReadBenchmark*                       benchmark = new ReadBenchmark();
-	int			                         numSnapshot = 0;
+	/* Game renderer info */
+	GameRenderer*                        renderer = new GameRenderer();
+
+	/* How many seconds have elapsed since the game started */
 	float                                gameTime;
+	
+	ReadBenchmark*                       benchmark = new ReadBenchmark();
+
 };

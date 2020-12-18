@@ -15,7 +15,6 @@
 #include "Python.h"
 
 #include "ConfigSet.h"
-#include "MiscToolbox.h"
 #include "ScriptManager.h"
 
 #include <d3d9.h>
@@ -53,8 +52,10 @@ private:
 
 	ConfigSet&                         configs;
 
-	MiscToolbox                        miscToolbox;
-
 	ScriptManager                      scriptManager;
 	PyImguiInterface                   imguiInterface;
+
+	// Some simple benchmarks
+	float                              renderTimeMs;
+	float                              processTimeMs;
 };

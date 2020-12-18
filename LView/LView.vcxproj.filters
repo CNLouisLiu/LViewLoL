@@ -143,9 +143,6 @@
     <ClInclude Include="Benchmark.h">
       <Filter>Source Files\Structs</Filter>
     </ClInclude>
-    <ClInclude Include="MiscToolbox.h">
-      <Filter>Source Files\Structs</Filter>
-    </ClInclude>
     <ClInclude Include="Champion.h">
       <Filter>Source Files\Structs\GameRelated</Filter>
     </ClInclude>

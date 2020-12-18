@@ -80,12 +80,6 @@ void UI::Start() {
 	ImGui_ImplWin32_Init(hWindow);
 	ImGui_ImplDX9_Init(pd3dDevice);
 
-	// Make some fonts
-	miscToolbox.fontConfigSmall.SizePixels = 10;
-	miscToolbox.fontConfigNormal.SizePixels = 13;
-	miscToolbox.fontSmall = io.Fonts->AddFontDefault(&miscToolbox.fontConfigSmall);
-	miscToolbox.fontNormal = io.Fonts->AddFontDefault(&miscToolbox.fontConfigNormal);
-
 	ImGui::GetStyle().Alpha = 1.f;
 	scriptManager.LoadAll(configs.GetStr("scriptsFolder", "."));
 }
@@ -197,7 +191,33 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 	}
 	ImGui::Separator();
 
-	// Saves the settings to file when button clicked
+	ImGui::Text("Dev Stuff");
+	if (ImGui::CollapsingHeader("Benchmarks")) {
+		float readMemoryTime = memSnapshot.benchmark->readChampsMs + memSnapshot.benchmark->readMobsMs + memSnapshot.benchmark->readRendererMs + memSnapshot.benchmark->readTurretsMs;
+		float totalMs = readMemoryTime + renderTimeMs + processTimeMs;
+
+		ImGui::DragFloat("Total Time (ms)", &totalMs);
+		ImGui::DragFloat("Render UI Time (ms)", &renderTimeMs);
+		ImGui::DragFloat("Total Scripts Time (ms)", &processTimeMs);
+		ImGui::DragFloat("Read Memory Time (ms)", &readMemoryTime);
+
+		if (ImGui::TreeNode("Memory read time (ms)")) {
+			ImGui::DragFloat("Read champions", &memSnapshot.benchmark->readChampsMs);
+			ImGui::DragFloat("Read mobs",      &memSnapshot.benchmark->readMobsMs);
+			ImGui::DragFloat("Read renderer",  &memSnapshot.benchmark->readRendererMs);
+			ImGui::DragFloat("Read turrets",   &memSnapshot.benchmark->readTurretsMs);
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("Script process time (ms)")) {
+			for (Script& script : scriptManager.scripts) {
+				float ms = script.updateTimeMs.count();
+				ImGui::DragFloat(script.name.c_str(), &ms);
+			}
+			ImGui::TreePop();
+		}
+	}
+
 	ImGui::End();
 }
 
@@ -222,7 +242,6 @@ void UI::Update(MemSnapshot& memSnapshot, bool skipRender) {
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-	ImGui::PushFont(miscToolbox.fontNormal);
 
 	timeBefore = high_resolution_clock::now();
 
@@ -231,9 +250,7 @@ void UI::Update(MemSnapshot& memSnapshot, bool skipRender) {
 	}
 
 	timeDuration = high_resolution_clock::now() - timeBefore;	
-	miscToolbox.generalBenchmarks->processTimeMs = timeDuration.count();
-
-	ImGui::PopFont();
+	processTimeMs = timeDuration.count();
 	
 	// Render
 	timeBefore = high_resolution_clock::now();
@@ -253,7 +270,7 @@ void UI::Update(MemSnapshot& memSnapshot, bool skipRender) {
 		ResetDevice();
 
 	timeDuration = high_resolution_clock::now() - timeBefore;
-	miscToolbox.generalBenchmarks->renderTimeMs = timeDuration.count();
+	renderTimeMs = timeDuration.count();
 }
 
 

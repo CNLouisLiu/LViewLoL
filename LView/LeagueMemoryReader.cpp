@@ -167,6 +167,5 @@ void LeagueMemoryReader::MakeSnapshot(MemSnapshot& ms) {
 		}
 
 		ms.hoveredObject = FindHoveredObject(ms);
-		ms.numSnapshot += 1;
 	}
 }

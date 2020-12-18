@@ -49,6 +49,8 @@ def lview_update(game, ui):
 	global show_allies, show_enemies, show_local_champ
 	
 	for champ in game.champs:
+		if not champ.is_visible or not champ.is_alive:
+			continue
 		if champ == game.local_champ and show_local_champ:
 			draw_overlay_on_champ(game, champ)
 		elif champ != game.local_champ:

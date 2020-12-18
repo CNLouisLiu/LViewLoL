@@ -58,7 +58,7 @@ bool Script::LoadInfo() {
 void Script::Load(const char * file)
 { 
 	name = std::string(file);
-	printf("[+] Loading %s\n", file);
+	printf("[+] Loading script %s\n", file);
 	
 	if (NULL != moduleObj)
 		moduleObj = PyImport_ReloadModule(moduleObj);
@@ -89,7 +89,11 @@ void Script::ExecUpdate(const PyGame & state, const PyImguiInterface & ui)
 {
 	try {
 		if (NULL != updateFunc) {
+			high_resolution_clock::time_point beforeUpdate = high_resolution_clock::now();
+
 			call<void>(updateFunc, boost::ref(state), boost::ref(ui));
+
+			updateTimeMs = high_resolution_clock::now() - beforeUpdate;
 		}
 	}
 	catch (error_already_set) {

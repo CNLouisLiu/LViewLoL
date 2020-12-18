@@ -81,6 +81,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("is_point_on_screen",       &PyGame::IsWorldPointOnScreen,  PyGame::IsWorldPointOnScreenOverloads())
 		.def("world_to_screen",          &PyGame::WorldToScreen)
 		.def("world_to_minimap",         &PyGame::WorldToMinimap)
+		.def("distance_to_minimap",      &PyGame::DistanceToMinimap)
 
 		.def("draw_circle",              &PyGame::DrawCircle)
 		.def("draw_circle_filled",       &PyGame::DrawCircleFilled)

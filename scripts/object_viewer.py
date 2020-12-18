@@ -82,22 +82,23 @@ def lview_save_cfg(cfg):
 def lview_draw_settings(objs, ui):
 	pass
 	
-def lview_update(objs, ui):
+def lview_update(game, ui):
 	
 	ui.begin("Object Viewer")
 	
+	ui.dragfloat("time", game.time)
 	ui.text("Hovered Object")
-	draw_game_object(objs.hovered_obj, ui, set_open=True)
+	draw_game_object(game.hovered_obj, ui, set_open=True)
 	
 	ui.text("Local Champion")
-	draw_champion(objs.local_champ, ui)
+	draw_champion(game.local_champ, ui)
 	
 	ui.text("Lists")
-	draw_list("Champions", objs.champs,  ui, draw_champion)
-	draw_list("Minions",   objs.minions, ui, draw_game_object)
-	draw_list("Jungle",    objs.jungle,  ui, draw_game_object)
-	draw_list("Turrets",   objs.turrets, ui, draw_game_object)
-	draw_list("Others",    objs.others,  ui, draw_game_object)
+	draw_list("Champions", game.champs,  ui, draw_champion)
+	draw_list("Minions",   game.minions, ui, draw_game_object)
+	draw_list("Jungle",    game.jungle,  ui, draw_game_object)
+	draw_list("Turrets",   game.turrets, ui, draw_game_object)
+	draw_list("Others",    game.others,  ui, draw_game_object)
 	
 	ui.end()
 	

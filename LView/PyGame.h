@@ -41,7 +41,11 @@ public:
 	}
 
 	Vector2 WorldToMinimap(const Vector3& pos) {
-		return renderer->WorldToMinimap(pos);
+		return renderer->WorldToMinimap(pos, minimapPos, minimapSize);
+	}
+
+	float DistanceToMinimap(float dist) {
+		return renderer->DistanceToMinimap(dist, minimapSize);
 	}
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(IsScreenPointOnScreenOverloads, IsScreenPointOnScreen, 1, 3);

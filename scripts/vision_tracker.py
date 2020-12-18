@@ -15,32 +15,56 @@ radius_map = {
 	"TEEMO_MUSHROOM": 100
 }
 
-show_circle_map = {
+show_circles = {
 	"WARD": False,
 	"WARD_PINK": False,
 	"SHACO_BOX": False,
 	"TEEMO_MUSHROOM": False
 }
 
+show_circles_minimap = {
+	"WARD": False,
+	"WARD_PINK": False,
+	"SHACO_BOX": False,
+	"TEEMO_MUSHROOM": False
+}
+
+
 def lview_load_cfg(cfg):
-	show_circle_map["WARD"]           = cfg.get_bool("circleWards", True)
-	show_circle_map["WARD_PINK"]      = cfg.get_bool("circlePinks", True)
-	show_circle_map["SHACO_BOX"]      = cfg.get_bool("circleBoxes", True)
-	show_circle_map["TEEMO_MUSHROOM"] = cfg.get_bool("circleMushrooms", True)
+	show_circles["WARD"]           = cfg.get_bool("circleWards", True)
+	show_circles["WARD_PINK"]      = cfg.get_bool("circlePinks", True)
+	show_circles["SHACO_BOX"]      = cfg.get_bool("circleBoxes", True)
+	show_circles["TEEMO_MUSHROOM"] = cfg.get_bool("circleMushrooms", True)
+	
+	show_circles_minimap["WARD"]           = cfg.get_bool("circleWardsMinimap", True)
+	show_circles_minimap["WARD_PINK"]      = cfg.get_bool("circlePinksMinimap", True)
+	show_circles_minimap["SHACO_BOX"]      = cfg.get_bool("circleBoxesMinimap", True)
+	show_circles_minimap["TEEMO_MUSHROOM"] = cfg.get_bool("circleMushroomsMinimap", True)
 	
 def lview_save_cfg(cfg):
-	cfg.set_bool("circleWards",     show_circle_map["WARD"])
-	cfg.set_bool("circlePinks",     show_circle_map["WARD_PINK"])
-	cfg.set_bool("circleBoxes",     show_circle_map["SHACO_BOX"])
-	cfg.set_bool("circleMushrooms", show_circle_map["TEEMO_MUSHROOM"])
+	cfg.set_bool("circleWards",     show_circles["WARD"])
+	cfg.set_bool("circlePinks",     show_circles["WARD_PINK"])
+	cfg.set_bool("circleBoxes",     show_circles["SHACO_BOX"])
+	cfg.set_bool("circleMushrooms", show_circles["TEEMO_MUSHROOM"])
+	
+	cfg.set_bool("circleWardsMinimap",     show_circles_minimap["WARD"])
+	cfg.set_bool("circlePinksMinimap",     show_circles_minimap["WARD_PINK"])
+	cfg.set_bool("circleBoxesMinimap",     show_circles_minimap["SHACO_BOX"])
+	cfg.set_bool("circleMushroomsMinimap", show_circles_minimap["TEEMO_MUSHROOM"])
 	
 def lview_draw_settings(game, ui):
 	
 	ui.text("Show circles for:")
-	show_circle_map["WARD"]           = ui.checkbox("Normal wards",    show_circle_map["WARD"])
-	show_circle_map["WARD_PINK"]      = ui.checkbox("Pink wards",      show_circle_map["WARD_PINK"])
-	show_circle_map["SHACO_BOX"]      = ui.checkbox("Shaco boxes",     show_circle_map["SHACO_BOX"])
-	show_circle_map["TEEMO_MUSHROOM"] = ui.checkbox("Teemo mushrooms", show_circle_map["TEEMO_MUSHROOM"])
+	show_circles["WARD"]           = ui.checkbox("Normal wards",    show_circles["WARD"])
+	show_circles["WARD_PINK"]      = ui.checkbox("Pink wards",      show_circles["WARD_PINK"])
+	show_circles["SHACO_BOX"]      = ui.checkbox("Shaco boxes",     show_circles["SHACO_BOX"])
+	show_circles["TEEMO_MUSHROOM"] = ui.checkbox("Teemo mushrooms", show_circles["TEEMO_MUSHROOM"])
+	
+	ui.text("Show circles on minimap for:")
+	show_circles_minimap["WARD"]           = ui.checkbox("Normal wards",    show_circles_minimap["WARD"])
+	show_circles_minimap["WARD_PINK"]      = ui.checkbox("Pink wards",      show_circles_minimap["WARD_PINK"])
+	show_circles_minimap["SHACO_BOX"]      = ui.checkbox("Shaco boxes",     show_circles_minimap["SHACO_BOX"])
+	show_circles_minimap["TEEMO_MUSHROOM"] = ui.checkbox("Teemo mushrooms", show_circles_minimap["TEEMO_MUSHROOM"])
 	
 def lview_update(game, ui):
 	
@@ -69,6 +93,13 @@ def lview_update(game, ui):
 				game.draw_button(p, txt, Color.WHITE, Color.BLACK, 10)
 			
 				# Draw range circles
-				if show_circle_map[obj_str]:
+				draw_circle = show_circles.get(obj_str, False)
+				if draw_circle:
 					radius = radius_map[obj_str]
 					game.draw_circle_world(obj.pos, radius, 40, 3, Color.RED)
+			
+			# Draw on minimap
+			if show_circles_minimap.get(obj_str, False):
+				mp = game.world_to_minimap(obj.pos)
+				game.draw_circle(mp, game.distance_to_minimap(radius_map[obj_str]), 15, 0.5, Color.RED)
+		
