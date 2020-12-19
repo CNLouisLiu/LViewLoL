@@ -96,6 +96,9 @@
     <ClCompile Include="Offsets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files\Structs\GameRelated</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UI.h">
@@ -174,6 +177,9 @@
       <Filter>Source Files\Python</Filter>
     </ClInclude>
     <ClInclude Include="GameRenderer.h">
+      <Filter>Source Files\Structs\GameRelated</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
       <Filter>Source Files\Structs\GameRelated</Filter>
     </ClInclude>
   </ItemGroup>

@@ -66,6 +66,7 @@ namespace League {
 	float          Distance(const Vector2& first, const Vector2& second);
 	float          Distance(const Vector3& first, const Vector3& second);
 	float          EffectiveHP(float health, float armour);
+	float          EffectiveDamage(float damage, float armour);
 }
 
 namespace Colors {

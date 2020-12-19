@@ -43,6 +43,13 @@ float League::EffectiveHP(float health, float armour) {
 	return (1.f + armour / 100.f) * health;
 }
 
+float League::EffectiveDamage(float damage, float armour)
+{
+	if (armour >= 0)
+		return damage * 100.f / (100.f + armour);
+	return damage * (2.f - (100.f/(100.f - armour)));
+}
+
 float League::Clamp(float val, float lo, float hi) {
 	return (val < lo) ? lo : (hi < val) ? hi : val;
 }

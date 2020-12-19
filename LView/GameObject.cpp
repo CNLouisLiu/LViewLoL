@@ -53,25 +53,25 @@ std::map<std::string, GameObjectType>  GameObject::gameObjectNameTypeDict = {
 	
 };
 
-bool GameObject::IsOfOneType(const GameObjectType& type1) {
+bool GameObject::IsOfOneType(const GameObjectType& type1) const {
 	return (type & type1) == type1;
 }
 
-bool GameObject::IsOfTwoTypes(const GameObjectType& type1, const GameObjectType& type2) {
+bool GameObject::IsOfTwoTypes(const GameObjectType& type1, const GameObjectType& type2)  const {
 	GameObjectType compoundType = (GameObjectType)(type1 | type2);
 	return (type & compoundType) == compoundType;
 }
 
-bool GameObject::IsOfThreeTypes(const GameObjectType& type1, const GameObjectType& type2, const GameObjectType& type3) {
+bool GameObject::IsOfThreeTypes(const GameObjectType& type1, const GameObjectType& type2, const GameObjectType& type3) const {
 	GameObjectType compoundType = (GameObjectType)(type1 | type2 | type3);
 	return (type & compoundType) == compoundType;
 }
 
-bool GameObject::IsEqualTo(const GameObject& other) {
+bool GameObject::IsEqualTo(const GameObject& other) const {
 	return this->objectIndex == other.objectIndex;
 }
 
-bool GameObject::IsNotEqualTo(const GameObject& other) {
+bool GameObject::IsNotEqualTo(const GameObject& other) const {
 	return this->objectIndex != other.objectIndex;
 }
 
@@ -88,20 +88,25 @@ bool ContainsOnlyASCII(const char* buff, int maxSize) {
 void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 
 	address = base;
-	Mem::Read(hProcess, base, buff, 0x3000);
+	Mem::Read(hProcess, base, buff, sizeBuff);
 
-	memcpy(&team,        &buff[Offsets::ObjTeam], sizeof(short));
-	memcpy(&position,    &buff[Offsets::ObjPos], sizeof(Vector3));
-	memcpy(&health,      &buff[Offsets::ObjHealth], sizeof(float));
-	memcpy(&baseAttack,  &buff[Offsets::ObjBaseAtk], sizeof(float));
-	memcpy(&bonusAttack, &buff[Offsets::ObjBonusAtk], sizeof(float));
-	memcpy(&armour,      &buff[Offsets::ObjArmor], sizeof(float));
-	memcpy(&magicResist, &buff[Offsets::ObjMagicRes], sizeof(float));
-	memcpy(&duration,    &buff[Offsets::ObjExpiry], sizeof(float));
-	memcpy(&targetRadius,&buff[Offsets::ObjTargetRadius], sizeof(float));
-	memcpy(&isVisible,   &buff[Offsets::ObjVisibility], sizeof(bool));
-	memcpy(&objectIndex, &buff[Offsets::ObjIndex], sizeof(int));
-	
+	memcpy(&team,                       &buff[Offsets::ObjTeam],                   sizeof(short));
+	memcpy(&position,                   &buff[Offsets::ObjPos],                    sizeof(Vector3));
+	memcpy(&health,                     &buff[Offsets::ObjHealth],                 sizeof(float));
+	memcpy(&baseAttack,                 &buff[Offsets::ObjBaseAtk],                sizeof(float));
+	memcpy(&bonusAttack,                &buff[Offsets::ObjBonusAtk],               sizeof(float));
+	memcpy(&armour,                     &buff[Offsets::ObjArmor],                  sizeof(float));
+	memcpy(&magicResist,                &buff[Offsets::ObjMagicRes],               sizeof(float));
+	memcpy(&duration,                   &buff[Offsets::ObjExpiry],                 sizeof(float));
+	memcpy(&targetRadius,               &buff[Offsets::ObjTargetRadius],           sizeof(float));
+	memcpy(&isVisible,                  &buff[Offsets::ObjVisibility],             sizeof(bool));
+	memcpy(&objectIndex,                &buff[Offsets::ObjIndex],                  sizeof(int));
+	memcpy(&crit,                       &buff[Offsets::ObjCrit],                   sizeof(float));
+	memcpy(&critMulti,                  &buff[Offsets::ObjCritMulti],              sizeof(float));
+	memcpy(&abilityPower,               &buff[Offsets::ObjAbilityPower],           sizeof(float));
+	memcpy(&bonusAbilityPower,          &buff[Offsets::ObjBonusAbilityPower],      sizeof(float));
+	memcpy(&atkSpeedMulti,              &buff[Offsets::ObjAtkSpeedMulti],          sizeof(float));
+
 	// Check if alive
 	DWORD spawnCount;
 	memcpy(&spawnCount, &buff[Offsets::ObjSpawnCount], sizeof(int));
@@ -129,23 +134,25 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 		memcpy(&unitComponentInfoPtr, &buff[Offsets::UnitComponentInfo], sizeof(DWORD));
 		
 		DWORD unitProperties = Mem::ReadPointer(hProcess, unitComponentInfoPtr + Offsets::UnitProperties);
-		Mem::Read(hProcess, unitProperties, buffDeep, 0x500);
-		memcpy(&gameplayRadius, &buffDeep[Offsets::UnitBoundingRadius], sizeof(float));
-		memcpy(&baseAttackRange, &buffDeep[Offsets::UnitAttackRange], sizeof(float));
+		Mem::Read(hProcess, unitProperties, buffDeep, sizeBuffDeep);
+		memcpy(&gameplayRadius,  &buffDeep[Offsets::UnitBoundingRadius], sizeof(float));
+		memcpy(&baseAttackRange, &buffDeep[Offsets::UnitAttackRange],    sizeof(float));
+		memcpy(&baseAttackSpeed, &buffDeep[Offsets::UnitBaseAtkSpeed],   sizeof(float));
+		memcpy(&maxAttackSpeed,  &buffDeep[Offsets::UnitMaxAtkSpeed],    sizeof(float));
 
 		if (gameplayRadius > 200.f) // When its greater than 200.f its the default value which is 65.f
 			gameplayRadius = 65.f;
 	}
 }
 
-float GameObject::GetAttackRange() {
+float GameObject::GetAttackRange()  const {
 	return baseAttackRange + gameplayRadius;
 }
 
-bool GameObject::IsEnemyTo(const GameObject& other) {
+bool GameObject::IsEnemyTo(const GameObject& other) const {
 	return this->team != other.team;
 }
 
-bool GameObject::IsAllyTo(const GameObject& other) {
+bool GameObject::IsAllyTo(const GameObject& other) const {
 	return this->team == other.team;
 }

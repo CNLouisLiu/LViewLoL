@@ -1,6 +1,12 @@
 #pragma once
 #include "Spell.h"
 #include "GameObject.h"
+#include "Item.h"
+
+#include <set>
+#include <boost/python.hpp>
+
+using namespace boost::python;
 
 class Champion : public GameObject {
 
@@ -19,10 +25,18 @@ public:
 	float   GetBasicAttackDamage();
 	Spell*  GetSummonerSpell(SummonerSpellType type);
 
+	bool    IsRanged();
+	float   GetOnHitPhysDamage(const GameObject& target);
+	float   GetOnHitMagicDamage(const GameObject& target);
+
+	tuple   ItemsToPyTuple();
+
 public:
-	Spell   Q, W, E, R, D, F;
+	Spell         Q, W, E, R, D, F;
+	Item*         items[6];
 
 private:
-	// Prealocated buffer
+	// Prealocated buffers
 	DWORD   spellSlotPtrs[6];
+	BYTE    itemListStruct[0x100];
 };

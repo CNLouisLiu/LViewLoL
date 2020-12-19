@@ -55,6 +55,7 @@ void LeagueMemoryReader::HookToProcess() {
 	numPerformedReads = 0;
 }
 
+
 void LeagueMemoryReader::ReadRenderer(MemSnapshot& ms) {
 	high_resolution_clock::time_point readTimeBegin;
 	duration<float, std::milli> readDuration;
@@ -153,6 +154,7 @@ void LeagueMemoryReader::MakeSnapshot(MemSnapshot& ms) {
 		ReadRenderer(ms);
 		ReadMobs(ms);
 		ReadTurrets(ms);
+		
 		ms.localChampion = ms.champions[0];
 
 		// Clear up objects that were deleted in game

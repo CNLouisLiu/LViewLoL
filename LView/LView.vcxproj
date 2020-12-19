@@ -182,6 +182,7 @@
     <ClCompile Include="imgui_tables.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="LeagueMemoryReader.cpp" />
     <ClCompile Include="LView.cpp" />
     <ClCompile Include="Offsets.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="Champion.h" />
     <ClInclude Include="ConfigSet.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="PyGame.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />

@@ -75,27 +75,36 @@ enum GameObjectType {
 class GameObject: MemoryLoadable {
 
 public:
-	GameObject() { buff = new BYTE[0x3000]; buffDeep = new BYTE[0x500]; }
+	GameObject() { buff = new BYTE[sizeBuff]; buffDeep = new BYTE[sizeBuffDeep]; }
 	~GameObject() { delete[] buff; delete[] buffDeep; }
 
 	void           LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad = true);
 
-	bool           IsOfOneType(const GameObjectType& type1);
-	bool           IsOfTwoTypes(const GameObjectType& type1, const GameObjectType& type2);
-	bool           IsOfThreeTypes(const GameObjectType& type1, const GameObjectType& type2, const GameObjectType& type3);
-	bool           IsEqualTo(const GameObject& other);
-	bool           IsNotEqualTo(const GameObject& other);
+	bool           IsOfOneType(const GameObjectType& type1) const;
+	bool           IsOfTwoTypes(const GameObjectType& type1, const GameObjectType& type2) const;
+	bool           IsOfThreeTypes(const GameObjectType& type1, const GameObjectType& type2, const GameObjectType& type3) const;
+	bool           IsEqualTo(const GameObject& other) const;
+	bool           IsNotEqualTo(const GameObject& other) const;
 
-	float          GetAttackRange();
-	bool           IsEnemyTo(const GameObject& other);
-	bool           IsAllyTo(const GameObject& other);
+	float          GetAttackRange() const;
+	bool           IsEnemyTo(const GameObject& other) const;
+	bool           IsAllyTo(const GameObject& other) const;
 
 	float          health;
 	float          baseAttack;
 	float          bonusAttack;
 	float          armour;
 	float          magicResist;
+	float          crit;
+	float          critMulti;
+	float          abilityPower;
+	float          bonusAbilityPower;
+	float          atkSpeedMulti;
+
 	float          baseAttackRange;
+	float          baseAttackSpeed;
+	float          maxAttackSpeed;
+
 	bool           isAlive;
 
 	std::string    name;
@@ -129,6 +138,9 @@ public:
 protected:
 	BYTE* buff;
 	BYTE* buffDeep;
+
+	static const SIZE_T sizeBuff = 0x3000;
+	static const SIZE_T sizeBuffDeep = 0x1000;
 
 private:
 	static std::map<std::string, GameObjectType>  gameObjectNameTypeDict;

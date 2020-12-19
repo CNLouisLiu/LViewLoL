@@ -30,6 +30,16 @@ public:
 	static int ObjName;
 	static int ObjLvl;
 	static int ObjExpiry;
+	static int ObjCrit;
+	static int ObjCritMulti;
+	static int ObjAbilityPower;
+	static int ObjBonusAbilityPower;
+	static int ObjAtkSpeedMulti;
+	static int ObjItemList;
+
+	static int ItemListItem;
+	static int ItemInfo;
+	static int ItemInfoId;
 
 	static int ViewProjMatrices;
 	static int Renderer;
@@ -55,6 +65,8 @@ public:
 	static int UnitProperties;
 	static int UnitAttackRange;
 	static int UnitBoundingRadius;
+	static int UnitBaseAtkSpeed;
+	static int UnitMaxAtkSpeed;
 
 	static void LoadFromConfigs();
 };
