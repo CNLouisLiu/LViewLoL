@@ -124,6 +124,9 @@ BOOST_PYTHON_MODULE(lview) {
 										   
 		.def("press_key",                  &PyGame::PressKey)
 		.def("was_key_pressed",            &PyGame::WasKeyPressed)
+		.def("is_key_down",           &PyGame::IsKeyDown)
+		.def("press_left_click", &PyGame::PressLeftClick)
+		.def("press_right_click", &PyGame::PressRightClick)
 		;
 
 	class_<PyImguiInterface>("UI")
@@ -142,6 +145,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("dragint",    &PyImguiInterface::DragInt,   PyImguiInterface::DragIntOverloads())
 		.def("dragfloat",  &PyImguiInterface::DragFloat, PyImguiInterface::DragFloatOverloads())
 		.def("keyselect",  &PyImguiInterface::KeySelect)
+		.def("sliderfloat",&PyImguiInterface::SliderFloat)
 
 		.def("header",     &PyImguiInterface::CollapsingHeader)
 		.def("treenode",   &PyImguiInterface::TreeNode)

@@ -28,4 +28,8 @@ namespace Input {
 
 	/* Gets current position of cursor on screen */
 	Vector2  GetCursorPosition();
+
+	void     PressLeftClick();
+
+	void     PressRightClick();
 }

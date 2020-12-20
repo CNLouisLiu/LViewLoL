@@ -43,6 +43,8 @@ std::map<std::string, GameObjectType>  GameObject::gameObjectNameTypeDict = {
 	// Wards
 	{"YellowTrinket",            GameObjectType::WARD},
 	{"SightWard",                GameObjectType::WARD},
+	{"BlueTrinket",              GameObjectType::WARD},
+	{"PerksZombieWard",          GameObjectType::WARD},
 	{"JammerDevice",             GameObjectType::WARD_PINK},
 
 	// Shits

@@ -103,6 +103,18 @@ public:
 		return Input::WasKeyPressed((HKey)key);
 	}
 
+	void PressLeftClick() {
+		Input::PressLeftClick();
+	}
+
+	void PressRightClick() {
+		Input::PressRightClick();
+	}
+
+	bool IsKeyDown(int key) {
+		return Input::IsKeyDown((HKey)key);
+	}
+
 	static PyGame ConstructFromMemSnapshot(MemSnapshot& snapshot) {
 		PyGame gs;
 

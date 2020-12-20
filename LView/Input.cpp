@@ -15,7 +15,7 @@ void Input::PressKey(HKey key) {
 	input.ki.dwFlags = KEYEVENTF_SCANCODE;
 	SendInput(1, &input, sizeof(INPUT));
 
-	Sleep(13);
+	Sleep(8);
 	input.ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
 	SendInput(1, &input, sizeof(INPUT));
 }
@@ -57,4 +57,31 @@ Vector2 Input::GetCursorPosition()
 	POINT pos;
 	GetCursorPos(&pos);
 	return { (float)pos.x, (float)pos.y };
+}
+
+void Input::PressLeftClick()
+{
+
+	INPUT input = {0};
+	input.type = INPUT_MOUSE;
+	input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
+	SendInput(1, &input, sizeof(INPUT));
+
+	Sleep(8);
+
+	input.mi.dwFlags = MOUSEEVENTF_LEFTUP;
+	SendInput(1, &input, sizeof(INPUT));
+}
+
+void Input::PressRightClick()
+{
+	INPUT input = { 0 };
+	input.type = INPUT_MOUSE;
+	input.mi.dwFlags = MOUSEEVENTF_RIGHTDOWN;
+	SendInput(1, &input, sizeof(INPUT));
+
+	Sleep(8);
+
+	input.mi.dwFlags = MOUSEEVENTF_RIGHTUP;
+	SendInput(1, &input, sizeof(INPUT));
 }

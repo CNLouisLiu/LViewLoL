@@ -66,6 +66,11 @@ public:
 		return i;
 	}
 
+	float SliderFloat(const char* label, float val, float valMin, float valMax) {
+		ImGui::SliderFloat(label, &val, valMin, valMax);
+		return val;
+	}
+
 	void Separator() {
 		ImGui::Separator();
 	}
