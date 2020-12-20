@@ -16,6 +16,8 @@ public:
 	void ExecLoadCfg();
 	void ExecSaveCfg();
 
+	~Script();
+
 private:
 	bool LoadFunc(PyObject** loadInto, const char* funcName);
 	bool LoadInfo();
@@ -24,6 +26,7 @@ public:
 	std::string                  description;
 	std::string                  author;
 	std::string                  name;
+	std::string                  targetChampion;
 
 	std::string                  loadError;
 	std::string                  execError; 

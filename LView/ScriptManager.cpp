@@ -1,10 +1,12 @@
 #include "ScriptManager.h"
 #include <filesystem>
 
-void ScriptManager::LoadAll(std::string scriptsLocation)
+void ScriptManager::LoadAll(std::string scriptsLocation, std::string& champion)
 {
 	try {
-		scripts.clear();
+		activeScripts.clear();
+		inactiveScripts.clear();
+
 		object sys = import("sys");
 		sys.attr("path").attr("insert")(0, scriptsLocation.c_str());
 
@@ -17,10 +19,22 @@ void ScriptManager::LoadAll(std::string scriptsLocation)
 				std::string fileName = findData.cFileName;
 				fileName.erase(fileName.find(".py"), 3);
 
-				scripts.push_back(Script());
-				scripts.back().Load(fileName.c_str());
-				if (scripts.back().loadError.empty())
-					ProvideScriptWithConfigs(scripts.back());
+				std::shared_ptr<Script> script;
+				auto it = allScripts.find(fileName);
+				if (it != allScripts.end())
+					script = it->second;
+				else {
+					script = std::shared_ptr<Script>(new Script());
+					allScripts[fileName] = script;
+				}
+
+				script->Load(fileName.c_str());
+				if (script->loadError.empty())
+					ProvideScriptWithConfigs(script);
+				if (script->targetChampion.size() > 0 && script->targetChampion.compare(champion) != 0)
+					inactiveScripts.push_back(script);
+				else
+					activeScripts.push_back(script);
 			}
 		} while (FindNextFileA(hFind, &findData));
 	}
@@ -29,35 +43,35 @@ void ScriptManager::LoadAll(std::string scriptsLocation)
 	}
 }
 
-void ScriptManager::ReloadScript(Script& script)
+void ScriptManager::ReloadScript(std::shared_ptr<Script>& script)
 {
-	script.Load(script.name.c_str());
-	if(script.loadError.empty())
+	script->Load(script->name.c_str());
+	if(script->loadError.empty())
 		ProvideScriptWithConfigs(script);
 }
 
 void ScriptManager::CollectAllScriptConfigs() {
-	for (auto it = scripts.begin(); it != scripts.end(); ++it) {
+	for (auto it = activeScripts.begin(); it != activeScripts.end(); ++it) {
 		CollectScriptConfigs(*it);
 	}
 }
 
-void ScriptManager::CollectScriptConfigs(Script & script)
+void ScriptManager::CollectScriptConfigs(std::shared_ptr<Script>& script)
 {
 	ConfigSet& configs = *(ConfigSet::Get());
 
-	configs.SetPrefixKey(script.name);
-	configs.SetBool("enabled", script.enabled);
-	script.ExecSaveCfg();
+	configs.SetPrefixKey(script->name);
+	configs.SetBool("enabled", script->enabled);
+	script->ExecSaveCfg();
 	configs.SetPrefixKey("");
 }
 
-void ScriptManager::ProvideScriptWithConfigs(Script & script)
+void ScriptManager::ProvideScriptWithConfigs(std::shared_ptr<Script>& script)
 {
 	ConfigSet& configs = *(ConfigSet::Get());
 
-	configs.SetPrefixKey(script.name);
-	script.enabled = configs.GetBool("enabled", true);
-	script.ExecLoadCfg();
+	configs.SetPrefixKey(script->name);
+	script->enabled = configs.GetBool("enabled", true);
+	script->ExecLoadCfg();
 	configs.SetPrefixKey("");
 }

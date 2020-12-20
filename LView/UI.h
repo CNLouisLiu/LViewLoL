@@ -29,7 +29,8 @@ class UI {
 
 public:
 	               UI();
-	void           Start();
+	void           Init();
+	void           GameStart(MemSnapshot& memSnapshot);
 	void           Update(MemSnapshot& memSnapshot, bool skipRender);
 
 private:

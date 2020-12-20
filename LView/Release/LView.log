@@ -74,13 +74,13 @@ f:\github\lviewlol\lview\pyimguiinterface.h(59): warning C4244: 'argument': conv
 f:\github\lviewlol\lview\pyimguiinterface.h(66): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
 f:\github\lviewlol\lview\ui.cpp(23): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-f:\github\lviewlol\lview\ui.cpp(95): warning C4101: 'overlayDrawList': unreferenced local variable
-f:\github\lviewlol\lview\ui.cpp(90): warning C4101: 'timeDuration': unreferenced local variable
-f:\github\lviewlol\lview\ui.cpp(95): warning C4101: 'minimapDrawList': unreferenced local variable
+f:\github\lviewlol\lview\ui.cpp(99): warning C4101: 'overlayDrawList': unreferenced local variable
+f:\github\lviewlol\lview\ui.cpp(94): warning C4101: 'timeDuration': unreferenced local variable
+f:\github\lviewlol\lview\ui.cpp(99): warning C4101: 'minimapDrawList': unreferenced local variable
   Utils.cpp
 Release\Offsets.obj : warning LNK4042: object specified more than once; extras ignored
      Creating library F:\Github\LViewLoL\Release\ConsoleApplication.lib and object F:\Github\LViewLoL\Release\ConsoleApplication.exp
   Generating code
-  All 7686 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 7842 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   LView.vcxproj -> F:\Github\LViewLoL\Release\ConsoleApplication.exe

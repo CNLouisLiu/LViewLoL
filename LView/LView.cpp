@@ -29,7 +29,7 @@ int main()
 	LeagueMemoryReader reader = LeagueMemoryReader();
 
 	try {
-		ui.Start();
+		ui.Init();
 	}
 	catch (WinApiException exception) {
 		std::cout << exception.GetErrorMessage() << std::endl;
@@ -44,6 +44,7 @@ int main()
 
 	/* Flag for when to look for the league process */
 	bool rehook = true;
+	bool firstIter = true;
 
 	printf("[i] Waiting for league process...\n");
 	while (true) {
@@ -54,6 +55,7 @@ int main()
 			if (rehook) {
 				reader.HookToProcess();
 				rehook = false;
+				firstIter = true;
 				memSnapshot = MemSnapshot();
 				printf("[i] Found league process. The UI will appear when the game stars.\n");
 			}
@@ -68,6 +70,12 @@ int main()
 
 				// If the game started
 				if (memSnapshot.gameTime > 2.f) {
+
+					// Tell the UI that a new game has started
+					if (firstIter) {
+						ui.GameStart(memSnapshot);
+						firstIter = false;
+					}
 
 					// Update the UI only if league window is not minimized and the game is not over
 					ui.Update(memSnapshot, reader.IsLeagueWindowActive() && memSnapshot.champions.size() > 0);

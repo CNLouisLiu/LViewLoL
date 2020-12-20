@@ -33,7 +33,7 @@ std::string RandomString(const int len) {
 UI::UI(): configs(*(ConfigSet::Get())){
 }
 
-void UI::Start() {
+void UI::Init() {
 
 	// Create transparent window
 	std::string windowClassName = RandomString(10);
@@ -81,7 +81,11 @@ void UI::Start() {
 	ImGui_ImplDX9_Init(pd3dDevice);
 
 	ImGui::GetStyle().Alpha = 1.f;
-	scriptManager.LoadAll(configs.GetStr("scriptsFolder", "."));
+}
+
+void UI::GameStart(MemSnapshot& memSnapshot)
+{
+	scriptManager.LoadAll(configs.GetStr("scriptsFolder", "."), memSnapshot.localChampion->name);
 }
 
 void UI::RenderUI(MemSnapshot& memSnapshot) {
@@ -130,23 +134,23 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Reload all scripts")) {
-		scriptManager.LoadAll(configs.GetStr("scriptsFolder", "."));
+		GameStart(memSnapshot);
 	}
 
 	ImGui::Text("Script Settings");
 	int idAboutNode = 10000;
-	for (auto it = scriptManager.scripts.begin(); it != scriptManager.scripts.end(); ++it, ++idAboutNode) {
-		Script& script = *it;
+	for (std::shared_ptr<Script>& script : scriptManager.activeScripts) {
+		idAboutNode++;
 
 		// If we got any load/execution script error we should print it in bright red
-		if (!script.loadError.empty() || !script.execError.empty()) {
+		if (!script->loadError.empty() || !script->execError.empty()) {
 			ImGui::PushStyleColor(ImGuiCol_Header, Colors::RED);
-			if (ImGui::CollapsingHeader(script.name.c_str())) {
+			if (ImGui::CollapsingHeader(script->name.c_str())) {
 				if (ImGui::Button("Reload script"))
 					scriptManager.ReloadScript(script);
 
-				ImGui::TextColored(Colors::RED, script.loadError.c_str());
-				ImGui::TextColored(Colors::RED, script.execError.c_str());
+				ImGui::TextColored(Colors::RED, script->loadError.c_str());
+				ImGui::TextColored(Colors::RED, script->execError.c_str());
 			}
 			ImGui::PopStyleColor();
 		}
@@ -155,17 +159,17 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 
 			// Gray out disabled cheat
 			bool shouldPopColor = false;
-			if (!script.enabled) {
+			if (!script->enabled) {
 				ImGui::PushStyleColor(ImGuiCol_Header, Colors::GRAY);
 				shouldPopColor = true;
 			}
 
-			if (ImGui::CollapsingHeader(script.name.c_str())) {
+			if (ImGui::CollapsingHeader(script->name.c_str())) {
 
 				// Draw about section
 				if (ImGui::TreeNode(&idAboutNode, "About")) {
-					ImGui::LabelText("Author", script.author.c_str());
-					ImGui::TextWrapped(script.description.c_str());
+					ImGui::LabelText("Author", script->author.c_str());
+					ImGui::TextWrapped(script->description.c_str());
 					ImGui::TreePop();
 				}
 				
@@ -177,13 +181,13 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 					scriptManager.CollectScriptConfigs(script);
 					configs.SaveToFile();
 				}
-				ImGui::Checkbox("Enabled", &script.enabled);
+				ImGui::Checkbox("Enabled", &script->enabled);
 			
 				// Call script to draw its settings
-				script.ExecDrawSettings(state, imguiInterface);
+				script->ExecDrawSettings(state, imguiInterface);
 			}
-			if(script.enabled)
-				script.ExecUpdate(state, imguiInterface);
+			if(script->enabled)
+				script->ExecUpdate(state, imguiInterface);
 			if(shouldPopColor)
 				ImGui::PopStyleColor();
 		}
@@ -210,9 +214,9 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 		}
 
 		if (ImGui::TreeNode("Script process time (ms)")) {
-			for (Script& script : scriptManager.scripts) {
-				float ms = script.updateTimeMs.count();
-				ImGui::DragFloat(script.name.c_str(), &ms);
+			for (std::shared_ptr<Script>& script : scriptManager.activeScripts) {
+				float ms = script->updateTimeMs.count();
+				ImGui::DragFloat(script->name.c_str(), &ms);
 			}
 			ImGui::TreePop();
 		}

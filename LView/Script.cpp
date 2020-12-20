@@ -39,8 +39,9 @@ bool Script::LoadInfo() {
 		return false;
 	}
 
+	dict d;
 	try {
-		dict d = dict(handle<>(dictAttr));
+		d = dict(handle<>(dictAttr));
 
 		author = extract<std::string>(d.get("author"));
 		description = extract<std::string>(d.get("description"));
@@ -51,6 +52,11 @@ bool Script::LoadInfo() {
 		loadError = std::string("Script info dictionary contains wrong values types or missing values");
 		return false;
 	}
+
+	try {
+		targetChampion = extract<std::string>(d.get("target_champ"));
+	}
+	catch (error_already_set) {}
 	
 	return true;
 }
@@ -135,4 +141,13 @@ void Script::ExecSaveCfg()
 	catch (error_already_set) {
 		loadError = GetPyError();
 	}
+}
+
+Script::~Script()
+{
+	Py_DECREF(moduleObj);
+	Py_DECREF(updateFunc);
+	Py_DECREF(drawSettingsFunc);
+	Py_DECREF(loadCfgFunc);
+	Py_DECREF(saveCfgFunc);
 }
