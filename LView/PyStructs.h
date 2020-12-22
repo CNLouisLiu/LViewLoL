@@ -155,6 +155,8 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("sameline",   &PyImguiInterface::SameLine)
 		.def("begingroup", &PyImguiInterface::BeginGroup)
 		.def("endgroup",   &PyImguiInterface::EndGroup)
+
+		.def("listbox",    &PyImguiInterface::ListBox)
 		;
 
 	class_<ImVec4>("Color", init<float, float, float, float>())

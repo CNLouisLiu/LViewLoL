@@ -3,7 +3,7 @@ from lview import *
 lview_script_info = {
 	"script": "Last Hit Assist",
 	"author": "leryss",
-	"description": ""
+	"description": "Shows when to attack minion in order to last hit them. Takes into account item that modify on hit damage like botrk and guinsoo."
 }
 
 def lview_load_cfg(cfg):

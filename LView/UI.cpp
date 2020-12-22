@@ -123,7 +123,7 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 	ImGui::End();
 	ImGui::PopStyleVar();
 
-	
+	ImGui::ShowDemoWindow();
 
 	ImGui::Begin("Settings");
 	ImGui::TextColored(Colors::CYAN, "LVIEW (External RPM Scripting Engine) by leryss");
@@ -162,18 +162,19 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 			if (!script->enabled) {
 				ImGui::PushStyleColor(ImGuiCol_Header, Colors::GRAY);
 				shouldPopColor = true;
-			}
+			} else
+				script->ExecUpdate(state, imguiInterface);
 
 			if (ImGui::CollapsingHeader(script->name.c_str())) {
 
-				// Draw about section
+				ImGui::Indent(16.0f);
+
+				// Draw general script settings
 				if (ImGui::TreeNode(&idAboutNode, "About")) {
 					ImGui::LabelText("Author", script->author.c_str());
 					ImGui::TextWrapped(script->description.c_str());
 					ImGui::TreePop();
 				}
-				
-				// Draw some general script buttons
 				if (ImGui::Button("Reload script"))
 					scriptManager.ReloadScript(script);
 				ImGui::SameLine();
@@ -182,12 +183,13 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 					configs.SaveToFile();
 				}
 				ImGui::Checkbox("Enabled", &script->enabled);
-			
+				ImGui::Separator();
+
 				// Call script to draw its settings
 				script->ExecDrawSettings(state, imguiInterface);
+				
+				ImGui::Unindent();
 			}
-			if(script->enabled)
-				script->ExecUpdate(state, imguiInterface);
 			if(shouldPopColor)
 				ImGui::PopStyleColor();
 		}

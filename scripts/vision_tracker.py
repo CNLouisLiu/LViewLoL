@@ -54,17 +54,13 @@ def lview_save_cfg(cfg):
 	
 def lview_draw_settings(game, ui):
 	
-	ui.text("Show circles for:")
-	show_circles["WARD"]           = ui.checkbox("Normal wards",    show_circles["WARD"])
-	show_circles["WARD_PINK"]      = ui.checkbox("Pink wards",      show_circles["WARD_PINK"])
-	show_circles["SHACO_BOX"]      = ui.checkbox("Shaco boxes",     show_circles["SHACO_BOX"])
-	show_circles["TEEMO_MUSHROOM"] = ui.checkbox("Teemo mushrooms", show_circles["TEEMO_MUSHROOM"])
-	
-	ui.text("Show circles on minimap for:")
-	show_circles_minimap["WARD"]           = ui.checkbox("Normal wards",    show_circles_minimap["WARD"])
-	show_circles_minimap["WARD_PINK"]      = ui.checkbox("Pink wards",      show_circles_minimap["WARD_PINK"])
-	show_circles_minimap["SHACO_BOX"]      = ui.checkbox("Shaco boxes",     show_circles_minimap["SHACO_BOX"])
-	show_circles_minimap["TEEMO_MUSHROOM"] = ui.checkbox("Teemo mushrooms", show_circles_minimap["TEEMO_MUSHROOM"])
+	ui.text("Settings per entity")
+	for x in show_circles.keys():
+		if ui.treenode(x):
+			show_circles[x] = ui.checkbox("Show range circles", show_circles[x])
+			show_circles_minimap[x] = ui.checkbox("Show on minimap", show_circles_minimap[x])
+			
+			ui.treepop()
 	
 def lview_update(game, ui):
 	

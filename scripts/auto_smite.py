@@ -8,7 +8,7 @@ enabled_autosmite = False
 lview_script_info = {
 	"script": "Auto Smite",
 	"author": "leryss",
-	"description": "Auto smites the mob on the cursor"
+	"description": "Auto smites the jungle mob under the cursor"
 }
 
 def lview_load_cfg(cfg):

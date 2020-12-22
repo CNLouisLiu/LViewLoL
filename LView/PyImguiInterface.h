@@ -103,6 +103,18 @@ public:
 		ImGui::EndGroup();
 	}
 
+	int ListBox(const char* label, list items, int chosen) {
+		static std::vector<const char*> buffer;
+		
+		buffer.clear();
+		int size = len(items);
+		for (int i = 0; i < size; ++i)
+			buffer.push_back(extract<const char*>(str(items[i])));
+
+		ImGui::ListBox(label, &chosen, &buffer[0], size);
+
+		return chosen;
+	}
 
 	// Key selector stuff
 	void DrawButton(HKey key, HKey& clickedBtn, bool& wasClicked) {

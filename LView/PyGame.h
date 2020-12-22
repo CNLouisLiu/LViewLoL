@@ -9,16 +9,16 @@ class PyGame {
 public:
 	GameRenderer*   renderer;
 
-	ImDrawList* overlay;
-	ImVec2      minimapPos, minimapSize;
+	ImDrawList*     overlay;
+	ImVec2          minimapPos, minimapSize;
 
 public:
 	PyGame() {}
 
 	// Exposed Fields
-	dict allObjects;
-	list champs, minions, turrets, jungle, others;
-	float gameTime;
+	dict            allObjects;
+	list            champs, minions, turrets, jungle, others;
+	float           gameTime;
 
 	GameObject* hoveredObject;
 	Champion* localChampion;
@@ -122,6 +122,7 @@ public:
 		gs.renderer = snapshot.renderer;
 		gs.hoveredObject = snapshot.hoveredObject;
 		gs.localChampion = snapshot.localChampion;
+
 		for (auto it = snapshot.idxToObjectMap.begin(); it != snapshot.idxToObjectMap.end(); ++it) {
 			gs.allObjects[it->first] = boost::ref(it->second);
 		}

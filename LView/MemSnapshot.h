@@ -34,6 +34,4 @@ struct MemSnapshot {
 	
 	ReadBenchmark*                       benchmark = new ReadBenchmark();
 
-	int                                  numSnapshot = 0;
-
 };
