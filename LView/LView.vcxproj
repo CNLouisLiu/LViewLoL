@@ -144,7 +144,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>F:\Github\LViewLoL\LView\boost\stage\lib;F:\Github\LViewLoL\LView\external_libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>boost_python39-vc141-mt-x32-1_75.lib;python39.lib;d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>aws-cpp-sdk-core.lib;aws-cpp-sdk-lambda.lib;boost_python39-vc141-mt-x32-1_75.lib;python39.lib;d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>

@@ -61,7 +61,7 @@ public:
 	}
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DragFloatOverloads, DragFloat, 2, 5);
-	int DragFloat(const char* text, float i, float step = 1, float minVal = 0, float maxVal = 0) {
+	float DragFloat(const char* text, float i, float step = 1, float minVal = 0, float maxVal = 0) {
 		ImGui::DragFloat(text, &i, step, minVal, maxVal);
 		return i;
 	}

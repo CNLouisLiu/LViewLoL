@@ -147,7 +147,7 @@ void LeagueMemoryReader::MakeSnapshot(MemSnapshot& ms) {
 	
 	Mem::Read(hProcess, moduleBaseAddr + Offsets::GameTime, &ms.gameTime, sizeof(float));
 
-	if (ms.gameTime > 1) {
+	if (ms.gameTime > 2) {
 		ms.updatedThisFrame.clear();
 
 		ReadChampions(ms);

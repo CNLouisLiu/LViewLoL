@@ -67,6 +67,4 @@ public:
 	static int UnitBoundingRadius;
 	static int UnitBaseAtkSpeed;
 	static int UnitMaxAtkSpeed;
-
-	static void LoadFromConfigs();
 };

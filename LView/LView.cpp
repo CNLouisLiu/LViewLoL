@@ -1,4 +1,6 @@
-#define BOOST_DEBUG_PYTHON 
+﻿#define BOOST_DEBUG_PYTHON 
+#define USE_IMPORT_EXPORT
+#define USE_WINDOWS_DLL_SEMANTICS
 #include "PyStructs.h"
 
 #include <iostream>
@@ -12,13 +14,25 @@
 #include "UI.h"
 #include <map>
 #include <list>
+#include <conio.h>
+
+#include <aws/core/Aws.h>
+#include <aws/lambda/LambdaClient.h>
+#include <aws/lambda/model/InvokeRequest.h>
+
+#include <aws/core/auth/AWSCredentials.h>
+#include <aws/core/client/ClientConfiguration.h>
 
 using namespace std::chrono;
 
+static const int VERSION_MAJOR = 0;
+static const int VERSION_SECONDARY = 1;
+
+void Intro();
+
 int main()
 {
-	printf("[+] Loading offsets\n");
-	Offsets::LoadFromConfigs();
+	Intro();
 
 	printf("[+] Initializing PyModule\n");
 	PyImport_AppendInittab("lview", &PyInit_lview);
@@ -98,4 +112,78 @@ int main()
 	}
 
 	Py_Finalize();
+}
+
+
+void Intro() {
+	printf(
+		"	:::    :::     ::: ::::::::::: :::::::::: :::       ::: \n"
+		"	:+:    :+:     :+:     :+:     :+:        :+:       :+: \n"
+		"	+:+    +:+     +:+     +:+     +:+        +:+       +:+ \n"
+		"	+#+    +#+     +:+     +#+     +#++:++#   +#+  +:+  +#+ \n"
+		"	+#+     +#+   +#+      +#+     +#+        +#+ +#+#+ +#+ \n"
+		"	#+#      #+#+#+#       #+#     #+#         #+#+# #+#+#  \n"
+		"	########## ###     ########### ##########   ###   ###   \n\n Version: %d.%d\n\n",
+		VERSION_MAJOR, VERSION_SECONDARY
+	);
+
+	Aws::SDKOptions options;
+	Aws::InitAPI(options);
+
+	ConfigSet* cfg = ConfigSet::Get();
+	cfg->SetPrefixKey("auth");
+	std::string name = cfg->GetStr("user", "");
+	std::string region = cfg->GetStr("region", "");
+	std::string accessKey = cfg->GetStr("access_key", "");
+	std::string secretKey = cfg->GetStr("secret_key", "");
+	cfg->SetPrefixKey("");
+
+	if (region.empty() || name.empty() || accessKey.empty() || secretKey.empty()) {
+		printf("[!] auth:: config fields are missing");
+		exit(0);
+	}
+	
+	Aws::Auth::AWSCredentials credentials;
+	credentials.SetAWSAccessKeyId(accessKey.c_str());
+	credentials.SetAWSSecretKey(secretKey.c_str());
+
+	Aws::Client::ClientConfiguration config;
+	config.region = Aws::String(region.c_str());
+	
+	
+	std::shared_ptr<Aws::IOStream> payload = Aws::MakeShared<Aws::StringStream>("FunctionTest");
+	Aws::Utils::Json::JsonValue json;
+	json.WithString("operation", "auth");
+	json.WithString("name", name.c_str());
+	json.WithString("secret_key", secretKey.c_str());
+	json.WithString("access_key", accessKey.c_str());
+	*payload << json.View().WriteReadable();
+
+	auto client = Aws::MakeShared<Aws::Lambda::LambdaClient>("alloc_tag", credentials, config);
+	Aws::Lambda::Model::InvokeRequest invokeRequest;
+	invokeRequest.SetFunctionName("lview-auth");
+	invokeRequest.SetInvocationType(Aws::Lambda::Model::InvocationType::RequestResponse);
+	invokeRequest.SetLogType(Aws::Lambda::Model::LogType::Tail);
+	invokeRequest.SetBody(payload);
+	invokeRequest.SetContentType("application/javascript");
+
+	auto outcome = client->Invoke(invokeRequest);
+	if (!outcome.IsSuccess()) {
+		printf("[!] Access denied.\n");
+
+		auto err = outcome.GetError();
+		printf(err.GetExceptionName().c_str());
+		exit(0);
+	}
+
+	auto& result = outcome.GetResult();
+	Aws::Utils::Json::JsonValue resultJson(result.GetPayload());
+	int statusCode = resultJson.View().GetInteger("status");
+	Aws::String msg = resultJson.View().GetString("msg");
+
+	if (statusCode != 200) {
+		printf("[!] Server authentication failed %s\n", msg.c_str());
+		exit(0);
+	}
+	printf("[+] Server authentication succeeded: %s\n", msg.c_str());
 }

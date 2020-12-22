@@ -44,7 +44,7 @@ private:
 private: 
 	HWND                               hWindow;
 
-	GameRenderer                           renderer;
+	GameRenderer                       renderer;
 
 	// DirectX stuff
 	static LPDIRECT3D9                 pD3D;
