@@ -30,7 +30,7 @@ struct MemSnapshot {
 	GameRenderer*                        renderer = new GameRenderer();
 
 	/* How many seconds have elapsed since the game started */
-	float                                gameTime;
+	float                                gameTime = 0.f;
 	
 	ReadBenchmark*                       benchmark = new ReadBenchmark();
 

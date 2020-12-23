@@ -41,6 +41,7 @@ int main()
 	printf("[+] Initialising imgui and directx UI\n\n");
 	UI ui = UI();
 	LeagueMemoryReader reader = LeagueMemoryReader();
+	MemSnapshot memSnapshot;
 
 	try {
 		ui.Init();
@@ -54,7 +55,7 @@ int main()
 	high_resolution_clock::time_point frameTimeBegin;
 	duration<float, std::milli> diff;
 
-	MemSnapshot memSnapshot;
+
 
 	/* Flag for when to look for the league process */
 	bool rehook = true;
@@ -65,6 +66,8 @@ int main()
 		frameTimeBegin = high_resolution_clock::now();
 
 		try {
+			ui.StartFrame();
+
 			// Try to find the league process and get its information necessary for reading
 			if (rehook) {
 				reader.HookToProcess();
@@ -92,9 +95,12 @@ int main()
 					}
 
 					// Update the UI only if league window is not minimized and the game is not over
-					ui.Update(memSnapshot, reader.IsLeagueWindowActive() && memSnapshot.champions.size() > 0);
+					if(reader.IsLeagueWindowActive() && memSnapshot.champions.size() > 0)
+						ui.Update(memSnapshot);
 				}
 			}
+
+			ui.RenderFrame();
 		}
 		catch (WinApiException exception) {
 			// This should trigger only when we don't find the league process.
@@ -104,6 +110,8 @@ int main()
 			printf("[!] Unexpected error occured: \n [!] %s \n", exception.what());
 			break;
 		}
+
+
 
 		diff = (high_resolution_clock::now() - frameTimeBegin);
 		frameTimeLength = diff.count();

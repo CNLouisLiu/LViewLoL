@@ -50,11 +50,12 @@ void UI::Init() {
 		1, 1, 1920, 1080,
 		nullptr, nullptr, GetModuleHandle(0), nullptr);
 
-	ShowWindow(hWindow, SW_SHOW);
 	
+	ShowWindow(hWindow, SW_SHOW);
+
 	// Make the window a little bit transparent
 	SetLayeredWindowAttributes(hWindow, RGB(0, 0, 0), 200, LWA_COLORKEY | LWA_ALPHA);
-
+	
 	if (hWindow == NULL) {
 		throw WinApiException("Failed to create overlay window");
 	}
@@ -227,39 +228,37 @@ void UI::RenderUI(MemSnapshot& memSnapshot) {
 	ImGui::End();
 }
 
-void UI::Update(MemSnapshot& memSnapshot, bool skipRender) {
-	
-	high_resolution_clock::time_point timeBefore;
-	duration<float, std::milli> timeDuration;
-
+void UI::StartFrame()
+{
 	MSG msg;
 	ZeroMemory(&msg, sizeof(MSG));
-	
-	if (skipRender) {
-		// Poll and handle messages (inputs, window resize, etc.)
-		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
-		{
+
+	if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
+	{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
-		}
 	}
 
 	// Start the Dear ImGui frame
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+}
 
-	timeBefore = high_resolution_clock::now();
-
-	if (skipRender) {
-		RenderUI(memSnapshot);
-	}
-
-	timeDuration = high_resolution_clock::now() - timeBefore;	
-	processTimeMs = timeDuration.count();
+void UI::Update(MemSnapshot& memSnapshot) {
 	
+	auto timeBefore = high_resolution_clock::now();
+
+	RenderUI(memSnapshot);
+
+	duration<float, std::milli> timeDuration = high_resolution_clock::now() - timeBefore;	
+	processTimeMs = timeDuration.count();
+}
+
+void UI::RenderFrame()
+{
 	// Render
-	timeBefore = high_resolution_clock::now();
+	auto timeBefore = high_resolution_clock::now();
 
 	pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
 	if (pd3dDevice->BeginScene() >= 0)
@@ -275,7 +274,7 @@ void UI::Update(MemSnapshot& memSnapshot, bool skipRender) {
 	if (result == D3DERR_DEVICELOST && pd3dDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
 		ResetDevice();
 
-	timeDuration = high_resolution_clock::now() - timeBefore;
+	duration<float, std::milli> timeDuration = high_resolution_clock::now() - timeBefore;
 	renderTimeMs = timeDuration.count();
 }
 

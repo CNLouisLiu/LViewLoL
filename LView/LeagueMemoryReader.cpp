@@ -51,8 +51,6 @@ void LeagueMemoryReader::HookToProcess() {
 	else {
 		throw WinApiException("Couldn't retrieve league base address");
 	}
-
-	numPerformedReads = 0;
 }
 
 

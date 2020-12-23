@@ -31,7 +31,10 @@ public:
 	               UI();
 	void           Init();
 	void           GameStart(MemSnapshot& memSnapshot);
-	void           Update(MemSnapshot& memSnapshot, bool skipRender);
+
+	void           StartFrame();
+	void           Update(MemSnapshot& memSnapshot);
+	void           RenderFrame();
 
 private:
 	void           RenderUI(MemSnapshot& memSnapshot);

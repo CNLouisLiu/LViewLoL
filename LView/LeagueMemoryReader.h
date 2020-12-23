@@ -33,20 +33,19 @@ public:
 private:
 
 	// Process related
-	HANDLE                    hProcess;
-	DWORD                     pid;
-	HWND                      hWindow;
+	HANDLE                    hProcess = NULL;
+	DWORD                     pid      = 0;
+	HWND                      hWindow  = NULL;
 
 	// Memory related
-	DWORD_PTR                 moduleBaseAddr;
-	DWORD                     moduleSize;
-	BOOL                      is64Bit = FALSE;
-	DWORD                     numPerformedReads;
+	DWORD_PTR                 moduleBaseAddr    = 0;
+	DWORD                     moduleSize        = 0;
+	BOOL                      is64Bit           = FALSE;
 
 private:
-	static const size_t         numMaxChamps = 10;
+	static const size_t         numMaxChamps  = 10;
 	static const size_t         numMaxTurrets = 24;
-	static const size_t         numMaxMobs = 500;
+	static const size_t         numMaxMobs    = 500;
 	float                       minDistanceToCursor;
 
 	// Buffers use for avoiding to reinstantiate game objects
