@@ -9,6 +9,7 @@
 #include "Structs.h"
 #include "LeagueMemoryReader.h"
 #include "Offsets.h"
+#include "AntiCrack.h"
 
 #include <chrono>
 #include "UI.h"
@@ -158,13 +159,15 @@ void Intro() {
 	Aws::Client::ClientConfiguration config;
 	config.region = Aws::String(region.c_str());
 	
-	
+	std::string hwid = AntiCrack::GetHardwareID();
+
 	std::shared_ptr<Aws::IOStream> payload = Aws::MakeShared<Aws::StringStream>("FunctionTest");
 	Aws::Utils::Json::JsonValue json;
 	json.WithString("operation", "auth");
 	json.WithString("name", name.c_str());
 	json.WithString("secret_key", secretKey.c_str());
 	json.WithString("access_key", accessKey.c_str());
+	json.WithString("hwid", hwid.c_str());
 	*payload << json.View().WriteReadable();
 
 	auto client = Aws::MakeShared<Aws::Lambda::LambdaClient>("alloc_tag", credentials, config);
@@ -190,7 +193,7 @@ void Intro() {
 	Aws::String msg = resultJson.View().GetString("msg");
 
 	if (statusCode != 200) {
-		printf("[!] Server authentication failed %s\n", msg.c_str());
+		printf("[!] Server authentication failed: %s\n", msg.c_str());
 		exit(0);
 	}
 	printf("[+] Server authentication succeeded: %s\n", msg.c_str());

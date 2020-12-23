@@ -171,6 +171,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AntiCrack.cpp" />
     <ClCompile Include="Champion.cpp" />
     <ClCompile Include="ConfigSet.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -195,6 +196,7 @@
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AntiCrack.h" />
     <ClInclude Include="Benchmark.h" />
     <ClInclude Include="Champion.h" />
     <ClInclude Include="ConfigSet.h" />

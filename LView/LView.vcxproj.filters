@@ -99,6 +99,9 @@
     <ClCompile Include="Item.cpp">
       <Filter>Source Files\Structs\GameRelated</Filter>
     </ClCompile>
+    <ClCompile Include="AntiCrack.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UI.h">
@@ -181,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>Source Files\Structs\GameRelated</Filter>
+    </ClInclude>
+    <ClInclude Include="AntiCrack.h">
+      <Filter>Source Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
