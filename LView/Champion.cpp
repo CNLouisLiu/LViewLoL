@@ -67,7 +67,6 @@ float Champion::GetOnHitPhysDamage(const GameObject& target)
 {
 	float physDmg = GetBasicAttackDamage();
 	float botrkDmg = 0.f;
-	float value;
 
 	for (int i = 0; i < 6; ++i) {
 		if (items[i] == nullptr)

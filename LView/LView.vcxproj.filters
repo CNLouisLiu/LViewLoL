@@ -31,17 +31,11 @@
     <Filter Include="Source Files\Python">
       <UniqueIdentifier>{277024ac-8f44-404e-aec4-a058949713dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{d28b0c84-0437-4186-bf25-e02b6db8c8c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Offsets.h">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UI.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="imgui.cpp">
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
@@ -59,12 +53,6 @@
     </ClCompile>
     <ClCompile Include="imgui_impl_win32.cpp">
       <Filter>Source Files\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui_impl_dx9.cpp">
-      <Filter>Source Files\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="LeagueMemoryReader.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp">
       <Filter>Source Files\Utils</Filter>
@@ -93,20 +81,32 @@
     <ClCompile Include="GameRenderer.cpp">
       <Filter>Source Files\Structs\GameRelated</Filter>
     </ClCompile>
-    <ClCompile Include="Offsets.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Item.cpp">
       <Filter>Source Files\Structs\GameRelated</Filter>
     </ClCompile>
     <ClCompile Include="AntiCrack.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="LeagueMemoryReader.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="LView.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Offsets.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Offsets.h">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_dx11.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="UI.h">
-      <Filter>Source Files\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="imgui.h">
       <Filter>Source Files\imgui</Filter>
     </ClInclude>
@@ -127,12 +127,6 @@
     </ClInclude>
     <ClInclude Include="imconfig.h">
       <Filter>Source Files\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui_impl_dx9.h">
-      <Filter>Source Files\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="LeagueMemoryReader.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h">
       <Filter>Source Files\Structs</Filter>
@@ -187,6 +181,15 @@
     </ClInclude>
     <ClInclude Include="AntiCrack.h">
       <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="LeagueMemoryReader.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_dx11.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay.h">
+      <Filter>Source Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

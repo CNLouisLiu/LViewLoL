@@ -4,6 +4,7 @@
 
 using namespace boost::python;
 
+/// Interface used by python scripts for game related stuff
 class PyGame {
 
 public:

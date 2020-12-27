@@ -12,7 +12,7 @@
 #include "AntiCrack.h"
 
 #include <chrono>
-#include "UI.h"
+#include "Overlay.h"
 #include <map>
 #include <list>
 #include <conio.h>
@@ -33,30 +33,29 @@ void Intro();
 
 int main()
 {
-	Intro();
+	//Intro();
 
 	printf("[+] Initializing PyModule\n");
 	PyImport_AppendInittab("lview", &PyInit_lview);
 	Py_Initialize();
 
 	printf("[+] Initialising imgui and directx UI\n\n");
-	UI ui = UI();
+	Overlay overlay = Overlay();
 	LeagueMemoryReader reader = LeagueMemoryReader();
 	MemSnapshot memSnapshot;
 
 	try {
-		ui.Init();
+		overlay.Init();
 	}
-	catch (WinApiException exception) {
-		std::cout << exception.GetErrorMessage() << std::endl;
+	catch (std::runtime_error exception) {
+		std::cout << exception.what() << std::endl;
+		exit(0);
 	}
 
 	float millisPerFrame = 10;
 	float frameTimeLength;
 	high_resolution_clock::time_point frameTimeBegin;
 	duration<float, std::milli> diff;
-
-
 
 	/* Flag for when to look for the league process */
 	bool rehook = true;
@@ -66,8 +65,18 @@ int main()
 	while (true) {
 		frameTimeBegin = high_resolution_clock::now();
 
+		bool isLeagueWindowActive = reader.IsLeagueWindowActive();
+		if (overlay.IsVisible()) {
+			if (!isLeagueWindowActive) {
+				overlay.Hide();
+			}
+		}
+		else if (isLeagueWindowActive) {
+			overlay.Show();
+		}
+			
 		try {
-			ui.StartFrame();
+			overlay.StartFrame();
 
 			// Try to find the league process and get its information necessary for reading
 			if (rehook) {
@@ -91,17 +100,14 @@ int main()
 
 					// Tell the UI that a new game has started
 					if (firstIter) {
-						ui.GameStart(memSnapshot);
+						overlay.GameStart(memSnapshot);
 						firstIter = false;
 					}
-
-					// Update the UI only if league window is not minimized and the game is not over
-					if(reader.IsLeagueWindowActive() && memSnapshot.champions.size() > 0)
-						ui.Update(memSnapshot);
+					overlay.Update(memSnapshot);
 				}
 			}
 
-			ui.RenderFrame();
+			overlay.RenderFrame();
 		}
 		catch (WinApiException exception) {
 			// This should trigger only when we don't find the league process.

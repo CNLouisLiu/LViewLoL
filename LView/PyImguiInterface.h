@@ -3,6 +3,7 @@
 #include <boost/python.hpp>
 using namespace boost::python;
 
+/// Interface used by python scripts for creating UIs with imgui.
 class PyImguiInterface {
 
 public:
@@ -56,7 +57,7 @@ public:
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DragIntOverloads, DragInt, 2, 5);
 	int DragInt(const char* text, int i, int step = 1, int minVal = 0, int maxVal = 0) {
-		ImGui::DragInt(text, &i, step, minVal, maxVal);
+		ImGui::DragInt(text, &i, (float)step, minVal, maxVal);
 		return i;
 	}
 

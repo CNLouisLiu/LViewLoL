@@ -13,6 +13,7 @@
 
 using namespace std::chrono;
 
+/// Reads memory from League of Legends process using ReadProcessMemory
 class LeagueMemoryReader {
 
 public:

@@ -1,8 +1,7 @@
 #pragma once
-#undef NDEBUG
 #include "ConfigSet.h"
-#include <assert.h>   
 
+/// Defines offsets for reading structs from league of legends memory
 class Offsets {
 	
 public:

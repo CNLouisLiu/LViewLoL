@@ -15,7 +15,7 @@
 
 using namespace boost::python;
 
-
+/// Definition of structs used by python scripts
 BOOST_PYTHON_MODULE(lview) {
 
 	class_<Item>("Item")
