@@ -35,6 +35,7 @@ public:
 	static int ObjBonusAbilityPower;
 	static int ObjAtkSpeedMulti;
 	static int ObjItemList;
+	static int ObjSrcIndex;
 
 	static int ItemListItem;
 	static int ItemInfo;
@@ -59,6 +60,16 @@ public:
 	static int HeroList;
 	static int MinionList;
 	static int TurretList;
+	static int MissileMap;
+
+	static int MissileMapCount;
+	static int MissileMapRoot;
+	static int MissileMapKey;
+	static int MissileMapVal;
+	static int MissileSrcIdx;
+	static int MissileDestIdx;
+	static int MissileStartPos;
+	static int MissileEndPos;
 
 	static int UnitComponentInfo;
 	static int UnitProperties;
@@ -66,4 +77,6 @@ public:
 	static int UnitBoundingRadius;
 	static int UnitBaseAtkSpeed;
 	static int UnitMaxAtkSpeed;
+
+
 };

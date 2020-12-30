@@ -10,6 +10,7 @@ struct ReadBenchmark {
 	float readRendererMs;
 	float readMobsMs;
 	float readTurretsMs;
+	float readMissilesMs;
 };
 
 struct ViewBenchmark {

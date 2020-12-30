@@ -18,7 +18,7 @@ public:
 
 	// Exposed Fields
 	dict            allObjects;
-	list            champs, minions, turrets, jungle, others;
+	list            champs, minions, turrets, jungle, missiles, others;
 	float           gameTime;
 
 	GameObject* hoveredObject;
@@ -89,6 +89,10 @@ public:
 		renderer->DrawCircleAt(overlay, center, radius, true, numPoints, ImColor(color));
 	}
 
+	void DrawLine(const Vector2& start, const Vector2& end, float thickness, const ImVec4& color) {
+		overlay->AddLine((const ImVec2&)start, (const ImVec2&)end, ImColor(color), thickness);
+	}
+
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DrawButtonOverloads, DrawButton, 4, 5);
 	void DrawButton(const Vector2& p, const char* text, ImVec4& colorButton, ImVec4& colorText, float rounding = 0) {
 		int txtSize = strlen(text);
@@ -120,12 +124,12 @@ public:
 		PyGame gs;
 
 		gs.gameTime = snapshot.gameTime;
-		gs.renderer = snapshot.renderer;
-		gs.hoveredObject = snapshot.hoveredObject;
-		gs.localChampion = snapshot.localChampion;
+		gs.renderer = snapshot.renderer.get();
+		gs.hoveredObject = snapshot.hoveredObject.get();
+		gs.localChampion = snapshot.localChampion.get();
 
 		for (auto it = snapshot.idxToObjectMap.begin(); it != snapshot.idxToObjectMap.end(); ++it) {
-			gs.allObjects[it->first] = boost::ref(it->second);
+			gs.allObjects[it->first] = boost::ref(*it->second);
 		}
 
 		for (auto it = snapshot.champions.begin(); it != snapshot.champions.end(); ++it) {
@@ -139,6 +143,9 @@ public:
 		}
 		for (auto it = snapshot.jungle.begin(); it != snapshot.jungle.end(); ++it) {
 			gs.jungle.append(boost::ref(**it));
+		}
+		for (auto it = snapshot.missiles.begin(); it != snapshot.missiles.end(); ++it) {
+			gs.missiles.append(boost::ref(**it));
 		}
 		for (auto it = snapshot.others.begin(); it != snapshot.others.end(); ++it) {
 			gs.others.append(boost::ref(**it));

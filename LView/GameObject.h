@@ -75,8 +75,8 @@ enum GameObjectType {
 class GameObject: MemoryLoadable {
 
 public:
-	GameObject() { buff = new BYTE[sizeBuff]; buffDeep = new BYTE[sizeBuffDeep]; }
-	~GameObject() { delete[] buff; delete[] buffDeep; }
+	//GameObject() { buff = new BYTE[sizeBuff]; buffDeep = new BYTE[sizeBuffDeep]; }
+	//~GameObject() { delete[] buff; delete[] buffDeep; }
 
 	void           LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad = true);
 
@@ -133,14 +133,16 @@ public:
 	float          lastVisibleAt;
 
 	/* Unique identifier of the object in game */
-	int            objectIndex;
+	short            objectIndex;
+
+	DWORD            networkId;
 
 protected:
-	BYTE* buff;
-	BYTE* buffDeep;
-
 	static const SIZE_T sizeBuff = 0x3000;
 	static const SIZE_T sizeBuffDeep = 0x1000;
+
+	static BYTE buff[sizeBuff];
+	static BYTE buffDeep[sizeBuffDeep];
 
 private:
 	static std::map<std::string, GameObjectType>  gameObjectNameTypeDict;

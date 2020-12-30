@@ -105,6 +105,9 @@
     <ClCompile Include="Overlay.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="Missile.cpp">
+      <Filter>Source Files\Structs\GameRelated</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui.h">
@@ -190,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="Overlay.h">
       <Filter>Source Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Missile.h">
+      <Filter>Source Files\Structs\GameRelated</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

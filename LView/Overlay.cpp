@@ -193,7 +193,12 @@ void Overlay::DrawDevStuff(MemSnapshot & memSnapshot)
 {
 	ImGui::Text("Dev Stuff");
 	if (ImGui::CollapsingHeader("Benchmarks")) {
-		float readMemoryTime = memSnapshot.benchmark->readChampsMs + memSnapshot.benchmark->readMobsMs + memSnapshot.benchmark->readRendererMs + memSnapshot.benchmark->readTurretsMs;
+		float readMemoryTime = memSnapshot.benchmark->readChampsMs +
+			memSnapshot.benchmark->readMobsMs +
+			memSnapshot.benchmark->readRendererMs + 
+			memSnapshot.benchmark->readTurretsMs +
+			memSnapshot.benchmark->readMissilesMs;
+
 		float totalMs = readMemoryTime + renderTimeMs + processTimeMs;
 
 		ImGui::DragFloat("Total Time (ms)", &totalMs);
@@ -206,6 +211,7 @@ void Overlay::DrawDevStuff(MemSnapshot & memSnapshot)
 			ImGui::DragFloat("Read mobs", &memSnapshot.benchmark->readMobsMs);
 			ImGui::DragFloat("Read renderer", &memSnapshot.benchmark->readRendererMs);
 			ImGui::DragFloat("Read turrets", &memSnapshot.benchmark->readTurretsMs);
+			ImGui::DragFloat("Read missiles", &memSnapshot.benchmark->readMissilesMs);
 			ImGui::TreePop();
 		}
 

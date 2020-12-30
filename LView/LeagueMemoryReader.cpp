@@ -3,6 +3,7 @@
 #include "Utils.h"
 #include "Structs.h"
 #include "psapi.h"
+#include "Missile.h"
 #include <limits>
 #include <stdexcept>
 
@@ -71,20 +72,31 @@ void LeagueMemoryReader::ReadChampions(MemSnapshot& ms) {
 	duration<float, std::milli> readDuration;
 	readTimeBegin = high_resolution_clock::now();
 
-	ReadGameObjectList<Champion>(ms.champions, numMaxChamps, Offsets::HeroList, ms);
+	ReadGameObjectList<Champion>(ms.champions, numMaxChamps, Offsets::HeroList, 0x8, 0x4, ms);
 
 	readDuration = high_resolution_clock::now() - readTimeBegin;
 	ms.benchmark->readChampsMs = readDuration.count();
 }
+
+/*void LeagueMemoryReader::ReadMissiles(MemSnapshot& ms) {
+	high_resolution_clock::time_point readTimeBegin;
+	duration<float, std::milli> readDuration;
+	readTimeBegin = high_resolution_clock::now();
+
+	ReadGameObjectList<Missile>(ms.missiles, 200, Offsets::MissileMap, 0x18, 0x14, ms);
+
+	readDuration = high_resolution_clock::now() - readTimeBegin;
+	//ms.benchmark->readChampsMs = readDuration.count();
+}*/
 
 void LeagueMemoryReader::ReadTurrets(MemSnapshot& ms) {
 	high_resolution_clock::time_point readTimeBegin;
 	duration<float, std::milli> readDuration;
 	readTimeBegin = high_resolution_clock::now();
 
-	ReadGameObjectList<GameObject>(ms.turrets, numMaxTurrets, Offsets::TurretList, ms);
+	ReadGameObjectList<GameObject>(ms.turrets, numMaxTurrets, Offsets::TurretList, 0x8, 0x4, ms);
 	for (auto it = ms.turrets.begin(); it != ms.turrets.end(); ++it) {
-		GameObject* obj = *it;
+		auto obj = *it;
 		obj->type = GameObjectType::TURRET;
 		obj->targetRadius = 100.f;
 	}
@@ -98,14 +110,14 @@ void LeagueMemoryReader::ReadMobs(MemSnapshot& ms) {
 	duration<float, std::milli> readDuration;
 	readTimeBegin = high_resolution_clock::now();
 
-	ReadGameObjectList<GameObject>(ms.others, numMaxMobs, Offsets::MinionList, ms);
+	ReadGameObjectList<GameObject>(ms.others, numMaxMobs, Offsets::MinionList, 0x8, 0x4, ms);
 
 	// Filter minions e.g wards, jungle, minions etc
 	ms.minions.clear();
 	ms.jungle.clear();
 	auto it = ms.others.begin();
 	while (it != ms.others.end()) {
-		GameObject* obj = *it;
+		auto obj = *it;
 		GameObjectType type = obj->type;
 		if (type & GameObjectType::JUNGLE) {
 			ms.jungle.push_back(obj);
@@ -123,12 +135,12 @@ void LeagueMemoryReader::ReadMobs(MemSnapshot& ms) {
 	ms.benchmark->readMobsMs = readDuration.count();
 }
 
-GameObject* LeagueMemoryReader::FindHoveredObject(MemSnapshot& ms) {
+std::shared_ptr<GameObject> LeagueMemoryReader::FindHoveredObject(MemSnapshot& ms) {
 	
 	Vector2 cursorPos = Input::GetCursorPosition();
 	float minDistance = std::numeric_limits<float>::infinity();
 	float distance;
-	GameObject* hoveredObject = nullptr;
+	std::shared_ptr<GameObject> hoveredObject = nullptr;
 
 	for (auto it = ms.idxToObjectMap.begin(); it != ms.idxToObjectMap.end(); ++it) {
 		distance = League::Distance(cursorPos, ms.renderer->WorldToScreen(it->second->position));
@@ -139,6 +151,79 @@ GameObject* LeagueMemoryReader::FindHoveredObject(MemSnapshot& ms) {
 	}
 
 	return hoveredObject;
+}
+
+
+void LeagueMemoryReader::ReadMissiles(MemSnapshot& ms) {
+
+	high_resolution_clock::time_point readTimeBegin;
+	duration<float, std::milli> readDuration;
+	readTimeBegin = high_resolution_clock::now();
+
+	ms.missiles.clear();
+	int missileMap = Mem::ReadPointer(hProcess, moduleBaseAddr + Offsets::MissileMap);
+	
+	static char buff[0x500];
+	Mem::Read(hProcess, missileMap, buff, 0x100);
+
+	int nrMissiles, root;
+	memcpy(&nrMissiles, buff + Offsets::MissileMapCount, sizeof(int));
+	memcpy(&root, buff + Offsets::MissileMapRoot, sizeof(int));
+
+	std::queue<int> nodes;
+	std::set<int> visited;
+	nodes.push(root);
+
+	int l1, l2, l3, node;
+	while (nodes.size() > 0 && visited.size() < nrMissiles) {	
+		node = nodes.front();
+		nodes.pop();
+		visited.insert(node);
+
+		Mem::Read(hProcess, node, buff, 0x50);
+		memcpy(&l1, buff, sizeof(int));
+		memcpy(&l2, buff + 4, sizeof(int));
+		memcpy(&l3, buff + 8, sizeof(int));
+
+		if (visited.find(l1) == visited.end())
+			nodes.push(l1);
+		if (visited.find(l2) == visited.end())
+			nodes.push(l2);
+		if (visited.find(l3) == visited.end())
+			nodes.push(l3);
+
+		unsigned int netId = 0;
+		memcpy(&netId, buff + Offsets::MissileMapKey, sizeof(int));
+
+		// Actual missiles start net_id start from 0x40000000
+		if (netId - (unsigned int)0x40000000 > 0x100000) 
+			continue;
+
+		int addr;
+		memcpy(&addr, buff + Offsets::MissileMapVal, sizeof(int));
+		if (addr == 0)
+			continue;
+
+		addr = Mem::ReadPointer(hProcess, addr + 0x4);
+		if (addr == 0)
+			continue;
+		
+		addr = Mem::ReadPointer(hProcess, addr + 0x10);
+		if (addr == 0)
+			continue;
+
+		auto m = std::unique_ptr<Missile>(new Missile());
+		m->LoadFromMem(addr, hProcess);
+
+		// Check one more time that we read a valid missile
+		if (m->networkId != netId)
+			continue;
+
+		ms.missiles.push_back(std::move(m));
+	}
+
+	readDuration = high_resolution_clock::now() - readTimeBegin;
+	ms.benchmark->readMissilesMs = readDuration.count();
 }
 
 void LeagueMemoryReader::MakeSnapshot(MemSnapshot& ms) {
@@ -152,6 +237,7 @@ void LeagueMemoryReader::MakeSnapshot(MemSnapshot& ms) {
 		ReadRenderer(ms);
 		ReadMobs(ms);
 		ReadTurrets(ms);
+		ReadMissiles(ms);
 		
 		ms.localChampion = ms.champions[0];
 
@@ -159,7 +245,6 @@ void LeagueMemoryReader::MakeSnapshot(MemSnapshot& ms) {
 		auto it = ms.idxToObjectMap.begin();
 		while (it != ms.idxToObjectMap.end()) {
 			if (ms.updatedThisFrame.find(it->first) == ms.updatedThisFrame.end()) {
-				delete it->second;
 				it = ms.idxToObjectMap.erase(it);
 			}
 			else

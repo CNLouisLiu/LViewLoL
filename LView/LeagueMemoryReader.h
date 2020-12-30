@@ -10,6 +10,7 @@
 #include <vector>
 #include <set>
 #include <chrono>
+#include <queue>
 
 using namespace std::chrono;
 
@@ -17,16 +18,6 @@ using namespace std::chrono;
 class LeagueMemoryReader {
 
 public:
-	LeagueMemoryReader() {
-		bufferGameObject = new GameObject();
-		bufferChampion = new Champion();
-	}
-
-	~LeagueMemoryReader() {
-		delete bufferGameObject;
-		delete bufferChampion;
-	}
-
 	bool IsLeagueWindowActive();
 	bool IsHookedToProcess();
 	void HookToProcess();
@@ -48,30 +39,27 @@ private:
 	static const size_t         numMaxTurrets = 24;
 	static const size_t         numMaxMobs    = 500;
 	float                       minDistanceToCursor;
-
-	// Buffers use for avoiding to reinstantiate game objects
-	GameObject*                 bufferGameObject;
-	Champion*                   bufferChampion;
 	
 	void                        ReadChampions(MemSnapshot& snapshot);
 	void                        ReadRenderer(MemSnapshot& snapshot);
 	void                        ReadMobs(MemSnapshot& snapshot);
 	void                        ReadTurrets(MemSnapshot& snapshot);
-	GameObject*                 FindHoveredObject(MemSnapshot& ms);
+	void                        ReadMissiles(MemSnapshot& snapshot);
+	std::shared_ptr<GameObject> FindHoveredObject(MemSnapshot& ms);
 
 	template<typename T, typename std::enable_if<std::is_base_of<MemoryLoadable, T>::value>::type* = nullptr>
-	void                        ReadGameObjectList(std::vector<T*>& readInto, DWORD numMaxObjects, DWORD baseAddr, MemSnapshot& snapshot);
+	void                        ReadGameObjectList(std::vector<std::shared_ptr<T>>& readInto, DWORD numMaxObjects, DWORD baseAddr, DWORD countOffset, DWORD listOffset, MemSnapshot& snapshot);
 };
 
 template<typename T, typename std::enable_if<std::is_base_of<MemoryLoadable, T>::value>::type*>
-void LeagueMemoryReader::ReadGameObjectList(std::vector<T*>& readInto, DWORD numMaxObjects, DWORD baseAddr, MemSnapshot& snapshot) {
+void LeagueMemoryReader::ReadGameObjectList(std::vector<std::shared_ptr<T>>& readInto, DWORD numMaxObjects, DWORD baseAddr, DWORD countOffset, DWORD listOffset, MemSnapshot& snapshot) {
 
 	auto& idxToObjectMap = snapshot.idxToObjectMap;
 
 	DWORD listManagerPtr = Mem::ReadPointer(hProcess, moduleBaseAddr + baseAddr);
-	DWORD listPtr = Mem::ReadPointer(hProcess, listManagerPtr + 0x4);
+	DWORD listPtr = Mem::ReadPointer(hProcess, listManagerPtr + listOffset);
 	DWORD numObjects = 0;
-	Mem::Read(hProcess, listManagerPtr + 0x8, &numObjects, 4);
+	Mem::Read(hProcess, listManagerPtr + countOffset, &numObjects, 4);
 
 	readInto.clear();
 	if (listPtr == 0 || numObjects < 0 || numObjects > numMaxObjects) {
@@ -86,18 +74,18 @@ void LeagueMemoryReader::ReadGameObjectList(std::vector<T*>& readInto, DWORD num
 		if (pointers[i] == 0)
 			break;
 
-		int objIndex;
-		Mem::Read(hProcess, pointers[i] + Offsets::ObjIndex, &objIndex, sizeof(int));
+		short objIndex;
+		Mem::Read(hProcess, pointers[i] + Offsets::ObjIndex, &objIndex, sizeof(short));
 
-		T* obj;
+		std::shared_ptr<T> obj;
 		auto it = idxToObjectMap.find(objIndex);
 		if (it == idxToObjectMap.end()) {
-			obj = new T();
+			obj = std::shared_ptr<T>(new T());
 			obj->LoadFromMem(pointers[i], hProcess, true);
 			idxToObjectMap[obj->objectIndex] = obj;
 		}
 		else {
-			obj = (T*)it->second;
+			obj = std::static_pointer_cast<T>(it->second);
 			obj->LoadFromMem(pointers[i], hProcess, false);
 
 			// If the object changed its id for whatever the fuck reason then we update the map with the new index

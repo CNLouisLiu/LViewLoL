@@ -64,6 +64,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("is_visible",           &GameObject::isVisible)
 		.def_readonly("last_visible_at",      &GameObject::lastVisibleAt)
 		.def_readonly("id",                   &GameObject::objectIndex)
+		.def_readonly("net_id",               &GameObject::networkId)
 		.def_readonly("crit",                 &GameObject::crit)
 		.def_readonly("crit_multi",           &GameObject::critMulti)
 		.def_readonly("ap",                   &GameObject::abilityPower)
@@ -95,6 +96,12 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("get_summoner_spell", &Champion::GetSummonerSpell, return_value_policy<reference_existing_object>())
 		;
 
+	class_<Missile, bases<GameObject>>("Missile")
+		.def_readonly("src_idx",    &Missile::srcIndex)
+		.def_readonly("dest_idx",   &Missile::destIndex)
+		.def_readonly("start_pos",  &Missile::startPos)
+		.def_readonly("end_pos",    &Missile::endPos)
+		;
 
 	class_<PyGame>("Game")
 		.def_readonly("all_objs",          &PyGame::allObjects)
@@ -102,6 +109,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("minions",           &PyGame::minions)
 		.def_readonly("jungle",            &PyGame::jungle)
 		.def_readonly("turrets",           &PyGame::turrets)
+		.def_readonly("missiles",          &PyGame::missiles)
 		.def_readonly("others",            &PyGame::others)
 		.def_readonly("hovered_obj",       &PyGame::GetHoveredObject)
 		.def_readonly("local_champ",       &PyGame::GetLocalChampion)
@@ -113,6 +121,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("world_to_minimap",           &PyGame::WorldToMinimap)
 		.def("distance_to_minimap",        &PyGame::DistanceToMinimap)
 										   
+		.def("draw_line",                  &PyGame::DrawLine)
 		.def("draw_circle",                &PyGame::DrawCircle)
 		.def("draw_circle_filled",         &PyGame::DrawCircleFilled)
 		.def("draw_circle_world",          &PyGame::DrawCircleWorld)

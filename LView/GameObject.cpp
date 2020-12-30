@@ -2,6 +2,9 @@
 #include "Utils.h"
 #include "Offsets.h"
 
+BYTE GameObject::buff[GameObject::sizeBuff] = {};
+BYTE GameObject::buffDeep[GameObject::sizeBuffDeep] = {};
+
 std::map<std::string, GameObjectType>  GameObject::gameObjectNameTypeDict = {
 
 	// Minions
@@ -102,13 +105,14 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 	memcpy(&duration,                   &buff[Offsets::ObjExpiry],                 sizeof(float));
 	memcpy(&targetRadius,               &buff[Offsets::ObjTargetRadius],           sizeof(float));
 	memcpy(&isVisible,                  &buff[Offsets::ObjVisibility],             sizeof(bool));
-	memcpy(&objectIndex,                &buff[Offsets::ObjIndex],                  sizeof(int));
+	memcpy(&objectIndex,                &buff[Offsets::ObjIndex],                  sizeof(short));
 	memcpy(&crit,                       &buff[Offsets::ObjCrit],                   sizeof(float));
 	memcpy(&critMulti,                  &buff[Offsets::ObjCritMulti],              sizeof(float));
 	memcpy(&abilityPower,               &buff[Offsets::ObjAbilityPower],           sizeof(float));
 	memcpy(&bonusAbilityPower,          &buff[Offsets::ObjBonusAbilityPower],      sizeof(float));
 	memcpy(&atkSpeedMulti,              &buff[Offsets::ObjAtkSpeedMulti],          sizeof(float));
-
+	memcpy(&networkId,                  &buff[Offsets::ObjNetworkID],              sizeof(DWORD));
+	
 	// Check if alive
 	DWORD spawnCount;
 	memcpy(&spawnCount, &buff[Offsets::ObjSpawnCount], sizeof(int));

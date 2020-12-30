@@ -37,6 +37,11 @@ def draw_items(items, ui):
 
 			ui.treepop()
 
+def draw_missile(obj, ui):
+	pass
+	if ui.treenode('{}=>{} ({})'.format(obj.src_idx, obj.dest_idx, hex(obj.net_id))):
+		ui.treepop()
+
 def draw_game_object(obj, ui, additional_draw = None, set_open=False):
 	
 	if(obj == None):
@@ -127,11 +132,13 @@ def lview_update(game, ui):
 	draw_champion(game.local_champ, ui)
 	
 	ui.text("Lists")
-	draw_list("Champions", game.champs,  ui, draw_champion)
-	draw_list("Minions",   game.minions, ui, draw_game_object)
-	draw_list("Jungle",    game.jungle,  ui, draw_game_object)
-	draw_list("Turrets",   game.turrets, ui, draw_game_object)
-	draw_list("Others",    game.others,  ui, draw_game_object)
+	draw_list("Champions", game.champs,    ui, draw_champion)
+	draw_list("Minions",   game.minions,   ui, draw_game_object)
+	draw_list("Jungle",    game.jungle,    ui, draw_game_object)
+	draw_list("Turrets",   game.turrets,   ui, draw_game_object)
+	draw_list("Missiles",  game.missiles,  ui, draw_missile)
+	draw_list("Others",    game.others,    ui, draw_game_object)
+
 	
 	ui.end()
 	
