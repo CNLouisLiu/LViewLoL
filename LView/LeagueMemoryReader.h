@@ -56,8 +56,8 @@ void LeagueMemoryReader::ReadGameObjectList(std::vector<std::shared_ptr<T>>& rea
 
 	auto& idxToObjectMap = snapshot.idxToObjectMap;
 
-	DWORD listManagerPtr = Mem::ReadPointer(hProcess, moduleBaseAddr + baseAddr);
-	DWORD listPtr = Mem::ReadPointer(hProcess, listManagerPtr + listOffset);
+	DWORD listManagerPtr = Mem::ReadDWORD(hProcess, moduleBaseAddr + baseAddr);
+	DWORD listPtr = Mem::ReadDWORD(hProcess, listManagerPtr + listOffset);
 	DWORD numObjects = 0;
 	Mem::Read(hProcess, listManagerPtr + countOffset, &numObjects, 4);
 

@@ -1,7 +1,7 @@
 #include "Utils.h"
 #include <cmath>
 
-DWORD Mem::ReadPointer(HANDLE hProcess, DWORD addr) {
+DWORD Mem::ReadDWORD(HANDLE hProcess, DWORD addr) {
 	DWORD_PTR ptr = NULL;
 	SIZE_T bytesRead = 0;
 
@@ -17,7 +17,7 @@ void Mem::Read(HANDLE hProcess, DWORD addr, void* structure, int size) {
 	ReadProcessMemory(hProcess, (DWORD*)addr, structure, size, &bytesRead);
 }
 
-DWORD Mem::ReadPointerFromBuffer(void* buff, int position) {
+DWORD Mem::ReadDWORDFromBuffer(void* buff, int position) {
 	DWORD result;
 	memcpy(&result, (char*)buff + position, 4);
 	return result;

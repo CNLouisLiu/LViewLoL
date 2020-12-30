@@ -60,7 +60,7 @@ void LeagueMemoryReader::ReadRenderer(MemSnapshot& ms) {
 	duration<float, std::milli> readDuration;
 	readTimeBegin = high_resolution_clock::now();
 	
-	DWORD rendererAddr = Mem::ReadPointer(hProcess, moduleBaseAddr + Offsets::Renderer);
+	DWORD rendererAddr = Mem::ReadDWORD(hProcess, moduleBaseAddr + Offsets::Renderer);
 	ms.renderer->LoadFromMem(rendererAddr, moduleBaseAddr, hProcess);
 
 	readDuration = high_resolution_clock::now() - readTimeBegin;
@@ -77,17 +77,6 @@ void LeagueMemoryReader::ReadChampions(MemSnapshot& ms) {
 	readDuration = high_resolution_clock::now() - readTimeBegin;
 	ms.benchmark->readChampsMs = readDuration.count();
 }
-
-/*void LeagueMemoryReader::ReadMissiles(MemSnapshot& ms) {
-	high_resolution_clock::time_point readTimeBegin;
-	duration<float, std::milli> readDuration;
-	readTimeBegin = high_resolution_clock::now();
-
-	ReadGameObjectList<Missile>(ms.missiles, 200, Offsets::MissileMap, 0x18, 0x14, ms);
-
-	readDuration = high_resolution_clock::now() - readTimeBegin;
-	//ms.benchmark->readChampsMs = readDuration.count();
-}*/
 
 void LeagueMemoryReader::ReadTurrets(MemSnapshot& ms) {
 	high_resolution_clock::time_point readTimeBegin;
@@ -161,7 +150,7 @@ void LeagueMemoryReader::ReadMissiles(MemSnapshot& ms) {
 	readTimeBegin = high_resolution_clock::now();
 
 	ms.missiles.clear();
-	int missileMap = Mem::ReadPointer(hProcess, moduleBaseAddr + Offsets::MissileMap);
+	int missileMap = Mem::ReadDWORD(hProcess, moduleBaseAddr + Offsets::MissileMap);
 	
 	static char buff[0x500];
 	Mem::Read(hProcess, missileMap, buff, 0x100);
@@ -175,7 +164,7 @@ void LeagueMemoryReader::ReadMissiles(MemSnapshot& ms) {
 	nodes.push(root);
 
 	int l1, l2, l3, node;
-	while (nodes.size() > 0 && visited.size() < nrMissiles) {	
+	while (nodes.size() > 0 && visited.size() < nrMissiles*2) {	
 		node = nodes.front();
 		nodes.pop();
 		visited.insert(node);
@@ -204,11 +193,11 @@ void LeagueMemoryReader::ReadMissiles(MemSnapshot& ms) {
 		if (addr == 0)
 			continue;
 
-		addr = Mem::ReadPointer(hProcess, addr + 0x4);
+		addr = Mem::ReadDWORD(hProcess, addr + 0x4);
 		if (addr == 0)
 			continue;
 		
-		addr = Mem::ReadPointer(hProcess, addr + 0x10);
+		addr = Mem::ReadDWORD(hProcess, addr + 0x10);
 		if (addr == 0)
 			continue;
 
@@ -237,7 +226,7 @@ void LeagueMemoryReader::MakeSnapshot(MemSnapshot& ms) {
 		ReadRenderer(ms);
 		ReadMobs(ms);
 		ReadTurrets(ms);
-		ReadMissiles(ms);
+		// ReadMissiles(ms);
 		
 		ms.localChampion = ms.champions[0];
 

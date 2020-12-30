@@ -92,6 +92,8 @@ def draw_game_object(obj, ui, additional_draw = None, set_open=False):
 	
 def draw_champion(obj, ui):
 	def draw_spells():
+		ui.dragint("Level", obj.lvl)
+			
 		ui.text("Items")
 		draw_items(obj.items, ui)
 		
@@ -102,7 +104,7 @@ def draw_champion(obj, ui):
 		draw_spell(obj.R, ui)
 		draw_spell(obj.D, ui)
 		draw_spell(obj.F, ui)
-	
+		
 	draw_game_object(obj, ui, additional_draw = draw_spells)
 	
 def draw_list(label, objs, ui, draw_func):

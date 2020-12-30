@@ -136,7 +136,6 @@ public:
 	short            objectIndex;
 
 	DWORD            networkId;
-
 protected:
 	static const SIZE_T sizeBuff = 0x3000;
 	static const SIZE_T sizeBuffDeep = 0x1000;

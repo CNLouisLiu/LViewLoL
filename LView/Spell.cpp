@@ -63,8 +63,8 @@ void Spell::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 	DWORD spellInfoPtr;
 	memcpy(&spellInfoPtr, buffer + Offsets::SpellSlotSpellInfo, sizeof(DWORD));
 	
-	DWORD spellDataPtr = Mem::ReadPointer(hProcess, spellInfoPtr + Offsets::SpellInfoSpellData);
-	DWORD spellNamePtr = Mem::ReadPointer(hProcess, spellDataPtr + Offsets::SpellDataSpellName);
+	DWORD spellDataPtr = Mem::ReadDWORD(hProcess, spellInfoPtr + Offsets::SpellInfoSpellData);
+	DWORD spellNamePtr = Mem::ReadDWORD(hProcess, spellDataPtr + Offsets::SpellDataSpellName);
 
 	char buff[50];
 	Mem::Read(hProcess, spellNamePtr, buff, 50);

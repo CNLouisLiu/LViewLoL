@@ -90,6 +90,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("D",         &Champion::D)
 		.def_readonly("F",         &Champion::F)
 		.def_readonly("items",     &Champion::ItemsToPyTuple)
+		.def_readonly("lvl",       &Champion::level)
 
 		.def("get_basic_phys",     &Champion::GetOnHitPhysDamage)
 		.def("get_basic_magic",    &Champion::GetOnHitMagicDamage)
@@ -101,6 +102,9 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("dest_idx",   &Missile::destIndex)
 		.def_readonly("start_pos",  &Missile::startPos)
 		.def_readonly("end_pos",    &Missile::endPos)
+		.def_readonly("width",      &Missile::spellWidth)
+		.def_readonly("range",      &Missile::spellRange)
+		.def_readonly("speed",      &Missile::missileSpeed)
 		;
 
 	class_<PyGame>("Game")

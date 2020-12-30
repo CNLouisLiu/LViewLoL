@@ -121,7 +121,7 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 	// Get name
 	if (deepLoad) {
 		char nameBuff[50];
-		Mem::Read(hProcess, Mem::ReadPointerFromBuffer(buff, Offsets::ObjName), nameBuff, 50);
+		Mem::Read(hProcess, Mem::ReadDWORDFromBuffer(buff, Offsets::ObjName), nameBuff, 50);
 
 		if (ContainsOnlyASCII(nameBuff, 50))
 			name = std::string(nameBuff);
@@ -139,7 +139,7 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 		DWORD unitComponentInfoPtr;
 		memcpy(&unitComponentInfoPtr, &buff[Offsets::UnitComponentInfo], sizeof(DWORD));
 		
-		DWORD unitProperties = Mem::ReadPointer(hProcess, unitComponentInfoPtr + Offsets::UnitProperties);
+		DWORD unitProperties = Mem::ReadDWORD(hProcess, unitComponentInfoPtr + Offsets::UnitProperties);
 		Mem::Read(hProcess, unitProperties, buffDeep, sizeBuffDeep);
 		memcpy(&gameplayRadius,  &buffDeep[Offsets::UnitBoundingRadius], sizeof(float));
 		memcpy(&baseAttackRange, &buffDeep[Offsets::UnitAttackRange],    sizeof(float));

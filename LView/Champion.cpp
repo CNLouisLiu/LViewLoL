@@ -18,7 +18,7 @@ void Champion::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 	F.LoadFromMem(spellSlotPtrs[5], hProcess);
 	
 	// Read items
-	DWORD ptrList = Mem::ReadPointer(hProcess, address + Offsets::ObjItemList);
+	DWORD ptrList = Mem::ReadDWORD(hProcess, address + Offsets::ObjItemList);
 	Mem::Read(hProcess, ptrList, itemListStruct, 0x100);
 
 	for (int i = 0; i < 6; ++i) {
@@ -28,11 +28,14 @@ void Champion::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 		if (itemPtr == 0)
 			continue;
 
-		itemInfoPtr = Mem::ReadPointer(hProcess, itemPtr + Offsets::ItemInfo);
+		itemInfoPtr = Mem::ReadDWORD(hProcess, itemPtr + Offsets::ItemInfo);
 		if (itemInfoPtr == 0)
 			continue;
-		items[i] = Item::items[Mem::ReadPointer(hProcess, itemInfoPtr + Offsets::ItemInfoId)];
+		items[i] = Item::items[Mem::ReadDWORD(hProcess, itemInfoPtr + Offsets::ItemInfoId)];
 	}
+
+	// Read level
+	level = Mem::ReadDWORD(hProcess, base + Offsets::ObjLvl);
 
 	type = (GameObjectType) (type | PLAYER);
 }
@@ -116,7 +119,7 @@ float Champion::GetOnHitMagicDamage(const GameObject& target)
 			magicDmg += 15.f + 0.2f * abilityPower;
 			break;
 		case 3091: // Wits End
-			// TODO: implement
+			magicDmg += 11.17f + 3.82f * level;
 			break;
 		default:
 			break;
