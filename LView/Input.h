@@ -32,4 +32,6 @@ namespace Input {
 	void     PressLeftClick();
 
 	void     PressRightClick();
+
+	void     ClickAt(bool leftClick, float x, float y);
 }

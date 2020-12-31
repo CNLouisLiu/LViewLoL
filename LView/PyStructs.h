@@ -124,6 +124,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("world_to_screen",            &PyGame::WorldToScreen)
 		.def("world_to_minimap",           &PyGame::WorldToMinimap)
 		.def("distance_to_minimap",        &PyGame::DistanceToMinimap)
+		.def("distance",                   &PyGame::Distance)
 										   
 		.def("draw_line",                  &PyGame::DrawLine)
 		.def("draw_circle",                &PyGame::DrawCircle)
@@ -137,9 +138,10 @@ BOOST_PYTHON_MODULE(lview) {
 										   
 		.def("press_key",                  &PyGame::PressKey)
 		.def("was_key_pressed",            &PyGame::WasKeyPressed)
-		.def("is_key_down",           &PyGame::IsKeyDown)
-		.def("press_left_click", &PyGame::PressLeftClick)
-		.def("press_right_click", &PyGame::PressRightClick)
+		.def("is_key_down",                &PyGame::IsKeyDown)
+		.def("press_left_click",           &PyGame::PressLeftClick)
+		.def("press_right_click",          &PyGame::PressRightClick)
+		.def("click_at",                   &PyGame::ClickAt)
 		;
 
 	class_<PyImguiInterface>("UI")

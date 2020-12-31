@@ -1,6 +1,7 @@
 #pragma once
 #include <boost/python.hpp>
 #include "MemSnapshot.h"
+#include "Utils.h"
 
 using namespace boost::python;
 
@@ -8,21 +9,22 @@ using namespace boost::python;
 class PyGame {
 
 public:
-	GameRenderer*   renderer;
-
-	ImDrawList*     overlay;
-	ImVec2          minimapPos, minimapSize;
+	std::map<int, float>  distanceCache;
+	GameRenderer*         renderer;
+					      
+	ImDrawList*           overlay;
+	ImVec2                minimapPos, minimapSize;
 
 public:
 	PyGame() {}
 
 	// Exposed Fields
-	dict            allObjects;
-	list            champs, minions, turrets, jungle, missiles, others;
-	float           gameTime;
-
-	GameObject* hoveredObject;
-	Champion* localChampion;
+	dict                  allObjects;
+	list                  champs, minions, turrets, jungle, missiles, others;
+	float                 gameTime;
+					      
+	GameObject*           hoveredObject;
+	Champion*             localChampion;
 
 	object GetHoveredObject() { 
 		if (hoveredObject == nullptr)
@@ -116,8 +118,28 @@ public:
 		Input::PressRightClick();
 	}
 
+	void ClickAt(bool leftClick, const Vector2& pos) {
+		Input::ClickAt(leftClick, pos.x, pos.y);
+	}
+
 	bool IsKeyDown(int key) {
 		return Input::IsKeyDown((HKey)key);
+	}
+
+	float Distance(GameObject* first, GameObject* second) {
+		
+		int key = (first->objectIndex > second->objectIndex) ?
+			(first->objectIndex << 16) | second->objectIndex : 
+			(second->objectIndex << 16) | first->objectIndex;
+
+		auto it = distanceCache.find(key);
+		if (it != distanceCache.end())
+			return it->second;
+
+		float dist = League::Distance(first->position, second->position);
+		distanceCache[key] = dist;
+
+		return dist;
 	}
 
 	static PyGame ConstructFromMemSnapshot(MemSnapshot& snapshot) {

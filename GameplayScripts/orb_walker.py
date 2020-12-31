@@ -15,21 +15,29 @@ last_action_attacked = False
 
 key_attack_move = 0
 key_orbwalk = 0
+max_atk_speed = 0
+auto_last_hit = False
 
 def lview_load_cfg(cfg):
-	global windups, key_attack_move, key_orbwalk
+	global windups, key_attack_move, key_orbwalk, max_atk_speed, auto_last_hit
+	
 	windups = json.loads(cfg.get_str("windups", json.dumps(default_windups)))
 	key_attack_move = cfg.get_int("key_attack_move", 0)	
 	key_orbwalk = cfg.get_int("key_orbwalk", 0)	
+	max_atk_speed = cfg.get_float("max_atk_speed", 2.0)
+	auto_last_hit = cfg.get_bool("auto_last_hit", False)
 	
 def lview_save_cfg(cfg):
-	global windups, key_attack_move, key_orbwalk
+	global windups, key_attack_move, key_orbwalk, max_atk_speed, auto_last_hit
+	
 	cfg.set_str("windups", json.dumps(windups))
 	cfg.set_int("key_attack_move", key_attack_move)
 	cfg.set_int("key_orbwalk", key_orbwalk)
+	cfg.set_float("max_atk_speed", max_atk_speed)
+	cfg.set_bool("auto_last_hit", auto_last_hit)
 	
 def lview_draw_settings(game, ui):
-	global windups, key_attack_move, key_orbwalk
+	global windups, key_attack_move, key_orbwalk, max_atk_speed, auto_last_hit
 	
 	champ_name = game.local_champ.name
 	
@@ -37,12 +45,50 @@ def lview_draw_settings(game, ui):
 		windups[champ_name] = default_windups[champ_name]
 	windups[champ_name] = ui.sliderfloat(f"Windup percent ({champ_name})", windups[champ_name], 10, 60)
 	
+	max_atk_speed = ui.sliderfloat("Max attack speed", max_atk_speed, 1.5, 3.0)
 	key_attack_move = ui.keyselect("Attack move key", key_attack_move)
 	key_orbwalk = ui.keyselect("Orbwalk activate key", key_orbwalk)
+	auto_last_hit = ui.checkbox("Auto last hit minions (No Prediction)", auto_last_hit)
 	
+def is_last_hitable(player, enemy):
+	hit_dmg = player.get_basic_phys(enemy) + player.get_basic_magic(enemy)
+	return enemy.health - hit_dmg <= 0
+	
+def find_champ_target(game, array, value_extractor):
+	atk_range = game.local_champ.base_atk_range + game.local_champ.gameplay_radius
+	target = None
+	min = 99999999
+	for obj in array:
+		
+		if obj.is_ally_to(game.local_champ) or game.distance(game.local_champ, obj) > atk_range:
+			continue
+			
+		val = value_extractor(game.local_champ, obj)
+		if val < min:
+			min = val
+			target = obj
+	
+	return target
+	
+def find_minion_target(game):
+	atk_range = game.local_champ.base_atk_range + game.local_champ.gameplay_radius
+	for minion in game.minions:
+		if minion.is_enemy_to(game.local_champ) and minion.is_alive and game.distance(game.local_champ, minion) < atk_range and is_last_hitable(game.local_champ, minion):
+			return minion
+	return None
+	
+def get_target(game):
+	global auto_last_hit
+	
+	target = find_champ_target(game, game.champs, lambda l, e: e.health)
+	if not target and auto_last_hit:
+		return find_minion_target(game)
+	
+	return target
+
 def lview_update(game, ui):
 	global windups, last_attacked, alternate, last_moved, last_action_attacked
-	global key_attack_move, key_orbwalk
+	global key_attack_move, key_orbwalk, max_atk_speed
 	
 	if not game.is_key_down(key_orbwalk):
 		return
@@ -53,17 +99,22 @@ def lview_update(game, ui):
 	atk_speed = self.base_atk_speed * self.atk_speed_multi
 	b_windup_time = (1.0/self.base_atk_speed)*windups_norm
 	c_atk_time = 1.0/atk_speed
+	max_atk_time = 1.0/max_atk_speed
 
 	t = time.time()
-	if t - last_attacked > c_atk_time:
+	if t - last_attacked > max(c_atk_time, max_atk_time):
 		last_attacked = t
 		last_action_attacked = True
-		game.press_key(key_attack_move)
-		game.press_left_click()
-	elif t - last_attacked > b_windup_time and last_action_attacked:
-		last_moved = t
-		last_action_attacked = False
-		game.press_right_click()
+		target = get_target(game)
+		if target:
+			game.press_key(key_attack_move)
+			game.click_at(True, game.world_to_screen(target.pos))
+	else:
+		dt = t - last_attacked
+		if dt > b_windup_time and t - last_moved > 0.15:
+			last_moved = t
+			last_action_attacked = False
+			game.press_right_click()
 		
 		
 	

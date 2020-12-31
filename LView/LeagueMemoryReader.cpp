@@ -88,6 +88,7 @@ void LeagueMemoryReader::ReadTurrets(MemSnapshot& ms) {
 		auto obj = *it;
 		obj->type = GameObjectType::TURRET;
 		obj->targetRadius = 100.f;
+		obj->baseAttackRange = 850.f;
 	}
 
 	readDuration = high_resolution_clock::now() - readTimeBegin;
@@ -226,8 +227,8 @@ void LeagueMemoryReader::MakeSnapshot(MemSnapshot& ms) {
 		ReadRenderer(ms);
 		ReadMobs(ms);
 		ReadTurrets(ms);
-		// ReadMissiles(ms);
-		
+	    //ReadMissiles(ms);
+
 		ms.localChampion = ms.champions[0];
 
 		// Clear up objects that were deleted in game

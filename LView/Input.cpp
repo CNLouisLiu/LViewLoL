@@ -85,3 +85,34 @@ void Input::PressRightClick()
 	input.mi.dwFlags = MOUSEEVENTF_RIGHTUP;
 	SendInput(1, &input, sizeof(INPUT));
 }
+
+void Input::ClickAt(bool leftClick, float x, float y)
+{
+	static float fScreenWidth = ::GetSystemMetrics(SM_CXSCREEN) - 1;
+	static float fScreenHeight = ::GetSystemMetrics(SM_CYSCREEN) - 1;
+
+
+	POINT oldPos;
+	GetCursorPos(&oldPos);
+
+	INPUT input = { 0 };
+	input.type = INPUT_MOUSE;
+	input.mi.dwFlags = MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE;
+	input.mi.dx = x * (65535.0f / fScreenWidth);
+	input.mi.dy = y * (65535.0f / fScreenHeight);
+	SendInput(1, &input, sizeof(INPUT));
+
+	input.mi.dwFlags = (leftClick ? MOUSEEVENTF_LEFTDOWN : MOUSEEVENTF_RIGHTDOWN);
+	SendInput(1, &input, sizeof(INPUT));
+
+	Sleep(8);
+
+	input.mi.dwFlags = (leftClick ? MOUSEEVENTF_LEFTUP: MOUSEEVENTF_RIGHTUP);
+	SendInput(1, &input, sizeof(INPUT));
+
+	input.mi.dwFlags = MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE;
+	input.mi.dx = oldPos.x * (65535.0f / fScreenWidth);
+	input.mi.dy = oldPos.y * (65535.0f / fScreenHeight);
+	SendInput(1, &input, sizeof(INPUT));
+
+}
