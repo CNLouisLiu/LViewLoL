@@ -36,20 +36,26 @@ def lview_update(game, ui):
 	global turret_ranges, minion_last_hit, attack_range
 	
 	if attack_range and game.is_point_on_screen(game.local_champ.pos):
-		game.draw_circle_world(game.local_champ.pos, game.local_champ.base_atk_range + game.local_champ.gameplay_radius, 100, 2, Color.GREEN)
+		color = Color.GREEN
+		color.a = 0.5
+		game.draw_circle_world(game.local_champ.pos, game.local_champ.base_atk_range + game.local_champ.gameplay_radius, 100, 2, color)
 	
 	if turret_ranges:
+		color = Color.RED
+		color.a = 0.5
 		for turret in game.turrets:
 			if turret.is_alive and turret.is_enemy_to(game.local_champ) and game.is_point_on_screen(turret.pos):
-				game.draw_circle_world(turret.pos, turret.base_atk_range, 100, 2, Color.ORANGE)
+				game.draw_circle_world(turret.pos, turret.base_atk_range, 100, 2, color)
 	
 	if minion_last_hit:
+		color = Color.CYAN
+		color.a = 0.5
 		for minion in game.minions:
+		
+			#p = game.world_to_screen(minion.pos)
+			#game.draw_text(p, str(game.local_champ.get_basic_phys(minion)), Color.RED)
+			#p.y += 15
+			#game.draw_text(p, str(game.local_champ.get_basic_magic(minion)), Color.CYAN)
+			
 			if minion.is_alive and minion.is_enemy_to(game.local_champ) and is_last_hitable(game.local_champ, minion) and game.is_point_on_screen(minion.pos):
-				
-				#p = game.world_to_screen(minion.pos)
-				#game.draw_text(p, str(game.local_champ.get_basic_phys(minion)), Color.RED)
-				#p.y += 15
-				#game.draw_text(p, str(game.local_champ.get_basic_magic(minion)), Color.CYAN)
-				
-				game.draw_circle_world(minion.pos, minion.gameplay_radius, 20, 3, Color.CYAN)
+				game.draw_circle_world(minion.pos, minion.gameplay_radius, 4, 3, color)

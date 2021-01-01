@@ -156,36 +156,36 @@ void LeagueMemoryReader::ReadMissiles(MemSnapshot& ms) {
 	static char buff[0x500];
 	Mem::Read(hProcess, missileMap, buff, 0x100);
 
-	int nrMissiles, root;
-	memcpy(&nrMissiles, buff + Offsets::MissileMapCount, sizeof(int));
-	memcpy(&root, buff + Offsets::MissileMapRoot, sizeof(int));
+	int numMissiles, rootNode;
+	memcpy(&numMissiles, buff + Offsets::MissileMapCount, sizeof(int));
+	memcpy(&rootNode, buff + Offsets::MissileMapRoot, sizeof(int));
 
-	std::queue<int> nodes;
-	std::set<int> visited;
-	nodes.push(root);
+	std::queue<int> nodesToVisit;
+	std::set<int> visitedNodes;
+	nodesToVisit.push(rootNode);
 
-	int l1, l2, l3, node;
-	while (nodes.size() > 0 && visited.size() < nrMissiles*2) {	
-		node = nodes.front();
-		nodes.pop();
-		visited.insert(node);
+	int childNode1, childNode2, childNode3, node;
+	while (nodesToVisit.size() > 0 && visitedNodes.size() < numMissiles*2) {	
+		node = nodesToVisit.front();
+		nodesToVisit.pop();
+		visitedNodes.insert(node);
 
 		Mem::Read(hProcess, node, buff, 0x50);
-		memcpy(&l1, buff, sizeof(int));
-		memcpy(&l2, buff + 4, sizeof(int));
-		memcpy(&l3, buff + 8, sizeof(int));
+		memcpy(&childNode1, buff, sizeof(int));
+		memcpy(&childNode2, buff + 4, sizeof(int));
+		memcpy(&childNode3, buff + 8, sizeof(int));
 
-		if (visited.find(l1) == visited.end())
-			nodes.push(l1);
-		if (visited.find(l2) == visited.end())
-			nodes.push(l2);
-		if (visited.find(l3) == visited.end())
-			nodes.push(l3);
+		if (visitedNodes.find(childNode1) == visitedNodes.end())
+			nodesToVisit.push(childNode1);
+		if (visitedNodes.find(childNode2) == visitedNodes.end())
+			nodesToVisit.push(childNode2);
+		if (visitedNodes.find(childNode3) == visitedNodes.end())
+			nodesToVisit.push(childNode3);
 
 		unsigned int netId = 0;
 		memcpy(&netId, buff + Offsets::MissileMapKey, sizeof(int));
 
-		// Actual missiles start net_id start from 0x40000000
+		// Actual missiles net_id start from 0x40000000. So we use this to check if missiles are valid
 		if (netId - (unsigned int)0x40000000 > 0x100000) 
 			continue;
 

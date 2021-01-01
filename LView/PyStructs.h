@@ -189,6 +189,11 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("ORANGE",      &Colors::ORANGE)
 		.def_readonly("BLUE",        &Colors::BLUE)
 		.def_readonly("BROWN",       &Colors::BROWN)
+
+		.def_readwrite("r", &ImVec4::x)
+		.def_readwrite("g", &ImVec4::y)
+		.def_readwrite("b", &ImVec4::z)
+		.def_readwrite("a", &ImVec4::w)
 		;
 
 	class_<Vector4>("Vec4", init<float, float, float, float>())
