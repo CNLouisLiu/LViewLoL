@@ -15,29 +15,34 @@ last_action_attacked = False
 
 key_attack_move = 0
 key_orbwalk = 0
-max_atk_speed = 0
 auto_last_hit = False
+max_atk_speed = 0
+
+toggle_mode = False
+toggled = False
 
 def lview_load_cfg(cfg):
-	global windups, key_attack_move, key_orbwalk, max_atk_speed, auto_last_hit
+	global windups, key_attack_move, key_orbwalk, max_atk_speed, auto_last_hit, toggle_mode
 	
-	windups = json.loads(cfg.get_str("windups", json.dumps(default_windups)))
+	windups         = json.loads(cfg.get_str("windups", json.dumps(default_windups)))
 	key_attack_move = cfg.get_int("key_attack_move", 0)	
-	key_orbwalk = cfg.get_int("key_orbwalk", 0)	
-	max_atk_speed = cfg.get_float("max_atk_speed", 2.0)
-	auto_last_hit = cfg.get_bool("auto_last_hit", False)
+	key_orbwalk     = cfg.get_int("key_orbwalk", 0)	
+	max_atk_speed   = cfg.get_float("max_atk_speed", 2.0)
+	auto_last_hit   = cfg.get_bool("auto_last_hit", False)
+	toggle_mode     = cfg.get_bool("toggle_mode", False)
 	
 def lview_save_cfg(cfg):
-	global windups, key_attack_move, key_orbwalk, max_atk_speed, auto_last_hit
+	global windups, key_attack_move, key_orbwalk, max_atk_speed, auto_last_hit, toggle_mode
 	
 	cfg.set_str("windups", json.dumps(windups))
 	cfg.set_int("key_attack_move", key_attack_move)
 	cfg.set_int("key_orbwalk", key_orbwalk)
 	cfg.set_float("max_atk_speed", max_atk_speed)
 	cfg.set_bool("auto_last_hit", auto_last_hit)
+	cfg.set_bool("toggle_mode", toggle_mode)
 	
 def lview_draw_settings(game, ui):
-	global windups, key_attack_move, key_orbwalk, max_atk_speed, auto_last_hit
+	global windups, key_attack_move, key_orbwalk, max_atk_speed, auto_last_hit, toggle_mode
 	
 	champ_name = game.local_champ.name
 	
@@ -45,10 +50,11 @@ def lview_draw_settings(game, ui):
 		windups[champ_name] = default_windups[champ_name]
 	windups[champ_name] = ui.sliderfloat(f"Windup percent ({champ_name})", windups[champ_name], 10, 60)
 	
-	max_atk_speed = ui.sliderfloat("Max attack speed", max_atk_speed, 1.5, 3.0)
+	max_atk_speed   = ui.sliderfloat("Max attack speed", max_atk_speed, 1.5, 3.0)
 	key_attack_move = ui.keyselect("Attack move key", key_attack_move)
-	key_orbwalk = ui.keyselect("Orbwalk activate key", key_orbwalk)
-	auto_last_hit = ui.checkbox("Auto last hit minions (No Prediction)", auto_last_hit)
+	key_orbwalk     = ui.keyselect("Orbwalk activate key", key_orbwalk)
+	auto_last_hit   = ui.checkbox("Auto last hit minions (No Prediction)", auto_last_hit)
+	toggle_mode     = ui.checkbox("Toggle mode", toggle_mode)
 	
 def is_last_hitable(player, enemy):
 	hit_dmg = player.get_basic_phys(enemy) + player.get_basic_magic(enemy)
@@ -60,7 +66,7 @@ def find_champ_target(game, array, value_extractor):
 	min = 99999999
 	for obj in array:
 		
-		if obj.is_ally_to(game.local_champ) or game.distance(game.local_champ, obj) > atk_range:
+		if not obj.is_alive or obj.is_ally_to(game.local_champ) or game.distance(game.local_champ, obj) > atk_range:
 			continue
 			
 		val = value_extractor(game.local_champ, obj)
@@ -89,9 +95,18 @@ def get_target(game):
 def lview_update(game, ui):
 	global windups, last_attacked, alternate, last_moved, last_action_attacked
 	global key_attack_move, key_orbwalk, max_atk_speed
+	global toggle_mode, toggled
 	
-	if not game.is_key_down(key_orbwalk):
+	if toggle_mode:
+		if game.was_key_pressed(key_orbwalk):
+			toggled = not toggled
+		if not toggled:
+			return
+			
+	elif not game.is_key_down(key_orbwalk):
 		return
+	
+	game.draw_button(game.world_to_screen(game.local_champ.pos), "OrbWalking", Color.BLACK, Color.WHITE)
 	
 	windups_norm = windups[game.local_champ.name]/100
 	self = game.local_champ
@@ -102,13 +117,13 @@ def lview_update(game, ui):
 	max_atk_time = 1.0/max_atk_speed
 
 	t = time.time()
-	if t - last_attacked > max(c_atk_time, max_atk_time):
+	target = get_target(game)
+	if t - last_attacked > max(c_atk_time, max_atk_time) and target:
 		last_attacked = t
 		last_action_attacked = True
-		target = get_target(game)
-		if target:
-			game.press_key(key_attack_move)
-			game.click_at(True, game.world_to_screen(target.pos))
+		
+		game.press_key(key_attack_move)
+		game.click_at(True, game.world_to_screen(target.pos))
 	else:
 		dt = t - last_attacked
 		if dt > b_windup_time and t - last_moved > 0.15:

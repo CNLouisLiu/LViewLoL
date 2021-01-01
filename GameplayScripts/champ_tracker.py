@@ -52,8 +52,9 @@ def lview_update(game, ui):
 		t_last_save_tracks = now
 		for i, j in enumerate(trackable_champ_indices):
 			champ = game.champs[j]
-			tracks[i].append((Vec3(champ.pos.x, champ.pos.y, champ.pos.z), now))
-			tracks[i] = list(filter(lambda t: now - t[1] < seconds_to_track, tracks[i]))
+			if champ.is_alive:
+				tracks[i].append((Vec3(champ.pos.x, champ.pos.y, champ.pos.z), now))
+				tracks[i] = list(filter(lambda t: now - t[1] < seconds_to_track, tracks[i]))
 		
 	for i, (pos, t) in enumerate(tracks[tracked_champ]):
 		x = i/len(tracks[tracked_champ]) 
@@ -61,5 +62,5 @@ def lview_update(game, ui):
 		red = (1.0 if x > 0.5 else 2*x/1.0);
 
 		p = game.world_to_minimap(pos)
-		game.draw_circle_filled(p, 3, 4, Color(red, green, 0.0, 1.0))
+		game.draw_circle_filled(p, 4, 4, Color(red, green, 0.0, 1.0))
 		

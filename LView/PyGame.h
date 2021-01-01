@@ -62,11 +62,11 @@ public:
 	}
 
 	void DrawCircle(const Vector2& center, float radius, int numPoints, float thickness, const ImVec4& color) {
-		overlay->AddCircle(ImVec2(center.x, center.y), radius, ImColor(color), 30, thickness);
+		overlay->AddCircle(ImVec2(center.x, center.y), radius, ImColor(color), numPoints, thickness);
 	}
 
 	void DrawCircleFilled(const Vector2& center, float radius, int numPoints, const ImVec4& color) {
-		overlay->AddCircleFilled(ImVec2(center.x, center.y), radius, ImColor(color), 30);
+		overlay->AddCircleFilled(ImVec2(center.x, center.y), radius, ImColor(color), numPoints);
 	}
 
 	void DrawTxt(const Vector2& pos, const char* text, const ImVec4& color) {
