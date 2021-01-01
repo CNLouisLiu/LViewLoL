@@ -36,7 +36,8 @@ bool Input::WasKeyPressed(HKey key) {
 	nowTime = high_resolution_clock::now();
 	timeDiff = nowTime - lastTimePressed[virtualKey];
 	
-	if (timeDiff.count() < 200) {
+	if (timeDiff.count() > 250) {
+		lastTimePressed[virtualKey] = nowTime;
 		return false;
 	} 
 		
