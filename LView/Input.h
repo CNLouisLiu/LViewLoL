@@ -34,4 +34,6 @@ namespace Input {
 	void     PressRightClick();
 
 	void     ClickAt(bool leftClick, float x, float y);
+
+	void     MoveCursorTo(float x, float y);
 }

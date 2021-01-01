@@ -1,14 +1,18 @@
 ﻿  Input.cpp
 f:\github\lviewlol\lview\input.cpp(92): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
 f:\github\lviewlol\lview\input.cpp(93): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+f:\github\lviewlol\lview\input.cpp(101): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
 f:\github\lviewlol\lview\input.cpp(102): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
-f:\github\lviewlol\lview\input.cpp(103): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+f:\github\lviewlol\lview\input.cpp(114): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
 f:\github\lviewlol\lview\input.cpp(115): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
-f:\github\lviewlol\lview\input.cpp(116): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+f:\github\lviewlol\lview\input.cpp(122): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+f:\github\lviewlol\lview\input.cpp(123): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+f:\github\lviewlol\lview\input.cpp(128): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+f:\github\lviewlol\lview\input.cpp(129): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
 Release\Offsets.obj : warning LNK4042: object specified more than once; extras ignored
      Creating library F:\Github\LViewLoL\Release\ConsoleApplication.lib and object F:\Github\LViewLoL\Release\ConsoleApplication.exp
   Generating code
-  1 of 8830 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  5 of 8887 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     3 functions had inline decision re-evaluated but remain unchanged
   Finished generating code

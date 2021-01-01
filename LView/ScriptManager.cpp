@@ -30,7 +30,7 @@ void ScriptManager::LoadAll(std::string scriptsLocation, std::string& champion)
 
 				script->Load(fileName.c_str());
 				if (script->loadError.empty())
-					ProvideScriptWithConfigs(script);
+					ReloadScriptConfigs(script);
 				if (script->targetChampion.size() > 0 && script->targetChampion.compare(champion) != 0)
 					inactiveScripts.push_back(script);
 				else
@@ -47,16 +47,16 @@ void ScriptManager::ReloadScript(std::shared_ptr<Script>& script)
 {
 	script->Load(script->name.c_str());
 	if(script->loadError.empty())
-		ProvideScriptWithConfigs(script);
+		ReloadScriptConfigs(script);
 }
 
-void ScriptManager::CollectAllScriptConfigs() {
+void ScriptManager::SaveAllScriptsConfigs() {
 	for (auto it = activeScripts.begin(); it != activeScripts.end(); ++it) {
-		CollectScriptConfigs(*it);
+		SaveScriptConfigs(*it);
 	}
 }
 
-void ScriptManager::CollectScriptConfigs(std::shared_ptr<Script>& script)
+void ScriptManager::SaveScriptConfigs(std::shared_ptr<Script>& script)
 {
 	ConfigSet& configs = *(ConfigSet::Get());
 
@@ -66,7 +66,7 @@ void ScriptManager::CollectScriptConfigs(std::shared_ptr<Script>& script)
 	configs.SetPrefixKey("");
 }
 
-void ScriptManager::ProvideScriptWithConfigs(std::shared_ptr<Script>& script)
+void ScriptManager::ReloadScriptConfigs(std::shared_ptr<Script>& script)
 {
 	ConfigSet& configs = *(ConfigSet::Get());
 

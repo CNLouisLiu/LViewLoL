@@ -136,12 +136,15 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("draw_rect_filled",           &PyGame::DrawRectFilled,       PyGame::DrawRectFilledOverloads())
 		.def("draw_button",                &PyGame::DrawButton,           PyGame::DrawButtonOverloads())
 										   
-		.def("press_key",                  &PyGame::PressKey)
+
 		.def("was_key_pressed",            &PyGame::WasKeyPressed)
 		.def("is_key_down",                &PyGame::IsKeyDown)
+		.def("press_key",                  &PyGame::PressKey)
 		.def("press_left_click",           &PyGame::PressLeftClick)
 		.def("press_right_click",          &PyGame::PressRightClick)
 		.def("click_at",                   &PyGame::ClickAt)
+		.def("move_cursor",                &PyGame::MoveCursor)
+		.def("get_cursor",                 &PyGame::GetCursor)
 		;
 
 	class_<PyImguiInterface>("UI")

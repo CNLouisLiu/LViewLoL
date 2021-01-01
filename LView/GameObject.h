@@ -5,18 +5,6 @@
 #include "windows.h"
 #include "MemoryLoadable.h"
 
-/* 
-	This beautiful thing is the object encoding enum. Everything about the game object type 
-	is compressed in a single integer. First we have the categories that set the bits of the
-	integer from 2^6 to 2^32. The bits below 2^6 are equivalent of the id of a specific object
-
-	Example BARON = JUNGLE | OBJECTIVE | SMITABLE + 6 is part of categories JUNGLE, OBJECTIVE
-	and SMITABLE and has the object index 6. The object index must be unique or we could risk
-	collisions.
-	
-	Use IsOfTypes to check if an object has any of the categories provided
-	e.g baronObj.IsOfType(SMITABLE, JUNGLE) will return true.
-*/
 enum GameObjectType {
 	NO_OBJ              = 0,
 	INVISIBLE           = (1 << 7),

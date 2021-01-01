@@ -7,11 +7,11 @@ class ScriptManager {
 public:
 	void LoadAll(std::string scriptsLocation, std::string& champion);
 	void ReloadScript(std::shared_ptr<Script>& script);
-	void CollectAllScriptConfigs();
+	void SaveAllScriptsConfigs();
 
 
-	void CollectScriptConfigs(std::shared_ptr<Script>& script);
-	void ProvideScriptWithConfigs(std::shared_ptr<Script>& script);
+	void SaveScriptConfigs(std::shared_ptr<Script>& script);
+	void ReloadScriptConfigs(std::shared_ptr<Script>& script);
 
 public:
 	std::vector<std::shared_ptr<Script>> activeScripts;

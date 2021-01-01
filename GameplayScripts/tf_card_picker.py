@@ -42,14 +42,11 @@ def lview_update(game, ui):
 		if game.was_key_pressed(key_blue):
 			card_to_lock = "BlueCardLock"
 			key_to_press = key_blue
-			print('b')
 		elif game.was_key_pressed(key_red):
 			card_to_lock = "RedCardLock"
 			key_to_press = key_red
-			print('r')
 		elif game.was_key_pressed(key_yellow):
 			card_to_lock = "GoldCardLock"
 			key_to_press = key_yellow
-			print('y')
 		if key_to_press:
 			game.press_key(key_w)

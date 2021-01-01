@@ -141,7 +141,7 @@ void Overlay::DrawScripts(PyGame& state, MemSnapshot& memSnapshot)
 	ImGui::TextColored(Colors::CYAN, "LVIEW (External RPM Scripting Engine) by leryss");
 
 	if (ImGui::Button("Save all script settings")) {
-		scriptManager.CollectAllScriptConfigs();
+		scriptManager.SaveAllScriptsConfigs();
 		configs.SaveToFile();
 	}
 	ImGui::SameLine();
@@ -249,7 +249,7 @@ void Overlay::DrawScriptCommonSettings(std::shared_ptr<Script>& script, int id)
 		scriptManager.ReloadScript(script);
 	ImGui::SameLine();
 	if (ImGui::Button("Save settings")) {
-		scriptManager.CollectScriptConfigs(script);
+		scriptManager.SaveScriptConfigs(script);
 		configs.SaveToFile();
 	}
 	ImGui::Checkbox("Enabled", &script->enabled);

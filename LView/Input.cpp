@@ -36,7 +36,7 @@ bool Input::WasKeyPressed(HKey key) {
 	nowTime = high_resolution_clock::now();
 	timeDiff = nowTime - lastTimePressed[virtualKey];
 	
-	if (timeDiff.count() > 250) {
+	if (timeDiff.count() < 250) {
 		lastTimePressed[virtualKey] = nowTime;
 		return false;
 	} 
@@ -92,7 +92,6 @@ void Input::ClickAt(bool leftClick, float x, float y)
 	static float fScreenWidth = ::GetSystemMetrics(SM_CXSCREEN) - 1;
 	static float fScreenHeight = ::GetSystemMetrics(SM_CYSCREEN) - 1;
 
-
 	POINT oldPos;
 	GetCursorPos(&oldPos);
 
@@ -115,5 +114,21 @@ void Input::ClickAt(bool leftClick, float x, float y)
 	input.mi.dx = oldPos.x * (65535.0f / fScreenWidth);
 	input.mi.dy = oldPos.y * (65535.0f / fScreenHeight);
 	SendInput(1, &input, sizeof(INPUT));
+	SendInput(1, &input, sizeof(INPUT));
+}
 
+void Input::MoveCursorTo(float x, float y)
+{
+	static float fScreenWidth = ::GetSystemMetrics(SM_CXSCREEN) - 1;
+	static float fScreenHeight = ::GetSystemMetrics(SM_CYSCREEN) - 1;
+
+	INPUT input = { 0 };
+	input.type = INPUT_MOUSE;
+	input.mi.dwFlags = MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE;
+	input.mi.dx = x * (65535.0f / fScreenWidth);
+	input.mi.dy = y * (65535.0f / fScreenHeight);
+
+	// Sometimes this fails idk why the fuck but calling the function two times seems to solve it
+	SendInput(1, &input, sizeof(INPUT));
+	SendInput(1, &input, sizeof(INPUT));
 }

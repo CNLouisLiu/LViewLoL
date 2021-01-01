@@ -126,6 +126,14 @@ public:
 		return Input::IsKeyDown((HKey)key);
 	}
 
+	Vector2 GetCursor() {
+		return Input::GetCursorPosition();
+	}
+
+	void MoveCursor(const Vector2& pos) {
+		Input::MoveCursorTo(pos.x, pos.y);
+	}
+
 	float Distance(GameObject* first, GameObject* second) {
 		
 		int key = (first->objectIndex > second->objectIndex) ?

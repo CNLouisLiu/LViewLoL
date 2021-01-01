@@ -190,7 +190,7 @@ def lview_load_cfg(cfg):
 	
 def lview_save_cfg(cfg):
 	global windups, key_attack_move, key_orbwalk, max_atk_speed, auto_last_hit, toggle_mode
-	
+		
 	cfg.set_str("windups", json.dumps(windups))
 	cfg.set_int("key_attack_move", key_attack_move)
 	cfg.set_int("key_orbwalk", key_orbwalk)
@@ -268,7 +268,8 @@ def lview_update(game, ui):
 		return
 	
 	game.draw_button(game.world_to_screen(game.local_champ.pos), "OrbWalking", Color.BLACK, Color.WHITE)
-	
+
+	# Handle basic attacks
 	windups_norm = windups[game.local_champ.name]/100
 	self = game.local_champ
 	
@@ -277,8 +278,8 @@ def lview_update(game, ui):
 	c_atk_time = 1.0/atk_speed
 	max_atk_time = 1.0/max_atk_speed
 
-	t = time.time()
 	target = get_target(game)
+	t = time.time()
 	if t - last_attacked > max(c_atk_time, max_atk_time) and target:
 		last_attacked = t
 		last_action_attacked = True
