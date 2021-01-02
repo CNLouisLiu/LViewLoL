@@ -48,6 +48,8 @@ def lview_save_cfg(cfg):
 def lview_draw_settings(game, ui):
 	global auto_targeting
 		
+	if game.local_champ.name not in auto_targeting:
+		auto_targeting[game.local_champ.name] = {'Q': False, 'W': False, 'E': False, 'R': False}
 	targeting_settings = auto_targeting[game.local_champ.name]
 	for skill, enabled in targeting_settings.items():
 		targeting_settings[skill] = ui.checkbox("Autotarget " + skill, enabled)

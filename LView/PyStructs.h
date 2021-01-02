@@ -9,6 +9,7 @@
 #include "Spell.h"
 #include "PyGame.h"
 #include "Item.h"
+#include "MissileInfo.h"
 
 #include "PyImguiInterface.h"
 #include "Utils.h"
@@ -97,14 +98,34 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("get_summoner_spell", &Champion::GetSummonerSpell, return_value_policy<reference_existing_object>())
 		;
 
+	enum_<MissileFlags>("MissileFlag")
+		.value("NONE",              MissileFlags::NONE)
+		.value("COLLIDE_WINDWALL",  MissileFlags::COLLIDE_WINDWALL)
+		.value("COLLIDE_MOB",       MissileFlags::COLLIDE_MOB)
+		.value("COLLIDE_CHAMPION",  MissileFlags::COLLIDE_CHAMPION)
+		.value("COLLIDE_WALL",      MissileFlags::COLLIDE_WALL)
+		.value("COLLIDE_STRUCTURE", MissileFlags::COLLIDE_STRUCTURE)
+		.value("COLLIDE_GENERIC",   MissileFlags::COLLIDE_GENERIC)
+		.value("FIXED_LOCATION",    MissileFlags::FIXED_LOCATION)
+		.value("TARGETED",          MissileFlags::TARGETED)
+		.value("PIERCE_MOB",        MissileFlags::PIERCE_MOB)
+		.value("PIERCE_CHAMPION",   MissileFlags::PIERCE_CHAMPION)
+		.value("PIERCE_ALL",        MissileFlags::PIERCE_ALL)
+		;
+
+	class_<MissileInfo>("MissileInfo")
+		.def_readonly("radius", &MissileInfo::radius)
+		.def_readonly("speed",  &MissileInfo::speed)
+		.def_readonly("range",  &MissileInfo::range)
+		.def_readonly("flags",  &MissileInfo::flags)
+		;
+
 	class_<Missile, bases<GameObject>>("Missile")
 		.def_readonly("src_idx",    &Missile::srcIndex)
 		.def_readonly("dest_idx",   &Missile::destIndex)
 		.def_readonly("start_pos",  &Missile::startPos)
 		.def_readonly("end_pos",    &Missile::endPos)
-		.def_readonly("width",      &Missile::spellWidth)
-		.def_readonly("range",      &Missile::spellRange)
-		.def_readonly("speed",      &Missile::missileSpeed)
+		.def_readonly("info",       &Missile::GetPythonObjectInfo)
 		;
 
 	class_<PyGame>("Game")
@@ -134,6 +155,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("draw_text",                  &PyGame::DrawTxt)
 		.def("draw_rect",                  &PyGame::DrawRect,             PyGame::DrawRectOverloads())
 		.def("draw_rect_filled",           &PyGame::DrawRectFilled,       PyGame::DrawRectFilledOverloads())
+		.def("draw_rect_world",            &PyGame::DrawRectWorld)
 		.def("draw_button",                &PyGame::DrawButton,           PyGame::DrawButtonOverloads())
 										   
 
@@ -204,28 +226,43 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readwrite("y", &Vector4::y)
 		.def_readwrite("z", &Vector4::z)
 		.def_readwrite("w", &Vector4::w)
+		.def("length",      &Vector4::length)
+		.def("normalize",   &Vector4::normalize)
+		.def("distance",    &Vector4::distance)
+		.def("scale",       &Vector4::scale)
 		;
 
 	class_<Vector3>("Vec3", init<float, float, float>())
 		.def_readwrite("x", &Vector3::x)
 		.def_readwrite("y", &Vector3::y)
 		.def_readwrite("z", &Vector3::z)
+		.def("length",      &Vector3::length)
+		.def("normalize",   &Vector3::normalize)
+		.def("distance",    &Vector3::distance)
+		.def("scale",       &Vector3::scale)
+		.def("rotate_x",    &Vector3::rotate_x)
+		.def("rotate_y",    &Vector3::rotate_y)
+		.def("rotate_z",    &Vector3::rotate_z)
 		;
 
 	class_<Vector2>("Vec2", init<float, float>())
 		.def_readwrite("x", &Vector2::x)
 		.def_readwrite("y", &Vector2::y)
+		.def("length",      &Vector2::length)
+		.def("normalize",   &Vector2::normalize)
+		.def("distance",    &Vector2::distance)
+		.def("scale",       &Vector2::scale)
 		;
 
 	class_<ConfigSet>("Config")
-		.def("set_int", &ConfigSet::SetInt)
-		.def("set_bool", &ConfigSet::SetBool)
-		.def("set_float", &ConfigSet::SetFloat)
-		.def("set_str", &ConfigSet::SetStr)
-		.def("get_int", &ConfigSet::GetInt)
-		.def("get_bool", &ConfigSet::GetBool)
-		.def("get_float", &ConfigSet::GetFloat)
-		.def("get_str", &ConfigSet::GetStr)
+		.def("set_int",    &ConfigSet::SetInt)
+		.def("set_bool",   &ConfigSet::SetBool)
+		.def("set_float",  &ConfigSet::SetFloat)
+		.def("set_str",    &ConfigSet::SetStr)
+		.def("get_int",    &ConfigSet::GetInt)
+		.def("get_bool",   &ConfigSet::GetBool)
+		.def("get_float",  &ConfigSet::GetFloat)
+		.def("get_str",    &ConfigSet::GetStr)
 		;
 
 	enum_<SpellSlot>("SpellSlot")

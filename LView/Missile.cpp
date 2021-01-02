@@ -22,11 +22,17 @@ void Missile::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 		return;
 
 	Mem::Read(hProcess, spellDataPtr, buff, 0x500);
-	memcpy(&missileSpeed, buff + 0x450, sizeof(float));
-	memcpy(&spellWidth, buff + 0x458, sizeof(float));
-	memcpy(&spellRange, buff + 0x3D0, sizeof(float));
 
 	char nameBuff[50];
-	Mem::Read(hProcess, Mem::ReadDWORDFromBuffer(buff, 0x0058), nameBuff, 50);
+	Mem::Read(hProcess, Mem::ReadDWORD(hProcess, spellDataPtr + 0x0058), nameBuff, 50);
 	name = std::string(nameBuff);
+
+	auto it = MissileInfo::missiles.find(name);
+	if (it != MissileInfo::missiles.end())
+		info = it->second;
+}
+
+object Missile::GetPythonObjectInfo()
+{
+	return object(ptr(info));
 }

@@ -83,6 +83,16 @@ public:
 		overlay->AddRectFilled(ImVec2(box.x, box.y), ImVec2(box.z, box.w), ImColor(color), rounding);
 	}
 
+	void DrawRectWorld(const Vector3& p1, const Vector3& p2, const Vector3& p3, const Vector3& p4, float thickness, const ImVec4& color) {
+		static Vector2 points[4];
+		points[0] = renderer->WorldToScreen(p1);
+		points[1] = renderer->WorldToScreen(p2);
+		points[2] = renderer->WorldToScreen(p3);
+		points[3] = renderer->WorldToScreen(p4);
+
+		overlay->AddPolyline((ImVec2*)points, 4, ImColor(color), true, thickness);
+	}
+
 	void DrawCircleWorld (const Vector3& center, float radius, int numPoints, float thickness, const ImVec4& color) {
 		renderer->DrawCircleAt(overlay, center, radius, false, numPoints, ImColor(color), thickness);
 	}

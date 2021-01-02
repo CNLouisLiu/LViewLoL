@@ -108,6 +108,9 @@
     <ClCompile Include="Missile.cpp">
       <Filter>Source Files\Structs\GameRelated</Filter>
     </ClCompile>
+    <ClCompile Include="MissileInfo.cpp">
+      <Filter>Source Files\Structs\GameRelated</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui.h">
@@ -195,6 +198,9 @@
       <Filter>Source Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="Missile.h">
+      <Filter>Source Files\Structs\GameRelated</Filter>
+    </ClInclude>
+    <ClInclude Include="MissileInfo.h">
       <Filter>Source Files\Structs\GameRelated</Filter>
     </ClInclude>
   </ItemGroup>

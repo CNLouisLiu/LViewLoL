@@ -39,7 +39,7 @@ def draw_items(items, ui):
 
 def draw_missile(obj, ui):
 	pass
-	if ui.treenode('{}=>{} ({})'.format(obj.src_idx, obj.dest_idx, hex(obj.net_id))):
+	if ui.treenode('{}=>{} ({})'.format(obj.src_idx, obj.dest_idx, obj.name)):
 		ui.treepop()
 
 def draw_game_object(obj, ui, additional_draw = None, set_open=False):

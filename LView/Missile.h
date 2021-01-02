@@ -1,6 +1,10 @@
 #pragma once
 #include "Vector.h"
 #include "GameObject.h"
+#include "MissileInfo.h"
+#include <boost/python.hpp>
+
+using namespace boost::python;
 
 class Missile: public GameObject {
 
@@ -10,9 +14,8 @@ public:
 	Vector3 startPos;
 	Vector3 endPos;
 
-	float spellWidth;
-	float spellRange;
-	float missileSpeed;
+	MissileInfo* info;
 
 	void LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad = true);
+	object GetPythonObjectInfo();
 };

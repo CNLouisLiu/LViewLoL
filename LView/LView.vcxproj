@@ -194,6 +194,7 @@
     <ClCompile Include="ScriptManager.cpp" />
     <ClCompile Include="Spell.cpp" />
     <ClCompile Include="Overlay.cpp" />
+    <ClCompile Include="MissileInfo.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -224,6 +225,7 @@
     <ClInclude Include="ScriptManager.h" />
     <ClInclude Include="Spell.h" />
     <ClInclude Include="Overlay.h" />
+    <ClInclude Include="MissileInfo.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>

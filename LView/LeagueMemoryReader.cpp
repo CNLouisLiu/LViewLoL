@@ -227,7 +227,7 @@ void LeagueMemoryReader::MakeSnapshot(MemSnapshot& ms) {
 		ReadRenderer(ms);
 		ReadMobs(ms);
 		ReadTurrets(ms);
-	    //ReadMissiles(ms);
+	    ReadMissiles(ms);
 
 		ms.localChampion = ms.champions[0];
 

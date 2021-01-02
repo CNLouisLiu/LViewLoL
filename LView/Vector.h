@@ -1,4 +1,5 @@
 #pragma once
+#include "math.h"
 
 struct Vector2 {
 	Vector2() {};
@@ -9,6 +10,24 @@ struct Vector2 {
 
 	float x;
 	float y;
+
+	float length() {
+		return sqrt(x*x + y * y);
+	}
+	void normalize() {
+		float l = length();
+		x = x / l;
+		y = y / l;
+	}
+
+	float distance(const Vector2& o) {
+		return sqrt(pow(x - o.x, 2) + pow(y - o.y, 2));
+	}
+
+	void scale(float s) {
+		x *= s;
+		y *= s;
+	}
 };
 
 struct Vector3 {
@@ -22,6 +41,50 @@ struct Vector3 {
 	float x;
 	float y;
 	float z;
+
+	float length() {
+		return sqrt(x*x + y*y + z*z);
+	}
+	void normalize() {
+		float l = length();
+		x = x / l;
+		y = y / l;
+		z = z / l;
+	}
+
+	float distance(const Vector3& o) {
+		return sqrt(pow(x - o.x, 2) + pow(y - o.y, 2) + pow(z - o.z, 2));
+	}
+
+	void scale(float s) {
+		x *= s;
+		y *= s;
+		z *= s;
+	}
+
+	void rotate_x(float angle) {
+		float ny = y * cos(angle) - z * sin(angle);
+		float nz = y * sin(angle) + z * cos(angle);
+
+		y = ny;
+		z = nz;
+	}
+
+	void rotate_y(float angle) {
+		float nx = x * cos(angle) + z * sin(angle);
+		float nz = -x * sin(angle) + z * cos(angle);
+
+		x = nx;
+		z = nz;
+	}
+
+	void rotate_z(float angle) {
+		float nx = x * cos(angle) - y * sin(angle);
+		float ny = x * sin(angle) + y * cos(angle);
+		
+		x = nx;
+		y = ny;
+	}
 };
 
 struct Vector4 {
@@ -37,4 +100,27 @@ struct Vector4 {
 	float y;
 	float z;
 	float w;
+
+	float length() {
+		return sqrt(x*x + y*y + z*z + w*w);
+	}
+	
+	void normalize() {
+		float l = length();
+		x = x / l;
+		y = y / l;
+		z = z / l;
+		w = w / l;
+	}
+
+	float distance(const Vector4& o) {
+		return sqrt(pow(x - o.x, 2) + pow(y - o.y, 2) + pow(z - o.z, 2) + pow(w - o.w, 2));
+	}
+
+	void scale(float s) {
+		x *= s;
+		y *= s;
+		z *= s;
+		w *= s;
+	}
 };
