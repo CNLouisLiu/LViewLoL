@@ -40,15 +40,17 @@ Vector2 GameRenderer::WorldToScreen(const Vector3& pos) const {
 	clipCoords.z = pos.x * viewProjMatrix[2] + pos.y * viewProjMatrix[6] + pos.z * viewProjMatrix[10] + viewProjMatrix[14];
 	clipCoords.w = pos.x * viewProjMatrix[3] + pos.y * viewProjMatrix[7] + pos.z * viewProjMatrix[11] + viewProjMatrix[15];
 
-	if (clipCoords.w > 0.05f) {
-		Vector3 M;
-		M.x = clipCoords.x / clipCoords.w;
-		M.y = clipCoords.y / clipCoords.w;
-		M.z = clipCoords.z / clipCoords.w;
+	if (clipCoords.w < 1.0f)
+		clipCoords.w = 1.f;
 
-		out.x = (screen.x / 2.f * M.x) + (M.x + screen.x / 2.f);
-		out.y = -(screen.y / 2.f * M.y) + (M.y + screen.y / 2.f);
-	}
+	Vector3 M;
+	M.x = clipCoords.x / clipCoords.w;
+	M.y = clipCoords.y / clipCoords.w;
+	M.z = clipCoords.z / clipCoords.w;
+
+	out.x = (screen.x / 2.f * M.x) + (M.x + screen.x / 2.f);
+	out.y = -(screen.y / 2.f * M.y) + (M.y + screen.y / 2.f);
+	
 
 	return out;
 }

@@ -212,10 +212,25 @@ def lview_draw_settings(game, ui):
 	key_orbwalk     = ui.keyselect("Orbwalk activate key", key_orbwalk)
 	auto_last_hit   = ui.checkbox("Auto last hit minions (No Prediction)", auto_last_hit)
 	toggle_mode     = ui.checkbox("Toggle mode", toggle_mode)
-	
-def is_last_hitable(player, enemy):
+
+def is_last_hitable(game, player, enemy):
 	hit_dmg = player.get_basic_phys(enemy) + player.get_basic_magic(enemy)
-	return enemy.health - hit_dmg <= 0
+	
+	hp = enemy.health
+	atk_speed = player.base_atk_speed * player.atk_speed_multi
+	t_current_range = game.distance(player, enemy)/(800*atk_speed/player.base_atk_speed)
+
+	for  missile in game.missiles:
+		if missile.info and missile.info.flags & MissileFlag.TARGETED:
+			if missile.dest_idx == enemy.id:
+				src = game.all_objs[missile.src_idx]
+				s = game.distance(missile, enemy)/missile.info.speed
+				
+				if s < t_current_range:
+					hp -= src.base_atk
+	
+	return hp - hit_dmg <= 0
+
 	
 def find_champ_target(game, array, value_extractor):
 	atk_range = game.local_champ.base_atk_range + game.local_champ.gameplay_radius
@@ -238,7 +253,7 @@ def find_minion_target(game):
 	min_health = 9999999999
 	target = None
 	for minion in game.minions:
-		if minion.is_enemy_to(game.local_champ) and minion.is_alive and minion.health < min_health and game.distance(game.local_champ, minion) < atk_range and is_last_hitable(game.local_champ, minion):
+		if minion.is_enemy_to(game.local_champ) and minion.is_alive and minion.health < min_health and game.distance(game.local_champ, minion) < atk_range and is_last_hitable(game, game.local_champ, minion):
 			target = minion
 			min_health = minion.health
 		

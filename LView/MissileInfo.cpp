@@ -74,9 +74,9 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withFlags(COLLIDE_WINDWALL | FIXED_LOCATION)
 	},
 
-	{std::string("VolleyRightAttack"),
+	{std::string("VolleyAttack"),
 		(new MissileInfo())
-			->withName("VolleyRightAttack")
+			->withName("VolleyAttack")
 			->withSpeed(2000.f)
 			->withRange(1200.f)
 			->withRadius(20.f)
@@ -1296,5 +1296,61 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withRange(1100.f)
 			->withRadius(70.f)
 			->withFlags(COLLIDE_GENERIC | PIERCE_ALL)
+	},
+
+	// Minions
+
+	{ std::string("SRU_OrderMinionRangedBasicAttack"),
+		(new MissileInfo())
+			->withName("SRU_OrderMinionRangedBasicAttack")
+			->withSpeed(650.f)
+			->withRange(0.f)
+			->withRadius(5.f)
+			->withFlags(COLLIDE_WINDWALL | TARGETED)
+	},
+
+	{ std::string("SRU_OrderMinionRangedBasicAttack2"),
+		(new MissileInfo())
+			->withName("SRU_OrderMinionRangedBasicAttack2")
+			->withSpeed(650.f)
+			->withRange(0.f)
+			->withRadius(5.f)
+			->withFlags(COLLIDE_WINDWALL | TARGETED)
+	},
+
+	{ std::string("SRU_OrderMinionSiegeBasicAttack"),
+		(new MissileInfo())
+			->withName("SRU_OrderMinionSiegeBasicAttack")
+			->withSpeed(1200.f)
+			->withRange(0.f)
+			->withRadius(8.f)
+			->withFlags(COLLIDE_WINDWALL | TARGETED)
+	},
+
+	{ std::string("SRU_ChaosMinionRangedBasicAttack"),
+			(new MissileInfo())
+				->withName("SRU_ChaosMinionRangedBasicAttack")
+				->withSpeed(650.f)
+				->withRange(0.f)
+				->withRadius(5.f)
+				->withFlags(COLLIDE_WINDWALL | TARGETED)
+	},
+
+	{ std::string("SRU_ChaosMinionRangedBasicAttack2"),
+		(new MissileInfo())
+			->withName("SRU_ChaosMinionRangedBasicAttack2")
+			->withSpeed(650.f)
+			->withRange(0.f)
+			->withRadius(5.f)
+			->withFlags(COLLIDE_WINDWALL | TARGETED)
+	},
+
+	{ std::string("SRU_ChaosMinionSiegeBasicAttack"),
+		(new MissileInfo())
+			->withName("SRU_ChaosMinionSiegeBasicAttack")
+			->withSpeed(1200.f)
+			->withRange(0.f)
+			->withRadius(8.f)
+			->withFlags(COLLIDE_WINDWALL | TARGETED)
 	},
 };

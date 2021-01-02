@@ -33,6 +33,7 @@ public:
 
 public:
 	Spell         Q, W, E, R, D, F;
+
 	DWORD         level;
 	Item*         items[6];
 

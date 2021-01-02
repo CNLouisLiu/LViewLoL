@@ -1,4 +1,5 @@
 from lview import *
+from time import time
 
 lview_script_info = {
 	"script": "Drawings",
@@ -53,7 +54,6 @@ def lview_update(game, ui):
 	
 	if minion_last_hit:
 		color = Color.CYAN
-		color.a = 0.5
 		for minion in game.minions:
 		
 			#p = game.world_to_screen(minion.pos)
@@ -61,8 +61,11 @@ def lview_update(game, ui):
 			#p.y += 15
 			#game.draw_text(p, str(game.local_champ.get_basic_magic(minion)), Color.CYAN)
 			
-			if minion.is_alive and minion.is_enemy_to(game.local_champ) and is_last_hitable(game.local_champ, minion) and game.is_point_on_screen(minion.pos):
-				game.draw_circle_world(minion.pos, minion.gameplay_radius, 4, 3, color)
+			if minion.is_alive and minion.is_enemy_to(game.local_champ) and game.is_point_on_screen(minion.pos):
+				if is_last_hitable(game.local_champ, minion):
+					game.draw_circle_world(minion.pos, minion.gameplay_radius, 20, 3, color)
+				if is_last_hitable(game.local_champ, minion):
+					game.draw_circle_world(minion.pos, minion.gameplay_radius + 6, 20, 3, Color.YELLOW)
 				
 	if skillshots:
 		
@@ -76,12 +79,12 @@ def lview_update(game, ui):
 				start_pos = missile.start_pos
 				curr_pos = missile.pos
 				
-				dir = Vec3(end_pos.x - start_pos.x, end_pos.y - start_pos.y, end_pos.z - start_pos.z)
+				dir = Vec3(end_pos.x - start_pos.x, 0, end_pos.z - start_pos.z)
 				dir.normalize()
 				if flags & MissileFlag.FIXED_LOCATION == 0:
 
 					r = missile.info.range
-					end_pos = Vec3(start_pos.x + r*dir.x, start_pos.y + r*dir.y, start_pos.z + r*dir.z)
+					end_pos = Vec3(start_pos.x + r*dir.x, curr_pos.y, start_pos.z + r*dir.z)
 					start_pos = curr_pos
 					start_pos.y = end_pos.y
 				

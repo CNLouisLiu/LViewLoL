@@ -1,16 +1,4 @@
-﻿  AntiCrack.cpp
-  Champion.cpp
-  f:\github\lviewlol\lview\boost\boost\bind.hpp(41): note: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.
-  ConfigSet.cpp
-  GameObject.cpp
-  imgui.cpp
-  imgui_demo.cpp
-  imgui_draw.cpp
-  imgui_impl_dx11.cpp
-  imgui_impl_win32.cpp
-  imgui_tables.cpp
-  imgui_widgets.cpp
-  Input.cpp
+﻿  GameRenderer.cpp
 f:\github\lviewlol\lview\vector.h(15): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
 f:\github\lviewlol\lview\vector.h(24): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
 f:\github\lviewlol\lview\vector.h(46): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
@@ -23,103 +11,11 @@ f:\github\lviewlol\lview\vector.h(82): warning C4244: 'initializing': conversion
 f:\github\lviewlol\lview\vector.h(83): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 f:\github\lviewlol\lview\vector.h(105): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
 f:\github\lviewlol\lview\vector.h(117): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\input.cpp(92): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-f:\github\lviewlol\lview\input.cpp(93): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-f:\github\lviewlol\lview\input.cpp(101): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
-f:\github\lviewlol\lview\input.cpp(102): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
-f:\github\lviewlol\lview\input.cpp(114): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
-f:\github\lviewlol\lview\input.cpp(115): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
-f:\github\lviewlol\lview\input.cpp(122): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-f:\github\lviewlol\lview\input.cpp(123): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-f:\github\lviewlol\lview\input.cpp(128): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
-f:\github\lviewlol\lview\input.cpp(129): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
-  Item.cpp
-f:\github\lviewlol\lview\item.cpp(10): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(22): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(25): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(26): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(35): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(41): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(55): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(61): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(62): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(64): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(70): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(74): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(83): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(88): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(91): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(92): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(94): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(95): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(96): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(97): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(112): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(116): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(122): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(131): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(143): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(147): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(166): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(167): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(179): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(187): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(195): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(196): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(197): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(198): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(199): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\github\lviewlol\lview\item.cpp(200): warning C4305: 'initializing': truncation from 'double' to 'float'
-  LeagueMemoryReader.cpp
-  f:\github\lviewlol\lview\boost\boost\bind.hpp(41): note: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.
-f:\github\lviewlol\lview\leaguememoryreader.cpp(168): warning C4018: '<': signed/unsigned mismatch
-  LView.cpp
-  f:\github\lviewlol\lview\boost\boost\bind.hpp(41): note: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-  Missile.cpp
-f:\github\lviewlol\lview\vector.h(15): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(24): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(46): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(56): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(66): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(67): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(74): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(75): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(82): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(83): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(105): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(117): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  f:\github\lviewlol\lview\boost\boost\bind.hpp(41): note: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.
-  Offsets.cpp
-  Offsets.h
-  GameRenderer.cpp
-f:\github\lviewlol\lview\vector.h(15): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(24): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(46): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(56): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(66): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(67): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(74): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(75): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(82): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(83): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(105): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(117): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  Script.cpp
-  f:\github\lviewlol\lview\boost\boost\bind.hpp(41): note: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.
-  Compiling...
-  ScriptManager.cpp
-  f:\github\lviewlol\lview\boost\boost\bind.hpp(41): note: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.
-  Spell.cpp
-  Overlay.cpp
-  f:\github\lviewlol\lview\boost\boost\bind.hpp(41): note: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-f:\github\lviewlol\lview\overlay.cpp(326): warning C4101: 'featureLevel': unreferenced local variable
-  MissileInfo.cpp
-  Utils.cpp
 Release\Offsets.obj : warning LNK4042: object specified more than once; extras ignored
      Creating library F:\Github\LViewLoL\Release\ConsoleApplication.lib and object F:\Github\LViewLoL\Release\ConsoleApplication.exp
   Generating code
-  All 9832 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  0 of 9832 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   LView.vcxproj -> F:\Github\LViewLoL\Release\ConsoleApplication.exe

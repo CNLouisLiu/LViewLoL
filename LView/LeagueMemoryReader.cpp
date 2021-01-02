@@ -186,8 +186,8 @@ void LeagueMemoryReader::ReadMissiles(MemSnapshot& ms) {
 		memcpy(&netId, buff + Offsets::MissileMapKey, sizeof(int));
 
 		// Actual missiles net_id start from 0x40000000. So we use this to check if missiles are valid
-		if (netId - (unsigned int)0x40000000 > 0x100000) 
-			continue;
+		//if (netId - (unsigned int)0x40000000 > 0x100000) 
+		//	continue;
 
 		int addr;
 		memcpy(&addr, buff + Offsets::MissileMapVal, sizeof(int));
