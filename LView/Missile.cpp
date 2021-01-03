@@ -23,13 +23,28 @@ void Missile::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 
 	Mem::Read(hProcess, spellDataPtr, buff, 0x500);
 
+	// Read name
 	char nameBuff[50];
 	Mem::Read(hProcess, Mem::ReadDWORD(hProcess, spellDataPtr + 0x0058), nameBuff, 50);
 	name = std::string(nameBuff);
 
+	// Find static data
 	auto it = MissileInfo::missiles.find(name);
 	if (it != MissileInfo::missiles.end())
 		info = it->second;
+
+	// Calculate end position using range since for some skills (e.g GLOBAL skills) the end position is incorrect
+	if (info != nullptr && !info->hasFlags(FIXED_LOCATION)) {
+
+		// Calculate direction vector and normalize
+		endPos = Vector3(endPos.x - startPos.x, 0, endPos.z - startPos.z);
+		endPos.normalize();
+
+		// Update endposition using the height of the current position
+		endPos.x = endPos.x*info->range + startPos.x;
+		endPos.y = position.y;
+		endPos.z = endPos.z*info->range + startPos.z;
+	}
 }
 
 object Missile::GetPythonObjectInfo()

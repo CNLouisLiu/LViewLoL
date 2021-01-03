@@ -49,9 +49,9 @@ enum GameObjectType {
 	BLUE                = JUNGLE | SMITABLE + 21,
 	RED                 = JUNGLE | SMITABLE + 22,
 	CRAB                = JUNGLE | SMITABLE + 23,
-	PLANT_EXPLOSION     = JUNGLE | PLANT + 24, 
-	PLANT_HEALING       = JUNGLE | PLANT + 25,
-	PLANT_VISION        = JUNGLE | PLANT + 26,
+	PLANT_EXPLOSION     = PLANT + 24, 
+	PLANT_HEALING       = PLANT + 25,
+	PLANT_VISION        = PLANT + 26,
 
 	SHACO_BOX           = INVISIBLE | EXPIRABLE + 27,
 	TEEMO_MUSHROOM      = INVISIBLE | EXPIRABLE + 28,

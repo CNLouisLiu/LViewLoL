@@ -114,10 +114,13 @@ BOOST_PYTHON_MODULE(lview) {
 		;
 
 	class_<MissileInfo>("MissileInfo")
-		.def_readonly("radius", &MissileInfo::radius)
-		.def_readonly("speed",  &MissileInfo::speed)
-		.def_readonly("range",  &MissileInfo::range)
-		.def_readonly("flags",  &MissileInfo::flags)
+		.def_readonly("radius",        &MissileInfo::radius)
+		.def_readonly("impact_radius", &MissileInfo::radiusImpact)
+		.def_readonly("speed",         &MissileInfo::speed)
+		.def_readonly("range",         &MissileInfo::range)
+		.def_readonly("impact_angle",  &MissileInfo::angleImpact)
+		.def_readonly("flags",         &MissileInfo::flags)
+		.def("has_flags",              &MissileInfo::hasFlags)
 		;
 
 	class_<Missile, bases<GameObject>>("Missile")
@@ -156,6 +159,8 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("draw_rect",                  &PyGame::DrawRect,             PyGame::DrawRectOverloads())
 		.def("draw_rect_filled",           &PyGame::DrawRectFilled,       PyGame::DrawRectFilledOverloads())
 		.def("draw_rect_world",            &PyGame::DrawRectWorld)
+		.def("draw_triangle_world",        &PyGame::DrawTriangleWorld)
+		.def("draw_triangle_world_filled", &PyGame::DrawTriangleWorldFilled)
 		.def("draw_button",                &PyGame::DrawButton,           PyGame::DrawButtonOverloads())
 										   
 
@@ -230,6 +235,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("normalize",   &Vector4::normalize)
 		.def("distance",    &Vector4::distance)
 		.def("scale",       &Vector4::scale)
+		.def("add",         &Vector4::add)
 		;
 
 	class_<Vector3>("Vec3", init<float, float, float>())
@@ -243,6 +249,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("rotate_x",    &Vector3::rotate_x)
 		.def("rotate_y",    &Vector3::rotate_y)
 		.def("rotate_z",    &Vector3::rotate_z)
+		.def("add",         &Vector3::add)
 		;
 
 	class_<Vector2>("Vec2", init<float, float>())
@@ -252,6 +259,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("normalize",   &Vector2::normalize)
 		.def("distance",    &Vector2::distance)
 		.def("scale",       &Vector2::scale)
+		.def("add",         &Vector2::add)
 		;
 
 	class_<ConfigSet>("Config")

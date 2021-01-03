@@ -43,9 +43,23 @@ public:
 		return this;
 	}
 
+	MissileInfo* withRadiusImpact(float x) {
+		radiusImpact = x;
+		return this;
+	}
+
 	MissileInfo* withFlags(int x) {
 		flags = (MissileFlags)x;
 		return this;
+	}
+
+	MissileInfo* withAngleImpact(float x) {
+		angleImpact = x;
+		return this;
+	}
+
+	bool hasFlags(MissileFlags flag1) {
+		return (flags & flag1) == flag1;
 	}
 
 public:
@@ -54,6 +68,8 @@ public:
 	float speed                = 0.f;
 	float range                = 0.f;
 	float radius               = 0.f;
+	float radiusImpact         = 0.f;
+	float angleImpact          = 0.f;
 				               
 	MissileFlags flags = MissileFlags::NONE;
 

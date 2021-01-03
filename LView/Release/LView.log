@@ -1,21 +1,9 @@
-﻿  GameRenderer.cpp
-f:\github\lviewlol\lview\vector.h(15): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(24): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(46): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(56): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(66): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(67): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(74): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(75): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(82): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(83): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(105): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-f:\github\lviewlol\lview\vector.h(117): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+﻿  MissileInfo.cpp
 Release\Offsets.obj : warning LNK4042: object specified more than once; extras ignored
      Creating library F:\Github\LViewLoL\Release\ConsoleApplication.lib and object F:\Github\LViewLoL\Release\ConsoleApplication.exp
   Generating code
-  0 of 9832 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+  269 of 10018 functions ( 2.7%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    2 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   LView.vcxproj -> F:\Github\LViewLoL\Release\ConsoleApplication.exe

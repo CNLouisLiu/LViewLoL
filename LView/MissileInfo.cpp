@@ -2,6 +2,7 @@
 
 std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 
+	// Aatrox
 	{std::string("AatroxW"),
 		(new MissileInfo())
 			->withName("AatroxW")
@@ -11,6 +12,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withFlags(COLLIDE_GENERIC)
 	},
 
+	// Ahri
 	{std::string("AhriOrbMissile"),
 		(new MissileInfo())
 			->withName("AhriOrbMissile")
@@ -29,6 +31,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withFlags(COLLIDE_GENERIC)
 	},
 
+	// Akali
 	{std::string("AkaliEMis"),
 		(new MissileInfo())
 			->withName("AkaliEMis")
@@ -38,6 +41,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withFlags(COLLIDE_GENERIC)
 	},
 
+	// Amumu
 	{std::string("SadMummyBandageToss"),
 		(new MissileInfo())
 			->withName("SadMummyBandageToss")
@@ -47,6 +51,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withFlags(COLLIDE_GENERIC)
 	},
 
+	// Anivia
 	{std::string("FlashFrostSpell"),
 		(new MissileInfo())
 			->withName("FlashFrostSpell")
@@ -56,6 +61,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withFlags(COLLIDE_WINDWALL | FIXED_LOCATION)
 	},
 
+	// Aphelios
 	{std::string("ApheliosCalibrumQ"),
 		(new MissileInfo())
 			->withName("ApheliosCalibrumQ")
@@ -74,6 +80,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withFlags(COLLIDE_WINDWALL | FIXED_LOCATION)
 	},
 
+	// Ashe
 	{std::string("VolleyAttack"),
 		(new MissileInfo())
 			->withName("VolleyAttack")
@@ -87,11 +94,13 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 		(new MissileInfo())
 			->withName("EnchantedCrystalArrow")
 			->withSpeed(1600.f)
-			->withRange(12500.f)
+			->withRange(20000.f)
 			->withRadius(130.f)
-			->withFlags(COLLIDE_WINDWALL | COLLIDE_CHAMPION)
+			->withRadiusImpact(350.f)
+			->withFlags(COLLIDE_WINDWALL | COLLIDE_CHAMPION | PIERCE_MOB)
 	},
 
+	// Aurelion
 	{std::string("AurelionSolQMissile"),
 		(new MissileInfo())
 			->withName("AurelionSolQMissile")
@@ -115,7 +124,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("BardRMissile")
 			->withSpeed(2100.f)
 			->withRange(3400.f)
-			->withRadius(350.f)
+			->withRadiusImpact(350.f)
 			->withFlags(FIXED_LOCATION)
 	},
 
@@ -187,7 +196,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("PhosphorusBombMissile")
 			->withSpeed(1000.f)
 			->withRange(825.f)
-			->withRadius(250.f)
+			->withRadiusImpact(250.f)
 			->withFlags(COLLIDE_WINDWALL | FIXED_LOCATION)
 	},
 
@@ -269,7 +278,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withSpeed(2000.f)
 			->withRange(1150.f)
 			->withRadius(60.f)
-			->withFlags(COLLIDE_CHAMPION | COLLIDE_WINDWALL | COLLIDE_STRUCTURE)
+			->withFlags(COLLIDE_CHAMPION | COLLIDE_WINDWALL | COLLIDE_STRUCTURE | PIERCE_MOB)
 	},
 
 	{ std::string("EzrealR"),
@@ -295,7 +304,8 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("GalioQMissile")
 			->withSpeed(1150.f)
 			->withRange(825.f)
-			->withRadius(235.f)
+			->withRadius(60.f)
+			->withRadiusImpact(235.f)  
 			->withFlags(COLLIDE_GENERIC | PIERCE_ALL)
 	},
 
@@ -322,7 +332,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("GragasQMissile")
 			->withSpeed(1000.f)
 			->withRange(850.f)
-			->withRadius(275.f)
+			->withRadiusImpact(275.f)
 			->withFlags(COLLIDE_WINDWALL | FIXED_LOCATION)
 	},
 
@@ -331,8 +341,26 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("GragasRBoom")
 			->withSpeed(1800.f)
 			->withRange(1000.f)
-			->withRadius(400.f)
+			->withRadiusImpact(400.f)
 			->withFlags(COLLIDE_WINDWALL | FIXED_LOCATION)
+	},
+
+	{ std::string("GravesQLineMis"),
+		(new MissileInfo())
+			->withName("GravesQLineMis")
+			->withSpeed(1500.f)
+			->withRange(925.f)
+			->withRadius(55.f)
+			->withFlags(COLLIDE_GENERIC | COLLIDE_WALL | PIERCE_ALL)
+	},
+
+	{ std::string("GravesQReturn"),
+		(new MissileInfo())
+			->withName("GravesQReturn")
+			->withSpeed(1500.f)
+			->withRange(925.f)
+			->withRadius(55.f)
+			->withFlags(COLLIDE_GENERIC | PIERCE_ALL | FIXED_LOCATION)
 	},
 
 	{ std::string("GravesSmokeGrenadeBoom"),
@@ -340,7 +368,8 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("GravesSmokeGrenadeBoom")
 			->withSpeed(1500.f)
 			->withRange(950.f)
-			->withRadius(250.f)
+			->withRadius(50.f)
+			->withRadiusImpact(250.f)
 			->withFlags(COLLIDE_WINDWALL | FIXED_LOCATION)
 	},
 
@@ -350,6 +379,8 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withSpeed(2100.f)
 			->withRange(1000.f)
 			->withRadius(100.f)
+			->withRadiusImpact(800.f)
+			->withAngleImpact(80.f)
 			->withFlags(COLLIDE_GENERIC | PIERCE_ALL)
 	},
 
@@ -367,7 +398,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("HeimerdingerESpell")
 			->withSpeed(1200.f)
 			->withRange(970.f)
-			->withRadius(250.f)
+			->withRadiusImpact(250.f)
 			->withFlags(FIXED_LOCATION)
 	},
 
@@ -376,7 +407,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("HeimerdingerESpell_ult")
 			->withSpeed(1200.f)
 			->withRange(970.f)
-			->withRadius(250.f)
+			->withRadiusImpact(250.f)
 			->withFlags(FIXED_LOCATION)
 	},
 
@@ -439,7 +470,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("JhinETrap")
 			->withSpeed(1600.f)
 			->withRange(750.f)
-			->withRadius(130.f)
+			->withRadiusImpact(130.f)
 			->withFlags(COLLIDE_WINDWALL | FIXED_LOCATION)
 	},
 
@@ -466,7 +497,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("JinxEHit")
 			->withSpeed(1100.f)
 			->withRange(900.f)
-			->withRadius(120.f)
+			->withRadiusImpact(120.f)
 			->withFlags(COLLIDE_WINDWALL | FIXED_LOCATION)
 	},
 
@@ -494,7 +525,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withSpeed(2400.f)
 			->withRange(1150.f)
 			->withRadius(40.f)
-			->withFlags(COLLIDE_GENERIC | PIERCE_MOB)
+			->withFlags(COLLIDE_GENERIC)
 	},
 
 	{ std::string("KarmaQMissile"),

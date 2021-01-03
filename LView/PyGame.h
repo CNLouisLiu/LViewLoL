@@ -93,6 +93,14 @@ public:
 		overlay->AddPolyline((ImVec2*)points, 4, ImColor(color), true, thickness);
 	}
 
+	void DrawTriangleWorld(const Vector3& p1, const Vector3& p2, const Vector3& p3, float thickness, const ImVec4& color) {
+		overlay->AddTriangle((ImVec2&)renderer->WorldToScreen(p1), (ImVec2&)renderer->WorldToScreen(p2), (ImVec2&)renderer->WorldToScreen(p3), ImColor(color), thickness);
+	}
+
+	void DrawTriangleWorldFilled(const Vector3& p1, const Vector3& p2, const Vector3& p3, const ImVec4& color) {
+		overlay->AddTriangleFilled((ImVec2&)renderer->WorldToScreen(p1), (ImVec2&)renderer->WorldToScreen(p2), (ImVec2&)renderer->WorldToScreen(p3), ImColor(color));
+	}
+
 	void DrawCircleWorld (const Vector3& center, float radius, int numPoints, float thickness, const ImVec4& color) {
 		renderer->DrawCircleAt(overlay, center, radius, false, numPoints, ImColor(color), thickness);
 	}

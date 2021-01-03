@@ -28,6 +28,11 @@ struct Vector2 {
 		x *= s;
 		y *= s;
 	}
+
+	void add(const Vector2& o) {
+		x += o.x;
+		y += o.y;
+	}
 };
 
 struct Vector3 {
@@ -85,6 +90,12 @@ struct Vector3 {
 		x = nx;
 		y = ny;
 	}
+
+	void add(const Vector3& o) {
+		x += o.x;
+		y += o.y;
+		z += o.z;
+	}
 };
 
 struct Vector4 {
@@ -122,5 +133,12 @@ struct Vector4 {
 		y *= s;
 		z *= s;
 		w *= s;
+	}
+
+	void add(const Vector4& o) {
+		x += o.x;
+		y += o.y;
+		z += o.z;
+		w += o.w;
 	}
 };
