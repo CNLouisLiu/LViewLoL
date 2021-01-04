@@ -74,6 +74,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("pathing_radius",       &GameObject::GetPathingRadius)
 		.def_readonly("gameplay_radius",      &GameObject::GetGameplayRadius)
 		.def_readonly("basic_missile_speed",  &GameObject::GetBasicAttackMissileSpeed)
+		.def_readonly("hp_bar_height",        &GameObject::GetHpBarHeight)
 
 		.def_readonly("atk_speed_ratio",      &GameObject::GetAttackSpeedRatio)
 		.def_readonly("base_ms",              &GameObject::GetBaseMovementSpeed)
@@ -151,6 +152,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("hovered_obj",       &PyGame::GetHoveredObject)
 		.def_readonly("local_champ",       &PyGame::GetLocalChampion)
 		.def_readonly("time",              &PyGame::gameTime)
+		.def_readonly("map",               &PyGame::GetMap)
 
 		.def("is_point_on_screen",         &PyGame::IsScreenPointOnScreen, PyGame::IsScreenPointOnScreenOverloads())
 		.def("is_point_on_screen",         &PyGame::IsWorldPointOnScreen,  PyGame::IsWorldPointOnScreenOverloads())
@@ -181,6 +183,16 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("click_at",                   &PyGame::ClickAt)
 		.def("move_cursor",                &PyGame::MoveCursor)
 		.def("get_cursor",                 &PyGame::GetCursor)
+		;
+
+	enum_<MapType>("MapType")
+		.value("SummonersRift", MapType::SUMMONERS_RIFT)
+		.value("HowlingAbyss",  MapType::HOWLING_ABYSS)
+		;
+
+	class_<MapObject>("Map")
+		.def("height_at",                  &MapObject::GetHeightAt)
+		.def_readonly("type",              &MapObject::type)
 		;
 
 	class_<PyImguiInterface>("UI")
@@ -245,6 +257,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("distance",    &Vector4::distance)
 		.def("scale",       &Vector4::scale)
 		.def("add",         &Vector4::add)
+		.def("clone",       &Vector4::clone)
 		;
 
 	class_<Vector3>("Vec3", init<float, float, float>())
@@ -259,6 +272,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("rotate_y",    &Vector3::rotate_y)
 		.def("rotate_z",    &Vector3::rotate_z)
 		.def("add",         &Vector3::add)
+		.def("clone",       &Vector3::clone)
 		;
 
 	class_<Vector2>("Vec2", init<float, float>())
@@ -269,6 +283,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("distance",    &Vector2::distance)
 		.def("scale",       &Vector2::scale)
 		.def("add",         &Vector2::add)
+		.def("clone",       &Vector2::clone)
 		;
 
 	class_<ConfigSet>("Config")

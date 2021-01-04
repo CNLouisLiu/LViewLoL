@@ -188,6 +188,7 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="LeagueMemoryReader.cpp" />
     <ClCompile Include="LView.cpp" />
+    <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="Missile.cpp" />
     <ClCompile Include="Offsets.cpp" />
     <ClCompile Include="Offsets.h" />
@@ -208,6 +209,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="imgui_impl_dx11.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="MapObject.h" />
     <ClInclude Include="Missile.h" />
     <ClInclude Include="PyGame.h" />
     <ClInclude Include="imconfig.h" />

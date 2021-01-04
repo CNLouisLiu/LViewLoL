@@ -31,6 +31,7 @@ public:
 	float          GetBaseAttackSpeed() const;
 	float          GetBaseAttackRange() const;
 	float          GetAttackRange() const;
+	float          GetHpBarHeight() const;
 
 	bool           IsEnemyTo(const GameObject& other) const;
 	bool           IsAllyTo(const GameObject& other) const;

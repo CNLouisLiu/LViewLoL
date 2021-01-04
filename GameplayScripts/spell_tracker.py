@@ -33,11 +33,13 @@ def draw_spell_btn(game, spell, x, y, w, h, show_spell_name = False, show_lvl = 
 			game.draw_rect_filled(Vec4(x + offset + 4, y + h, x + offset + 7, y + h + 2), Color.YELLOW)
 
 def draw_overlay_on_champ(game, champ):
-	p = champ.pos
-	
+	p = Vec3(champ.pos.x, champ.pos.y, champ.pos.z)
+
 	p = game.world_to_screen(p)
 	p.x -= 60
+	#p.y -= 50
 	
+	game.draw_line(game.world_to_screen(champ.pos), p, 5, Color.RED)
 	if not game.is_point_on_screen(p):
 		return
 		

@@ -23,6 +23,7 @@ public:
 	list                  champs, minions, turrets, jungle, missiles, others;
 	float                 gameTime;
 					      
+	MapObject*            map;
 	GameObject*           hoveredObject;
 	Champion*             localChampion;
 
@@ -37,6 +38,10 @@ public:
 			return object();
 		return object(boost::ref(*localChampion)); 
 	};
+
+	object GetMap() {
+		return object(boost::ref(*map));
+	}
 
 	//Exposed methods
 	Vector2 WorldToScreen(const Vector3& pos) {
@@ -175,6 +180,7 @@ public:
 		gs.renderer = snapshot.renderer.get();
 		gs.hoveredObject = snapshot.hoveredObject.get();
 		gs.localChampion = snapshot.localChampion.get();
+		gs.map = snapshot.map.get();
 
 		for (auto it = snapshot.idxToObjectMap.begin(); it != snapshot.idxToObjectMap.end(); ++it) {
 			gs.allObjects[it->first] = boost::ref(*it->second);

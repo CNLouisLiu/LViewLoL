@@ -141,6 +141,11 @@ float GameObject::GetAttackRange()  const {
 	return GetBaseAttackRange() + GetGameplayRadius();
 }
 
+float GameObject::GetHpBarHeight() const
+{
+	return info->healthBarHeight;
+}
+
 bool GameObject::IsEnemyTo(const GameObject& other) const {
 	return this->team != other.team;
 }

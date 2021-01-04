@@ -33,6 +33,10 @@ struct Vector2 {
 		x += o.x;
 		y += o.y;
 	}
+
+	Vector2 clone() {
+		return Vector2(x, y);
+	}
 };
 
 struct Vector3 {
@@ -96,6 +100,10 @@ struct Vector3 {
 		y += o.y;
 		z += o.z;
 	}
+
+	Vector3 clone() {
+		return Vector3(x, y, z);
+	}
 };
 
 struct Vector4 {
@@ -140,5 +148,9 @@ struct Vector4 {
 		y += o.y;
 		z += o.z;
 		w += o.w;
+	}
+
+	Vector4 clone() {
+		return Vector4(x, y, z, w);
 	}
 };

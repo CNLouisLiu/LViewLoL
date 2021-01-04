@@ -10,6 +10,7 @@
 #include "LeagueMemoryReader.h"
 #include "Offsets.h"
 #include "AntiCrack.h"
+#include "MapObject.h"
 
 #include <chrono>
 #include "Overlay.h"
@@ -39,7 +40,7 @@ int main()
 	PyImport_AppendInittab("lview", &PyInit_lview);
 	Py_Initialize();
 
-	printf("[+] Initialising imgui and directx UI\n\n");
+	printf("[+] Initialising imgui and directx UI\n");
 	Overlay overlay = Overlay();
 	LeagueMemoryReader reader = LeagueMemoryReader();
 	MemSnapshot memSnapshot;
@@ -51,6 +52,10 @@ int main()
 		std::cout << exception.what() << std::endl;
 		exit(0);
 	}
+
+	printf("[+] Loading static map data\n\n");
+	MapObject::Get(MapType::SUMMONERS_RIFT)->Load("height_map_sru.bin");
+	MapObject::Get(MapType::HOWLING_ABYSS)->Load("height_map_ha.bin");
 
 	float millisPerFrame = 10;
 	float frameTimeLength;

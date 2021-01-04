@@ -7,6 +7,7 @@
 #include "GameRenderer.h"
 #include "GameObject.h"
 #include "Missile.h"
+#include "MapObject.h"
 
 struct MemSnapshot {
 
@@ -34,6 +35,7 @@ struct MemSnapshot {
 
 	/* How many seconds have elapsed since the game started */
 	float                                gameTime = 0.f;
+	std::shared_ptr<MapObject>           map;
 	
 	std::unique_ptr<ReadBenchmark>       benchmark = std::unique_ptr<ReadBenchmark>(new ReadBenchmark());
 

@@ -223,7 +223,8 @@ void LeagueMemoryReader::MakeSnapshot(MemSnapshot& ms) {
 	    ReadMissiles(ms);
 
 		ms.localChampion = ms.champions[0];
-
+		ms.map = std::shared_ptr<MapObject>(MapObject::Get(ms.turrets.size() > 10 ? SUMMONERS_RIFT : HOWLING_ABYSS));
+		
 		// Clear up objects that were deleted in game
 		auto it = ms.idxToObjectMap.begin();
 		while (it != ms.idxToObjectMap.end()) {

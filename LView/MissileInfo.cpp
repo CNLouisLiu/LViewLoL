@@ -385,7 +385,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withRadius(100.f)
 			->withRadiusImpact(800.f)
 			->withAngleImpact(80.f)
-			->withFlags(COLLIDE_GENERIC | PIERCE_ALL)
+			->withFlags(COLLIDE_GENERIC | PIERCE_MOB)
 	},
 
 	{ std::string("HecarimUltMissile"),
@@ -699,8 +699,9 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("LuxLightStrikeKugel")
 			->withSpeed(1200.f)
 			->withRange(1100.f)
-			->withRadius(300.f)
-			->withFlags(COLLIDE_WINDWALL | PIERCE_ALL)
+			->withRadius(50.f)
+			->withRadiusImpact(300.f)
+			->withFlags(COLLIDE_WINDWALL | FIXED_LOCATION)
 	},
 
 	{ std::string("LuxRVfxMis"),
