@@ -37,9 +37,7 @@ def draw_overlay_on_champ(game, champ):
 
 	p = game.world_to_screen(p)
 	p.x -= 60
-	#p.y -= 50
 	
-	game.draw_line(game.world_to_screen(champ.pos), p, 5, Color.RED)
 	if not game.is_point_on_screen(p):
 		return
 		

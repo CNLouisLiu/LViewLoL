@@ -37,6 +37,27 @@ def lview_draw_settings(game, ui):
 	attack_range    = ui.checkbox("Champion attack range", attack_range)
 	skillshots      = ui.checkbox("Champion skillshots", skillshots)
 	
+
+def draw_rect(game, start_pos, end_pos, radius, color):
+	
+	dir = Vec3(end_pos.x - start_pos.x, 0, end_pos.z - start_pos.z)
+	dir.normalize()
+				
+	left_dir = Vec3(dir.x, dir.y, dir.z)
+	right_dir = Vec3(dir.x, dir.y, dir.z)
+	left_dir.rotate_y(90)
+	left_dir.scale(radius)
+	
+	right_dir.rotate_y(-90)
+	right_dir.scale(radius)
+	
+	p1 = Vec3(start_pos.x + left_dir.x,  start_pos.y + left_dir.y,  start_pos.z + left_dir.z)
+	p2 = Vec3(end_pos.x + left_dir.x,    end_pos.y + left_dir.y,    end_pos.z + left_dir.z)
+	p3 = Vec3(end_pos.x + right_dir.x,   end_pos.y + right_dir.y,   end_pos.z + right_dir.z)
+	p4 = Vec3(start_pos.x + right_dir.x, start_pos.y + right_dir.y, start_pos.z + right_dir.z)
+	
+	game.draw_rect_world(p1, p2, p3, p4, 3, color)
+
 def lview_update(game, ui):
 	global turret_ranges, minion_last_hit, attack_range, skillshots
 	
@@ -55,12 +76,6 @@ def lview_update(game, ui):
 	if minion_last_hit:
 		color = Color.CYAN
 		for minion in game.minions:
-		
-			#p = game.world_to_screen(minion.pos)
-			#game.draw_text(p, str(game.local_champ.get_basic_phys(minion)), Color.RED)
-			#p.y += 15
-			#game.draw_text(p, str(game.local_champ.get_basic_magic(minion)), Color.CYAN)
-			
 			if minion.is_alive and minion.is_enemy_to(game.local_champ) and game.is_point_on_screen(minion.pos):
 				if prediction.is_last_hitable(game, game.local_champ, minion):
 					game.draw_circle_world(minion.pos, minion.gameplay_radius, 20, 3, color)
@@ -69,12 +84,13 @@ def lview_update(game, ui):
 		
 		for missile in game.missiles:
 		
-			if missile.has_tags(MissileTag.Targeted):
+			if missile.is_ally_to(game.local_champ) or missile.has_tags(MissileTag.Targeted):
 				continue
 				
 			end_pos = missile.end_pos.clone()
 			start_pos = missile.start_pos.clone()
 			curr_pos = missile.pos.clone()
+			impact_pos = None
 			
 			end_pos.y = game.map.height_at(end_pos.x, end_pos.z)
 			start_pos.y, curr_pos.y = end_pos.y, end_pos.y
@@ -86,30 +102,17 @@ def lview_update(game, ui):
 				if not missile.has_tags(MissileTag.Fixed_Location):
 					obj, dist = prediction.find_missile_collision(game, missile)
 					if obj:
-						end_pos = Vec3(start_pos.x + dist*dir.x, curr_pos.y, start_pos.z + dist*dir.z)
+						impact_pos = Vec3(start_pos.x + dist*dir.x, curr_pos.y, start_pos.z + dist*dir.z)
 				
 				
 				start_pos = curr_pos
+				if impact_pos:
+					draw_rect(game, impact_pos, end_pos, missile.radius, Color(0.5, 0.5, 0.5, 0.5))
+					draw_rect(game, start_pos, impact_pos, missile.radius, Color.WHITE)
+				else:
+					draw_rect(game, start_pos, end_pos, missile.radius, Color.WHITE)
 				
-				left_dir = Vec3(dir.x, dir.y, dir.z)
-				right_dir = Vec3(dir.x, dir.y, dir.z)
-				left_dir.rotate_y(90)
-				left_dir.scale(missile.radius)
-				
-				right_dir.rotate_y(-90)
-				right_dir.scale(missile.radius)
-				
-				p1 = Vec3(start_pos.x + left_dir.x,  start_pos.y + left_dir.y,  start_pos.z + left_dir.z)
-				p2 = Vec3(end_pos.x + left_dir.x,    end_pos.y + left_dir.y,    end_pos.z + left_dir.z)
-				p3 = Vec3(end_pos.x + right_dir.x,   end_pos.y + right_dir.y,   end_pos.z + right_dir.z)
-				p4 = Vec3(start_pos.x + right_dir.x, start_pos.y + right_dir.y, start_pos.z + right_dir.z)
-				
-				#z = missile.pos.clone()
-				#z.y = 0
-				#game.draw_line(game.world_to_screen(missile.pos), game.world_to_screen(z), 4, Color.BLUE)
-				
-				game.draw_rect_world(p1, p2, p3, p4, 3, Color.WHITE)
-				game.draw_circle_world(curr_pos, missile.radius, 20, 5, Color.RED)
+				game.draw_circle_world_filled(curr_pos, missile.radius, 20, Color.RED)
 				
 			if missile.impact_radius > 0:
 				r = missile.impact_radius

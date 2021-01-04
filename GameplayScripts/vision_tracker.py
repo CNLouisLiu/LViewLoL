@@ -87,8 +87,9 @@ def draw(game, obj, radius, show_circle_world, show_circle_map):
 			
 	sp = game.world_to_screen(obj.pos)
 	txt = obj.name
-	if obj.duration > 0:
-		txt += f' {obj.duration:.0f}'
+	duration = obj.duration + obj.last_visible_at - game.time
+	if duration > 0:
+		txt += f' {duration:.0f}'
 	game.draw_button(sp, txt, Color.WHITE, Color.BLACK, 5)
 	
 	if show_circle_world:

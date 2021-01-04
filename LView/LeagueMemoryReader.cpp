@@ -106,7 +106,7 @@ void LeagueMemoryReader::ReadMobs(MemSnapshot& ms) {
 			ms.jungle.push_back(obj);
 			it = ms.others.erase(it);
 		}
-		else if (obj->HasTags(Unit_Minion)) {
+		else if (obj->HasTags(Unit_Minion_Lane)) {
 			ms.minions.push_back(obj);
 			it = ms.others.erase(it);
 		}

@@ -599,7 +599,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 		(new MissileInfo())
 			->withName("KogMawQ")
 			->withSpeed(1650.f)
-			->withRange(1175.f)
+			->withRange(1200.f)
 			->withRadius(70.f)
 			->withFlags(COLLIDE_GENERIC)
 	},
@@ -610,7 +610,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withSpeed(1400.f)
 			->withRange(1360.f)
 			->withRadius(120.f)
-			->withFlags(FIXED_LOCATION)
+			->withFlags(COLLIDE_GENERIC | PIERCE_ALL)
 	},
 
 	{ std::string("LeblancEMissile"),

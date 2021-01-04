@@ -31,11 +31,15 @@ def find_missile_collision(game, missile):
 	return target, min_d
 	
 def is_last_hitable(game, player, enemy):
+	missile_speed = player.basic_missile_speed
+	if missile_speed == 0:
+		missile_speed = 1
+		
 	hit_dmg = player.get_basic_phys(enemy) + player.get_basic_magic(enemy)
 	
 	hp = enemy.health
 	atk_speed = player.base_atk_speed * player.atk_speed_multi
-	t_current_range = game.distance(player, enemy)/(player.basic_missile_speed*atk_speed/player.base_atk_speed)
+	t_current_range = game.distance(player, enemy)/(missile_speed*atk_speed/player.base_atk_speed)
 
 	for  missile in game.missiles:
 		if missile.has_tags(MissileTag.Targeted):
