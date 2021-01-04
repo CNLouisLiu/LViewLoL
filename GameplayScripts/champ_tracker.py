@@ -44,7 +44,7 @@ def lview_update(game, ui):
 				continue
 				
 			trackable_champ_indices.append(i)
-			if champ.get_summoner_spell(SummonerSpellType.SMITE) != None:
+			if champ.get_summoner_spell(SummonerSpellType.Smite) != None:
 				tracked_champ = len(trackable_champ_indices) - 1
 	
 	now = time()

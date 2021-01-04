@@ -4,79 +4,40 @@
 #include "Vector.h"
 #include "windows.h"
 #include "MemoryLoadable.h"
+#include "UnitInfo.h"
 
-enum GameObjectType {
-	NO_OBJ              = 0,
-	INVISIBLE           = (1 << 7),
-	MINION              = (1 << 8),
-	JUNGLE              = (1 << 9),
-	OBJECTIVE           = (1 << 10),
-	DRAGON              = (1 << 11),
-	SMITABLE            = (1 << 12),
-	PLANT               = (1 << 13),
-	PLAYER              = (1 << 14),
-	TURRET              = (1 << 15),
-	EXPIRABLE           = (1 << 16),
-	CLONE               = (1 << 17),
+#include <boost/python/suite/indexing/map_indexing_suite.hpp>
+#include <boost/python.hpp>
 
-	WARD                = INVISIBLE | EXPIRABLE + 1,
-	WARD_PINK           = INVISIBLE + 2,
-
-	MINION_CANNON       = MINION + 3,
-	MINION_MELEE        = MINION + 4,
-	MINION_RANGED       = MINION + 5,
-
-	BARON               = JUNGLE | OBJECTIVE | SMITABLE + 6,
-	HERALD              = JUNGLE | OBJECTIVE | SMITABLE + 7,
-	
-	DRAGON_FIRE         = JUNGLE | OBJECTIVE | DRAGON | SMITABLE + 8,
-	DRAGON_MOUNTAIN     = JUNGLE | OBJECTIVE | DRAGON | SMITABLE + 9,
-	DRAGON_OCEAN        = JUNGLE | OBJECTIVE | DRAGON | SMITABLE + 10,
-	DRAGON_AIR          = JUNGLE | OBJECTIVE | DRAGON | SMITABLE + 11,
-	DRAGON_ELDER        = JUNGLE | OBJECTIVE | DRAGON | SMITABLE + 12,
-
-	KRUG                = JUNGLE | SMITABLE + 13,
-	KRUG_MEDIUM         = JUNGLE + 14,
-	KRUG_SMALL          = JUNGLE + 15,
-
-	WOLF                = JUNGLE | SMITABLE + 16,
-	WOLF_SMALL          = JUNGLE + 17,
-
-	RAZORBEAK           = JUNGLE | SMITABLE + 18,
-	RAZORBEAK_SMALL     = JUNGLE + 19,
-
-	GROMP               = JUNGLE | SMITABLE + 20,
-	BLUE                = JUNGLE | SMITABLE + 21,
-	RED                 = JUNGLE | SMITABLE + 22,
-	CRAB                = JUNGLE | SMITABLE + 23,
-	PLANT_EXPLOSION     = PLANT + 24, 
-	PLANT_HEALING       = PLANT + 25,
-	PLANT_VISION        = PLANT + 26,
-
-	SHACO_BOX           = INVISIBLE | EXPIRABLE + 27,
-	TEEMO_MUSHROOM      = INVISIBLE | EXPIRABLE + 28,
-
-	SHACO_CLONE         = CLONE + 29,
-	LEBLANC_CLONE       = CLONE + 30,
-};
+using namespace boost::python;
 
 class GameObject: MemoryLoadable {
 
 public:
-	//GameObject() { buff = new BYTE[sizeBuff]; buffDeep = new BYTE[sizeBuffDeep]; }
-	//~GameObject() { delete[] buff; delete[] buffDeep; }
-
 	void           LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad = true);
 
-	bool           IsOfOneType(const GameObjectType& type1) const;
-	bool           IsOfTwoTypes(const GameObjectType& type1, const GameObjectType& type2) const;
-	bool           IsOfThreeTypes(const GameObjectType& type1, const GameObjectType& type2, const GameObjectType& type3) const;
+	bool           HasTags(const UnitTag& type1) const;
+	bool           HasTags2(const UnitTag& type1, const UnitTag& type2) const;
+	bool           HasTags3(const UnitTag& type1, const UnitTag& type2, const UnitTag& type3) const;
+
+	float          GetAcquisitionRadius() const;
+	float          GetSelectionRadius() const;
+	float          GetPathingRadius() const;
+	float          GetGameplayRadius() const;
+	float          GetBasicAttackMissileSpeed()  const;
+
+	float          GetAttackSpeedRatio() const;
+	float          GetBaseMovementSpeed() const;
+	float          GetBaseAttackSpeed() const;
+	float          GetBaseAttackRange() const;
+	float          GetAttackRange() const;
+
+	bool           IsEnemyTo(const GameObject& other) const;
+	bool           IsAllyTo(const GameObject& other) const;
 	bool           IsEqualTo(const GameObject& other) const;
 	bool           IsNotEqualTo(const GameObject& other) const;
 
-	float          GetAttackRange() const;
-	bool           IsEnemyTo(const GameObject& other) const;
-	bool           IsAllyTo(const GameObject& other) const;
+	object         GetPythonUnitInfo();
 
 	float          health;
 	float          baseAttack;
@@ -89,21 +50,11 @@ public:
 	float          bonusAbilityPower;
 	float          atkSpeedMulti;
 
-	float          baseAttackRange;
-	float          baseAttackSpeed;
-	float          maxAttackSpeed;
-
 	bool           isAlive;
 
 	std::string    name;
+
 	Vector3        position;
-	GameObjectType type;
-
-	/* How close does the mouse cursor have to be to select the object */
-	float          targetRadius;
-
-	/* Basically the bounding radius of the model of the object */
-	float          gameplayRadius;
 
 	/* Team of the object 100 = Blue, 200 = Red, 300 = Jungle */
 	short          team;
@@ -124,13 +75,13 @@ public:
 	short            objectIndex;
 
 	DWORD            networkId;
+
+	UnitInfo*        info;
+
 protected:
 	static const SIZE_T sizeBuff = 0x3000;
 	static const SIZE_T sizeBuffDeep = 0x1000;
 
 	static BYTE buff[sizeBuff];
 	static BYTE buffDeep[sizeBuffDeep];
-
-private:
-	static std::map<std::string, GameObjectType>  gameObjectNameTypeDict;
 };

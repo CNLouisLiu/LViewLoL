@@ -5,71 +5,16 @@
 BYTE GameObject::buff[GameObject::sizeBuff] = {};
 BYTE GameObject::buffDeep[GameObject::sizeBuffDeep] = {};
 
-std::map<std::string, GameObjectType>  GameObject::gameObjectNameTypeDict = {
-
-	// Minions
-	{"SRU_OrderMinionMelee",     GameObjectType::MINION_MELEE},
-	{"SRU_OrderMinionRanged",    GameObjectType::MINION_RANGED},
-	{"SRU_OrderMinionSiege",     GameObjectType::MINION_CANNON},
-	{"SRU_ChaosMinionMelee",     GameObjectType::MINION_MELEE},
-	{"SRU_ChaosMinionRanged",    GameObjectType::MINION_RANGED},
-	{"SRU_ChaosMinionSiege",     GameObjectType::MINION_CANNON},
-
-	// Jungle objectives
-	{"SRU_Baron",                GameObjectType::BARON},
-	{"SRU_RiftHerald",           GameObjectType::HERALD},
-	{"SRU_Dragon_Fire",          GameObjectType::DRAGON_FIRE},
-	{"SRU_Dragon_Earth",         GameObjectType::DRAGON_MOUNTAIN},
-	{"SRU_Dragon_Water",         GameObjectType::DRAGON_OCEAN},
-	{"SRU_Dragon_Air",           GameObjectType::DRAGON_AIR},
-	{"SRU_Dragon_Elder",         GameObjectType::DRAGON_ELDER},
-
-	// Jungle mobs
-	{"SRU_Krug",                 GameObjectType::KRUG},
-	{"SRU_KrugMini",             GameObjectType::KRUG_MEDIUM},
-	{"SRU_KrugMiniMini",         GameObjectType::KRUG_SMALL},
-	{"SRU_Murkwolf",             GameObjectType::WOLF},
-	{"SRU_Razorbeak",            GameObjectType::RAZORBEAK},
-	{"SRU_Gromp",                GameObjectType::GROMP},
-	{"SRU_Blue",                 GameObjectType::BLUE},
-	{"SRU_Red",                  GameObjectType::RED},
-	{"Sru_Crab",                 GameObjectType::CRAB},
-
-	{"SRU_MurkwolfMini",         GameObjectType::WOLF_SMALL},
-	{"SRU_RazorbeakMini",        GameObjectType::RAZORBEAK_SMALL},
-
-	// Plants
-	{"SRU_Plant_Satchel",        GameObjectType::PLANT_EXPLOSION },
-	{"SRU_Plant_Vision",         GameObjectType::PLANT_VISION},
-	{"SRU_Plant_Health",         GameObjectType::PLANT_HEALING},
-
-	// Wards
-	{"YellowTrinket",            GameObjectType::WARD},
-	{"SightWard",                GameObjectType::WARD},
-	{"BlueTrinket",              GameObjectType::WARD},
-	{"PerksZombieWard",          GameObjectType::WARD},
-	{"JammerDevice",             GameObjectType::WARD_PINK},
-
-	// Shits
-	{"ShacoBox",                 GameObjectType::SHACO_BOX},
-	{"TeemoMushroom",            GameObjectType::TEEMO_MUSHROOM},
-	{"Shaco",                    GameObjectType::SHACO_CLONE},
-	{"Leblanc",                  GameObjectType::LEBLANC_CLONE},
-	
-};
-
-bool GameObject::IsOfOneType(const GameObjectType& type1) const {
-	return (type & type1) == type1;
+bool GameObject::HasTags(const UnitTag& type1) const {
+	return info->tags.test(type1);
 }
 
-bool GameObject::IsOfTwoTypes(const GameObjectType& type1, const GameObjectType& type2)  const {
-	GameObjectType compoundType = (GameObjectType)(type1 | type2);
-	return (type & compoundType) == compoundType;
+bool GameObject::HasTags2(const UnitTag& type1, const UnitTag& type2)  const {
+	return info->tags.test(type1) && info->tags.test(type2);
 }
 
-bool GameObject::IsOfThreeTypes(const GameObjectType& type1, const GameObjectType& type2, const GameObjectType& type3) const {
-	GameObjectType compoundType = (GameObjectType)(type1 | type2 | type3);
-	return (type & compoundType) == compoundType;
+bool GameObject::HasTags3(const UnitTag& type1, const UnitTag& type2, const UnitTag& type3) const {
+	return info->tags.test(type1) && info->tags.test(type2) && info->tags.test(type3);
 }
 
 bool GameObject::IsEqualTo(const GameObject& other) const {
@@ -103,7 +48,6 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 	memcpy(&armour,                     &buff[Offsets::ObjArmor],                  sizeof(float));
 	memcpy(&magicResist,                &buff[Offsets::ObjMagicRes],               sizeof(float));
 	memcpy(&duration,                   &buff[Offsets::ObjExpiry],                 sizeof(float));
-	memcpy(&targetRadius,               &buff[Offsets::ObjTargetRadius],           sizeof(float));
 	memcpy(&isVisible,                  &buff[Offsets::ObjVisibility],             sizeof(bool));
 	memcpy(&objectIndex,                &buff[Offsets::ObjIndex],                  sizeof(short));
 	memcpy(&crit,                       &buff[Offsets::ObjCrit],                   sizeof(float));
@@ -127,32 +71,74 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 			name = std::string(nameBuff);
 		else
 			name = std::string("");
-
-		auto it = gameObjectNameTypeDict.find(name);
-		if (it == gameObjectNameTypeDict.end())
-			type = GameObjectType::NO_OBJ;
-		else
-			type = it->second;
 	}
 
 	if (deepLoad) {
-		DWORD unitComponentInfoPtr;
-		memcpy(&unitComponentInfoPtr, &buff[Offsets::UnitComponentInfo], sizeof(DWORD));
-		
-		DWORD unitProperties = Mem::ReadDWORD(hProcess, unitComponentInfoPtr + Offsets::UnitProperties);
-		Mem::Read(hProcess, unitProperties, buffDeep, sizeBuffDeep);
-		memcpy(&gameplayRadius,  &buffDeep[Offsets::UnitBoundingRadius], sizeof(float));
-		memcpy(&baseAttackRange, &buffDeep[Offsets::UnitAttackRange],    sizeof(float));
-		memcpy(&baseAttackSpeed, &buffDeep[Offsets::UnitBaseAtkSpeed],   sizeof(float));
-		memcpy(&maxAttackSpeed,  &buffDeep[Offsets::UnitMaxAtkSpeed],    sizeof(float));
+		// Get static UnitInfo
+		std::string nameLower;
+		nameLower.resize(name.size());
 
-		if (gameplayRadius > 200.f) // When its greater than 200.f its the default value which is 65.f
-			gameplayRadius = 65.f;
+		std::transform(name.begin(),
+			name.end(),
+			nameLower.begin(),
+			::tolower);
+
+		auto it = UnitInfo::infos.find(nameLower);
+		if (it != UnitInfo::infos.end())
+			info = it->second;
+		else {
+			info = UnitInfo::infos["unknown"];
+		}
 	}
 }
 
+float GameObject::GetAcquisitionRadius() const
+{
+	return info->acquisitionRange;
+}
+
+float GameObject::GetSelectionRadius() const
+{
+	return info->selectionRadius;
+}
+
+float GameObject::GetPathingRadius() const
+{
+	return info->pathRadius;
+}
+
+float GameObject::GetGameplayRadius() const
+{
+	return info->gameplayRadius;
+}
+
+float GameObject::GetBasicAttackMissileSpeed() const
+{
+	return info->basicAttackMissileSpeed;
+}
+
+float GameObject::GetAttackSpeedRatio() const
+{
+	return info->attackSpeedRatio;
+}
+
+float GameObject::GetBaseMovementSpeed() const
+{
+	return info->baseMovementSpeed;
+}
+
+float GameObject::GetBaseAttackSpeed() const
+{
+	return info->baseAttackSpeed;
+}
+
+float GameObject::GetBaseAttackRange() const
+{
+	return info->baseAttackRange;
+}
+
 float GameObject::GetAttackRange()  const {
-	return baseAttackRange + gameplayRadius;
+	return GetBaseAttackRange() + GetGameplayRadius();
 }
 
 bool GameObject::IsEnemyTo(const GameObject& other) const {
@@ -161,4 +147,9 @@ bool GameObject::IsEnemyTo(const GameObject& other) const {
 
 bool GameObject::IsAllyTo(const GameObject& other) const {
 	return this->team == other.team;
+}
+
+object GameObject::GetPythonUnitInfo()
+{
+	return object(ptr(info));
 }

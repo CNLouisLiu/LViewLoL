@@ -1,0 +1,1 @@
+{"Characters/PetMiner/CharacterRecords/Root": {"mCharacterName": "PetMiner", "useableData": {"flags": 0}, "healthBarHeight": 75.0, "baseMoveSpeed": 350.0, "acquisitionRange": 0.0, "perceptionBubbleRadius": 0.0, "name": "companion_species_name_miner"}, "Characters/PetMiner/Skins/Meta": {"useGDSBinaries": true}}

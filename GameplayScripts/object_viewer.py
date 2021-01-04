@@ -52,7 +52,6 @@ def draw_game_object(obj, ui, additional_draw = None, set_open=False):
 	if ui.treenode("{}_{}".format(obj.name, obj.id)):
 		ui.labeltext("address", hex(obj.address))
 		ui.labeltext("name", obj.name, Color.ORANGE)
-		ui.labeltext("type", str(obj.type), Color.CYAN)
 		ui.labeltext("pos", f"x={obj.pos.x:.2f}, y={obj.pos.y:.2f}, z={obj.pos.z:.2f}")
 		ui.dragint("id", obj.id)
 		
@@ -71,14 +70,19 @@ def draw_game_object(obj, ui, additional_draw = None, set_open=False):
 		ui.dragfloat("crit_multi", obj.crit_multi)
 		
 		ui.separator()
+		ui.dragfloat("atk_range", obj.atk_range)
 		ui.dragfloat("base_atk_range", obj.base_atk_range)
 		ui.dragfloat("base_atk_speed", obj.base_atk_speed)
-		ui.dragfloat("max_atk_speed", obj.max_atk_speed)
 		ui.dragfloat("atk_speed_multi", obj.atk_speed_multi)
+		ui.dragfloat("atk_speed_ratio", obj.atk_speed_ratio)
+		ui.dragfloat("basic_missile_speed", obj.basic_missile_speed)
+		ui.dragfloat("base_ms", obj.base_ms)
 		
 		ui.separator()
-		ui.dragfloat("target_radius", obj.target_radius)
+		ui.dragfloat("selection_radius", obj.selection_radius)
 		ui.dragfloat("gameplay_radius", obj.gameplay_radius)
+		ui.dragfloat("pathing_radius", obj.pathing_radius)
+		ui.dragfloat("acquisition_radius", obj.acquisition_radius)
 		
 		ui.separator()
 		ui.dragfloat("duration", obj.duration)
@@ -127,8 +131,6 @@ def lview_update(game, ui):
 	ui.begin("Object Viewer")
 	
 	ui.dragfloat("time", game.time)
-	ui.text("Hovered Object")
-	draw_game_object(game.hovered_obj, ui, set_open=True)
 	
 	ui.text("Local Champion")
 	draw_champion(game.local_champ, ui)

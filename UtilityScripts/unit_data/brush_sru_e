@@ -1,0 +1,1 @@
+{"{28eb2504}": {}, "Characters/brush_SRU_E/CharacterRecords/Root": {"mCharacterName": "brush_SRU_E", "mFallbackCharacterName": "brush_SRU_A", "primaryAbilityResource": {"arType": 0}, "characterToolData": {"mapAIPresence": {"0": {}, "1": {}, "2": {}}}, "flags": 8398144}, "{8b133f62}": {"idleAnim": "Distance", "shouldRandomizeIdleAnimPhase": true}}

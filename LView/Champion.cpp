@@ -36,8 +36,6 @@ void Champion::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 
 	// Read level
 	level = Mem::ReadDWORD(hProcess, base + Offsets::ObjLvl);
-
-	type = (GameObjectType) (type | PLAYER);
 }
 
 float Champion::GetBasicAttackDamage() {
@@ -53,7 +51,7 @@ Spell* Champion::GetSummonerSpell(SummonerSpellType type) {
 }
 
 bool Champion::IsRanged() {
-	return baseAttackRange >= 300.f;
+	return GetBaseAttackRange() >= 300.f;
 }
 
 float CritFromItems(Item* items[]) {
@@ -90,7 +88,7 @@ float Champion::GetOnHitPhysDamage(const GameObject& target)
 			break;
 		case 3153: // Blade of the ruined king
 			botrkDmg = (IsRanged() ? 0.06f : 0.1f) * target.health;
-			if (target.IsOfOneType(PLAYER))
+			if (target.HasTags(Unit_Champion))
 				physDmg += botrkDmg;
 			else
 				physDmg += League::Clamp(botrkDmg, 0.f, 60.f);

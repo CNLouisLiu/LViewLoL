@@ -1,4 +1,5 @@
 from lview import *
+import json
 
 lview_script_info = {
 	"script": "Vision Tracker",
@@ -6,96 +7,109 @@ lview_script_info = {
 	"description": "Tracks enemy invisible objects and clones"
 }
 
-paint_circles = True
+show_clones, show_wards, show_traps = None, None, None
 
-radius_map = {
-	"WARD": 900,
-	"WARD_PINK": 900,
-	"SHACO_BOX": 300,
-	"TEEMO_MUSHROOM": 100
+traps = {
+	#Name -> (radius, show_radius_circle, show_radius_circle_minimap)                      
+	'CaitlynTrap'          : [50,  True, False],
+	'DominationScout'      : [0,   False, False],
+	'JhinTrap'             : [140, True, False],
+	'JinxMine'             : [50,  True, False],
+	'MaokaiSproutling'     : [50,  False, False],
+	'NidaleeSpear'         : [50,  True, False],
+	'ShacoBox'             : [300, True, False],
+	'TeemoMushroom'        : [75,  True, True]
 }
 
-show_circles = {
-	"WARD": False,
-	"WARD_PINK": False,
-	"SHACO_BOX": False,
-	"TEEMO_MUSHROOM": False
+wards = {
+	'BlueTrinket'          : [900, True, True],
+	'JammerDevice'         : [900, True, True],
+	'PerksZombieWard'      : [900, True, True],
+	'SightWard'            : [900, True, True],
+	'VisionWard'           : [900, True, True],
+	'YellowTrinket'        : [900, True, True],
+	'YellowTrinketUpgrade' : [900, True, True],
+	'Ward'                 : [900, True, True],
 }
 
-show_circles_minimap = {
-	"WARD": False,
-	"WARD_PINK": False,
-	"SHACO_BOX": False,
-	"TEEMO_MUSHROOM": False
+clones = {
+	'Shaco'           : [0, False, False],
+	'LeBlanc'         : [0, False, False],
+	'MonkeyKing'      : [0, False, False],
 }
 
 
 def lview_load_cfg(cfg):
-	show_circles["WARD"]           = cfg.get_bool("circleWards", True)
-	show_circles["WARD_PINK"]      = cfg.get_bool("circlePinks", True)
-	show_circles["SHACO_BOX"]      = cfg.get_bool("circleBoxes", True)
-	show_circles["TEEMO_MUSHROOM"] = cfg.get_bool("circleMushrooms", True)
+	global show_clones, show_wards, show_traps, traps, wards
+
+	show_clones = cfg.get_bool("show_clones", True)
+	show_wards = cfg.get_bool("show_wards", True)
+	show_traps = cfg.get_bool("show_traps", True)
 	
-	show_circles_minimap["WARD"]           = cfg.get_bool("circleWardsMinimap", True)
-	show_circles_minimap["WARD_PINK"]      = cfg.get_bool("circlePinksMinimap", True)
-	show_circles_minimap["SHACO_BOX"]      = cfg.get_bool("circleBoxesMinimap", True)
-	show_circles_minimap["TEEMO_MUSHROOM"] = cfg.get_bool("circleMushroomsMinimap", True)
+	traps = json.loads(cfg.get_str("traps", json.dumps(traps)))
+	wards = json.loads(cfg.get_str("wards", json.dumps(wards)))
 	
 def lview_save_cfg(cfg):
-	cfg.set_bool("circleWards",     show_circles["WARD"])
-	cfg.set_bool("circlePinks",     show_circles["WARD_PINK"])
-	cfg.set_bool("circleBoxes",     show_circles["SHACO_BOX"])
-	cfg.set_bool("circleMushrooms", show_circles["TEEMO_MUSHROOM"])
+	global show_clones, show_wards, show_traps, traps, wards
 	
-	cfg.set_bool("circleWardsMinimap",     show_circles_minimap["WARD"])
-	cfg.set_bool("circlePinksMinimap",     show_circles_minimap["WARD_PINK"])
-	cfg.set_bool("circleBoxesMinimap",     show_circles_minimap["SHACO_BOX"])
-	cfg.set_bool("circleMushroomsMinimap", show_circles_minimap["TEEMO_MUSHROOM"])
+	cfg.set_bool("show_clones", show_clones)
+	cfg.set_bool("show_wards", show_wards)
+	cfg.set_bool("show_traps", show_traps)
+	
+	cfg.set_str("traps", json.dumps(traps))
+	cfg.set_str("wards", json.dumps(wards))
 	
 def lview_draw_settings(game, ui):
+	global traps, wards
+	global show_clones, show_wards, show_traps
 	
-	ui.text("Settings per entity")
-	for x in show_circles.keys():
+	show_clones = ui.checkbox("Show clones", show_clones)
+	show_wards = ui.checkbox("Show wards", show_wards)
+	show_traps = ui.checkbox("Show clones", show_traps)
+	
+	ui.text("Traps")
+	for x in traps.keys():
 		if ui.treenode(x):
-			show_circles[x] = ui.checkbox("Show range circles", show_circles[x])
-			show_circles_minimap[x] = ui.checkbox("Show on minimap", show_circles_minimap[x])
+			traps[x][1] = ui.checkbox("Show range circles", traps[x][1])
+			traps[x][2] = ui.checkbox("Show on minimap", traps[x][2])
 			
 			ui.treepop()
+			
+	ui.text("Wards")
+	for x in wards.keys():
+		if ui.treenode(x):
+			wards[x][1] = ui.checkbox("Show range circles", wards[x][1])
+			wards[x][2] = ui.checkbox("Show on minimap", wards[x][2])
+			
+			ui.treepop()
+
+def draw(game, obj, radius, show_circle_world, show_circle_map):
+			
+	sp = game.world_to_screen(obj.pos)
+	txt = obj.name
+	if obj.duration > 0:
+		txt += f' {obj.duration:.0f}'
+	game.draw_button(sp, txt, Color.WHITE, Color.BLACK, 5)
 	
+	if show_circle_world:
+		game.draw_circle_world(obj.pos, radius, 30, 3, Color.RED)
+	
+	if show_circle_map:
+		game.draw_circle(game.world_to_minimap(obj.pos), game.distance_to_minimap(radius), 15, 2, Color.RED)
+
 def lview_update(game, ui):
 	
-	global paint_circles
+	global show_clones, show_wards, show_traps
+	global traps, wards, clones
 	
 	for obj in game.others:
 		if obj.is_ally_to(game.local_champ):
 			continue
-			
-		is_invisible = obj.is_type(ObjType.INVISIBLE)
-		is_clone = obj.is_type(ObjType.CLONE)
 		
-		if is_invisible or is_clone:
-			obj_str = str(obj.type)
-			txt = obj_str
-			
-			# Add expiry of the object if its also expirable
-			if obj.is_type(ObjType.EXPIRABLE):
-				expires_in = (obj.last_visible_at + obj.duration) - game.time
-				if expires_in <= 0.0:
-					continue
-				txt += f":{expires_in:.0f}"
-			
-			p = game.world_to_screen(obj.pos)
-			if game.is_point_on_screen(p):	
-				game.draw_button(p, txt, Color.WHITE, Color.BLACK, 10)
-			
-				# Draw range circles
-				draw_circle = show_circles.get(obj_str, False)
-				if draw_circle:
-					radius = radius_map[obj_str]
-					game.draw_circle_world(obj.pos, radius, 40, 3, Color.RED)
-			
-			# Draw on minimap
-			if show_circles_minimap.get(obj_str, False):
-				mp = game.world_to_minimap(obj.pos)
-				game.draw_circle(mp, game.distance_to_minimap(radius_map[obj_str]), 15, 0.5, Color.RED)
+		if show_wards and obj.has_tags(UnitTag.Unit_Ward) and obj.name in wards:
+			draw(game, obj, *(wards[obj.name]))
+		elif show_traps and obj.has_tags(UnitTag.Unit_Special_Trap) and obj.name in traps:
+			draw(game, obj, *(traps[obj.name]))
+		elif show_clones and obj.name in clones:
+			draw(game, obj, *(clones[obj.name]))
 		

@@ -32,9 +32,11 @@ void Missile::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 	auto it = MissileInfo::missiles.find(name);
 	if (it != MissileInfo::missiles.end())
 		info = it->second;
+	else
+		info = MissileInfo::missiles["Unknown"];
 
 	// Calculate end position using range since for some skills (e.g GLOBAL skills) the end position is incorrect
-	if (info != nullptr && !info->hasFlags(FIXED_LOCATION)) {
+	if (info != nullptr && !HasMissileTags(FIXED_LOCATION)) {
 
 		// Calculate direction vector and normalize
 		endPos = Vector3(endPos.x - startPos.x, 0, endPos.z - startPos.z);
@@ -47,7 +49,59 @@ void Missile::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 	}
 }
 
-object Missile::GetPythonObjectInfo()
+float Missile::GetSpeed() const
 {
-	return object(ptr(info));
+	return info->speed;
+}
+
+float Missile::GetRange() const
+{
+	return info->range;
+}
+
+float Missile::GetRadius() const
+{
+	return info->radius;
+}
+
+float Missile::GetRadiusImpact() const
+{
+	return info->radiusImpact;
+}
+
+float Missile::GetAngleImpact() const
+{
+	return info->angleImpact;
+}
+
+bool Missile::HasMissileTags(const MissileTag & tag)
+{
+	return (info->tags & tag) == tag;
+}
+
+bool Missile::HasMissileTags2(const MissileTag & tag, const MissileTag & tag2)
+{
+	int compound = tag | tag2;
+	return (info->tags & compound) == compound;
+}
+
+bool Missile::HasMissileTags3(const MissileTag & tag, const MissileTag & tag2, const MissileTag & tag3)
+{
+	int compound = tag | tag2 | tag3;
+	return (info->tags & compound) == compound;
+}
+
+bool Missile::EqualTags(const MissileTag & tag)
+{
+	return info->tags == tag;
+}
+
+bool Missile::EqualTags2(const MissileTag & tag, const MissileTag & tag2)
+{
+	return info->tags == (tag | tag2);
+}
+
+bool Missile::EqualTags3(const MissileTag & tag, const MissileTag & tag2, const MissileTag & tag3)
+{
+	return info->tags == (tag | tag2 | tag3);
 }

@@ -2,6 +2,10 @@
 
 std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 
+	{std::string("Unknown"),
+		(new MissileInfo())
+	},
+
 	// Aatrox
 	{std::string("AatroxW"),
 		(new MissileInfo())

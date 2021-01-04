@@ -1,0 +1,1 @@
+{"Characters/brush_BW_F/CharacterRecords/Root": {"mCharacterName": "brush_BW_F", "mFallbackCharacterName": "brush_BW_A", "primaryAbilityResource": {"arType": 0}, "characterToolData": {"mapAIPresence": {"0": {}, "1": {}, "2": {}}}, "flags": 8398144}, "{9aa3fff2}": {"idleAnim": "Distance", "shouldRandomizeIdleAnimPhase": true}, "{a37d3114}": {}}

@@ -80,6 +80,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <TargetName>ConsoleApplication</TargetName>
+    <ExecutablePath>$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -137,6 +138,7 @@
       <LanguageStandard>
       </LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)\LView\boost;$(SolutionDir)\LView\external_includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/m:4 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -195,6 +197,7 @@
     <ClCompile Include="Spell.cpp" />
     <ClCompile Include="Overlay.cpp" />
     <ClCompile Include="MissileInfo.cpp" />
+    <ClCompile Include="UnitInfo.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -226,6 +229,7 @@
     <ClInclude Include="Spell.h" />
     <ClInclude Include="Overlay.h" />
     <ClInclude Include="MissileInfo.h" />
+    <ClInclude Include="UnitInfo.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>

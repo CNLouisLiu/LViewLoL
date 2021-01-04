@@ -1,0 +1,1 @@
+{"Characters/brush_HA_B/CharacterRecords/Root": {"mCharacterName": "brush_HA_B", "mFallbackCharacterName": "brush_HA_A", "primaryAbilityResource": {"arType": 0}, "characterToolData": {"mapAIPresence": {"0": {}, "1": {}, "2": {}}}, "flags": 8398144}, "{bd0385c4}": {"useGDSBinaries": true}, "{f8280aa2}": {"idleAnim": "Distance", "shouldRandomizeIdleAnimPhase": true}}

@@ -2,7 +2,7 @@
 #include "Spell.h"
 #include <map>
 
-enum MissileFlags {
+enum MissileTag {
 	NONE              = 0,
 	COLLIDE_WINDWALL  = 1,
 	COLLIDE_MOB       = 2,
@@ -49,17 +49,13 @@ public:
 	}
 
 	MissileInfo* withFlags(int x) {
-		flags = (MissileFlags)x;
+		tags = (MissileTag)x;
 		return this;
 	}
 
 	MissileInfo* withAngleImpact(float x) {
 		angleImpact = x;
 		return this;
-	}
-
-	bool hasFlags(MissileFlags flag1) {
-		return (flags & flag1) == flag1;
 	}
 
 public:
@@ -71,7 +67,7 @@ public:
 	float radiusImpact         = 0.f;
 	float angleImpact          = 0.f;
 				               
-	MissileFlags flags = MissileFlags::NONE;
+	MissileTag tags = MissileTag::NONE;
 
 	static std::map<std::string, MissileInfo*> missiles;
 };

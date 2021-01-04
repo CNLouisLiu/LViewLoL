@@ -67,75 +67,75 @@ def lview_update(game, ui):
 	if skillshots:
 		
 		for missile in game.missiles:
-			if not missile.info:# or missile.is_ally_to(game.local_champ):
+		
+			if missile.has_tags(MissileTag.Targeted):
 				continue
 				
-			flags = missile.info.flags
-			if flags & MissileFlag.TARGETED == 0:
-				end_pos = missile.end_pos
-				start_pos = missile.start_pos
-				curr_pos = missile.pos
+			end_pos = missile.end_pos
+			start_pos = missile.start_pos
+			curr_pos = missile.pos
+			
+			if missile.radius > 0:
+				dir = Vec3(end_pos.x - start_pos.x, 0, end_pos.z - start_pos.z)
+				dir.normalize()
 				
-				if missile.info.radius > 0:
-					dir = Vec3(end_pos.x - start_pos.x, 0, end_pos.z - start_pos.z)
-					dir.normalize()
-					
-					if flags & MissileFlag.FIXED_LOCATION == 0:
-						obj, dist = prediction.find_missile_collision(game, missile)
-						if obj:
-							end_pos = Vec3(start_pos.x + dist*dir.x, curr_pos.y, start_pos.z + dist*dir.z)
-							
-					start_pos = curr_pos
-					start_pos.y = end_pos.y
-					
-					left_dir = Vec3(dir.x, dir.y, dir.z)
-					right_dir = Vec3(dir.x, dir.y, dir.z)
-					left_dir.rotate_y(90)
-					left_dir.scale(missile.info.radius)
-					
-					right_dir.rotate_y(-90)
-					right_dir.scale(missile.info.radius)
-					
-					p1 = Vec3(start_pos.x + left_dir.x,  start_pos.y + left_dir.y,  start_pos.z + left_dir.z)
-					p2 = Vec3(end_pos.x + left_dir.x,    end_pos.y + left_dir.y,    end_pos.z + left_dir.z)
-					p3 = Vec3(end_pos.x + right_dir.x,   end_pos.y + right_dir.y,   end_pos.z + right_dir.z)
-					p4 = Vec3(start_pos.x + right_dir.x, start_pos.y + right_dir.y, start_pos.z + right_dir.z)
-					
-					game.draw_rect_world(p1, p2, p3, p4, 3, Color.WHITE)
-					game.draw_circle_world(missile.pos, missile.info.radius, 20, 5, Color.RED)
-					
-				if missile.info.impact_radius > 0:
-					r = missile.info.impact_radius
-					percent_done = missile.start_pos.distance(curr_pos)/missile.start_pos.distance(end_pos)
-					color = Color(1, 1.0 - percent_done, 0, 0.5)
-					
-					if missile.info.impact_angle > 0:
-						angle = missile.info.impact_angle/2
+				if not missile.has_tags(MissileTag.Fixed_Location):
+					obj, dist = prediction.find_missile_collision(game, missile)
+					if obj:
+						end_pos = Vec3(start_pos.x + dist*dir.x, curr_pos.y, start_pos.z + dist*dir.z)
 						
-						left_dir = Vec3(-dir.x, -dir.y, -dir.z)
-						right_dir = Vec3(-dir.x, -dir.y, -dir.z)
-						
-						left_dir.rotate_y(angle)
-						left_dir.scale(r)
-						left_dir.add(end_pos)
-						right_dir.rotate_y(-angle)
-						right_dir.scale(r)
-						right_dir.add(end_pos)
-						game.draw_triangle_world(end_pos, left_dir, right_dir, 3, Color.WHITE)
-						
-						left_dir = Vec3(-dir.x, -dir.y, -dir.z)
-						right_dir = Vec3(-dir.x, -dir.y, -dir.z)
-						
-						left_dir.rotate_y(angle)
-						left_dir.scale(r*percent_done)
-						left_dir.add(end_pos)
-						right_dir.rotate_y(-angle)
-						right_dir.scale(r*percent_done)
-						right_dir.add(end_pos)
-						game.draw_triangle_world_filled(end_pos, left_dir, right_dir, color)
-					else:
-						game.draw_circle_world(end_pos, r, 30, 3, Color.WHITE)
-						game.draw_circle_world_filled(end_pos, r*percent_done, 30, color)
+				start_pos = curr_pos
+				start_pos.y = end_pos.y
+				
+				left_dir = Vec3(dir.x, dir.y, dir.z)
+				right_dir = Vec3(dir.x, dir.y, dir.z)
+				left_dir.rotate_y(90)
+				left_dir.scale(missile.radius)
+				
+				right_dir.rotate_y(-90)
+				right_dir.scale(missile.radius)
+				
+				p1 = Vec3(start_pos.x + left_dir.x,  start_pos.y + left_dir.y,  start_pos.z + left_dir.z)
+				p2 = Vec3(end_pos.x + left_dir.x,    end_pos.y + left_dir.y,    end_pos.z + left_dir.z)
+				p3 = Vec3(end_pos.x + right_dir.x,   end_pos.y + right_dir.y,   end_pos.z + right_dir.z)
+				p4 = Vec3(start_pos.x + right_dir.x, start_pos.y + right_dir.y, start_pos.z + right_dir.z)
+				
+				game.draw_rect_world(p1, p2, p3, p4, 3, Color.WHITE)
+				game.draw_circle_world(missile.pos, missile.radius, 20, 5, Color.RED)
+				
+			if missile.impact_radius > 0:
+				r = missile.impact_radius
+				percent_done = missile.start_pos.distance(curr_pos)/missile.start_pos.distance(end_pos)
+				color = Color(1, 1.0 - percent_done, 0, 0.5)
+				
+				if missile.impact_angle > 0:
+					angle = missile.impact_angle/2
+					
+					left_dir = Vec3(-dir.x, -dir.y, -dir.z)
+					right_dir = Vec3(-dir.x, -dir.y, -dir.z)
+					
+					left_dir.rotate_y(angle)
+					left_dir.scale(r)
+					left_dir.add(end_pos)
+					right_dir.rotate_y(-angle)
+					right_dir.scale(r)
+					right_dir.add(end_pos)
+					game.draw_triangle_world(end_pos, left_dir, right_dir, 3, Color.WHITE)
+					
+					left_dir = Vec3(-dir.x, -dir.y, -dir.z)
+					right_dir = Vec3(-dir.x, -dir.y, -dir.z)
+					
+					left_dir.rotate_y(angle)
+					left_dir.scale(r*percent_done)
+					left_dir.add(end_pos)
+					right_dir.rotate_y(-angle)
+					right_dir.scale(r*percent_done)
+					right_dir.add(end_pos)
+					game.draw_triangle_world_filled(end_pos, left_dir, right_dir, color)
+				else:
+					end_pos.y -= 100
+					game.draw_circle_world(end_pos, r, 30, 3, Color.WHITE)
+					game.draw_circle_world_filled(end_pos, r*percent_done, 30, color)
 					
 				
 				

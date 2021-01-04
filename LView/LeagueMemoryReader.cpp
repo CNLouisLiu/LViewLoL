@@ -84,12 +84,6 @@ void LeagueMemoryReader::ReadTurrets(MemSnapshot& ms) {
 	readTimeBegin = high_resolution_clock::now();
 
 	ReadGameObjectList<GameObject>(ms.turrets, numMaxTurrets, Offsets::TurretList, 0x8, 0x4, ms);
-	for (auto it = ms.turrets.begin(); it != ms.turrets.end(); ++it) {
-		auto obj = *it;
-		obj->type = GameObjectType::TURRET;
-		obj->targetRadius = 100.f;
-		obj->baseAttackRange = 850.f;
-	}
 
 	readDuration = high_resolution_clock::now() - readTimeBegin;
 	ms.benchmark->readTurretsMs = readDuration.count();
@@ -108,12 +102,11 @@ void LeagueMemoryReader::ReadMobs(MemSnapshot& ms) {
 	auto it = ms.others.begin();
 	while (it != ms.others.end()) {
 		auto obj = *it;
-		GameObjectType type = obj->type;
-		if (type & GameObjectType::JUNGLE) {
+		if (obj->HasTags(Unit_Monster)) {
 			ms.jungle.push_back(obj);
 			it = ms.others.erase(it);
 		}
-		else if (type & GameObjectType::MINION) {
+		else if (obj->HasTags(Unit_Minion)) {
 			ms.minions.push_back(obj);
 			it = ms.others.erase(it);
 		}
@@ -134,7 +127,7 @@ std::shared_ptr<GameObject> LeagueMemoryReader::FindHoveredObject(MemSnapshot& m
 
 	for (auto it = ms.idxToObjectMap.begin(); it != ms.idxToObjectMap.end(); ++it) {
 		distance = League::Distance(cursorPos, ms.renderer->WorldToScreen(it->second->position));
-		if (distance < minDistance && distance < it->second->targetRadius) {
+		if (distance < minDistance && distance < it->second->GetSelectionRadius()) {
 			hoveredObject = it->second;
 			minDistance = distance;
 		}
@@ -186,8 +179,8 @@ void LeagueMemoryReader::ReadMissiles(MemSnapshot& ms) {
 		memcpy(&netId, buff + Offsets::MissileMapKey, sizeof(int));
 
 		// Actual missiles net_id start from 0x40000000. So we use this to check if missiles are valid
-		//if (netId - (unsigned int)0x40000000 > 0x100000) 
-		//	continue;
+		if (netId - (unsigned int)0x40000000 > 0x100000) 
+			continue;
 
 		int addr;
 		memcpy(&addr, buff + Offsets::MissileMapVal, sizeof(int));
