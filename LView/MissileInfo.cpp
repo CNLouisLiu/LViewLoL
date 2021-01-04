@@ -736,7 +736,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("NamiQMissile")
 			->withSpeed(1000.f)
 			->withRange(875.f)
-			->withRadius(180.f)
+			->withRadiusImpact(180.f)
 			->withFlags(FIXED_LOCATION)
 	},
 
@@ -763,7 +763,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("NeekoQ")
 			->withSpeed(1500.f)
 			->withRange(800.f)
-			->withRadius(200.f)
+			->withRadiusImpact(200.f)
 			->withFlags(FIXED_LOCATION | COLLIDE_WALL)
 	},
 
@@ -934,7 +934,8 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("SeraphineQInitialMissile")
 			->withSpeed(1200.f)
 			->withRange(900.f)
-			->withRadius(350.f)
+			->withRadius(50.f)
+			->withRadiusImpact(350.f)
 			->withFlags(FIXED_LOCATION | COLLIDE_WINDWALL)
 	},
 
@@ -951,7 +952,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 		(new MissileInfo())
 			->withName("SeraphineR")
 			->withSpeed(1600.f)
-			->withRange(1300.f)
+			->withRange(1200.f)
 			->withRadius(160.f)
 			->withFlags(COLLIDE_GENERIC | PIERCE_ALL)
 	},
@@ -1015,7 +1016,8 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("SorakaQMissile")
 			->withSpeed(1150.f)
 			->withRange(810.f)
-			->withRadius(235)
+			->withRadius(35.f)
+			->withRadiusImpact(235.f)
 			->withFlags(FIXED_LOCATION)
 	},
 
@@ -1105,7 +1107,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("UrgotQMissile")
 			->withSpeed(1000.f)
 			->withRange(800.f)
-			->withRadius(180.f)
+			->withRadiusImpact(180.f)
 			->withFlags(FIXED_LOCATION)
 	},
 
@@ -1132,7 +1134,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("VarusEMissile")
 			->withSpeed(1500.f)
 			->withRange(925.f)
-			->withRadius(260.f)
+			->withRadiusImpact(260.f)
 			->withFlags(FIXED_LOCATION)
 	},
 
@@ -1177,7 +1179,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("VelkozWMissile")
 			->withSpeed(1700.f)
 			->withRange(1050.f)
-			->withRadius(87.5f)
+			->withRadiusImpact(87.5f)
 			->withFlags(FIXED_LOCATION)
 	},
 
@@ -1213,7 +1215,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("XerathLocusPulse")
 			->withSpeed(10000.f)
 			->withRange(5000.f)
-			->withRadius(200.f)
+			->withRadiusImpact(200.f)
 			->withFlags(FIXED_LOCATION)
 	},
 
@@ -1258,7 +1260,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("ZiggsQSpell")
 			->withSpeed(1750.f)
 			->withRange(850.f)
-			->withRadius(150.f)
+			->withRadiusImpact(150.f)
 			->withFlags(FIXED_LOCATION | COLLIDE_WINDWALL)
 	},
 
@@ -1267,7 +1269,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("ZiggsW")
 			->withSpeed(1750.f)
 			->withRange(1000.f)
-			->withRadius(240.f)
+			->withRadiusImpact(240.f)
 			->withFlags(FIXED_LOCATION | COLLIDE_WINDWALL)
 	},
 
@@ -1276,7 +1278,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("ZiggsE")
 			->withSpeed(1800.f)
 			->withRange(900.f)
-			->withRadius(250.f)
+			->withRadiusImpact(250.f)
 			->withFlags(FIXED_LOCATION | COLLIDE_WINDWALL)
 	},
 
@@ -1285,7 +1287,7 @@ std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 			->withName("ZiggsRBoom")
 			->withSpeed(1550.f)
 			->withRange(5000.f)
-			->withRadius(480.f)
+			->withRadiusImpact(480.f)
 			->withFlags(FIXED_LOCATION)
 	},
 

@@ -1,12 +1,10 @@
 ﻿cl : Command line warning D9002: ignoring unknown option '/m:4'
-  LeagueMemoryReader.cpp
-  f:\github\lviewlol\lview\boost\boost\bind.hpp(41): note: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.
-f:\github\lviewlol\lview\leaguememoryreader.cpp(161): warning C4018: '<': signed/unsigned mismatch
+  MissileInfo.cpp
 Release\Offsets.obj : warning LNK4042: object specified more than once; extras ignored
      Creating library F:\Github\LViewLoL\Release\ConsoleApplication.lib and object F:\Github\LViewLoL\Release\ConsoleApplication.exp
   Generating code
-  2 of 10318 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  279 of 10318 functions ( 2.7%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    3 functions had inline decision re-evaluated but remain unchanged
+    2 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   LView.vcxproj -> F:\Github\LViewLoL\Release\ConsoleApplication.exe
