@@ -50,9 +50,6 @@ public:
 	static int SpellDataSpellName;
 	static int SpellDataMissileName;
 
-	static int HeroList;
-	static int MinionList;
-	static int TurretList;
 	static int ObjectManager;
 
 	static int ObjectMapCount;

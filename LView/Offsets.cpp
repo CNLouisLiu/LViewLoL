@@ -10,7 +10,7 @@ int Offsets::ObjNetworkID                 = 0xCC;
 int Offsets::ObjPos                       = 0x1d8;
 int Offsets::ObjVisibility                = 0x270;
 int Offsets::ObjSpawnCount                = 0x284;
-int Offsets::ObjSrcIndex                  = 0x290; // Not checked
+int Offsets::ObjSrcIndex                  = 0x290;
 int Offsets::ObjMana                      = 0x298;
 int Offsets::ObjHealth                    = 0xD98;
 int Offsets::ObjArmor                     = 0x1298;
@@ -45,9 +45,6 @@ int Offsets::SpellInfoSpellData           = 0x44;
 int Offsets::SpellDataSpellName           = 0x64;
 int Offsets::SpellDataMissileName         = 0x64;
 
-int Offsets::HeroList                     = 0x1C50400;
-int Offsets::MinionList                   = 0x289E8EC;
-int Offsets::TurretList                   = 0x34F12B8;
 int Offsets::ObjectManager                = 0x1C52490;
 
 int Offsets::ObjectMapCount               = 0x2C;

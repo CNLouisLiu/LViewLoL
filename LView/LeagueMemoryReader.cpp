@@ -89,7 +89,7 @@ std::shared_ptr<GameObject> LeagueMemoryReader::FindHoveredObject(MemSnapshot& m
 
 void LeagueMemoryReader::ReadMissiles(MemSnapshot& ms) {
 
-	static const int maxObjects = 300;
+	static const int maxObjects = 500;
 	static int pointerArray[maxObjects];
 
 	high_resolution_clock::time_point readTimeBegin;
@@ -121,23 +121,22 @@ void LeagueMemoryReader::ReadMissiles(MemSnapshot& ms) {
 	int reads = 0;
 	int childNode1, childNode2, childNode3, node;
 	while (reads < maxObjects && nodesToVisit.size() > 0) {
-		reads++; 
-
 		node = nodesToVisit.front();
 		nodesToVisit.pop();
-		visitedNodes.insert(node);
+		if (visitedNodes.find(node) != visitedNodes.end())
+			continue;
 
-		Mem::Read(hProcess, node, buff, 0x50);
+		reads++;
+		visitedNodes.insert(node);
+		Mem::Read(hProcess, node, buff, 0x30);
+
 		memcpy(&childNode1, buff, sizeof(int));
 		memcpy(&childNode2, buff + 4, sizeof(int));
 		memcpy(&childNode3, buff + 8, sizeof(int));
 
-		if (visitedNodes.find(childNode1) == visitedNodes.end())
-			nodesToVisit.push(childNode1);
-		if (visitedNodes.find(childNode2) == visitedNodes.end())
-			nodesToVisit.push(childNode2);
-		if (visitedNodes.find(childNode3) == visitedNodes.end())
-			nodesToVisit.push(childNode3);
+		nodesToVisit.push(childNode1);
+		nodesToVisit.push(childNode2);
+		nodesToVisit.push(childNode3);
 
 		unsigned int netId = 0;
 		memcpy(&netId, buff + Offsets::ObjectMapNodeNetId, sizeof(int));
@@ -156,40 +155,37 @@ void LeagueMemoryReader::ReadMissiles(MemSnapshot& ms) {
 
 	// Read objects
 	for (int i = 0; i < nrObj; ++i) {
-		short objIndex;
-		Mem::Read(hProcess, pointerArray[i] + Offsets::ObjIndex, &objIndex, sizeof(short));
-		if (blacklistedObjects.find(objIndex) != blacklistedObjects.end())
+		short netId;
+		Mem::Read(hProcess, pointerArray[i] + Offsets::ObjNetworkID, &netId, sizeof(short));
+		if (blacklistedObjects.find(netId) != blacklistedObjects.end())
 			continue;
 
 		std::shared_ptr<GameObject> obj;
-		auto it = ms.idxToObjectMap.find(objIndex);
+		auto it = ms.idxToObjectMap.find(netId);
 		if (it == ms.idxToObjectMap.end()) {
 			obj = std::shared_ptr<GameObject>(new GameObject());
 			obj->LoadFromMem(pointerArray[i], hProcess, true);
-			ms.idxToObjectMap[obj->objectIndex] = obj;
+			ms.idxToObjectMap[obj->networkId] = obj;
 		}
 		else {
 			obj = it->second;
 			obj->LoadFromMem(pointerArray[i], hProcess, true);
 
 			// If the object changed its id for whatever the fuck reason then we update the map with the new index
-			if (objIndex != obj->objectIndex) {
-				ms.idxToObjectMap[obj->objectIndex] = obj;
+			if (netId != obj->networkId) {
+				ms.idxToObjectMap[obj->networkId] = obj;
 			}
 		}
-
-		if (obj->networkId < 0x40000000)
-			continue;
 
 		if (obj->isVisible) {
 			obj->lastVisibleAt = ms.gameTime;
 		}
 
-		if (obj->objectIndex != 0) {
-			ms.updatedThisFrame.insert(obj->objectIndex);
+		if (obj->networkId != 0) {
+			ms.updatedThisFrame.insert(obj->networkId);
 
 			if (obj->name.size() == 0)
-				blacklistedObjects.insert(obj->objectIndex);
+				blacklistedObjects.insert(obj->networkId);
 			else if (obj->HasTags(Unit_Champion))
 				ms.champions.push_back(obj);
 			else if (obj->HasTags(Unit_Minion_Lane))
