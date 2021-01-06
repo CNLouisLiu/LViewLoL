@@ -26,6 +26,7 @@ public:
 	float gameplayRadius;
 	
 	float basicAttackMissileSpeed;
+	float basicAttackWindup;
 	
 	std::bitset<128> tags;
 public:	
@@ -76,29 +77,40 @@ for fname in os.listdir(unit_data_folder):
 	with open(os.path.join(unit_data_folder, fname)) as file:
 		props = json.loads(file.read())
 	
+	# Find character property node
 	root = find_key_ending_with(props, '/Root')	
 	if not root:
 		print('[Fail] No root found for: ' + fname)
 		continue
 	
+	# Get character name
 	name = root.get('mCharacterName', '')
 	if len(name) == 0:
 		print('[Fail] No character name found for: ' + fname)
 		continue
 		
+	# Get basic attack info
 	missile_speed = 0.0
+	windup = 0.0
 	basic_attack = find_key_ending_with(props, name + "BasicAttack")
 	if basic_attack != None:
 		spell = basic_attack.get('mSpell', None)
 		if spell:
 			missile_speed = spell.get("missileSpeed", 0.0)
+	if 'basicAttack' in root:
+		basic_attack = root['basicAttack']
+		if 'mAttackTotalTime' in basic_attack and 'mAttackCastTime' in basic_attack:
+			windup = basic_attack['mAttackCastTime']/basic_attack['mAttackTotalTime']
+		else:
+			windup = 0.3 + basic_attack.get('mAttackDelayCastOffsetPercent', 0.0)
 
+	# Get tags
 	tags = set(['Unit_' + x.strip().replace('=', '_') for x in root.get("unitTagsString", "").split('|')])
 	if '' in tags:
 		tags.remove('')
-	
 	if 'Unit_Champion_Clone' in tags:
 		objs.append(name)
+		
 	
 	unit = f'''
        /* name                 */      "{name.lower()}",                                           
@@ -114,6 +126,7 @@ for fname in os.listdir(unit_data_folder):
        /* gameplayRadius       */      {root.get("overrideGameplayCollisionRadius", 65.0)},
        
        /* basicAtkMissileSpeed */      {missile_speed},
+	   /* basicAtkWindup       */      {windup},
 	   /* tags                 */      std::bitset<128>(){''.join(['.set(' + tag + ')' for tag in tags])}'''
 	
 	infos += pattern_item.format(name.lower(), unit)

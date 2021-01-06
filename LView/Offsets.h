@@ -11,17 +11,14 @@ public:
 
 	static int ObjIndex;
 	static int ObjTeam;
-	static int ObjTargetRadius;
 	static int ObjNetworkID;
 	static int ObjPos;
 	static int ObjVisibility;
 	static int ObjSpawnCount;
 	static int ObjHealth;
 	static int ObjMana;
-	static int ObjMaxMana;
 	static int ObjArmor;
 	static int ObjMagicRes;
-	static int ObjBonusMagicRes;
 	static int ObjBaseAtk;
 	static int ObjBonusAtk;
 	static int ObjMoveSpeed;
@@ -32,7 +29,6 @@ public:
 	static int ObjCrit;
 	static int ObjCritMulti;
 	static int ObjAbilityPower;
-	static int ObjBonusAbilityPower;
 	static int ObjAtkSpeedMulti;
 	static int ObjItemList;
 	static int ObjSrcIndex;
@@ -46,37 +42,28 @@ public:
 	static int RendererWidth;
 	static int RendererHeight;
 
-	static int SpellSlotRemainingCharge;
 	static int SpellSlotLevel;
-	static int SpellSlotRemainingRechargeCD;
 	static int SpellSlotTime;
-	static int SpellSlotCD;
 	static int SpellSlotDamage;
 	static int SpellSlotSpellInfo;
-	static int SpellSlotRemainingCD;
 	static int SpellInfoSpellData;
 	static int SpellDataSpellName;
+	static int SpellDataMissileName;
 
 	static int HeroList;
 	static int MinionList;
 	static int TurretList;
-	static int MissileMap;
+	static int ObjectManager;
 
-	static int MissileMapCount;
-	static int MissileMapRoot;
-	static int MissileMapKey;
-	static int MissileMapVal;
+	static int ObjectMapCount;
+	static int ObjectMapRoot;
+	static int ObjectMapNodeNetId;
+	static int ObjectMapNodeObject;
+
+	static int MissileSpellInfo;
 	static int MissileSrcIdx;
 	static int MissileDestIdx;
 	static int MissileStartPos;
 	static int MissileEndPos;
-
-	static int UnitComponentInfo;
-	static int UnitProperties;
-	static int UnitAttackRange;
-	static int UnitBoundingRadius;
-	static int UnitBaseAtkSpeed;
-	static int UnitMaxAtkSpeed;
-
 
 };

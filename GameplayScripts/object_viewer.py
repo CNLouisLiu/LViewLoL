@@ -38,8 +38,19 @@ def draw_items(items, ui):
 			ui.treepop()
 
 def draw_missile(obj, ui):
-	pass
-	if ui.treenode('{}=>{} ({})'.format(obj.src_idx, obj.dest_idx, obj.name)):
+	if ui.treenode("{}_{} ({})".format(obj.name, obj.id, hex(obj.address))):
+		ui.labeltext("start_pos", f"x={obj.start_pos.x:.2f}, y={obj.start_pos.y:.2f}, z={obj.start_pos.z:.2f}")
+		ui.labeltext("end_pos", f"x={obj.end_pos.x:.2f}, y={obj.end_pos.y:.2f}, z={obj.end_pos.z:.2f}")
+		ui.labeltext("pos", f"x={obj.pos.x:.2f}, y={obj.pos.y:.2f}, z={obj.pos.z:.2f}")
+		ui.dragint("src_idx", obj.src_idx)
+		ui.dragint("dest_idx", obj.dest_idx)
+		
+		ui.separator()
+		ui.dragfloat("speed", obj.speed)
+		ui.dragfloat("range", obj.range)
+		ui.dragfloat("radius", obj.radius)
+		ui.dragfloat("impact_radius", obj.impact_radius)
+		
 		ui.treepop()
 
 def draw_game_object(obj, ui, additional_draw = None, set_open=False):
@@ -49,8 +60,9 @@ def draw_game_object(obj, ui, additional_draw = None, set_open=False):
 		return
 	if(set_open):
 		ui.opennext()
-	if ui.treenode("{}_{}".format(obj.name, obj.id)):
+	if ui.treenode("{}_{} ({})".format(obj.name, obj.id, hex(obj.address))):
 		ui.labeltext("address", hex(obj.address))
+		ui.labeltext("net_id", hex(obj.net_id))
 		ui.labeltext("name", obj.name, Color.ORANGE)
 		ui.labeltext("pos", f"x={obj.pos.x:.2f}, y={obj.pos.y:.2f}, z={obj.pos.z:.2f}")
 		ui.dragint("id", obj.id)
@@ -65,7 +77,6 @@ def draw_game_object(obj, ui, additional_draw = None, set_open=False):
 		ui.dragfloat("armour", obj.armour)
 		ui.dragfloat("magic_resist", obj.magic_resist)
 		ui.dragfloat("ap", obj.ap)
-		ui.dragfloat("bonus_ap", obj.bonus_ap)
 		ui.dragfloat("crit", obj.crit)
 		ui.dragfloat("crit_multi", obj.crit_multi)
 		
@@ -77,6 +88,7 @@ def draw_game_object(obj, ui, additional_draw = None, set_open=False):
 		ui.dragfloat("atk_speed_ratio", obj.atk_speed_ratio)
 		ui.dragfloat("basic_missile_speed", obj.basic_missile_speed)
 		ui.dragfloat("base_ms", obj.base_ms)
+		ui.dragfloat("movement_speed", obj.movement_speed)
 		
 		ui.separator()
 		ui.dragfloat("selection_radius", obj.selection_radius)

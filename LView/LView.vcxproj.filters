@@ -34,6 +34,12 @@
     <Filter Include="Source Files\Core">
       <UniqueIdentifier>{d28b0c84-0437-4186-bf25-e02b6db8c8c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Structs\GameRelated\Spells">
+      <UniqueIdentifier>{a2f140b9-3045-40da-be66-60eabf10af5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Structs\GameRelated\Units">
+      <UniqueIdentifier>{f24696f8-27e0-4883-9478-56065f8048e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui.cpp">
@@ -62,15 +68,6 @@
     </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>Source Files\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Champion.cpp">
-      <Filter>Source Files\Structs\GameRelated</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files\Structs\GameRelated</Filter>
-    </ClCompile>
-    <ClCompile Include="Spell.cpp">
-      <Filter>Source Files\Structs\GameRelated</Filter>
     </ClCompile>
     <ClCompile Include="ScriptManager.cpp">
       <Filter>Source Files\Python</Filter>
@@ -105,17 +102,20 @@
     <ClCompile Include="Overlay.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="Missile.cpp">
+    <ClCompile Include="MapObject.cpp">
       <Filter>Source Files\Structs\GameRelated</Filter>
     </ClCompile>
     <ClCompile Include="MissileInfo.cpp">
-      <Filter>Source Files\Structs\GameRelated</Filter>
+      <Filter>Source Files\Structs\GameRelated\Spells</Filter>
+    </ClCompile>
+    <ClCompile Include="Spell.cpp">
+      <Filter>Source Files\Structs\GameRelated\Spells</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\Structs\GameRelated\Units</Filter>
     </ClCompile>
     <ClCompile Include="UnitInfo.cpp">
-      <Filter>Source Files\Structs\GameRelated</Filter>
-    </ClCompile>
-    <ClCompile Include="MapObject.cpp">
-      <Filter>Source Files\Structs\GameRelated</Filter>
+      <Filter>Source Files\Structs\GameRelated\Units</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,16 +155,7 @@
     <ClInclude Include="Benchmark.h">
       <Filter>Source Files\Structs</Filter>
     </ClInclude>
-    <ClInclude Include="Champion.h">
-      <Filter>Source Files\Structs\GameRelated</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Source Files\Structs\GameRelated</Filter>
-    </ClInclude>
     <ClInclude Include="MemoryLoadable.h">
-      <Filter>Source Files\Structs\GameRelated</Filter>
-    </ClInclude>
-    <ClInclude Include="Spell.h">
       <Filter>Source Files\Structs\GameRelated</Filter>
     </ClInclude>
     <ClInclude Include="MemSnapshot.h">
@@ -203,17 +194,20 @@
     <ClInclude Include="Overlay.h">
       <Filter>Source Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="Missile.h">
+    <ClInclude Include="MapObject.h">
       <Filter>Source Files\Structs\GameRelated</Filter>
     </ClInclude>
     <ClInclude Include="MissileInfo.h">
-      <Filter>Source Files\Structs\GameRelated</Filter>
+      <Filter>Source Files\Structs\GameRelated\Spells</Filter>
+    </ClInclude>
+    <ClInclude Include="Spell.h">
+      <Filter>Source Files\Structs\GameRelated\Spells</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Source Files\Structs\GameRelated\Units</Filter>
     </ClInclude>
     <ClInclude Include="UnitInfo.h">
-      <Filter>Source Files\Structs\GameRelated</Filter>
-    </ClInclude>
-    <ClInclude Include="MapObject.h">
-      <Filter>Source Files\Structs\GameRelated</Filter>
+      <Filter>Source Files\Structs\GameRelated\Units</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

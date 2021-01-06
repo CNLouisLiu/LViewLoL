@@ -14,24 +14,30 @@ struct Vector2 {
 	float length() {
 		return sqrt(x*x + y * y);
 	}
-	void normalize() {
-		float l = length();
-		x = x / l;
-		y = y / l;
-	}
 
 	float distance(const Vector2& o) {
 		return sqrt(pow(x - o.x, 2) + pow(y - o.y, 2));
 	}
 
-	void scale(float s) {
-		x *= s;
-		y *= s;
+	Vector2 vscale(const Vector2& s) {
+		return Vector2(x*s.x, y*s.y);
 	}
 
-	void add(const Vector2& o) {
-		x += o.x;
-		y += o.y;
+	Vector2 scale(float s) {
+		return Vector2(x*s, y*s);
+	}
+
+	Vector2 normalize() {
+		float l = length();
+		return Vector2(x / l, y / l);
+	}
+
+	Vector2 add(const Vector2& o) {
+		return Vector2(x + o.x, y + o.y);
+	}
+
+	Vector2 sub(const Vector2& o) {
+		return Vector2(x - o.x, y - o.y);
 	}
 
 	Vector2 clone() {
@@ -54,51 +60,54 @@ struct Vector3 {
 	float length() {
 		return sqrt(x*x + y*y + z*z);
 	}
-	void normalize() {
-		float l = length();
-		x = x / l;
-		y = y / l;
-		z = z / l;
-	}
 
 	float distance(const Vector3& o) {
 		return sqrt(pow(x - o.x, 2) + pow(y - o.y, 2) + pow(z - o.z, 2));
 	}
 
-	void scale(float s) {
-		x *= s;
-		y *= s;
-		z *= s;
+	Vector3 rotate_x(float angle) {
+		return Vector3(
+			x,
+			y * cos(angle) - z * sin(angle),
+			y * sin(angle) + z * cos(angle)
+		);
 	}
 
-	void rotate_x(float angle) {
-		float ny = y * cos(angle) - z * sin(angle);
-		float nz = y * sin(angle) + z * cos(angle);
-
-		y = ny;
-		z = nz;
+	Vector3 rotate_y(float angle) {
+		return Vector3(
+			x * cos(angle) + z * sin(angle),
+			y,
+			-x * sin(angle) + z * cos(angle)
+		);
 	}
 
-	void rotate_y(float angle) {
-		float nx = x * cos(angle) + z * sin(angle);
-		float nz = -x * sin(angle) + z * cos(angle);
+	Vector3 rotate_z(float angle) {
+		return Vector3(
+			x * cos(angle) - y * sin(angle),
+			x * sin(angle) + y * cos(angle),
+			z
+		);
+	}	
 
-		x = nx;
-		z = nz;
+	Vector3 vscale(const Vector3& s) {
+		return Vector3(x*s.x, y*s.y, z*s.z);
+	}
+	
+	Vector3 scale(float s) {
+		return Vector3(x*s, y*s, z*s);
 	}
 
-	void rotate_z(float angle) {
-		float nx = x * cos(angle) - y * sin(angle);
-		float ny = x * sin(angle) + y * cos(angle);
-		
-		x = nx;
-		y = ny;
+	Vector3 normalize() {
+		float l = length();
+		return Vector3(x / l, y / l, z / l);
 	}
 
-	void add(const Vector3& o) {
-		x += o.x;
-		y += o.y;
-		z += o.z;
+	Vector3 add(const Vector3& o) {
+		return Vector3(x + o.x, y + o.y, z + o.z);
+	}
+
+	Vector3 sub(const Vector3& o) {
+		return Vector3(x - o.x, y - o.y, z - o.z);
 	}
 
 	Vector3 clone() {
@@ -123,31 +132,30 @@ struct Vector4 {
 	float length() {
 		return sqrt(x*x + y*y + z*z + w*w);
 	}
-	
-	void normalize() {
-		float l = length();
-		x = x / l;
-		y = y / l;
-		z = z / l;
-		w = w / l;
-	}
 
 	float distance(const Vector4& o) {
 		return sqrt(pow(x - o.x, 2) + pow(y - o.y, 2) + pow(z - o.z, 2) + pow(w - o.w, 2));
 	}
 
-	void scale(float s) {
-		x *= s;
-		y *= s;
-		z *= s;
-		w *= s;
+	Vector4 vscale(const Vector4& s) {
+		return Vector4(x*s.x, y*s.y, z*s.z, w*s.w);
 	}
 
-	void add(const Vector4& o) {
-		x += o.x;
-		y += o.y;
-		z += o.z;
-		w += o.w;
+	Vector4 scale(float s) {
+		return Vector4(x*s, y*s, z*s, w*s);
+	}
+
+	Vector4 normalize() {
+		float l = length();
+		return Vector4(x / l, y / l, z / l, w / l);
+	}
+
+	Vector4 add(const Vector4& o) {
+		return Vector4(x + o.x, y + o.y, z + o.z, w + o.w);
+	}
+
+	Vector4 sub(const Vector4& o) {
+		return Vector4(x - o.x, y - o.y, z - o.z, w - o.w);
 	}
 
 	Vector4 clone() {

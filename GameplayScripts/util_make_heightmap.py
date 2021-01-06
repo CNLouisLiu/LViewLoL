@@ -19,12 +19,6 @@ def lview_draw_settings(game, ui):
 	if ui.button("Extrapolate"):
 		extrapolate()
 		
-	#if ui.button('Load'):
-	#	load()
-		
-	#if ui.button('Save'):
-	#	save()
-		
 	enable_draw = ui.checkbox("Draw map", enable_draw)
 
 enable_draw    = False
@@ -35,36 +29,45 @@ file_name      = ""
 time_last_save = 0
 first_iter     = True
 
+def get_neighbours(m, i, j):
+	neighbours = []
+	if m[i - 1][j - 1] != 0:
+		neighbours.append(m[i - 1][j - 1])
+	if m[i - 1][j] != 0:
+		neighbours.append(m[i - 1][j])
+	if m[i - 1][j + 1] != 0:
+		neighbours.append(m[i - 1][j + 1])
+		
+	if m[i][j - 1] != 0:
+		neighbours.append(m[i][j - 1])
+	if m[i][j + 1] != 0:
+		neighbours.append(m[i][j + 1])
+		
+	if m[i + 1][j - 1] != 0:
+		neighbours.append(m[i + 1][j - 1])
+	if m[i + 1][j] != 0:
+		neighbours.append(m[i + 1][j])
+	if m[i + 1][j + 1] != 0:
+		neighbours.append(m[i + 1][j + 1])
+	
+	return neighbours
+
 def extrapolate():
 	global m, size
 	
+	to_modify = []
 	for i in range(1, size - 1):
 		for j in range(1, size - 1):
 			if m[i][j] != 0:
 				continue
 				
-			neighbours = []
-			if m[i - 1][j - 1] != 0:
-				neighbours.append(m[i - 1][j - 1])
-			if m[i - 1][j] != 0:
-				neighbours.append(m[i - 1][j])
-			if m[i - 1][j + 1] != 0:
-				neighbours.append(m[i - 1][j + 1])
-				
-			if m[i][j - 1] != 0:
-				neighbours.append(m[i][j - 1])
-			if m[i][j + 1] != 0:
-				neighbours.append(m[i][j + 1])
-				
-			if m[i + 1][j - 1] != 0:
-				neighbours.append(m[i + 1][j - 1])
-			if m[i + 1][j] != 0:
-				neighbours.append(m[i + 1][j])
-			if m[i + 1][j + 1] != 0:
-				neighbours.append(m[i + 1][j + 1])
-			
+			neighbours = get_neighbours(m, i, j)
 			if len(neighbours) > 0:
-				m[i][j] = sum(neighbours)/len(neighbours)
+				to_modify.append((i, j, sum(neighbours)/len(neighbours)))
+	
+	print(f'Extrapolated {len(to_modify)} points')
+	for (i, j, h) in to_modify:
+		m[i][j] = h
 				
 def save(s):
 	global m
@@ -104,17 +107,31 @@ def draw(game):
 			#game.draw_circle_world_filled(p2, 10, 5, color)
 			
 			game.draw_text(game.world_to_screen(p), f'{m[i][j]:.0f}', Color.GREEN)
+			
+last_launched_t = 0
+last_moved_t = 0
+
 def lview_update(game, ui):
 	global m, size, enable_draw, time_last_save, first_iter
 	global file_name
+	global last_launched_t, last_moved_t
 	
 	if first_iter:
 		first_iter = False
 		file_name = "HeightMap_" + str(game.map.type) + ".json"
 		load(file_name)
 	
-	#game.draw_button(game.world_to_screen(game.local_champ.pos), f'{game.height_at(game.local_champ.pos.x, game.local_champ.pos.z):.2f}', Color.WHITE, Color.BLACK)
+	if game.is_key_down(2):
+		if  time.time() - last_launched_t > 0.01:
+			game.local_champ.R.trigger()
+			last_launched_t = time.time()
+			
+	p = game.local_champ.pos.clone()
+	p.scale(size/15000)
 	
+	#game.draw_button(game.world_to_screen(game.local_champ.pos), f'{abs(game.local_champ.pos.y - m[int(p.x)][int(p.z)])}', Color.WHITE, Color.BLACK)
+	game.draw_button(game.world_to_screen(game.local_champ.pos), f'{abs(game.local_champ.pos.y - game.map.height_at(game.local_champ.pos.x, game.local_champ.pos.z))}', Color.WHITE, Color.BLACK)
+	'''
 	for champ in game.champs:
 		p = champ.pos.clone()
 		p.scale(size/15000)
@@ -122,7 +139,22 @@ def lview_update(game, ui):
 		if m[int(p.x)][int(p.z)] == 0:
 			m[int(p.x)][int(p.z)] = champ.pos.y
 		else:
-			m[int(p.x)][int(p.z)] = (champ.pos.y + m[int(p.x)][int(p.z)])/2
+			m[int(p.x)][int(p.z)] = min(champ.pos.y, m[int(p.x)][int(p.z)])
+	'''
+	
+	for missile in game.missiles:
+		if missile.dest_idx != 0:
+			continue
+		p = missile.pos.clone()
+		p.scale(size/15000)
+		
+		px, pz = int(p.x), int(p.z)
+		if px < size and px > 0 and pz < size and pz > 0:	
+			if m[px][pz] == 0:
+				m[px][pz] = missile.pos.y - 100
+			else:
+				m[px][pz] = min(missile.pos.y - 100, m[px][pz])
+	
 	
 	if time.time() - time_last_save > 10:
 		save(file_name)

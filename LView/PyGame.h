@@ -25,7 +25,7 @@ public:
 					      
 	MapObject*            map;
 	GameObject*           hoveredObject;
-	Champion*             localChampion;
+	GameObject*           localChampion;
 
 	object GetHoveredObject() { 
 		if (hoveredObject == nullptr)
@@ -153,6 +153,35 @@ public:
 		return Input::GetCursorPosition();
 	}
 
+	bool LinearCollision(const Vector2& p1, const Vector2& d1, const Vector2& p2, const Vector2& d2, float radius) {
+		
+		static float Ax, Bx, Cx, Ay, By, Cy;
+		static float a, b, c, delta;
+		static float sqrt_d, t1, t2;
+
+		Ax = pow((d1.x - d2.x), 2.f);
+		Bx = p1.x*d1.x - p1.x*d2.x - p2.x*d1.x + p2.x*d2.x;
+		Cx = pow((p1.x - p2.x), 2.f);
+
+		Ay = pow((d1.y - d2.y), 2.f);
+		By = p1.y*d1.y - p1.y*d2.y - p2.y*d1.y + p2.y*d2.y;
+		Cy = pow((p1.y - p2.y), 2.f);
+
+		a = Ax + Ay;
+		b = 2.0*(Bx + By);
+		c = Cx + Cy - pow(radius, 2.f);
+		delta = b * b - 4.0*a*c;
+
+		if (a == 0.0 || delta < 0.0)
+			return false;
+
+		sqrt_d = sqrt(delta);
+		t1 = (-b + sqrt_d) / (2.0*a);
+		t2 = (-b - sqrt_d) / (2.0*a);
+
+		return (t1 >= 0.0 and t2 >= 0.0);
+	}
+
 	void MoveCursor(const Vector2& pos) {
 		Input::MoveCursorTo(pos.x, pos.y);
 	}
@@ -167,7 +196,7 @@ public:
 		if (it != distanceCache.end())
 			return it->second;
 
-		float dist = League::Distance(first->position, second->position);
+		float dist = first->position.distance(second->position);
 		distanceCache[key] = dist;
 
 		return dist;

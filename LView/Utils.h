@@ -8,6 +8,8 @@
 #include "Input.h"
 #include "Vector.h"
 
+#define Clamp(val, lo, hi) (val < lo) ? lo : (hi < val) ? hi : val
+
 class WinApiException : public std::runtime_error {
 
 public:
@@ -62,11 +64,12 @@ namespace Process {
 };
 
 namespace League {
-	float          Clamp(float val, float lo, float hi);
-	float          Distance(const Vector2& first, const Vector2& second);
-	float          Distance(const Vector3& first, const Vector3& second);
 	float          EffectiveHP(float health, float armour);
 	float          EffectiveDamage(float damage, float armour);
+}
+
+namespace Character {
+	bool ContainsOnlyASCII(const char* buff, int maxSize);
 }
 
 namespace Colors {

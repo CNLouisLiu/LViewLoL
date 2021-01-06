@@ -3,22 +3,20 @@
 #include <set>
 #include <map>
 #include "Benchmark.h"
-#include "Champion.h"
 #include "GameRenderer.h"
 #include "GameObject.h"
-#include "Missile.h"
 #include "MapObject.h"
 
 struct MemSnapshot {
 
 	/* Lists of objects by category */
-	std::vector<std::shared_ptr<Champion>>        champions;
+	std::vector<std::shared_ptr<GameObject>>      champions;
 	std::vector<std::shared_ptr<GameObject>>      minions;
 	std::vector<std::shared_ptr<GameObject>>      jungle;
 	std::vector<std::shared_ptr<GameObject>>      turrets;
 	std::vector<std::shared_ptr<GameObject>>      others;
 
-	std::vector<std::unique_ptr<Missile>>         missiles;
+	std::vector<std::shared_ptr<GameObject>>      missiles;
 
 	/* A map between the indexObject member of the object and the object itself */
 	std::map<short, std::shared_ptr<GameObject>>  idxToObjectMap;
@@ -26,7 +24,7 @@ struct MemSnapshot {
 	std::set<short>                               updatedThisFrame;
 
 	/* The champion of the player running the app */
-	std::shared_ptr<Champion>                     localChampion = nullptr;
+	std::shared_ptr<GameObject>                   localChampion = nullptr;
 	/* The object below the mouse */
 	std::shared_ptr<GameObject>                   hoveredObject = nullptr;
 

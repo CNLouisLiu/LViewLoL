@@ -22,6 +22,7 @@ public:
 	float gameplayRadius;
 	
 	float basicAttackMissileSpeed;
+	float basicAttackWindup;
 	
 	std::bitset<128> tags;
 public:	

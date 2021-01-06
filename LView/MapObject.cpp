@@ -1,5 +1,6 @@
 #include "MapObject.h"
 #include <fstream>
+#include "Utils.h"
 
 std::array<std::shared_ptr<MapObject>, 2> MapObject::maps = std::array<std::shared_ptr<MapObject>, 2>({ nullptr, nullptr });
 const float                               MapObject::HEIGHT_MAP_SIZE_RATIO = SIZE_HEIGHT_MAP / 15000.f;
@@ -17,8 +18,8 @@ void MapObject::Load(const char* heightMapFile)
 
 float MapObject::GetHeightAt(float x, float z)
 {
-	int ix = (int)(HEIGHT_MAP_SIZE_RATIO*x);
-	int iz = (int)(HEIGHT_MAP_SIZE_RATIO*z);
+	int ix = Clamp( (int)(HEIGHT_MAP_SIZE_RATIO*x), 0, SIZE_HEIGHT_MAP - 1);
+	int iz = Clamp( (int)(HEIGHT_MAP_SIZE_RATIO*z), 0, SIZE_HEIGHT_MAP - 1);
 	return heightMap[ix][iz];
 }
 

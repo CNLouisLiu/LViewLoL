@@ -5,15 +5,18 @@
 #include "windows.h"
 #include "MemoryLoadable.h"
 #include "UnitInfo.h"
+#include "MissileInfo.h"
+#include "Item.h"
 
 #include <boost/python/suite/indexing/map_indexing_suite.hpp>
 #include <boost/python.hpp>
 
 using namespace boost::python;
 
-class GameObject: MemoryLoadable {
+class GameObject: MemoryLoadable{
 
 public:
+	// Base
 	void           LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad = true);
 
 	bool           HasTags(const UnitTag& type1) const;
@@ -24,7 +27,9 @@ public:
 	float          GetSelectionRadius() const;
 	float          GetPathingRadius() const;
 	float          GetGameplayRadius() const;
+
 	float          GetBasicAttackMissileSpeed()  const;
+	float          GetBasicAttackWindup() const;
 
 	float          GetAttackSpeedRatio() const;
 	float          GetBaseMovementSpeed() const;
@@ -38,7 +43,7 @@ public:
 	bool           IsEqualTo(const GameObject& other) const;
 	bool           IsNotEqualTo(const GameObject& other) const;
 
-	object         GetPythonUnitInfo();
+public:
 
 	float          health;
 	float          baseAttack;
@@ -48,41 +53,81 @@ public:
 	float          crit;
 	float          critMulti;
 	float          abilityPower;
-	float          bonusAbilityPower;
 	float          atkSpeedMulti;
-
-	bool           isAlive;
-
-	std::string    name;
-
-	Vector3        position;
-
-	/* Team of the object 100 = Blue, 200 = Red, 300 = Jungle */
-	short          team;
-
-	/* In how many seconds the object expires */
+	float          movementSpeed;
 	float          duration;
 
-	/* True whenever the object is visible by the players team */
+	short          objectIndex;
+	short          team;
+	
 	bool           isVisible;
-
-	/* Address in memory. Used for debug purposes */
-	DWORD          address;
-
-	/* The gameTime when this object was last visible */
+	bool           isAlive;
 	float          lastVisibleAt;
 
-	/* Unique identifier of the object in game */
-	short            objectIndex;
+	
+	std::string    name;
+	Vector3        position;
 
-	DWORD            networkId;
+	DWORD          networkId;
+	DWORD          address;
 
-	UnitInfo*        info;
+	object         GetPythonUnitInfo();
+	UnitInfo*      unitInfo;
 
 protected:
-	static const SIZE_T sizeBuff = 0x3000;
+	static const SIZE_T sizeBuff = 0x4000;
 	static const SIZE_T sizeBuffDeep = 0x1000;
 
-	static BYTE buff[sizeBuff];
-	static BYTE buffDeep[sizeBuffDeep];
+	static BYTE   buff[sizeBuff];
+	static BYTE   buffDeep[sizeBuffDeep];
+
+	// Champion stuff
+public:
+	void    LoadChampionFromMem(DWORD base, HANDLE hProcess, bool deepLoad = true);
+	float   GetBasicAttackDamage();
+	Spell*  GetSummonerSpell(SummonerSpellType type);
+
+	bool    IsRanged();
+	float   GetOnHitPhysDamage(const GameObject& target);
+	float   GetOnHitMagicDamage(const GameObject& target);
+
+	tuple   ItemsToPyTuple();
+
+	Spell         Q = Spell(SpellSlot::Q);
+	Spell         W = Spell(SpellSlot::W);
+	Spell         E = Spell(SpellSlot::E);
+	Spell         R = Spell(SpellSlot::R);
+	Spell         D = Spell(SpellSlot::D);
+	Spell         F = Spell(SpellSlot::F);
+
+	DWORD         level;
+	Item*         items[6];
+private:
+	static DWORD  spellSlotPtrs[6];
+	static BYTE   itemListStruct[0x100];
+
+	// Missile stuff
+public:
+	void LoadMissileFromMem(DWORD base, HANDLE hProcess, bool deepLoad = true);
+
+	float GetSpeed() const;
+	float GetRange() const;
+	float GetRadius() const;
+	float GetRadiusImpact() const;
+	float GetAngleImpact() const;
+
+	bool HasMissileTags(const MissileTag& tag);
+	bool HasMissileTags2(const MissileTag& tag, const MissileTag& tag2);
+	bool HasMissileTags3(const MissileTag& tag, const MissileTag& tag2, const MissileTag& tag3);
+
+	bool EqualTags(const MissileTag& tag);
+	bool EqualTags2(const MissileTag& tag, const MissileTag& tag2);
+	bool EqualTags3(const MissileTag& tag, const MissileTag& tag2, const MissileTag& tag3);
+
+	short srcIndex;
+	short destIndex;
+	Vector3 startPos;
+	Vector3 endPos;
+
+	MissileInfo* missileInfo;
 };

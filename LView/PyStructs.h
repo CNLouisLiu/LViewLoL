@@ -5,7 +5,6 @@
 
 #include "GameObject.h"
 #include "ConfigSet.h"
-#include "Champion.h"
 #include "Spell.h"
 #include "PyGame.h"
 #include "Item.h"
@@ -54,6 +53,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("bonus_atk",            &GameObject::bonusAttack)
 		.def_readonly("armour",               &GameObject::armour)
 		.def_readonly("magic_resist",         &GameObject::magicResist)
+		.def_readonly("movement_speed",       &GameObject::movementSpeed)
 		.def_readonly("is_alive",             &GameObject::isAlive)
 		.def_readonly("name",                 &GameObject::name)
 		.def_readonly("pos",                  &GameObject::position)
@@ -65,7 +65,6 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("crit",                 &GameObject::crit)
 		.def_readonly("crit_multi",           &GameObject::critMulti)
 		.def_readonly("ap",                   &GameObject::abilityPower)
-		.def_readonly("bonus_ap",             &GameObject::bonusAbilityPower)
 		.def_readonly("atk_speed_multi",      &GameObject::atkSpeedMulti)
 		.def_readonly("unit",                 &GameObject::GetPythonUnitInfo)
 
@@ -73,7 +72,9 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("selection_radius",     &GameObject::GetSelectionRadius)
 		.def_readonly("pathing_radius",       &GameObject::GetPathingRadius)
 		.def_readonly("gameplay_radius",      &GameObject::GetGameplayRadius)
+
 		.def_readonly("basic_missile_speed",  &GameObject::GetBasicAttackMissileSpeed)
+		.def_readonly("basic_atk_windup",     &GameObject::GetBasicAttackWindup)
 		.def_readonly("hp_bar_height",        &GameObject::GetHpBarHeight)
 
 		.def_readonly("atk_speed_ratio",      &GameObject::GetAttackSpeedRatio)
@@ -89,21 +90,39 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("has_tags",                      &GameObject::HasTags)
 		.def("has_tags",                      &GameObject::HasTags2)
 		.def("has_tags",                      &GameObject::HasTags3)
-		;
 
-	class_<Champion, bases<GameObject>>("Champion")
-		.def_readonly("Q",         &Champion::Q)
-		.def_readonly("W",         &Champion::W)
-		.def_readonly("E",         &Champion::E)
-		.def_readonly("R",         &Champion::R)
-		.def_readonly("D",         &Champion::D)
-		.def_readonly("F",         &Champion::F)
-		.def_readonly("items",     &Champion::ItemsToPyTuple)
-		.def_readonly("lvl",       &Champion::level)
-
-		.def("get_basic_phys",     &Champion::GetOnHitPhysDamage)
-		.def("get_basic_magic",    &Champion::GetOnHitMagicDamage)
-		.def("get_summoner_spell", &Champion::GetSummonerSpell, return_value_policy<reference_existing_object>())
+		// Champion
+		.def_readonly("Q",                    &GameObject::Q)
+		.def_readonly("W",                    &GameObject::W)
+		.def_readonly("E",                    &GameObject::E)
+		.def_readonly("R",                    &GameObject::R)
+		.def_readonly("D",                    &GameObject::D)
+		.def_readonly("F",                    &GameObject::F)
+		.def_readonly("items",                &GameObject::ItemsToPyTuple)
+		.def_readonly("lvl",                  &GameObject::level)
+								              
+		.def("get_basic_phys",                &GameObject::GetOnHitPhysDamage)
+		.def("get_basic_magic",               &GameObject::GetOnHitMagicDamage)
+		.def("get_summoner_spell",            &GameObject::GetSummonerSpell, return_value_policy<reference_existing_object>())
+									          
+		// Missile					          
+		.def_readonly("src_idx",              &GameObject::srcIndex)
+		.def_readonly("dest_idx",             &GameObject::destIndex)
+		.def_readonly("start_pos",            &GameObject::startPos)
+		.def_readonly("end_pos",              &GameObject::endPos)
+									          
+		.def_readonly("radius",               &GameObject::GetRadius)
+		.def_readonly("impact_radius",        &GameObject::GetRadiusImpact)
+		.def_readonly("speed",                &GameObject::GetSpeed)
+		.def_readonly("range",                &GameObject::GetRange)
+		.def_readonly("impact_angle",         &GameObject::GetAngleImpact)
+									          
+		.def("has_tags",                      &GameObject::HasMissileTags)
+		.def("has_tags",                      &GameObject::HasMissileTags2)
+		.def("has_tags",                      &GameObject::HasMissileTags3)
+		.def("has_only_tags",                 &GameObject::EqualTags)
+		.def("has_only_tags",                 &GameObject::EqualTags2)
+		.def("has_only_tags",                 &GameObject::EqualTags3)
 		;
 
 	enum_<MissileTag>("MissileTag")
@@ -119,26 +138,6 @@ BOOST_PYTHON_MODULE(lview) {
 		.value("Pierce_Mob",        MissileTag::PIERCE_MOB)
 		.value("Pierce_Champion",   MissileTag::PIERCE_CHAMPION)
 		.value("Pierce_All",        MissileTag::PIERCE_ALL)
-		;
-
-	class_<Missile, bases<GameObject>>("Missile")
-		.def_readonly("src_idx",       &Missile::srcIndex)
-		.def_readonly("dest_idx",      &Missile::destIndex)
-		.def_readonly("start_pos",     &Missile::startPos)
-		.def_readonly("end_pos",       &Missile::endPos)
-		
-		.def_readonly("radius",        &Missile::GetRadius)
-		.def_readonly("impact_radius", &Missile::GetRadiusImpact)
-		.def_readonly("speed",         &Missile::GetSpeed)
-		.def_readonly("range",         &Missile::GetRange)
-		.def_readonly("impact_angle",  &Missile::GetAngleImpact)
-
-		.def("has_tags",               &Missile::HasMissileTags)
-		.def("has_tags",               &Missile::HasMissileTags2)
-		.def("has_tags",               &Missile::HasMissileTags3)
-		.def("has_only_tags",          &Missile::EqualTags)
-		.def("has_only_tags",          &Missile::EqualTags2)
-		.def("has_only_tags",          &Missile::EqualTags3)
 		;
 
 	class_<PyGame>("Game")
@@ -173,7 +172,8 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("draw_triangle_world",        &PyGame::DrawTriangleWorld)
 		.def("draw_triangle_world_filled", &PyGame::DrawTriangleWorldFilled)
 		.def("draw_button",                &PyGame::DrawButton,           PyGame::DrawButtonOverloads())
-										   
+						
+		.def("linear_collision",            &PyGame::LinearCollision)
 
 		.def("was_key_pressed",            &PyGame::WasKeyPressed)
 		.def("is_key_down",                &PyGame::IsKeyDown)
@@ -256,7 +256,9 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("normalize",   &Vector4::normalize)
 		.def("distance",    &Vector4::distance)
 		.def("scale",       &Vector4::scale)
+		.def("scale",       &Vector4::vscale)
 		.def("add",         &Vector4::add)
+		.def("sub",         &Vector4::sub)
 		.def("clone",       &Vector4::clone)
 		;
 
@@ -268,10 +270,12 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("normalize",   &Vector3::normalize)
 		.def("distance",    &Vector3::distance)
 		.def("scale",       &Vector3::scale)
+		.def("scale",       &Vector3::vscale)
 		.def("rotate_x",    &Vector3::rotate_x)
 		.def("rotate_y",    &Vector3::rotate_y)
 		.def("rotate_z",    &Vector3::rotate_z)
 		.def("add",         &Vector3::add)
+		.def("sub",         &Vector3::sub)
 		.def("clone",       &Vector3::clone)
 		;
 
@@ -282,7 +286,9 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("normalize",   &Vector2::normalize)
 		.def("distance",    &Vector2::distance)
 		.def("scale",       &Vector2::scale)
+		.def("scale",       &Vector2::vscale)
 		.def("add",         &Vector2::add)
+		.def("sub",         &Vector2::sub)
 		.def("clone",       &Vector2::clone)
 		;
 

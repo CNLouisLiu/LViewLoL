@@ -31,12 +31,14 @@ BOOL Process::IsProcessRunning(DWORD pid)
 	return ret == WAIT_TIMEOUT;
 }
 
-float League::Distance(const Vector2& first,const Vector2& second) {
-	return sqrt(pow(first.x - second.x, 2) + pow(first.y - second.y, 2));
-}
-
-float League::Distance(const Vector3& first, const Vector3& second) {
-	return sqrt(pow(first.x - second.x, 2) + pow(first.y - second.y, 2) + pow(first.z - second.z, 2));
+bool Character::ContainsOnlyASCII(const char* buff, int maxSize) {
+	for (int i = 0; i < maxSize; ++i) {
+		if (buff[i] == 0)
+			return true;
+		if ((unsigned char)buff[i] > 127)
+			return false;
+	}
+	return true;
 }
 
 float League::EffectiveHP(float health, float armour) {
@@ -50,6 +52,3 @@ float League::EffectiveDamage(float damage, float armour)
 	return damage * (2.f - (100.f/(100.f - armour)));
 }
 
-float League::Clamp(float val, float lo, float hi) {
-	return (val < lo) ? lo : (hi < val) ? hi : val;
-}

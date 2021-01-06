@@ -69,5 +69,6 @@ public:
 				               
 	MissileTag tags = MissileTag::NONE;
 
+	static MissileInfo*                        UnknownMissile;
 	static std::map<std::string, MissileInfo*> missiles;
 };

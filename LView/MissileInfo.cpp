@@ -1,9 +1,11 @@
 #include "MissileInfo.h"
 
+MissileInfo* MissileInfo::UnknownMissile = new MissileInfo();
+
 std::map<std::string, MissileInfo*> MissileInfo::missiles = {
 
 	{std::string("Unknown"),
-		(new MissileInfo())
+		UnknownMissile
 	},
 
 	// Aatrox

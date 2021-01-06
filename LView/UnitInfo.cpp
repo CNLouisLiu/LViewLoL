@@ -21,6 +21,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      347.79998779296875,
+	   /* basicAtkWindup       */      0.19736843137199542,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -42,6 +43,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1750.0,
+	   /* basicAtkWindup       */      0.20053500235080718,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -63,6 +65,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.13900000154972075,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -84,6 +87,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -105,6 +109,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      55.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.23384353816509246,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -126,6 +131,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1500.0,
+	   /* basicAtkWindup       */      0.19999999850988387,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -147,6 +153,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.2082999974489212,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -168,6 +175,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3957999974489212,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -189,6 +197,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      55.0,
        
        /* basicAtkMissileSpeed */      1200.0,
+	   /* basicAtkWindup       */      0.19579475671052932,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -210,7 +219,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Summon).set(Unit_Minion).set(Unit_Minion_Summon_Large)
+	   /* basicAtkWindup       */      0.4000000014901161,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion).set(Unit_Minion_Summon).set(Unit_Minion_Summon_Large)
   })
 },
 
@@ -231,6 +241,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.15333333611488342,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -252,7 +263,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      20.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Summon).set(Unit_Minion)
+	   /* basicAtkWindup       */      0.21929824650287627,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion).set(Unit_Minion_Summon)
   })
 },
 
@@ -273,6 +285,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2500.0,
+	   /* basicAtkWindup       */      0.21929824650287627,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -294,6 +307,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      1.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.31218749955296515,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -315,7 +329,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      110.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Epic).set(Unit_Monster).set(Unit_Monster_Camp).set(Unit_Special_Void)
+	   /* basicAtkWindup       */      0.3779999812444051,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Camp).set(Unit_Monster_Epic).set(Unit_Special_Void)
   })
 },
 
@@ -336,7 +351,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_MonsterIgnores).set(Unit_Special_EpicMonsterIgnores).set(Unit_Minion).set(Unit_Special_TurretIgnores)
+	   /* basicAtkWindup       */      0.37199999690055846,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special_MonsterIgnores).set(Unit_Special_TurretIgnores).set(Unit_Minion).set(Unit_Special_EpicMonsterIgnores)
   })
 },
 
@@ -357,6 +373,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      4000.0,
+	   /* basicAtkWindup       */      0.19999999850988387,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -378,6 +395,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2600.0,
+	   /* basicAtkWindup       */      0.1562499976716936,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -399,6 +417,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.2062500051222741,
 	   /* tags                 */      std::bitset<128>().set(Unit_Special_AzirW)
   })
 },
@@ -420,7 +439,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret)
+	   /* basicAtkWindup       */      0.04999999999999999,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure)
   })
 },
 
@@ -441,6 +461,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.2082999974489212,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -462,6 +483,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      125.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3957999974489212,
 	   /* tags                 */      std::bitset<128>().set(Unit_Special_AzirR)
   })
 },
@@ -483,6 +505,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      2000.0,
+	   /* basicAtkWindup       */      0.18750000465661282,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -504,6 +527,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      50.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -525,6 +549,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -546,6 +571,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -567,6 +593,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -588,6 +615,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.27000000067055224,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -609,7 +637,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      1.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_TurretIgnores).set(Unit_Special).set(Unit_Ward)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special).set(Unit_Special_TurretIgnores).set(Unit_Ward)
   })
 },
 
@@ -630,6 +659,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2000.0,
+	   /* basicAtkWindup       */      0.18750000298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -651,6 +681,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      347.79998779296875,
+	   /* basicAtkWindup       */      0.22999999970197677,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -672,6 +703,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -693,6 +725,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -714,7 +747,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret_Outer).set(Unit_Structure_Turret)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Outer).set(Unit_Structure)
   })
 },
 
@@ -735,7 +769,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret).set(Unit_Structure_Turret_Inhib)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Inhib).set(Unit_Structure)
   })
 },
 
@@ -756,7 +791,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret).set(Unit_Structure_Turret_Nexus)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure).set(Unit_Structure_Turret_Nexus)
   })
 },
 
@@ -777,6 +813,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.13900000154972075,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -798,6 +835,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -819,7 +857,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret_Outer).set(Unit_Structure_Turret)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Outer).set(Unit_Structure)
   })
 },
 
@@ -840,7 +879,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret).set(Unit_Structure_Turret_Inhib)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Inhib).set(Unit_Structure)
   })
 },
 
@@ -861,7 +901,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret).set(Unit_Structure_Turret_Nexus)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure).set(Unit_Structure_Turret_Nexus)
   })
 },
 
@@ -882,6 +923,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.13900000154972075,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -903,6 +945,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -924,6 +967,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -945,6 +989,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -966,6 +1011,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -987,6 +1033,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -1008,6 +1055,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -1029,6 +1077,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -1050,6 +1099,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -1071,6 +1121,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -1092,6 +1143,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -1113,6 +1165,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -1134,6 +1187,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -1155,6 +1209,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -1176,6 +1231,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -1197,6 +1253,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -1218,6 +1275,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -1239,6 +1297,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2500.0,
+	   /* basicAtkWindup       */      0.17708333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1260,6 +1319,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_Special_Trap).set(Unit_Special)
   })
 },
@@ -1281,6 +1341,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      467.0,
+	   /* basicAtkWindup       */      0.19329897105180688,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1302,6 +1363,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1200.0,
+	   /* basicAtkWindup       */      0.19199999719858168,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1323,6 +1385,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.19199999719858168,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1344,7 +1407,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Inhibitor)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Inhibitor).set(Unit_Structure)
   })
 },
 
@@ -1365,6 +1429,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -1386,7 +1451,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Nexus)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Nexus).set(Unit_Structure)
   })
 },
 
@@ -1407,7 +1473,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_Void).set(Unit_Champion)
+	   /* basicAtkWindup       */      0.2189999997615814,
+	   /* tags                 */      std::bitset<128>().set(Unit_Champion).set(Unit_Special_Void)
   })
 },
 
@@ -1428,6 +1495,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2000.0,
+	   /* basicAtkWindup       */      0.09999999701976775,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1449,6 +1517,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.2082999974489212,
 	   /* tags                 */      std::bitset<128>().set(Unit_Special_TeleportTarget).set(Unit_Special_CorkiBomb).set(Unit_Special)
   })
 },
@@ -1470,6 +1539,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.2082999974489212,
 	   /* tags                 */      std::bitset<128>().set(Unit_Special_TeleportTarget).set(Unit_Special)
   })
 },
@@ -1491,6 +1561,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.19999999850988387,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1512,6 +1583,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -1533,6 +1605,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -1554,6 +1627,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      347.79998779296875,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1575,6 +1649,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_Special_Trap).set(Unit_Special)
   })
 },
@@ -1596,6 +1671,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      40.0,
        
        /* basicAtkMissileSpeed */      700.0,
+	   /* basicAtkWindup       */      0.3,
 	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Champion).set(Unit_Monster_Epic)
   })
 },
@@ -1617,6 +1693,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -1638,6 +1715,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1600.0,
+	   /* basicAtkWindup       */      0.15614392154038143,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1659,6 +1737,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.16031250655651091,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1680,6 +1759,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.16249999161809695,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1701,6 +1781,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1600.0,
+	   /* basicAtkWindup       */      0.18750000298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1722,6 +1803,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20900000184774398,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1743,7 +1825,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      1.0,
        
        /* basicAtkMissileSpeed */      2000.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Summon).set(Unit_Minion)
+	   /* basicAtkWindup       */      0.3,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion).set(Unit_Minion_Summon)
   })
 },
 
@@ -1764,6 +1847,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      467.0,
+	   /* basicAtkWindup       */      0.15333333611488342,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1785,6 +1869,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2000.0,
+	   /* basicAtkWindup       */      0.1883865252137184,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1806,6 +1891,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1827,6 +1913,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      467.0,
+	   /* basicAtkWindup       */      0.1379310320021849,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1848,6 +1935,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      55.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20299999713897704,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1869,6 +1957,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20312500298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -1890,6 +1979,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20312500298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -1911,6 +2001,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.2062500051222741,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1932,6 +2023,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.1644736862743991,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1953,7 +2045,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_UntargetableBySpells).set(Unit_IsolationNonImpacting)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_IsolationNonImpacting).set(Unit_Special_UntargetableBySpells)
   })
 },
 
@@ -1974,6 +2067,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      347.79998779296875,
+	   /* basicAtkWindup       */      0.180000002682209,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -1995,6 +2089,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      55.0,
        
        /* basicAtkMissileSpeed */      1500.0,
+	   /* basicAtkWindup       */      0.14600000083446502,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -2016,6 +2111,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -2037,6 +2133,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.24999999925494193,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -2058,6 +2155,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      3000.0,
+	   /* basicAtkWindup       */      0.0050000131130218395,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -2079,6 +2177,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2100,6 +2199,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2121,6 +2221,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2142,6 +2243,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2163,6 +2265,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2184,7 +2287,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret_Outer).set(Unit_Structure_Turret)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Outer).set(Unit_Structure)
   })
 },
 
@@ -2205,7 +2309,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret).set(Unit_Structure_Turret_Inhib)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Inhib).set(Unit_Structure)
   })
 },
 
@@ -2226,7 +2331,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret).set(Unit_Structure_Turret_Nexus)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure).set(Unit_Structure_Turret_Nexus)
   })
 },
 
@@ -2247,6 +2353,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2268,7 +2375,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret_Shrine).set(Unit_Structure_Turret)
+	   /* basicAtkWindup       */      0.4000000014901161,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Shrine).set(Unit_Structure)
   })
 },
 
@@ -2289,6 +2397,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
+	   /* basicAtkWindup       */      0.3,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2310,6 +2419,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2331,6 +2441,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.4209999993443489,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2352,6 +2463,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2373,6 +2485,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2394,6 +2507,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2415,7 +2529,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret_Shrine).set(Unit_Structure_Turret)
+	   /* basicAtkWindup       */      0.4000000014901161,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Shrine).set(Unit_Structure)
   })
 },
 
@@ -2436,7 +2551,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret_Outer).set(Unit_Structure_Turret)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Outer).set(Unit_Structure)
   })
 },
 
@@ -2457,7 +2573,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret).set(Unit_Structure_Turret_Inhib)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Inhib).set(Unit_Structure)
   })
 },
 
@@ -2478,7 +2595,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret).set(Unit_Structure_Turret_Nexus)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure).set(Unit_Structure_Turret_Nexus)
   })
 },
 
@@ -2499,6 +2617,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2520,6 +2639,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
+	   /* basicAtkWindup       */      0.3,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2541,6 +2661,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2562,6 +2683,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2583,6 +2705,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      50.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2604,6 +2727,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2625,6 +2749,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2646,6 +2771,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2667,6 +2793,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2688,7 +2815,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      48.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Melee).set(Unit_Minion).set(Unit_Minion_Lane)
+	   /* basicAtkWindup       */      0.4912500010244548,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane).set(Unit_Minion).set(Unit_Minion_Lane_Melee)
   })
 },
 
@@ -2709,7 +2837,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      48.0,
        
        /* basicAtkMissileSpeed */      650.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Ranged).set(Unit_Minion).set(Unit_Minion_Lane)
+	   /* basicAtkWindup       */      0.31333333253860474,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane).set(Unit_Minion).set(Unit_Minion_Lane_Ranged)
   })
 },
 
@@ -2730,7 +2859,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Siege).set(Unit_Minion).set(Unit_Minion_Lane)
+	   /* basicAtkWindup       */      0.30000001192092896,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Siege).set(Unit_Minion_Lane).set(Unit_Minion)
   })
 },
 
@@ -2751,7 +2881,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Super).set(Unit_Minion).set(Unit_Minion_Lane)
+	   /* basicAtkWindup       */      0.3472222084248513,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane).set(Unit_Minion).set(Unit_Minion_Lane_Super)
   })
 },
 
@@ -2772,6 +2903,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.4209999993443489,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -2793,7 +2925,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      48.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Melee).set(Unit_Minion).set(Unit_Minion_Lane)
+	   /* basicAtkWindup       */      0.4912500010244548,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane).set(Unit_Minion).set(Unit_Minion_Lane_Melee)
   })
 },
 
@@ -2814,7 +2947,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      48.0,
        
        /* basicAtkMissileSpeed */      650.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Ranged).set(Unit_Minion).set(Unit_Minion_Lane)
+	   /* basicAtkWindup       */      0.31333333253860474,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane).set(Unit_Minion).set(Unit_Minion_Lane_Ranged)
   })
 },
 
@@ -2835,7 +2969,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Siege).set(Unit_Minion).set(Unit_Minion_Lane)
+	   /* basicAtkWindup       */      0.30000001192092896,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Siege).set(Unit_Minion_Lane).set(Unit_Minion)
   })
 },
 
@@ -2856,7 +2991,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Super).set(Unit_Minion).set(Unit_Minion_Lane)
+	   /* basicAtkWindup       */      0.3472222084248513,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane).set(Unit_Minion).set(Unit_Minion_Lane_Super)
   })
 },
 
@@ -2877,6 +3013,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.24999999925494193,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -2898,6 +3035,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      55.0,
        
        /* basicAtkMissileSpeed */      1500.0,
+	   /* basicAtkWindup       */      0.2007812514901161,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -2919,7 +3057,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      35.0,
        
        /* basicAtkMissileSpeed */      1599.39990234375,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Summon).set(Unit_Minion)
+	   /* basicAtkWindup       */      0.28802000004798173,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion).set(Unit_Minion_Summon)
   })
 },
 
@@ -2940,7 +3079,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      35.0,
        
        /* basicAtkMissileSpeed */      1599.39990234375,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Summon).set(Unit_Minion)
+	   /* basicAtkWindup       */      0.28802000004798173,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion).set(Unit_Minion_Summon)
   })
 },
 
@@ -2961,6 +3101,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      467.0,
+	   /* basicAtkWindup       */      0.21428571428571427,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -2982,7 +3123,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_IsolationNonImpacting).set(Unit_Special_TurretIgnores).set(Unit_Special_UntargetableBySpells).set(Unit_Special_TeleportTarget).set(Unit_Special_KPMinion)
+	   /* basicAtkWindup       */      0.19999999850988387,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special_TurretIgnores).set(Unit_Special_TeleportTarget).set(Unit_Special_UntargetableBySpells).set(Unit_IsolationNonImpacting).set(Unit_Special_KPMinion)
   })
 },
 
@@ -3003,6 +3145,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      467.0,
+	   /* basicAtkWindup       */      0.19672132236795462,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3024,6 +3167,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -3045,6 +3189,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      100.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.180000002682209,
 	   /* tags                 */      std::bitset<128>().set(Unit_Monster)
   })
 },
@@ -3066,7 +3211,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      70.0,
        
        /* basicAtkMissileSpeed */      4000.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Champion).set(Unit_Special_MonsterIgnores)
+	   /* basicAtkWindup       */      0.22999999970197677,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special_MonsterIgnores).set(Unit_Champion)
   })
 },
 
@@ -3087,7 +3233,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      100.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_MonsterIgnores).set(Unit_Minion_Summon).set(Unit_Minion).set(Unit_Minion_Summon_Large)
+	   /* basicAtkWindup       */      0.3680981752129367,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special_MonsterIgnores).set(Unit_Minion).set(Unit_Minion_Summon).set(Unit_Minion_Summon_Large)
   })
 },
 
@@ -3108,6 +3255,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      0.009999999776482582,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_Special_TurretIgnores).set(Unit_Special)
   })
 },
@@ -3129,7 +3277,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      1.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_TurretIgnores).set(Unit_Special).set(Unit_Ward)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special).set(Unit_Special_TurretIgnores).set(Unit_Ward)
   })
 },
 
@@ -3150,6 +3299,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1600.0,
+	   /* basicAtkWindup       */      0.22000000178813933,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3171,6 +3321,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      20.0,
+	   /* basicAtkWindup       */      0.17544000148773192,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3192,6 +3343,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_Special_TeleportTarget).set(Unit_Special)
   })
 },
@@ -3213,6 +3365,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3957999974489212,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -3234,6 +3387,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      400.0,
+	   /* basicAtkWindup       */      0.20810956060886382,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3255,6 +3409,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      347.79998779296875,
+	   /* basicAtkWindup       */      0.09500000178813933,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3276,6 +3431,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2600.0,
+	   /* basicAtkWindup       */      0.1562499976716936,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3297,7 +3453,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      125.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_IsolationNonImpacting).set(Unit_Special_Trap).set(Unit_Special_TurretIgnores).set(Unit_Special_UntargetableBySpells).set(Unit_Special_TeleportTarget).set(Unit_Special)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special_TurretIgnores).set(Unit_Special_TeleportTarget).set(Unit_Special).set(Unit_Special_UntargetableBySpells).set(Unit_IsolationNonImpacting).set(Unit_Special_Trap)
   })
 },
 
@@ -3318,6 +3475,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2750.0,
+	   /* basicAtkWindup       */      0.1770812432902866,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3339,6 +3497,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_Special_Trap).set(Unit_Special)
   })
 },
@@ -3360,6 +3519,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2000.0,
+	   /* basicAtkWindup       */      0.1610824694756635,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3381,6 +3541,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2600.0,
+	   /* basicAtkWindup       */      0.3599999986588955,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3402,6 +3563,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.2082999974489212,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -3423,7 +3585,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_UntargetableBySpells).set(Unit_Special_TurretIgnores)
+	   /* basicAtkWindup       */      0.37199999690055846,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special_TurretIgnores).set(Unit_Special_UntargetableBySpells)
   })
 },
 
@@ -3444,6 +3607,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1500.0,
+	   /* basicAtkWindup       */      0.16145833134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3465,6 +3629,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1200.0,
+	   /* basicAtkWindup       */      0.3,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3486,6 +3651,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.1499999940395355,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3507,6 +3673,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      467.0,
+	   /* basicAtkWindup       */      0.1499999940395355,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3528,6 +3695,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.19354840074195864,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3549,6 +3717,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      347.79998779296875,
+	   /* basicAtkWindup       */      0.1872909700996789,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3570,6 +3739,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      55.0,
        
        /* basicAtkMissileSpeed */      1700.0,
+	   /* basicAtkWindup       */      0.19999999850988387,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3591,7 +3761,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_Void).set(Unit_Champion)
+	   /* basicAtkWindup       */      0.20053475648164748,
+	   /* tags                 */      std::bitset<128>().set(Unit_Champion).set(Unit_Special_Void)
   })
 },
 
@@ -3612,6 +3783,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2000.0,
+	   /* basicAtkWindup       */      0.1754386007785797,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3633,6 +3805,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -3654,6 +3827,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      347.79998779296875,
+	   /* basicAtkWindup       */      0.1754386007785797,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -3675,7 +3849,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      100.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Epic).set(Unit_Monster).set(Unit_KingPoro)
+	   /* basicAtkWindup       */      0.7065868130966041,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Epic).set(Unit_KingPoro)
   })
 },
 
@@ -3696,6 +3871,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -3717,6 +3893,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.17499999813735487,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3738,7 +3915,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Summon).set(Unit_Minion)
+	   /* basicAtkWindup       */      0.1379310320021849,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion).set(Unit_Minion_Summon)
   })
 },
 
@@ -3759,6 +3937,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      55.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.21710527450919495,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3780,7 +3959,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1800.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_Void).set(Unit_Champion)
+	   /* basicAtkWindup       */      0.16622340977191924,
+	   /* tags                 */      std::bitset<128>().set(Unit_Champion).set(Unit_Special_Void)
   })
 },
 
@@ -3801,7 +3981,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_Void).set(Unit_Champion)
+	   /* basicAtkWindup       */      0.16622340977191924,
+	   /* tags                 */      std::bitset<128>().set(Unit_Champion).set(Unit_Special_Void)
   })
 },
 
@@ -3822,6 +4003,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1700.0,
+	   /* basicAtkWindup       */      0.16666665971279143,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3843,6 +4025,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.19531250298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3864,6 +4047,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      347.79998779296875,
+	   /* basicAtkWindup       */      0.22916666716337203,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3885,6 +4069,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.14705881940452298,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3906,6 +4091,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2000.0,
+	   /* basicAtkWindup       */      0.18750000298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3927,7 +4113,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      1.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_TurretIgnores).set(Unit_Special).set(Unit_Ward)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special).set(Unit_Special_TurretIgnores).set(Unit_Ward)
   })
 },
 
@@ -3948,6 +4135,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2800.0,
+	   /* basicAtkWindup       */      0.1499999940395355,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3969,6 +4157,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1450.0,
+	   /* basicAtkWindup       */      0.18750000298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -3990,6 +4179,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20053500235080718,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -4011,6 +4201,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1600.0,
+	   /* basicAtkWindup       */      0.15625000298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4032,6 +4223,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.15625000298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4053,6 +4245,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.15625000298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4074,6 +4267,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.15625000298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4095,6 +4289,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.15625000298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4116,6 +4311,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.15625000298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4137,6 +4333,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.15625000298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4158,6 +4355,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.15625000298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4179,6 +4377,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.15625000298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4200,6 +4399,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.15625000298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4221,6 +4421,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      1000.0,
+	   /* basicAtkWindup       */      0.2496811218559742,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4242,6 +4443,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2000.0,
+	   /* basicAtkWindup       */      0.19000000059604644,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4263,7 +4465,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      10.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Summon).set(Unit_Minion)
+	   /* basicAtkWindup       */      0.3,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion).set(Unit_Minion_Summon)
   })
 },
 
@@ -4284,6 +4487,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4305,7 +4509,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      48.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Summon).set(Unit_Special_Trap).set(Unit_Minion).set(Unit_Special)
+	   /* basicAtkWindup       */      0.31218749955296515,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special_Trap).set(Unit_Minion).set(Unit_Minion_Summon).set(Unit_Special)
   })
 },
 
@@ -4326,6 +4531,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.2437500014901161,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4347,6 +4553,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2000.0,
+	   /* basicAtkWindup       */      0.14800663590431212,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4368,6 +4575,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      20.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4389,7 +4597,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Champion).set(Unit_Champion_Clone)
+	   /* basicAtkWindup       */      0.23946360051631926,
+	   /* tags                 */      std::bitset<128>().set(Unit_Champion_Clone).set(Unit_Champion)
   })
 },
 
@@ -4410,7 +4619,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Champion).set(Unit_Champion_Clone)
+	   /* basicAtkWindup       */      0.23946360051631926,
+	   /* tags                 */      std::bitset<128>().set(Unit_Champion_Clone).set(Unit_Champion)
   })
 },
 
@@ -4431,6 +4641,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.21132714002597613,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4452,6 +4663,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1600.0,
+	   /* basicAtkWindup       */      0.14000000357627868,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4473,6 +4685,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1500.0,
+	   /* basicAtkWindup       */      0.180000002682209,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4494,6 +4707,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20139634907245635,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4515,6 +4729,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20139634907245635,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4536,6 +4751,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      1000.0,
+	   /* basicAtkWindup       */      0.3063725491054356,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4557,6 +4773,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      2000.0,
+	   /* basicAtkWindup       */      0.2148387190553825,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4578,6 +4795,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2500.0,
+	   /* basicAtkWindup       */      0.1499999940395355,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4599,6 +4817,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.1499999940395355,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4620,7 +4839,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      50.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_IsolationNonImpacting).set(Unit_Special_Trap).set(Unit_Special_TurretIgnores).set(Unit_Special_UntargetableBySpells).set(Unit_Special_TeleportTarget).set(Unit_Special)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special_TurretIgnores).set(Unit_Special_TeleportTarget).set(Unit_Special).set(Unit_Special_UntargetableBySpells).set(Unit_IsolationNonImpacting).set(Unit_Special_Trap)
   })
 },
 
@@ -4641,7 +4861,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      110.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Epic).set(Unit_Monster).set(Unit_Monster_Camp).set(Unit_Special_Void)
+	   /* basicAtkWindup       */      0.25,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Camp).set(Unit_Monster_Epic).set(Unit_Special_Void)
   })
 },
 
@@ -4662,6 +4883,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20053475648164748,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4683,6 +4905,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -4704,6 +4927,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -4725,6 +4949,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.19358600229024886,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4746,6 +4971,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      48.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.31218749955296515,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -4767,6 +4993,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      347.79998779296875,
+	   /* basicAtkWindup       */      0.23437500298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4788,6 +5015,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      50.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3595000013709068,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -4809,7 +5037,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Inhibitor)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Inhibitor).set(Unit_Structure)
   })
 },
 
@@ -4830,6 +5059,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -4851,7 +5081,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Nexus)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Nexus).set(Unit_Structure)
   })
 },
 
@@ -4872,6 +5103,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1450.0,
+	   /* basicAtkWindup       */      0.1754385933279991,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4893,6 +5125,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      48.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.31218749955296515,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -4914,6 +5147,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.1754385933279991,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4935,6 +5169,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.2187499930150808,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4956,6 +5191,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -4977,6 +5213,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      20.0,
+	   /* basicAtkWindup       */      0.1903125002980232,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -4998,6 +5235,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      50.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5019,7 +5257,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      1.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_TurretIgnores).set(Unit_Special).set(Unit_Ward)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special).set(Unit_Special_TurretIgnores).set(Unit_Ward)
   })
 },
 
@@ -5040,6 +5279,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5061,6 +5301,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5082,6 +5323,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5103,6 +5345,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5124,6 +5367,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5145,6 +5389,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5166,6 +5411,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5187,6 +5433,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5208,6 +5455,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5229,6 +5477,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5250,6 +5499,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5271,6 +5521,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5292,6 +5543,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5313,6 +5565,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5334,6 +5587,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5355,6 +5609,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5376,6 +5631,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5397,6 +5653,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5418,6 +5675,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      55.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.2343749965075404,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5439,6 +5697,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5460,7 +5719,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret)
+	   /* basicAtkWindup       */      0.04999999999999999,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure)
   })
 },
 
@@ -5481,6 +5741,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5502,6 +5763,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      347.79998779296875,
+	   /* basicAtkWindup       */      0.20000000794728598,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5523,6 +5785,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.15333333611488342,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5544,6 +5807,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2000.0,
+	   /* basicAtkWindup       */      0.1754386007785797,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5565,6 +5829,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.1754386007785797,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -5586,6 +5851,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1000.0,
+	   /* basicAtkWindup       */      0.17142857305046647,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5607,6 +5873,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.22916666716337203,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5628,6 +5895,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.22916666716337203,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5649,6 +5917,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5670,7 +5939,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_Void).set(Unit_Champion)
+	   /* basicAtkWindup       */      0.26666667064030963,
+	   /* tags                 */      std::bitset<128>().set(Unit_Champion).set(Unit_Special_Void)
   })
 },
 
@@ -5691,7 +5961,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_Tunnel).set(Unit_IsolationNonImpacting).set(Unit_Special_TeleportTarget)
+	   /* basicAtkWindup       */      0.2082999974489212,
+	   /* tags                 */      std::bitset<128>().set(Unit_IsolationNonImpacting).set(Unit_Special_TeleportTarget).set(Unit_Special_Tunnel)
   })
 },
 
@@ -5712,6 +5983,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.17730496376752852,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5733,6 +6005,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20000000794728598,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5754,6 +6027,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      347.79998779296875,
+	   /* basicAtkWindup       */      0.16666665971279143,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5775,6 +6049,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      347.79998779296875,
+	   /* basicAtkWindup       */      0.22916666716337203,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5796,6 +6071,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2400.0,
+	   /* basicAtkWindup       */      0.19999999850988387,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5817,6 +6093,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.38416999876499175,
 	   /* tags                 */      std::bitset<128>().set(Unit_Special_TurretIgnores).set(Unit_Special)
   })
 },
@@ -5838,6 +6115,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2800.0,
+	   /* basicAtkWindup       */      0.1499999940395355,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5859,6 +6137,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.18750000465661282,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5880,6 +6159,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      8000.0,
+	   /* basicAtkWindup       */      0.3437500023283064,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5901,7 +6181,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_UntargetableBySpells).set(Unit_IsolationNonImpacting)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_IsolationNonImpacting).set(Unit_Special_UntargetableBySpells)
   })
 },
 
@@ -5922,6 +6203,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.18700000196695327,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5943,6 +6225,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      20.0,
+	   /* basicAtkWindup       */      0.21428571428571427,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5964,6 +6247,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.22150383442640303,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -5985,7 +6269,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      50.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_Trap).set(Unit_Minion_Summon).set(Unit_Special_TeleportTarget).set(Unit_Minion).set(Unit_Special)
+	   /* basicAtkWindup       */      0.28802000004798173,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special_TeleportTarget).set(Unit_Special).set(Unit_Minion_Summon).set(Unit_Minion).set(Unit_Special_Trap)
   })
 },
 
@@ -6006,6 +6291,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.1736067724845715,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -6027,6 +6313,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -6048,6 +6335,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      467.0,
+	   /* basicAtkWindup       */      0.19736842364072799,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -6069,6 +6357,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.24122806936502456,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -6090,7 +6379,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      1.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_UntargetableBySpells).set(Unit_Special_TurretIgnores).set(Unit_Special).set(Unit_Ward)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special).set(Unit_Special_TurretIgnores).set(Unit_Ward).set(Unit_Special_UntargetableBySpells)
   })
 },
 
@@ -6111,6 +6401,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.2361487329006195,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -6132,6 +6423,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.2490942023694515,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -6153,6 +6445,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1750.0,
+	   /* basicAtkWindup       */      0.11999999284744262,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -6174,6 +6467,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.180000002682209,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -6195,6 +6489,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -6216,6 +6511,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3595000013709068,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -6237,6 +6533,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1500.0,
+	   /* basicAtkWindup       */      0.1718212991952896,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -6258,6 +6555,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.1718212991952896,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -6279,6 +6577,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.1718212991952896,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -6300,6 +6599,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.1718212991952896,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -6321,6 +6621,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1000.0,
+	   /* basicAtkWindup       */      0.18700000196695327,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -6342,6 +6643,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3595000013709068,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -6363,7 +6665,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Inhibitor)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Inhibitor).set(Unit_Structure)
   })
 },
 
@@ -6384,6 +6687,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -6405,7 +6709,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Nexus)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Nexus).set(Unit_Structure)
   })
 },
 
@@ -6426,6 +6731,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -6447,6 +6753,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -6468,7 +6775,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret_Shrine).set(Unit_Structure_Turret)
+	   /* basicAtkWindup       */      0.4000000014901161,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Shrine).set(Unit_Structure)
   })
 },
 
@@ -6489,7 +6797,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Inhibitor)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Inhibitor).set(Unit_Structure)
   })
 },
 
@@ -6510,6 +6819,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -6531,7 +6841,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Nexus)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Nexus).set(Unit_Structure)
   })
 },
 
@@ -6552,6 +6863,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -6573,7 +6885,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret_Outer).set(Unit_Structure_Turret)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Outer).set(Unit_Structure)
   })
 },
 
@@ -6594,7 +6907,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret_Outer).set(Unit_Structure_Turret)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Outer).set(Unit_Structure)
   })
 },
 
@@ -6615,6 +6929,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -6636,7 +6951,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret_Inner).set(Unit_Structure_Turret)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure).set(Unit_Structure_Turret_Inner)
   })
 },
 
@@ -6657,7 +6973,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret).set(Unit_Structure_Turret_Inhib)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Inhib).set(Unit_Structure)
   })
 },
 
@@ -6678,7 +6995,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret).set(Unit_Structure_Turret_Inhib)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Inhib).set(Unit_Structure)
   })
 },
 
@@ -6699,7 +7017,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret).set(Unit_Structure_Turret_Nexus)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure).set(Unit_Structure_Turret_Nexus)
   })
 },
 
@@ -6720,7 +7039,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret_Shrine).set(Unit_Structure_Turret)
+	   /* basicAtkWindup       */      0.4000000014901161,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Shrine).set(Unit_Structure)
   })
 },
 
@@ -6741,7 +7061,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret_Outer).set(Unit_Structure_Turret)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Outer).set(Unit_Structure)
   })
 },
 
@@ -6762,7 +7083,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret_Outer).set(Unit_Structure_Turret)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Outer).set(Unit_Structure)
   })
 },
 
@@ -6783,6 +7105,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -6804,7 +7127,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret_Inner).set(Unit_Structure_Turret)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure).set(Unit_Structure_Turret_Inner)
   })
 },
 
@@ -6825,7 +7149,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret).set(Unit_Structure_Turret_Inhib)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Inhib).set(Unit_Structure)
   })
 },
 
@@ -6846,7 +7171,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret).set(Unit_Structure_Turret_Inhib)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Inhib).set(Unit_Structure)
   })
 },
 
@@ -6867,7 +7193,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret).set(Unit_Structure_Turret_Nexus)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure).set(Unit_Structure_Turret_Nexus)
   })
 },
 
@@ -6888,7 +7215,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret_Shrine).set(Unit_Structure_Turret)
+	   /* basicAtkWindup       */      0.4000000014901161,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Shrine).set(Unit_Structure)
   })
 },
 
@@ -6909,6 +7237,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -6930,7 +7259,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      105.0,
        
        /* basicAtkMissileSpeed */      1300.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Epic).set(Unit_Monster).set(Unit_Monster_Camp).set(Unit_Special_Void)
+	   /* basicAtkWindup       */      0.17687499259598563,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Camp).set(Unit_Monster_Epic).set(Unit_Special_Void)
   })
 },
 
@@ -6951,6 +7281,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      1.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.13732640743255614,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -6972,6 +7303,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.13732640743255614,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -6993,7 +7325,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      131.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Blue).set(Unit_Monster_Buff).set(Unit_Monster_Large).set(Unit_Monster_Camp)
+	   /* basicAtkWindup       */      0.27931033490529084,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Camp).set(Unit_Monster_Blue).set(Unit_Monster).set(Unit_Monster_Large).set(Unit_Monster_Buff)
   })
 },
 
@@ -7014,7 +7347,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      50.0,
        
        /* basicAtkMissileSpeed */      750.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Blue).set(Unit_Monster).set(Unit_Monster_Camp)
+	   /* basicAtkWindup       */      0.2912499898485841,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Camp).set(Unit_Monster_Blue)
   })
 },
 
@@ -7035,7 +7369,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      50.0,
        
        /* basicAtkMissileSpeed */      750.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Blue).set(Unit_Monster).set(Unit_Monster_Camp)
+	   /* basicAtkWindup       */      0.2912499898485841,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Camp).set(Unit_Monster_Blue)
   })
 },
 
@@ -7056,6 +7391,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_Special)
   })
 },
@@ -7077,7 +7413,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      48.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Melee).set(Unit_Minion).set(Unit_Minion_Lane)
+	   /* basicAtkWindup       */      0.4912500010244548,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane).set(Unit_Minion).set(Unit_Minion_Lane_Melee)
   })
 },
 
@@ -7098,7 +7435,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      48.0,
        
        /* basicAtkMissileSpeed */      650.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Ranged).set(Unit_Minion).set(Unit_Minion_Lane)
+	   /* basicAtkWindup       */      0.31333333253860474,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane).set(Unit_Minion).set(Unit_Minion_Lane_Ranged)
   })
 },
 
@@ -7119,7 +7457,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Siege).set(Unit_Minion).set(Unit_Minion_Lane)
+	   /* basicAtkWindup       */      0.30000001192092896,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Siege).set(Unit_Minion_Lane).set(Unit_Minion)
   })
 },
 
@@ -7140,7 +7479,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Super).set(Unit_Minion).set(Unit_Minion_Lane)
+	   /* basicAtkWindup       */      0.3472222084248513,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane).set(Unit_Minion).set(Unit_Minion_Lane_Super)
   })
 },
 
@@ -7161,7 +7501,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      50.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Crab).set(Unit_Special_Peaceful).set(Unit_Monster_Large).set(Unit_Monster_Camp)
+	   /* basicAtkWindup       */      0.180000002682209,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Camp).set(Unit_Special_Peaceful).set(Unit_Monster).set(Unit_Monster_Large).set(Unit_Monster_Crab)
   })
 },
 
@@ -7182,6 +7523,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      50.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.180000002682209,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -7203,7 +7545,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      125.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Dragon).set(Unit_Monster_Epic).set(Unit_Monster).set(Unit_Monster_Camp)
+	   /* basicAtkWindup       */      0.4000000059604645,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Dragon).set(Unit_Monster_Camp).set(Unit_Monster_Epic)
   })
 },
 
@@ -7224,7 +7567,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      125.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Dragon).set(Unit_Monster_Epic).set(Unit_Monster).set(Unit_Monster_Camp)
+	   /* basicAtkWindup       */      0.4000000059604645,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Dragon).set(Unit_Monster_Camp).set(Unit_Monster_Epic)
   })
 },
 
@@ -7245,7 +7589,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      125.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Dragon).set(Unit_Monster_Epic).set(Unit_Monster).set(Unit_Monster_Camp)
+	   /* basicAtkWindup       */      0.4000000059604645,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Dragon).set(Unit_Monster_Camp).set(Unit_Monster_Epic)
   })
 },
 
@@ -7266,7 +7611,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      125.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Dragon).set(Unit_Monster_Epic).set(Unit_Monster).set(Unit_Monster_Camp)
+	   /* basicAtkWindup       */      0.4000000059604645,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Dragon).set(Unit_Monster_Camp).set(Unit_Monster_Epic)
   })
 },
 
@@ -7287,7 +7633,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      125.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Dragon).set(Unit_Monster_Epic).set(Unit_Monster).set(Unit_Monster_Camp)
+	   /* basicAtkWindup       */      0.4000000059604645,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Dragon).set(Unit_Monster_Camp).set(Unit_Monster_Epic)
   })
 },
 
@@ -7308,6 +7655,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -7329,7 +7677,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      125.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Dragon).set(Unit_Monster_Epic).set(Unit_Monster).set(Unit_Monster_Camp)
+	   /* basicAtkWindup       */      0.4000000059604645,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Dragon).set(Unit_Monster_Camp).set(Unit_Monster_Epic)
   })
 },
 
@@ -7350,6 +7699,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -7371,6 +7721,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -7392,6 +7743,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -7413,6 +7765,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -7434,6 +7787,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -7455,6 +7809,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -7476,7 +7831,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      120.0,
        
        /* basicAtkMissileSpeed */      1800.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Large).set(Unit_Monster).set(Unit_Monster_Camp).set(Unit_Monster_Gromp)
+	   /* basicAtkWindup       */      0.180000002682209,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Camp).set(Unit_Monster_Large).set(Unit_Monster_Gromp)
   })
 },
 
@@ -7497,6 +7853,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -7518,7 +7875,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      100.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Large).set(Unit_Monster).set(Unit_Monster_Krug).set(Unit_Monster_Camp)
+	   /* basicAtkWindup       */      0.3680981752129367,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Camp).set(Unit_Monster_Large).set(Unit_Monster_Krug)
   })
 },
 
@@ -7539,7 +7897,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      50.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Medium).set(Unit_Monster).set(Unit_Monster_Krug).set(Unit_Monster_Camp)
+	   /* basicAtkWindup       */      0.40999999940395354,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Camp).set(Unit_Monster_Medium).set(Unit_Monster_Krug)
   })
 },
 
@@ -7560,7 +7919,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      25.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Krug).set(Unit_Monster_Camp)
+	   /* basicAtkWindup       */      0.40999999940395354,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Camp).set(Unit_Monster_Krug)
   })
 },
 
@@ -7581,6 +7941,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -7602,7 +7963,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Large).set(Unit_Monster).set(Unit_Monster_Wolf).set(Unit_Monster_Camp)
+	   /* basicAtkWindup       */      0.3124999953433872,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Wolf).set(Unit_Monster_Camp).set(Unit_Monster_Large)
   })
 },
 
@@ -7623,6 +7985,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      50.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3124999953433872,
 	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Wolf).set(Unit_Monster_Camp)
   })
 },
@@ -7644,7 +8007,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      48.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Melee).set(Unit_Minion).set(Unit_Minion_Lane)
+	   /* basicAtkWindup       */      0.4912500010244548,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane).set(Unit_Minion).set(Unit_Minion_Lane_Melee)
   })
 },
 
@@ -7665,7 +8029,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      48.0,
        
        /* basicAtkMissileSpeed */      650.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Ranged).set(Unit_Minion).set(Unit_Minion_Lane)
+	   /* basicAtkWindup       */      0.31333333253860474,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane).set(Unit_Minion).set(Unit_Minion_Lane_Ranged)
   })
 },
 
@@ -7686,7 +8051,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Siege).set(Unit_Minion).set(Unit_Minion_Lane)
+	   /* basicAtkWindup       */      0.30000001192092896,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Siege).set(Unit_Minion_Lane).set(Unit_Minion)
   })
 },
 
@@ -7707,7 +8073,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane_Super).set(Unit_Minion).set(Unit_Minion_Lane)
+	   /* basicAtkWindup       */      0.3472222084248513,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Lane).set(Unit_Minion).set(Unit_Minion_Lane_Super)
   })
 },
 
@@ -7728,6 +8095,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_Special)
   })
 },
@@ -7749,7 +8117,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_UntargetableBySpells).set(Unit_Plant).set(Unit_Ward)
+	   /* basicAtkWindup       */      0.2082999974489212,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special_UntargetableBySpells).set(Unit_Ward).set(Unit_Plant)
   })
 },
 
@@ -7770,7 +8139,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_UntargetableBySpells).set(Unit_Plant).set(Unit_Ward)
+	   /* basicAtkWindup       */      0.2082999974489212,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special_UntargetableBySpells).set(Unit_Ward).set(Unit_Plant)
   })
 },
 
@@ -7791,7 +8161,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_UntargetableBySpells).set(Unit_Plant).set(Unit_Ward)
+	   /* basicAtkWindup       */      0.2082999974489212,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special_UntargetableBySpells).set(Unit_Ward).set(Unit_Plant)
   })
 },
 
@@ -7812,6 +8183,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -7833,6 +8205,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -7854,7 +8227,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      75.0,
        
        /* basicAtkMissileSpeed */      750.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Raptor).set(Unit_Monster_Large).set(Unit_Monster).set(Unit_Monster_Camp)
+	   /* basicAtkWindup       */      0.20000000794728598,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Camp).set(Unit_Monster_Raptor).set(Unit_Monster_Large)
   })
 },
 
@@ -7875,7 +8249,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      50.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Raptor).set(Unit_Monster).set(Unit_Monster_Camp)
+	   /* basicAtkWindup       */      0.4000000059604645,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Camp).set(Unit_Monster_Raptor)
   })
 },
 
@@ -7896,7 +8271,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      120.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Red).set(Unit_Monster).set(Unit_Monster_Buff).set(Unit_Monster_Large).set(Unit_Monster_Camp)
+	   /* basicAtkWindup       */      0.2610837334282936,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Red).set(Unit_Monster_Camp).set(Unit_Monster).set(Unit_Monster_Large).set(Unit_Monster_Buff)
   })
 },
 
@@ -7917,7 +8293,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      40.0,
        
        /* basicAtkMissileSpeed */      750.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Red).set(Unit_Monster).set(Unit_Monster_Camp)
+	   /* basicAtkWindup       */      0.23952096780813728,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Red).set(Unit_Monster_Camp)
   })
 },
 
@@ -7938,7 +8315,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      110.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Epic).set(Unit_Monster).set(Unit_Monster_Camp).set(Unit_Special_Void)
+	   /* basicAtkWindup       */      0.25,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Camp).set(Unit_Monster_Epic).set(Unit_Special_Void)
   })
 },
 
@@ -7959,7 +8337,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      110.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Monster_Epic).set(Unit_Monster_Large).set(Unit_Monster).set(Unit_Special_Void)
+	   /* basicAtkWindup       */      0.25,
+	   /* tags                 */      std::bitset<128>().set(Unit_Monster).set(Unit_Monster_Large).set(Unit_Monster_Epic).set(Unit_Special_Void)
   })
 },
 
@@ -7980,6 +8359,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3595000013709068,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8001,6 +8381,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.37199999690055846,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8022,6 +8403,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8043,6 +8425,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      50.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3124999953433872,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8064,6 +8447,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8085,6 +8469,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8106,6 +8491,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8127,6 +8513,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1800.0,
+	   /* basicAtkWindup       */      0.14000000357627868,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8148,6 +8535,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.19999999850988387,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8169,6 +8557,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1750.0,
+	   /* basicAtkWindup       */      0.1677419344914939,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8190,6 +8579,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1800.0,
+	   /* basicAtkWindup       */      0.18750000298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8211,6 +8601,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.18750000298023223,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8232,6 +8623,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      48.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_Special_SyndraSphere).set(Unit_Special)
   })
 },
@@ -8253,6 +8645,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.2501645700272541,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8274,6 +8667,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2100.0,
+	   /* basicAtkWindup       */      0.16145833134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8295,6 +8689,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      150.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3957999974489212,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8316,6 +8711,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.12374999748542909,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8337,6 +8733,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.180000002682209,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8358,6 +8755,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      55.0,
        
        /* basicAtkMissileSpeed */      1300.0,
+	   /* basicAtkWindup       */      0.21574340313673018,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8379,7 +8777,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      125.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_IsolationNonImpacting).set(Unit_Special_Trap).set(Unit_Special_TurretIgnores).set(Unit_Special_UntargetableBySpells).set(Unit_Special_TeleportTarget).set(Unit_Special)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special_TurretIgnores).set(Unit_Special_TeleportTarget).set(Unit_Special).set(Unit_Special_UntargetableBySpells).set(Unit_IsolationNonImpacting).set(Unit_Special_Trap)
   })
 },
 
@@ -8400,6 +8799,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3595000013709068,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8421,6 +8821,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3595000013709068,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8442,6 +8843,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3595000013709068,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8463,6 +8865,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3595000013709068,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8484,6 +8887,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8505,6 +8909,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1000.0,
+	   /* basicAtkWindup       */      0.23958333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8526,6 +8931,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.2082999974489212,
 	   /* tags                 */      std::bitset<128>().set(Unit_Special_TeleportTarget).set(Unit_Special)
   })
 },
@@ -8547,6 +8953,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      55.0,
        
        /* basicAtkMissileSpeed */      2250.0,
+	   /* basicAtkWindup       */      0.14800663590431212,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8568,6 +8975,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      347.79998779296875,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8589,6 +8997,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3957999974489212,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8610,6 +9019,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      347.79998779296875,
+	   /* basicAtkWindup       */      0.19000000059604644,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8631,6 +9041,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3595000013709068,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8652,6 +9063,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      1.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8673,6 +9085,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      1.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8694,6 +9107,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      1.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8715,6 +9129,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      1.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8736,6 +9151,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      1.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8757,6 +9173,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      1.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -8778,6 +9195,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1500.0,
+	   /* basicAtkWindup       */      0.24403561949729918,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8799,6 +9217,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2500.0,
+	   /* basicAtkWindup       */      0.2019159823656082,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8820,6 +9239,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      467.0,
+	   /* basicAtkWindup       */      0.1984220027923584,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8841,6 +9261,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.1984220027923584,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8862,6 +9283,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.1984220027923584,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8883,6 +9305,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.1984220027923584,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8904,6 +9327,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.1984220027923584,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8925,6 +9349,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.1984220027923584,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8946,6 +9371,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.1984220027923584,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8967,6 +9393,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.1984220027923584,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -8988,7 +9415,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      88.4000015258789,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Structure_Turret_Outer).set(Unit_Structure_Turret)
+	   /* basicAtkWindup       */      0.13900000154972075,
+	   /* tags                 */      std::bitset<128>().set(Unit_Structure_Turret).set(Unit_Structure_Turret_Outer).set(Unit_Structure)
   })
 },
 
@@ -9009,6 +9437,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      2500.0,
+	   /* basicAtkWindup       */      0.1499999940395355,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9030,6 +9459,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2000.0,
+	   /* basicAtkWindup       */      0.1754385933279991,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9051,6 +9481,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2000.0,
+	   /* basicAtkWindup       */      0.1754385933279991,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9072,6 +9503,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      55.0,
        
        /* basicAtkMissileSpeed */      1100.0,
+	   /* basicAtkWindup       */      0.19093749970197677,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9093,7 +9525,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      8000.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_Void).set(Unit_Champion)
+	   /* basicAtkWindup       */      0.19999999850988387,
+	   /* tags                 */      std::bitset<128>().set(Unit_Champion).set(Unit_Special_Void)
   })
 },
 
@@ -9114,6 +9547,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1000.0,
+	   /* basicAtkWindup       */      0.22500000558793537,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9135,6 +9569,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2300.0,
+	   /* basicAtkWindup       */      0.180000002682209,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9156,6 +9591,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      48.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.31218749955296515,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -9177,7 +9613,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      1.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_UntargetableBySpells).set(Unit_Special_TurretIgnores).set(Unit_Special).set(Unit_Ward)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special).set(Unit_Special_TurretIgnores).set(Unit_Ward).set(Unit_Special_UntargetableBySpells)
   })
 },
 
@@ -9198,6 +9635,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1600.0,
+	   /* basicAtkWindup       */      0.19736843137199542,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9219,7 +9657,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      90.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Structure).set(Unit_Special_Void).set(Unit_IsolationNonImpacting)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_IsolationNonImpacting).set(Unit_Structure).set(Unit_Special_Void)
   })
 },
 
@@ -9240,7 +9679,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Summon).set(Unit_Special_EpicMonsterIgnores).set(Unit_Special_MonsterIgnores).set(Unit_Special_Void).set(Unit_Minion)
+	   /* basicAtkWindup       */      0.3,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special_Void).set(Unit_Special_MonsterIgnores).set(Unit_Minion_Summon).set(Unit_Special_EpicMonsterIgnores).set(Unit_Minion)
   })
 },
 
@@ -9261,6 +9701,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.3,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -9282,6 +9723,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      467.0,
+	   /* basicAtkWindup       */      0.3,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9303,6 +9745,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      55.0,
        
        /* basicAtkMissileSpeed */      347.79998779296875,
+	   /* basicAtkWindup       */      0.175,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9324,6 +9767,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2500.0,
+	   /* basicAtkWindup       */      0.17687499259598563,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9345,6 +9789,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      2000.0,
+	   /* basicAtkWindup       */      0.250739998370409,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9366,6 +9811,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      20.0,
+	   /* basicAtkWindup       */      0.1870967745656898,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9387,6 +9833,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      347.79998779296875,
+	   /* basicAtkWindup       */      0.22000000178813933,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9408,7 +9855,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      1.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_TurretIgnores).set(Unit_Special).set(Unit_Ward)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special).set(Unit_Special_TurretIgnores).set(Unit_Ward)
   })
 },
 
@@ -9429,7 +9877,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      1.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_TurretIgnores).set(Unit_Special).set(Unit_Ward)
+	   /* basicAtkWindup       */      0.0,
+	   /* tags                 */      std::bitset<128>().set(Unit_Special).set(Unit_Special_TurretIgnores).set(Unit_Ward)
   })
 },
 
@@ -9450,6 +9899,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      347.79998779296875,
+	   /* basicAtkWindup       */      0.22000000178813933,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9471,6 +9921,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.2062500051222741,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9492,7 +9943,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      20.0,
        
        /* basicAtkMissileSpeed */      1200.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Summon).set(Unit_Minion).set(Unit_Minion_Summon_Large)
+	   /* basicAtkWindup       */      0.25,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion).set(Unit_Minion_Summon).set(Unit_Minion_Summon_Large)
   })
 },
 
@@ -9513,7 +9965,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      1.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Summon).set(Unit_Minion)
+	   /* basicAtkWindup       */      0.25,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion).set(Unit_Minion_Summon)
   })
 },
 
@@ -9534,6 +9987,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      20.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.13157894901951928,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -9555,7 +10009,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      20.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Special_UntargetableBySpells).set(Unit_IsolationNonImpacting).set(Unit_Special_YorickW)
+	   /* basicAtkWindup       */      0.3595000013709068,
+	   /* tags                 */      std::bitset<128>().set(Unit_IsolationNonImpacting).set(Unit_Special_YorickW).set(Unit_Special_UntargetableBySpells)
   })
 },
 
@@ -9576,6 +10031,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1500.0,
+	   /* basicAtkWindup       */      0.1562499976716936,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9597,6 +10053,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      80.0,
        
        /* basicAtkMissileSpeed */      1000.0,
+	   /* basicAtkWindup       */      0.23150511159259435,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9618,7 +10075,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Summon).set(Unit_Minion)
+	   /* basicAtkWindup       */      0.2082999974489212,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion).set(Unit_Minion_Summon)
   })
 },
 
@@ -9639,6 +10097,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      467.0,
+	   /* basicAtkWindup       */      0.19759449660778045,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9660,6 +10119,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.21929824650287627,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -9681,6 +10141,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      55.0,
        
        /* basicAtkMissileSpeed */      1500.0,
+	   /* basicAtkWindup       */      0.20833333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9702,6 +10163,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1200.0,
+	   /* basicAtkWindup       */      0.180000002682209,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9723,6 +10185,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1600.0,
+	   /* basicAtkWindup       */      0.16145833134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9744,6 +10207,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.0,
 	   /* tags                 */      std::bitset<128>().set(Unit_)
   })
 },
@@ -9765,6 +10229,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      1700.0,
+	   /* basicAtkWindup       */      0.14583333134651183,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9786,7 +10251,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      20.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Summon).set(Unit_Minion)
+	   /* basicAtkWindup       */      0.17544000148773192,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion).set(Unit_Minion_Summon)
   })
 },
 
@@ -9807,6 +10273,7 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      20.0,
        
        /* basicAtkMissileSpeed */      0.0,
+	   /* basicAtkWindup       */      0.21929824650287627,
 	   /* tags                 */      std::bitset<128>().set(Unit_Champion)
   })
 },
@@ -9828,7 +10295,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      65.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_SummonName_game_character_displayname_ZyraSeed).set(Unit_Minion)
+	   /* basicAtkWindup       */      0.2082999974489212,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion).set(Unit_Minion_SummonName_game_character_displayname_ZyraSeed)
   })
 },
 
@@ -9849,7 +10317,8 @@ std::map<std::string, UnitInfo*> UnitInfo::infos = {
        /* gameplayRadius       */      20.0,
        
        /* basicAtkMissileSpeed */      0.0,
-	   /* tags                 */      std::bitset<128>().set(Unit_Minion_Summon).set(Unit_Minion)
+	   /* basicAtkWindup       */      0.21929824650287627,
+	   /* tags                 */      std::bitset<128>().set(Unit_Minion).set(Unit_Minion_Summon)
   })
 },
 

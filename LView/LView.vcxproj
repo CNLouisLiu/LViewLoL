@@ -174,7 +174,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AntiCrack.cpp" />
-    <ClCompile Include="Champion.cpp" />
     <ClCompile Include="ConfigSet.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="imgui.cpp" />
@@ -189,7 +188,6 @@
     <ClCompile Include="LeagueMemoryReader.cpp" />
     <ClCompile Include="LView.cpp" />
     <ClCompile Include="MapObject.cpp" />
-    <ClCompile Include="Missile.cpp" />
     <ClCompile Include="Offsets.cpp" />
     <ClCompile Include="Offsets.h" />
     <ClCompile Include="GameRenderer.cpp" />
@@ -204,13 +202,11 @@
   <ItemGroup>
     <ClInclude Include="AntiCrack.h" />
     <ClInclude Include="Benchmark.h" />
-    <ClInclude Include="Champion.h" />
     <ClInclude Include="ConfigSet.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="imgui_impl_dx11.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="MapObject.h" />
-    <ClInclude Include="Missile.h" />
     <ClInclude Include="PyGame.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />

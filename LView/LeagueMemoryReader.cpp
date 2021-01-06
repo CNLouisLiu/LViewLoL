@@ -3,7 +3,6 @@
 #include "Utils.h"
 #include "Structs.h"
 #include "psapi.h"
-#include "Missile.h"
 #include <limits>
 #include <stdexcept>
 
@@ -52,6 +51,8 @@ void LeagueMemoryReader::HookToProcess() {
 	else {
 		throw WinApiException("Couldn't retrieve league base address");
 	}
+
+	blacklistedObjects.clear();
 }
 
 
@@ -67,57 +68,6 @@ void LeagueMemoryReader::ReadRenderer(MemSnapshot& ms) {
 	ms.benchmark->readRendererMs = readDuration.count();
 }
 
-void LeagueMemoryReader::ReadChampions(MemSnapshot& ms) {
-	high_resolution_clock::time_point readTimeBegin;
-	duration<float, std::milli> readDuration;
-	readTimeBegin = high_resolution_clock::now();
-
-	ReadGameObjectList<Champion>(ms.champions, numMaxChamps, Offsets::HeroList, 0x8, 0x4, ms);
-
-	readDuration = high_resolution_clock::now() - readTimeBegin;
-	ms.benchmark->readChampsMs = readDuration.count();
-}
-
-void LeagueMemoryReader::ReadTurrets(MemSnapshot& ms) {
-	high_resolution_clock::time_point readTimeBegin;
-	duration<float, std::milli> readDuration;
-	readTimeBegin = high_resolution_clock::now();
-
-	ReadGameObjectList<GameObject>(ms.turrets, numMaxTurrets, Offsets::TurretList, 0x8, 0x4, ms);
-
-	readDuration = high_resolution_clock::now() - readTimeBegin;
-	ms.benchmark->readTurretsMs = readDuration.count();
-}
-
-void LeagueMemoryReader::ReadMobs(MemSnapshot& ms) {
-	high_resolution_clock::time_point readTimeBegin;
-	duration<float, std::milli> readDuration;
-	readTimeBegin = high_resolution_clock::now();
-
-	ReadGameObjectList<GameObject>(ms.others, numMaxMobs, Offsets::MinionList, 0x8, 0x4, ms);
-
-	// Filter minions e.g wards, jungle, minions etc
-	ms.minions.clear();
-	ms.jungle.clear();
-	auto it = ms.others.begin();
-	while (it != ms.others.end()) {
-		auto obj = *it;
-		if (obj->HasTags(Unit_Monster)) {
-			ms.jungle.push_back(obj);
-			it = ms.others.erase(it);
-		}
-		else if (obj->HasTags(Unit_Minion_Lane)) {
-			ms.minions.push_back(obj);
-			it = ms.others.erase(it);
-		}
-		else
-			++it;
-	}
-
-	readDuration = high_resolution_clock::now() - readTimeBegin;
-	ms.benchmark->readMobsMs = readDuration.count();
-}
-
 std::shared_ptr<GameObject> LeagueMemoryReader::FindHoveredObject(MemSnapshot& ms) {
 	
 	Vector2 cursorPos = Input::GetCursorPosition();
@@ -126,7 +76,7 @@ std::shared_ptr<GameObject> LeagueMemoryReader::FindHoveredObject(MemSnapshot& m
 	std::shared_ptr<GameObject> hoveredObject = nullptr;
 
 	for (auto it = ms.idxToObjectMap.begin(); it != ms.idxToObjectMap.end(); ++it) {
-		distance = League::Distance(cursorPos, ms.renderer->WorldToScreen(it->second->position));
+		distance = cursorPos.distance(ms.renderer->WorldToScreen(it->second->position));
 		if (distance < minDistance && distance < it->second->GetSelectionRadius()) {
 			hoveredObject = it->second;
 			minDistance = distance;
@@ -139,26 +89,40 @@ std::shared_ptr<GameObject> LeagueMemoryReader::FindHoveredObject(MemSnapshot& m
 
 void LeagueMemoryReader::ReadMissiles(MemSnapshot& ms) {
 
+	static const int maxObjects = 300;
+	static int pointerArray[maxObjects];
+
 	high_resolution_clock::time_point readTimeBegin;
 	duration<float, std::milli> readDuration;
 	readTimeBegin = high_resolution_clock::now();
 
+	ms.champions.clear();
+	ms.minions.clear();
+	ms.jungle.clear();
 	ms.missiles.clear();
-	int missileMap = Mem::ReadDWORD(hProcess, moduleBaseAddr + Offsets::MissileMap);
+	ms.turrets.clear();
+	ms.others.clear();
+
+	int objectManager = Mem::ReadDWORD(hProcess, moduleBaseAddr + Offsets::ObjectManager);
 	
 	static char buff[0x500];
-	Mem::Read(hProcess, missileMap, buff, 0x100);
+	Mem::Read(hProcess, objectManager, buff, 0x100);
 
 	int numMissiles, rootNode;
-	memcpy(&numMissiles, buff + Offsets::MissileMapCount, sizeof(int));
-	memcpy(&rootNode, buff + Offsets::MissileMapRoot, sizeof(int));
+	memcpy(&numMissiles, buff + Offsets::ObjectMapCount, sizeof(int));
+	memcpy(&rootNode, buff + Offsets::ObjectMapRoot, sizeof(int));
 
 	std::queue<int> nodesToVisit;
 	std::set<int> visitedNodes;
 	nodesToVisit.push(rootNode);
 
+	// Read object pointers
+	int nrObj = 0;
+	int reads = 0;
 	int childNode1, childNode2, childNode3, node;
-	while (nodesToVisit.size() > 0 && visitedNodes.size() < numMissiles*2) {	
+	while (reads < maxObjects && nodesToVisit.size() > 0) {
+		reads++; 
+
 		node = nodesToVisit.front();
 		nodesToVisit.pop();
 		visitedNodes.insert(node);
@@ -176,33 +140,69 @@ void LeagueMemoryReader::ReadMissiles(MemSnapshot& ms) {
 			nodesToVisit.push(childNode3);
 
 		unsigned int netId = 0;
-		memcpy(&netId, buff + Offsets::MissileMapKey, sizeof(int));
+		memcpy(&netId, buff + Offsets::ObjectMapNodeNetId, sizeof(int));
 
-		// Actual missiles net_id start from 0x40000000. So we use this to check if missiles are valid
 		if (netId - (unsigned int)0x40000000 > 0x100000) 
 			continue;
 
 		int addr;
-		memcpy(&addr, buff + Offsets::MissileMapVal, sizeof(int));
+		memcpy(&addr, buff + Offsets::ObjectMapNodeObject, sizeof(int));
 		if (addr == 0)
 			continue;
 
-		addr = Mem::ReadDWORD(hProcess, addr + 0x4);
-		if (addr == 0)
-			continue;
-		
-		addr = Mem::ReadDWORD(hProcess, addr + 0x10);
-		if (addr == 0)
-			continue;
+		pointerArray[nrObj] = addr;
+		nrObj++;
+	}
 
-		auto m = std::unique_ptr<Missile>(new Missile());
-		m->LoadFromMem(addr, hProcess);
-
-		// Check one more time that we read a valid missile
-		if (m->networkId != netId)
+	// Read objects
+	for (int i = 0; i < nrObj; ++i) {
+		short objIndex;
+		Mem::Read(hProcess, pointerArray[i] + Offsets::ObjIndex, &objIndex, sizeof(short));
+		if (blacklistedObjects.find(objIndex) != blacklistedObjects.end())
 			continue;
 
-		ms.missiles.push_back(std::move(m));
+		std::shared_ptr<GameObject> obj;
+		auto it = ms.idxToObjectMap.find(objIndex);
+		if (it == ms.idxToObjectMap.end()) {
+			obj = std::shared_ptr<GameObject>(new GameObject());
+			obj->LoadFromMem(pointerArray[i], hProcess, true);
+			ms.idxToObjectMap[obj->objectIndex] = obj;
+		}
+		else {
+			obj = it->second;
+			obj->LoadFromMem(pointerArray[i], hProcess, true);
+
+			// If the object changed its id for whatever the fuck reason then we update the map with the new index
+			if (objIndex != obj->objectIndex) {
+				ms.idxToObjectMap[obj->objectIndex] = obj;
+			}
+		}
+
+		if (obj->networkId < 0x40000000)
+			continue;
+
+		if (obj->isVisible) {
+			obj->lastVisibleAt = ms.gameTime;
+		}
+
+		if (obj->objectIndex != 0) {
+			ms.updatedThisFrame.insert(obj->objectIndex);
+
+			if (obj->name.size() == 0)
+				blacklistedObjects.insert(obj->objectIndex);
+			else if (obj->HasTags(Unit_Champion))
+				ms.champions.push_back(obj);
+			else if (obj->HasTags(Unit_Minion_Lane))
+				ms.minions.push_back(obj);
+			else if (obj->HasTags(Unit_Monster))
+				ms.jungle.push_back(obj);
+			else if (obj->HasTags(Unit_Structure_Turret))
+				ms.turrets.push_back(obj);
+			else if (obj->missileInfo != MissileInfo::UnknownMissile)
+				ms.missiles.push_back(obj);
+			else
+				ms.others.push_back(obj);
+		}
 	}
 
 	readDuration = high_resolution_clock::now() - readTimeBegin;
@@ -216,10 +216,11 @@ void LeagueMemoryReader::MakeSnapshot(MemSnapshot& ms) {
 	if (ms.gameTime > 2) {
 		ms.updatedThisFrame.clear();
 
-		ReadChampions(ms);
+		//ReadChampions(ms);
+		
+		//ReadMobs(ms);
+		//ReadTurrets(ms);
 		ReadRenderer(ms);
-		ReadMobs(ms);
-		ReadTurrets(ms);
 	    ReadMissiles(ms);
 
 		ms.localChampion = ms.champions[0];
