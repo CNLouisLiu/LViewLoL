@@ -1,11 +1,15 @@
 ﻿cl : Command line warning D9002: ignoring unknown option '/m:4'
-  LeagueMemoryReader.cpp
+  LView.cpp
   f:\github\lviewlol\lview\boost\boost\bind.hpp(41): note: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.
-f:\github\lviewlol\lview\leaguememoryreader.cpp(189): warning C4244: 'argument': conversion from 'DWORD' to 'const short', possible loss of data
+f:\github\lviewlol\lview\pygame.h(177): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+f:\github\lviewlol\lview\pygame.h(179): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+f:\github\lviewlol\lview\pygame.h(185): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+f:\github\lviewlol\lview\pygame.h(186): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
 Release\Offsets.obj : warning LNK4042: object specified more than once; extras ignored
      Creating library F:\Github\LViewLoL\Release\ConsoleApplication.lib and object F:\Github\LViewLoL\Release\ConsoleApplication.exp
   Generating code
-  1 of 9742 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  2 of 9743 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     3 functions had inline decision re-evaluated but remain unchanged
   Finished generating code

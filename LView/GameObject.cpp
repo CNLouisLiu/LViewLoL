@@ -103,6 +103,7 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 	address = base;
 	Mem::Read(hProcess, base, buff, sizeBuff);
 
+	previousPosition = position.clone();
 	memcpy(&team, &buff[Offsets::ObjTeam], sizeof(short));
 	memcpy(&position, &buff[Offsets::ObjPos], sizeof(Vector3));
 	memcpy(&health, &buff[Offsets::ObjHealth], sizeof(float));

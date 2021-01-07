@@ -48,7 +48,7 @@ def lview_update(game, ui):
 				tracked_champ = len(trackable_champ_indices) - 1
 	
 	now = time()
-	if now - t_last_save_tracks > 0.2:
+	if now - t_last_save_tracks > 0.3:
 		t_last_save_tracks = now
 		for i, j in enumerate(trackable_champ_indices):
 			champ = game.champs[j]

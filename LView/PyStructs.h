@@ -57,6 +57,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("is_alive",             &GameObject::isAlive)
 		.def_readonly("name",                 &GameObject::name)
 		.def_readonly("pos",                  &GameObject::position)
+		.def_readonly("prev_pos",             &GameObject::previousPosition)
 		.def_readonly("duration",             &GameObject::duration)
 		.def_readonly("is_visible",           &GameObject::isVisible)
 		.def_readonly("last_visible_at",      &GameObject::lastVisibleAt)
@@ -67,6 +68,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("ap",                   &GameObject::abilityPower)
 		.def_readonly("atk_speed_multi",      &GameObject::atkSpeedMulti)
 		.def_readonly("unit",                 &GameObject::GetPythonUnitInfo)
+		.def_readonly("team",                 &GameObject::team)
 
 		.def_readonly("acquisition_radius",   &GameObject::GetAcquisitionRadius)
 		.def_readonly("selection_radius",     &GameObject::GetSelectionRadius)

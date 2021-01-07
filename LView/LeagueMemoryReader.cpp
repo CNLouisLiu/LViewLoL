@@ -155,8 +155,8 @@ void LeagueMemoryReader::ReadObjects(MemSnapshot& ms) {
 
 	// Read objects
 	for (int i = 0; i < nrObj; ++i) {
-		short netId;
-		Mem::Read(hProcess, pointerArray[i] + Offsets::ObjNetworkID, &netId, sizeof(short));
+		int netId;
+		Mem::Read(hProcess, pointerArray[i] + Offsets::ObjNetworkID, &netId, sizeof(int));
 		if (blacklistedObjects.find(netId) != blacklistedObjects.end())
 			continue;
 
@@ -214,8 +214,8 @@ void LeagueMemoryReader::FindPlayerChampion(MemSnapshot & snapshot)
 	auto it = snapshot.objectMap.find(netId);
 	if (it != snapshot.objectMap.end())
 		snapshot.player = it->second;
-	else
-		snapshot.player = nullptr;
+	else // If we can't find the local player either the offset is wrong or we are watching a replay
+		snapshot.player = (snapshot.champions.size() > 0 ? snapshot.champions[0] : nullptr);
 }
 
 void LeagueMemoryReader::ClearMissingObjects(MemSnapshot & ms)

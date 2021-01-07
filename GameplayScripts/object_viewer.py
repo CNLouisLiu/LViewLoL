@@ -41,6 +41,7 @@ def draw_missile(obj, ui):
 	if ui.treenode("{}_{} ({})".format(obj.name, obj.id, hex(obj.address))):
 		ui.dragint("id", obj.id)
 		ui.labeltext("net_id", hex(obj.net_id))
+		ui.dragint("team", obj.team)
 		
 		ui.labeltext("start_pos", f"x={obj.start_pos.x:.2f}, y={obj.start_pos.y:.2f}, z={obj.start_pos.z:.2f}")
 		ui.labeltext("end_pos", f"x={obj.end_pos.x:.2f}, y={obj.end_pos.y:.2f}, z={obj.end_pos.z:.2f}")

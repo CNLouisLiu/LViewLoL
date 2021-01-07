@@ -1,33 +1,7 @@
 from lview import *
 import math, itertools, time
 
-def linear_collision(p1, d1, p2, d2, radius):
-	
-	t = time.time()
-	Ax = (d1.x - d2.x)**2.0
-	Bx = p1.x*d1.x - p1.x*d2.x - p2.x*d1.x + p2.x*d2.x
-	Cx = (p1.x - p2.x)**2.0
-	
-	Ay = (d1.y - d2.y)**2.0
-	By = p1.y*d1.y - p1.y*d2.y - p2.y*d1.y + p2.y*d2.y
-	Cy = (p1.y - p2.y)**2.0
-	
-	a = Ax + Ay
-	b = 2.0*(Bx + By)
-	c = Cx + Cy - radius**2.0
-	delta = b*b - 4.0*a*c
-	
-	if a == 0.0 or delta < 0.0:
-		return False
-
-	sqrt_d = math.sqrt(delta)
-	t1 = (-b + sqrt_d)/(2.0*a)
-	t2 = (-b - sqrt_d)/(2.0*a)
-	t2 = time.time() - t
-	
-	return (t1 >= 0.0 and t2 >= 0.0)
-
-def find_missile_collision(game, missile):
+def find_missile_collision(game, missile, use_prediction):
 	
 	if missile.has_tags(MissileTag.Pierce_All):
 		return None
@@ -44,8 +18,14 @@ def find_missile_collision(game, missile):
 	min_d, target = 999999, None
 	for mob in itertools.chain(champs, minions, jungle):
 		dist = missile.pos.distance(mob.pos)
-		if mob.is_visible and mob.is_alive and mob.is_enemy_to(missile) and dist < missile.range:
-			if game.linear_collision(missile_start, missile_speed, Vec2(mob.pos.x, mob.pos.z), Vec2(0, 0), missile.radius + mob.gameplay_radius):
+		if dist < missile.range and dist < min_d and mob.is_visible and mob.is_alive and mob.is_enemy_to(missile):
+			if use_prediction:
+				mob_speed = mob.pos.sub(mob.prev_pos).normalize().scale(mob.movement_speed)
+				mob_speed = Vec2(mob_speed.x, mob_speed.z)
+			else:
+				mob_speed = Vec2(0.0, 0.0)
+				
+			if game.linear_collision(missile_start, missile_speed, Vec2(mob.pos.x, mob.pos.z), mob_speed, missile.radius + mob.gameplay_radius):
 				min_d = dist
 				target = mob
 	

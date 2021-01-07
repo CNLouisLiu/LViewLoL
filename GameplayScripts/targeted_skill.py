@@ -63,7 +63,6 @@ def lview_update(game, ui):
 		
 		for i, (skill_str, enabled) in enumerate(auto_targeting[game.player.name].items()):
 			if game.was_key_pressed(i + 2): # Check if 1,2,3,4 was pressed
-				print('ok')
 				skill = get_skill_by_name(game.player, skill_str)
 				if enabled:
 					old_cpos = game.get_cursor()

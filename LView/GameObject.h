@@ -67,6 +67,7 @@ public:
 	
 	std::string    name;
 	Vector3        position;
+	Vector3        previousPosition;
 
 	DWORD          networkId;
 	DWORD          address;
