@@ -51,6 +51,7 @@ public:
 	static int SpellDataMissileName;
 
 	static int ObjectManager;
+	static int LocalPlayer;
 
 	static int ObjectMapCount;
 	static int ObjectMapRoot;

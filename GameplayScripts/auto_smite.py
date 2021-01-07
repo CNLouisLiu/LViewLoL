@@ -29,7 +29,7 @@ def lview_draw_settings(game, ui):
 def lview_update(game, ui):
 	global enable_key, enabled_autosmite, show_smitable
 	
-	smite = game.local_champ.get_summoner_spell(SummonerSpellType.Smite)
+	smite = game.player.get_summoner_spell(SummonerSpellType.Smite)
 	if smite == None: 
 		return
 		
@@ -39,7 +39,7 @@ def lview_update(game, ui):
 	hovered = game.hovered_obj
 	is_smitable = (hovered and hovered.has_tags(UnitTag.Unit_Monster_Large) and hovered.health - smite.value <= 0)
 	if enabled_autosmite:
-		p = game.world_to_screen(game.local_champ.pos)
+		p = game.world_to_screen(game.player.pos)
 		p.y -= 50
 		game.draw_button(p, "AutoSmiteOn", Color.BLACK, Color.YELLOW, 10);
 		

@@ -10,8 +10,8 @@ class PyGame {
 
 public:
 	std::map<int, float>  distanceCache;
-	GameRenderer*         renderer;
-					      
+	MemSnapshot*          ms;
+
 	ImDrawList*           overlay;
 	ImVec2                minimapPos, minimapSize;
 
@@ -45,25 +45,25 @@ public:
 
 	//Exposed methods
 	Vector2 WorldToScreen(const Vector3& pos) {
-		return renderer->WorldToScreen(pos);
+		return ms->renderer->WorldToScreen(pos);
 	}
 
 	Vector2 WorldToMinimap(const Vector3& pos) {
-		return renderer->WorldToMinimap(pos, minimapPos, minimapSize);
+		return ms->renderer->WorldToMinimap(pos, minimapPos, minimapSize);
 	}
 
 	float DistanceToMinimap(float dist) {
-		return renderer->DistanceToMinimap(dist, minimapSize);
+		return ms->renderer->DistanceToMinimap(dist, minimapSize);
 	}
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(IsScreenPointOnScreenOverloads, IsScreenPointOnScreen, 1, 3);
 	bool IsScreenPointOnScreen(const Vector2& point, float offsetX = 0.f, float offsetY = 0.f) {
-		return renderer->IsScreenPointOnScreen(point, offsetX, offsetY);
+		return ms->renderer->IsScreenPointOnScreen(point, offsetX, offsetY);
 	}
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(IsWorldPointOnScreenOverloads, IsWorldPointOnScreen, 1, 3);
 	bool IsWorldPointOnScreen(const Vector3& point, float offsetX = 0.f, float offsetY = 0.f) {
-		return renderer->IsWorldPointOnScreen(point, offsetX, offsetY);
+		return ms->renderer->IsWorldPointOnScreen(point, offsetX, offsetY);
 	}
 
 	void DrawCircle(const Vector2& center, float radius, int numPoints, float thickness, const ImVec4& color) {
@@ -90,28 +90,34 @@ public:
 
 	void DrawRectWorld(const Vector3& p1, const Vector3& p2, const Vector3& p3, const Vector3& p4, float thickness, const ImVec4& color) {
 		static Vector2 points[4];
-		points[0] = renderer->WorldToScreen(p1);
-		points[1] = renderer->WorldToScreen(p2);
-		points[2] = renderer->WorldToScreen(p3);
-		points[3] = renderer->WorldToScreen(p4);
+		points[0] = ms->renderer->WorldToScreen(p1);
+		points[1] = ms->renderer->WorldToScreen(p2);
+		points[2] = ms->renderer->WorldToScreen(p3);
+		points[3] = ms->renderer->WorldToScreen(p4);
 
 		overlay->AddPolyline((ImVec2*)points, 4, ImColor(color), true, thickness);
 	}
 
 	void DrawTriangleWorld(const Vector3& p1, const Vector3& p2, const Vector3& p3, float thickness, const ImVec4& color) {
-		overlay->AddTriangle((ImVec2&)renderer->WorldToScreen(p1), (ImVec2&)renderer->WorldToScreen(p2), (ImVec2&)renderer->WorldToScreen(p3), ImColor(color), thickness);
+		overlay->AddTriangle(
+			(ImVec2&)ms->renderer->WorldToScreen(p1), 
+			(ImVec2&)ms->renderer->WorldToScreen(p2),
+			(ImVec2&)ms->renderer->WorldToScreen(p3), ImColor(color), thickness);
 	}
 
 	void DrawTriangleWorldFilled(const Vector3& p1, const Vector3& p2, const Vector3& p3, const ImVec4& color) {
-		overlay->AddTriangleFilled((ImVec2&)renderer->WorldToScreen(p1), (ImVec2&)renderer->WorldToScreen(p2), (ImVec2&)renderer->WorldToScreen(p3), ImColor(color));
+		overlay->AddTriangleFilled(
+			(ImVec2&)ms->renderer->WorldToScreen(p1), 
+			(ImVec2&)ms->renderer->WorldToScreen(p2),
+			(ImVec2&)ms->renderer->WorldToScreen(p3), ImColor(color));
 	}
 
 	void DrawCircleWorld (const Vector3& center, float radius, int numPoints, float thickness, const ImVec4& color) {
-		renderer->DrawCircleAt(overlay, center, radius, false, numPoints, ImColor(color), thickness);
+		ms->renderer->DrawCircleAt(overlay, center, radius, false, numPoints, ImColor(color), thickness);
 	}
 
 	void DrawCircleWorldFilled(const Vector3& center, float radius, int numPoints, const ImVec4& color) {
-		renderer->DrawCircleAt(overlay, center, radius, true, numPoints, ImColor(color));
+		ms->renderer->DrawCircleAt(overlay, center, radius, true, numPoints, ImColor(color));
 	}
 
 	void DrawLine(const Vector2& start, const Vector2& end, float thickness, const ImVec4& color) {
@@ -202,18 +208,26 @@ public:
 		return dist;
 	}
 
+	GameObject* GetObjectByIndex(short index) {
+		auto it = ms->indexToNetId.find(index);
+		if (it == ms->indexToNetId.end())
+			return nullptr;
+
+		auto it2 = ms->objectMap.find(it->second);
+		if (it2 == ms->objectMap.end())
+			return nullptr;
+
+		return it2->second.get();
+	}
+
 	static PyGame ConstructFromMemSnapshot(MemSnapshot& snapshot) {
 		PyGame gs;
 
+		gs.ms = &snapshot;
 		gs.gameTime = snapshot.gameTime;
-		gs.renderer = snapshot.renderer.get();
 		gs.hoveredObject = snapshot.hoveredObject.get();
-		gs.localChampion = snapshot.localChampion.get();
+		gs.localChampion = snapshot.player.get();
 		gs.map = snapshot.map.get();
-
-		for (auto it = snapshot.idxToObjectMap.begin(); it != snapshot.idxToObjectMap.end(); ++it) {
-			gs.allObjects[it->first] = boost::ref(*it->second);
-		}
 
 		for (auto it = snapshot.champions.begin(); it != snapshot.champions.end(); ++it) {
 			gs.champs.append(boost::ref(**it));

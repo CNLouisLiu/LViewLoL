@@ -41,7 +41,7 @@ def lview_save_cfg(cfg):
 def lview_draw_settings(game, ui):
 	global key_attack_move, key_orbwalk, max_atk_speed, auto_last_hit, toggle_mode
 	
-	champ_name = game.local_champ.name
+	champ_name = game.player.name
 	
 	max_atk_speed   = ui.sliderfloat("Max attack speed", max_atk_speed, 1.5, 3.0)
 	key_attack_move = ui.keyselect("Attack move key", key_attack_move)
@@ -50,15 +50,15 @@ def lview_draw_settings(game, ui):
 	toggle_mode     = ui.checkbox("Toggle mode", toggle_mode)
 
 def find_champ_target(game, array, value_extractor):
-	atk_range = game.local_champ.base_atk_range + game.local_champ.gameplay_radius
+	atk_range = game.player.base_atk_range + game.player.gameplay_radius
 	target = None
 	min = 99999999
 	for obj in array:
 		
-		if not obj.is_alive or obj.is_ally_to(game.local_champ) or game.distance(game.local_champ, obj) > atk_range:
+		if not obj.is_alive or obj.is_ally_to(game.player) or game.distance(game.player, obj) > atk_range:
 			continue
 			
-		val = value_extractor(game.local_champ, obj)
+		val = value_extractor(game.player, obj)
 		if val < min:
 			min = val
 			target = obj
@@ -66,11 +66,11 @@ def find_champ_target(game, array, value_extractor):
 	return target
 	
 def find_minion_target(game):
-	atk_range = game.local_champ.base_atk_range + game.local_champ.gameplay_radius
+	atk_range = game.player.base_atk_range + game.player.gameplay_radius
 	min_health = 9999999999
 	target = None
 	for minion in game.minions:
-		if minion.is_enemy_to(game.local_champ) and minion.is_alive and minion.health < min_health and game.distance(game.local_champ, minion) < atk_range and prediction.is_last_hitable(game, game.local_champ, minion):
+		if minion.is_enemy_to(game.player) and minion.is_alive and minion.health < min_health and game.distance(game.player, minion) < atk_range and prediction.is_last_hitable(game, game.player, minion):
 			target = minion
 			min_health = minion.health
 		
@@ -99,13 +99,13 @@ def lview_update(game, ui):
 	elif not game.is_key_down(key_orbwalk):
 		return
 	
-	game.draw_button(game.world_to_screen(game.local_champ.pos), "OrbWalking", Color.BLACK, Color.WHITE)
+	game.draw_button(game.world_to_screen(game.player.pos), "OrbWalking", Color.BLACK, Color.WHITE)
 
 	# Handle basic attacks
-	self = game.local_champ
+	self = game.player
 	
 	atk_speed = self.base_atk_speed * self.atk_speed_multi
-	b_windup_time = (1.0/self.base_atk_speed)*game.local_champ.basic_atk_windup
+	b_windup_time = (1.0/self.base_atk_speed)*game.player.basic_atk_windup
 	c_atk_time = 1.0/atk_speed
 	max_atk_time = 1.0/max_atk_speed
 

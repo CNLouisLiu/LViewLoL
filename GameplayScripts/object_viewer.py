@@ -45,8 +45,8 @@ def draw_missile(obj, ui):
 		ui.labeltext("start_pos", f"x={obj.start_pos.x:.2f}, y={obj.start_pos.y:.2f}, z={obj.start_pos.z:.2f}")
 		ui.labeltext("end_pos", f"x={obj.end_pos.x:.2f}, y={obj.end_pos.y:.2f}, z={obj.end_pos.z:.2f}")
 		ui.labeltext("pos", f"x={obj.pos.x:.2f}, y={obj.pos.y:.2f}, z={obj.pos.z:.2f}")
-		ui.dragint("src_idx", obj.src_idx)
-		ui.dragint("dest_idx", obj.dest_idx)
+		ui.dragint("src_id", obj.src_id)
+		ui.dragint("dest_id", obj.dest_id)
 		
 		ui.separator()
 		ui.dragfloat("speed", obj.speed)
@@ -148,7 +148,7 @@ def lview_update(game, ui):
 	ui.dragfloat("time", game.time)
 	
 	ui.text("Local Champion")
-	draw_champion(game.local_champ, ui)
+	draw_champion(game.player, ui)
 	
 	ui.text("Lists")
 	draw_list("Champions", game.champs,    ui, draw_champion)

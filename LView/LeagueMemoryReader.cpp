@@ -68,14 +68,14 @@ void LeagueMemoryReader::ReadRenderer(MemSnapshot& ms) {
 	ms.benchmark->readRendererMs = readDuration.count();
 }
 
-std::shared_ptr<GameObject> LeagueMemoryReader::FindHoveredObject(MemSnapshot& ms) {
+void LeagueMemoryReader::FindHoveredObject(MemSnapshot& ms) {
 	
 	Vector2 cursorPos = Input::GetCursorPosition();
 	float minDistance = std::numeric_limits<float>::infinity();
 	float distance;
 	std::shared_ptr<GameObject> hoveredObject = nullptr;
 
-	for (auto it = ms.idxToObjectMap.begin(); it != ms.idxToObjectMap.end(); ++it) {
+	for (auto it = ms.objectMap.begin(); it != ms.objectMap.end(); ++it) {
 		distance = cursorPos.distance(ms.renderer->WorldToScreen(it->second->position));
 		if (distance < minDistance && distance < it->second->GetSelectionRadius()) {
 			hoveredObject = it->second;
@@ -83,11 +83,11 @@ std::shared_ptr<GameObject> LeagueMemoryReader::FindHoveredObject(MemSnapshot& m
 		}
 	}
 
-	return hoveredObject;
+	ms.hoveredObject = hoveredObject;
 }
 
 
-void LeagueMemoryReader::ReadMissiles(MemSnapshot& ms) {
+void LeagueMemoryReader::ReadObjects(MemSnapshot& ms) {
 
 	static const int maxObjects = 500;
 	static int pointerArray[maxObjects];
@@ -161,11 +161,11 @@ void LeagueMemoryReader::ReadMissiles(MemSnapshot& ms) {
 			continue;
 
 		std::shared_ptr<GameObject> obj;
-		auto it = ms.idxToObjectMap.find(netId);
-		if (it == ms.idxToObjectMap.end()) {
+		auto it = ms.objectMap.find(netId);
+		if (it == ms.objectMap.end()) {
 			obj = std::shared_ptr<GameObject>(new GameObject());
 			obj->LoadFromMem(pointerArray[i], hProcess, true);
-			ms.idxToObjectMap[obj->networkId] = obj;
+			ms.objectMap[obj->networkId] = obj;
 		}
 		else {
 			obj = it->second;
@@ -173,7 +173,7 @@ void LeagueMemoryReader::ReadMissiles(MemSnapshot& ms) {
 
 			// If the object changed its id for whatever the fuck reason then we update the map with the new index
 			if (netId != obj->networkId) {
-				ms.idxToObjectMap[obj->networkId] = obj;
+				ms.objectMap[obj->networkId] = obj;
 			}
 		}
 
@@ -182,9 +182,10 @@ void LeagueMemoryReader::ReadMissiles(MemSnapshot& ms) {
 		}
 
 		if (obj->networkId != 0) {
+			ms.indexToNetId[obj->objectIndex] = obj->networkId;
 			ms.updatedThisFrame.insert(obj->networkId);
 
-			if (obj->name.size() == 0)
+			if (obj->name.size() <= 1)
 				blacklistedObjects.insert(obj->networkId);
 			else if (obj->HasTags(Unit_Champion))
 				ms.champions.push_back(obj);
@@ -205,33 +206,42 @@ void LeagueMemoryReader::ReadMissiles(MemSnapshot& ms) {
 	ms.benchmark->readMissilesMs = readDuration.count();
 }
 
+void LeagueMemoryReader::FindPlayerChampion(MemSnapshot & snapshot)
+{
+	int netId = 0;
+	Mem::Read(hProcess, Mem::ReadDWORD(hProcess, moduleBaseAddr + Offsets::LocalPlayer) + Offsets::ObjNetworkID, &netId, sizeof(int));
+	
+	auto it = snapshot.objectMap.find(netId);
+	if (it != snapshot.objectMap.end())
+		snapshot.player = it->second;
+	else
+		snapshot.player = nullptr;
+}
+
+void LeagueMemoryReader::ClearMissingObjects(MemSnapshot & ms)
+{
+	auto it = ms.objectMap.begin();
+	while (it != ms.objectMap.end()) {
+		if (ms.updatedThisFrame.find(it->first) == ms.updatedThisFrame.end()) {
+			it = ms.objectMap.erase(it);
+		}
+		else
+			++it;
+	}
+}
+
 void LeagueMemoryReader::MakeSnapshot(MemSnapshot& ms) {
 	
 	Mem::Read(hProcess, moduleBaseAddr + Offsets::GameTime, &ms.gameTime, sizeof(float));
 
 	if (ms.gameTime > 2) {
 		ms.updatedThisFrame.clear();
-
-		//ReadChampions(ms);
-		
-		//ReadMobs(ms);
-		//ReadTurrets(ms);
 		ReadRenderer(ms);
-	    ReadMissiles(ms);
+	    ReadObjects(ms);
+		ClearMissingObjects(ms);
+		FindPlayerChampion(ms);
+		FindHoveredObject(ms);
 
-		ms.localChampion = ms.champions[0];
 		ms.map = std::shared_ptr<MapObject>(MapObject::Get(ms.turrets.size() > 10 ? SUMMONERS_RIFT : HOWLING_ABYSS));
-		
-		// Clear up objects that were deleted in game
-		auto it = ms.idxToObjectMap.begin();
-		while (it != ms.idxToObjectMap.end()) {
-			if (ms.updatedThisFrame.find(it->first) == ms.updatedThisFrame.end()) {
-				it = ms.idxToObjectMap.erase(it);
-			}
-			else
-				++it;
-		}
-
-		ms.hoveredObject = FindHoveredObject(ms);
 	}
 }

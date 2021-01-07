@@ -1,6 +1,7 @@
 #include "GameRenderer.h"
 #include "Offsets.h"
 #include "Utils.h"
+#include "MapObject.h"
 #include <algorithm>
 
 

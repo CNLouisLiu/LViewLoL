@@ -92,7 +92,7 @@ void Overlay::Init() {
 
 void Overlay::GameStart(MemSnapshot& memSnapshot)
 {
-	scriptManager.LoadAll(configs.GetStr("scriptsFolder", "."), memSnapshot.localChampion->name);
+	scriptManager.LoadAll(configs.GetStr("scriptsFolder", "."), memSnapshot.player->name);
 }
 
 void Overlay::DrawUI(MemSnapshot& memSnapshot) {

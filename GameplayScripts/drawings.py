@@ -55,30 +55,30 @@ def draw_rect(game, start_pos, end_pos, radius, color):
 def lview_update(game, ui):
 	global turret_ranges, minion_last_hit, attack_range, skillshots
 	
-	if attack_range and game.is_point_on_screen(game.local_champ.pos):
+	if attack_range and game.is_point_on_screen(game.player.pos):
 		color = Color.GREEN
 		color.a = 0.5
-		game.draw_circle_world(game.local_champ.pos, game.local_champ.base_atk_range + game.local_champ.gameplay_radius, 100, 2, color)
+		game.draw_circle_world(game.player.pos, game.player.base_atk_range + game.player.gameplay_radius, 100, 2, color)
 	
 	if turret_ranges:
 		color = Color.RED
 		color.a = 0.5
 		for turret in game.turrets:
-			if turret.is_alive and turret.is_enemy_to(game.local_champ) and game.is_point_on_screen(turret.pos):
+			if turret.is_alive and turret.is_enemy_to(game.player) and game.is_point_on_screen(turret.pos):
 				game.draw_circle_world(turret.pos, turret.base_atk_range, 100, 2, color)
 	
 	if minion_last_hit:
 		color = Color.CYAN
 		for minion in game.minions:
-			if minion.is_alive and minion.is_enemy_to(game.local_champ) and game.is_point_on_screen(minion.pos):
-				if prediction.is_last_hitable(game, game.local_champ, minion):
+			if minion.is_alive and minion.is_enemy_to(game.player) and game.is_point_on_screen(minion.pos):
+				if prediction.is_last_hitable(game, game.player, minion):
 					game.draw_circle_world(minion.pos, minion.gameplay_radius, 20, 3, color)
 				
 	if skillshots:
 		
 		for missile in game.missiles:
 		
-			if not missile.is_ally_to(game.local_champ) or missile.has_tags(MissileTag.Targeted):
+			if missile.is_ally_to(game.player) or missile.has_tags(MissileTag.Targeted):
 				continue
 				
 			end_pos = missile.end_pos.clone()

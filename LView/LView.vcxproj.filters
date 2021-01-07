@@ -72,9 +72,6 @@
     <ClCompile Include="ScriptManager.cpp">
       <Filter>Source Files\Python</Filter>
     </ClCompile>
-    <ClCompile Include="Script.cpp">
-      <Filter>Source Files\Python</Filter>
-    </ClCompile>
     <ClCompile Include="GameRenderer.cpp">
       <Filter>Source Files\Structs\GameRelated</Filter>
     </ClCompile>
@@ -116,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="UnitInfo.cpp">
       <Filter>Source Files\Structs\GameRelated\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>Source Files\Python</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

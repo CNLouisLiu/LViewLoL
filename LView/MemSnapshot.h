@@ -14,17 +14,18 @@ struct MemSnapshot {
 	std::vector<std::shared_ptr<GameObject>>      minions;
 	std::vector<std::shared_ptr<GameObject>>      jungle;
 	std::vector<std::shared_ptr<GameObject>>      turrets;
+	std::vector<std::shared_ptr<GameObject>>      missiles;
 	std::vector<std::shared_ptr<GameObject>>      others;
 
-	std::vector<std::shared_ptr<GameObject>>      missiles;
+	/* A map between the network id of the object and the object itself */
+	std::map<int, std::shared_ptr<GameObject>>  objectMap;
+	std::map<short, int>                        indexToNetId;
+	/* Used to clear objectMap for objects that are no longer in game */
+	std::set<int>                               updatedThisFrame;
 
-	/* A map between the indexObject member of the object and the object itself */
-	std::map<short, std::shared_ptr<GameObject>>  idxToObjectMap;
-	/* Used to clear idxToObjectMap for objects that are no longer in game */
-	std::set<short>                               updatedThisFrame;
 
 	/* The champion of the player running the app */
-	std::shared_ptr<GameObject>                   localChampion = nullptr;
+	std::shared_ptr<GameObject>                   player = nullptr;
 	/* The object below the mouse */
 	std::shared_ptr<GameObject>                   hoveredObject = nullptr;
 

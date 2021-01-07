@@ -34,13 +34,13 @@ def lview_update(game, ui):
 	
 	global trackable_champ_indices, first_iter
 	global tracks, tracked_champ, seconds_to_track, t_last_save_tracks
-	
+
 	if first_iter:
 		first_iter = False
 		trackable_champ_indices = []
 		for i, champ in enumerate(game.champs):
 			
-			if champ.is_ally_to(game.local_champ):
+			if champ.is_ally_to(game.player):
 				continue
 				
 			trackable_champ_indices.append(i)

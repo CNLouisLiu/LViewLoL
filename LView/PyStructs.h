@@ -106,8 +106,8 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("get_summoner_spell",            &GameObject::GetSummonerSpell, return_value_policy<reference_existing_object>())
 									          
 		// Missile					          
-		.def_readonly("src_idx",              &GameObject::srcIndex)
-		.def_readonly("dest_idx",             &GameObject::destIndex)
+		.def_readonly("src_id",               &GameObject::srcIndex)
+		.def_readonly("dest_id",              &GameObject::destIndex)
 		.def_readonly("start_pos",            &GameObject::startPos)
 		.def_readonly("end_pos",              &GameObject::endPos)
 									          
@@ -149,9 +149,11 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("missiles",          &PyGame::missiles)
 		.def_readonly("others",            &PyGame::others)
 		.def_readonly("hovered_obj",       &PyGame::GetHoveredObject)
-		.def_readonly("local_champ",       &PyGame::GetLocalChampion)
+		.def_readonly("player",            &PyGame::GetLocalChampion)
 		.def_readonly("time",              &PyGame::gameTime)
 		.def_readonly("map",               &PyGame::GetMap)
+
+		.def("get_obj_by_id",              &PyGame::GetObjectByIndex, return_value_policy<reference_existing_object>())
 
 		.def("is_point_on_screen",         &PyGame::IsScreenPointOnScreen, PyGame::IsScreenPointOnScreenOverloads())
 		.def("is_point_on_screen",         &PyGame::IsWorldPointOnScreen,  PyGame::IsWorldPointOnScreenOverloads())

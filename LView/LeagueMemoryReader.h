@@ -38,7 +38,9 @@ private:
 	std::set<short>             blacklistedObjects;
 	
 	void                        ReadRenderer(MemSnapshot& snapshot);
-	void                        ReadMissiles(MemSnapshot& snapshot);
-	std::shared_ptr<GameObject> FindHoveredObject(MemSnapshot& ms);
+	void                        ReadObjects(MemSnapshot& snapshot);
+	void                        FindPlayerChampion(MemSnapshot& snapshot);
+	void                        ClearMissingObjects(MemSnapshot& snapshot);
+	void                        FindHoveredObject(MemSnapshot& ms);
 
 };

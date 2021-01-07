@@ -85,7 +85,7 @@ def load(s):
 def draw(game):
 	global m, size
 	
-	c = game.local_champ.pos.clone()
+	c = game.player.pos.clone()
 	c.scale(size/15000)
 	
 	window = 50
@@ -123,14 +123,14 @@ def lview_update(game, ui):
 	
 	if game.is_key_down(2):
 		if  time.time() - last_launched_t > 0.01:
-			game.local_champ.R.trigger()
+			game.player.R.trigger()
 			last_launched_t = time.time()
 			
-	p = game.local_champ.pos.clone()
+	p = game.player.pos.clone()
 	p.scale(size/15000)
 	
-	#game.draw_button(game.world_to_screen(game.local_champ.pos), f'{abs(game.local_champ.pos.y - m[int(p.x)][int(p.z)])}', Color.WHITE, Color.BLACK)
-	game.draw_button(game.world_to_screen(game.local_champ.pos), f'{abs(game.local_champ.pos.y - game.map.height_at(game.local_champ.pos.x, game.local_champ.pos.z))}', Color.WHITE, Color.BLACK)
+	#game.draw_button(game.world_to_screen(game.player.pos), f'{abs(game.player.pos.y - m[int(p.x)][int(p.z)])}', Color.WHITE, Color.BLACK)
+	game.draw_button(game.world_to_screen(game.player.pos), f'{abs(game.player.pos.y - game.map.height_at(game.player.pos.x, game.player.pos.z))}', Color.WHITE, Color.BLACK)
 	'''
 	for champ in game.champs:
 		p = champ.pos.clone()
@@ -143,7 +143,7 @@ def lview_update(game, ui):
 	'''
 	
 	for missile in game.missiles:
-		if missile.dest_idx != 0:
+		if missile.dest_id != 0:
 			continue
 		p = missile.pos.clone()
 		p.scale(size/15000)

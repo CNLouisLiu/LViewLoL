@@ -104,7 +104,7 @@ def lview_update(game, ui):
 	global traps, wards, clones
 	
 	for obj in game.others:
-		if obj.is_ally_to(game.local_champ):
+		if obj.is_ally_to(game.player):
 			continue
 		
 		if show_wards and obj.has_tags(UnitTag.Unit_Ward) and obj.name in wards:

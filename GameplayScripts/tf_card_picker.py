@@ -34,10 +34,10 @@ def lview_update(game, ui):
 	global card_to_lock
 	
 	if card_to_lock is not None:
-		if card_to_lock == game.local_champ.W.name:
+		if card_to_lock == game.player.W.name:
 			game.press_key(key_w)
 			card_to_lock = None
-	elif game.local_champ.W.get_current_cooldown(game.time) < 0.01:
+	elif game.player.W.get_current_cooldown(game.time) < 0.01:
 		key_to_press = None
 		if game.was_key_pressed(key_blue):
 			card_to_lock = "BlueCardLock"
