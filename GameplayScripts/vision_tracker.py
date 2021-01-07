@@ -96,6 +96,8 @@ def draw(game, obj, radius, show_circle_world, show_circle_map):
 		game.draw_circle_world(obj.pos, radius, 30, 3, Color.RED)
 	
 	if show_circle_map:
+		p = game.world_to_minimap(obj.pos)
+		#print(f'{obj.name} = {p.x:.2f} {p.y:.2f}')
 		game.draw_circle(game.world_to_minimap(obj.pos), game.distance_to_minimap(radius), 15, 2, Color.RED)
 
 def lview_update(game, ui):

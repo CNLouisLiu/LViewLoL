@@ -57,3 +57,8 @@ int Offsets::MissileSrcIdx                = 0x290;
 int Offsets::MissileDestIdx               = 0x2E8;
 int Offsets::MissileStartPos              = 0x2A8;
 int Offsets::MissileEndPos                = 0x2B4;
+
+int Offsets::MinimapObject                = 0x34EE8C8;
+int Offsets::MinimapObjectHud             = 0x88;
+int Offsets::MinimapHudPos                = 0x5C;
+int Offsets::MinimapHudSize               = 0x64;

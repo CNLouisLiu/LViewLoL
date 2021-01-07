@@ -160,13 +160,11 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 	}
 	else {
 		// Try reading missile extension
-		int addrMissileSpellInfo = 0;
 		LoadMissileFromMem(base, hProcess, deepLoad);
 	}
 }
 
 // Champion stuff
-
 
 DWORD GameObject::spellSlotPtrs[6] = {};
 BYTE  GameObject::itemListStruct[0x100] = {};
@@ -305,8 +303,18 @@ tuple GameObject::ItemsToPyTuple() {
 
 void GameObject::LoadMissileFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 
+	if (!deepLoad)
+		return;
+
 	missileInfo = MissileInfo::UnknownMissile;
+	memcpy(&srcIndex, buff + Offsets::MissileSrcIdx, sizeof(short));
+	memcpy(&destIndex, buff + Offsets::MissileDestIdx, sizeof(short));
+	memcpy(&startPos, buff + Offsets::MissileStartPos, sizeof(Vector3));
+	memcpy(&endPos, buff + Offsets::MissileEndPos, sizeof(Vector3));
 	
+	startPos.y += 100.f;
+	endPos.y += 100.f;
+
 	DWORD spellInfoPtr = Mem::ReadDWORDFromBuffer(buff, Offsets::MissileSpellInfo);
 	if (spellInfoPtr == 0)
 		return;
@@ -314,14 +322,6 @@ void GameObject::LoadMissileFromMem(DWORD base, HANDLE hProcess, bool deepLoad) 
 	DWORD spellDataPtr = Mem::ReadDWORD(hProcess, spellInfoPtr + Offsets::SpellInfoSpellData);
 	if (spellDataPtr == 0)
 		return;
-
-	memcpy(&srcIndex, buff + Offsets::MissileSrcIdx, sizeof(short));
-	memcpy(&destIndex, buff + Offsets::MissileDestIdx, sizeof(short));
-	memcpy(&startPos, buff + Offsets::MissileStartPos, sizeof(Vector3));
-	memcpy(&endPos, buff + Offsets::MissileEndPos, sizeof(Vector3));
-
-	startPos.y += 100.f;
-	endPos.y += 100.f;
 
 	Mem::Read(hProcess, spellDataPtr, buff, 0x500);
 

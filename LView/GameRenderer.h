@@ -19,10 +19,10 @@ public:
 	Vector2  WorldToScreen(const Vector3& pos) const;
 
 	/* Converts world coordinates to mminimap coordinates. Used to draw on minimap */
-	Vector2  WorldToMinimap(const Vector3& pos, const ImVec2& wPos, const ImVec2& wSize) const;
+	Vector2  WorldToMinimap(const Vector3& pos, const Vector2& wPos, const Vector2& wSize) const;
 
 	/* Converts distances in world space to minimap space */
-	float    DistanceToMinimap(float dist, const ImVec2& wSize) const;
+	float    DistanceToMinimap(float dist, const Vector2& wSize) const;
 
 	/* Draws a circle at the given coordinate. Coordinates and radius must be in world space. */
 	void     DrawCircleAt(ImDrawList* canvas, const Vector3& worldPos, float radius, bool filled, int numPoints, ImColor color, float thickness = 3.f) const;

@@ -11,9 +11,7 @@ class PyGame {
 public:
 	std::map<int, float>  distanceCache;
 	MemSnapshot*          ms;
-
 	ImDrawList*           overlay;
-	ImVec2                minimapPos, minimapSize;
 
 public:
 	PyGame() {}
@@ -49,11 +47,11 @@ public:
 	}
 
 	Vector2 WorldToMinimap(const Vector3& pos) {
-		return ms->renderer->WorldToMinimap(pos, minimapPos, minimapSize);
+		return ms->renderer->WorldToMinimap(pos, ms->minimapPos, ms->minimapSize);
 	}
 
 	float DistanceToMinimap(float dist) {
-		return ms->renderer->DistanceToMinimap(dist, minimapSize);
+		return ms->renderer->DistanceToMinimap(dist, ms->minimapSize);
 	}
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(IsScreenPointOnScreenOverloads, IsScreenPointOnScreen, 1, 3);

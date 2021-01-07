@@ -17,6 +17,7 @@ using namespace std::chrono;
 class LeagueMemoryReader {
 
 public:
+         LeagueMemoryReader();
 	bool IsLeagueWindowActive();
 	bool IsHookedToProcess();
 	void HookToProcess();
@@ -36,9 +37,11 @@ private:
 private:
 	float                       minDistanceToCursor;
 	std::set<short>             blacklistedObjects;
+	std::set<std::string>       blacklistedObjectNames;
 	
 	void                        ReadRenderer(MemSnapshot& snapshot);
 	void                        ReadObjects(MemSnapshot& snapshot);
+	void                        ReadMinimap(MemSnapshot& snapshot);
 	void                        FindPlayerChampion(MemSnapshot& snapshot);
 	void                        ClearMissingObjects(MemSnapshot& snapshot);
 	void                        FindHoveredObject(MemSnapshot& ms);

@@ -6,6 +6,17 @@
 #include <limits>
 #include <stdexcept>
 
+LeagueMemoryReader::LeagueMemoryReader()
+{
+	// Some trash object not worth reading
+	blacklistedObjectNames.insert("TestCube");
+	blacklistedObjectNames.insert("TestCubeRender");
+	blacklistedObjectNames.insert("TestCubeRender10Vision");
+	blacklistedObjectNames.insert("S5Test_WardCorpse");
+	blacklistedObjectNames.insert("SRU_CampRespawnMarker");
+	blacklistedObjectNames.insert("SRU_PlantRespawnMarker");
+}
+
 bool LeagueMemoryReader::IsLeagueWindowActive() {
 	HWND handle = GetForegroundWindow();
 
@@ -169,7 +180,7 @@ void LeagueMemoryReader::ReadObjects(MemSnapshot& ms) {
 		}
 		else {
 			obj = it->second;
-			obj->LoadFromMem(pointerArray[i], hProcess, true);
+			obj->LoadFromMem(pointerArray[i], hProcess, false);
 
 			// If the object changed its id for whatever the fuck reason then we update the map with the new index
 			if (netId != obj->networkId) {
@@ -185,7 +196,7 @@ void LeagueMemoryReader::ReadObjects(MemSnapshot& ms) {
 			ms.indexToNetId[obj->objectIndex] = obj->networkId;
 			ms.updatedThisFrame.insert(obj->networkId);
 
-			if (obj->name.size() <= 1)
+			if (obj->name.size() <= 1 || blacklistedObjectNames.find(obj->name) != blacklistedObjectNames.end())
 				blacklistedObjects.insert(obj->networkId);
 			else if (obj->HasTags(Unit_Champion))
 				ms.champions.push_back(obj);
@@ -206,8 +217,19 @@ void LeagueMemoryReader::ReadObjects(MemSnapshot& ms) {
 	ms.benchmark->readMissilesMs = readDuration.count();
 }
 
-void LeagueMemoryReader::FindPlayerChampion(MemSnapshot & snapshot)
-{
+void LeagueMemoryReader::ReadMinimap(MemSnapshot & snapshot) {
+	int minimapObj = Mem::ReadDWORD(hProcess, moduleBaseAddr + Offsets::MinimapObject);
+	int minimapHud = Mem::ReadDWORD(hProcess, minimapObj + Offsets::MinimapObjectHud);
+
+	static char buff[0x80];
+	Mem::Read(hProcess, minimapHud, buff, 0x80);
+	memcpy(&snapshot.minimapPos, buff + Offsets::MinimapHudPos, sizeof(Vector2));
+	memcpy(&snapshot.minimapSize, buff + Offsets::MinimapHudSize, sizeof(Vector2));
+
+	//printf("pos = %.2f %.2f , size = %.2f %.2f \n", snapshot.minimapPos.x, snapshot.minimapPos.y, snapshot.minimapSize.x, snapshot.minimapSize.y);
+}
+
+void LeagueMemoryReader::FindPlayerChampion(MemSnapshot & snapshot) {
 	int netId = 0;
 	Mem::Read(hProcess, Mem::ReadDWORD(hProcess, moduleBaseAddr + Offsets::LocalPlayer) + Offsets::ObjNetworkID, &netId, sizeof(int));
 	
@@ -218,8 +240,7 @@ void LeagueMemoryReader::FindPlayerChampion(MemSnapshot & snapshot)
 		snapshot.player = (snapshot.champions.size() > 0 ? snapshot.champions[0] : nullptr);
 }
 
-void LeagueMemoryReader::ClearMissingObjects(MemSnapshot & ms)
-{
+void LeagueMemoryReader::ClearMissingObjects(MemSnapshot & ms) {
 	auto it = ms.objectMap.begin();
 	while (it != ms.objectMap.end()) {
 		if (ms.updatedThisFrame.find(it->first) == ms.updatedThisFrame.end()) {
@@ -237,6 +258,7 @@ void LeagueMemoryReader::MakeSnapshot(MemSnapshot& ms) {
 	if (ms.gameTime > 2) {
 		ms.updatedThisFrame.clear();
 		ReadRenderer(ms);
+		ReadMinimap(ms);
 	    ReadObjects(ms);
 		ClearMissingObjects(ms);
 		FindPlayerChampion(ms);

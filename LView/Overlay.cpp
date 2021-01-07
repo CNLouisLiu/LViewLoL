@@ -122,17 +122,6 @@ void Overlay::DrawOverlayWindows(PyGame& state)
 	);
 	state.overlay = ImGui::GetWindowDrawList();
 	ImGui::End();
-
-	// Draw minimap overlay 
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 2.0f);
-	ImGui::SetNextWindowBgAlpha(0.0f);
-	ImGui::Begin("Minimap Overlay", nullptr,
-		ImGuiWindowFlags_NoScrollbar
-	);
-	state.minimapPos = ImGui::GetWindowPos();
-	state.minimapSize = ImGui::GetWindowSize();
-	ImGui::End();
-	ImGui::PopStyleVar();
 }
 
 void Overlay::DrawScripts(PyGame& state, MemSnapshot& memSnapshot)

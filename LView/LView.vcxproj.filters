@@ -140,9 +140,6 @@
     <ClInclude Include="imconfig.h">
       <Filter>Source Files\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Vector.h">
-      <Filter>Source Files\Structs</Filter>
-    </ClInclude>
     <ClInclude Include="Utils.h">
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
@@ -151,9 +148,6 @@
     </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>Source Files\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Benchmark.h">
-      <Filter>Source Files\Structs</Filter>
     </ClInclude>
     <ClInclude Include="MemoryLoadable.h">
       <Filter>Source Files\Structs\GameRelated</Filter>
@@ -208,6 +202,12 @@
     </ClInclude>
     <ClInclude Include="UnitInfo.h">
       <Filter>Source Files\Structs\GameRelated\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Benchmark.h">
+      <Filter>Source Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

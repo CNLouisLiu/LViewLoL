@@ -64,4 +64,8 @@ public:
 	static int MissileStartPos;
 	static int MissileEndPos;
 
+	static int MinimapObject;
+	static int MinimapObjectHud;
+	static int MinimapHudPos;
+	static int MinimapHudSize;
 };

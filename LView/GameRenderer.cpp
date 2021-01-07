@@ -56,7 +56,7 @@ Vector2 GameRenderer::WorldToScreen(const Vector3& pos) const {
 	return out;
 }
 
-Vector2 GameRenderer::WorldToMinimap(const Vector3& pos, const ImVec2& wPos, const ImVec2& wSize) const {
+Vector2 GameRenderer::WorldToMinimap(const Vector3& pos, const Vector2& wPos, const Vector2& wSize) const {
 
 	Vector2 result = { pos.x / 15000.f, pos.z / 15000.f };
 	result.x = wPos.x + result.x * wSize.x;
@@ -65,7 +65,7 @@ Vector2 GameRenderer::WorldToMinimap(const Vector3& pos, const ImVec2& wPos, con
 	return result;
 }
 
-float GameRenderer::DistanceToMinimap(float dist, const ImVec2& wSize) const {
+float GameRenderer::DistanceToMinimap(float dist, const Vector2& wSize) const {
 
 	// This assumes that the minimap is a square !
 	return (dist / 15000.f) * wSize.x;
