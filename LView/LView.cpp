@@ -11,6 +11,7 @@
 #include "Offsets.h"
 #include "AntiCrack.h"
 #include "MapObject.h"
+#include "GameData.h"
 
 #include <chrono>
 #include "Overlay.h"
@@ -28,7 +29,7 @@
 using namespace std::chrono;
 
 static const int VERSION_MAJOR = 0;
-static const int VERSION_SECONDARY = 1;
+static const int VERSION_SECONDARY = 2;
 
 void Intro();
 
@@ -54,8 +55,11 @@ int main()
 	}
 
 	printf("[+] Loading static map data\n\n");
-	MapObject::Get(MapType::SUMMONERS_RIFT)->Load("height_map_sru.bin");
-	MapObject::Get(MapType::HOWLING_ABYSS)->Load("height_map_ha.bin");
+	MapObject::Get(MapType::SUMMONERS_RIFT)->Load("data/height_map_sru.bin");
+	MapObject::Get(MapType::HOWLING_ABYSS)->Load("data/height_map_ha.bin");
+
+	printf("[+] Loading unit data\n");
+	GameData::LoadFromFiles("data/UnitData.json", "data/SpellData.json");
 
 	float millisPerFrame = 10;
 	float frameTimeLength;

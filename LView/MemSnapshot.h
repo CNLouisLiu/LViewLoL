@@ -7,6 +7,7 @@
 #include "GameObject.h"
 #include "MapObject.h"
 
+/// Object encapsulating league's game state
 struct MemSnapshot {
 
 	/* Lists of objects by category */

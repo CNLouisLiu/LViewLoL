@@ -2,20 +2,13 @@
 #include "Utils.h"
 #include "Offsets.h"
 #include "Spell.h"
+#include "GameData.h"
 
 BYTE  GameObject::buff[GameObject::sizeBuff]         = {};
 BYTE  GameObject::buffDeep[GameObject::sizeBuffDeep] = {};
 
-bool GameObject::HasTags(const UnitTag& type1) const {
+bool GameObject::HasUnitTags(const UnitTag& type1) const {
 	return unitInfo->tags.test(type1);
-}
-
-bool GameObject::HasTags2(const UnitTag& type1, const UnitTag& type2)  const {
-	return unitInfo->tags.test(type1) && unitInfo->tags.test(type2);
-}
-
-bool GameObject::HasTags3(const UnitTag& type1, const UnitTag& type2, const UnitTag& type3) const {
-	return unitInfo->tags.test(type1) && unitInfo->tags.test(type2) && unitInfo->tags.test(type3);
 }
 
 bool GameObject::IsEqualTo(const GameObject& other) const {
@@ -93,11 +86,6 @@ bool GameObject::IsAllyTo(const GameObject& other) const {
 	return this->team == other.team;
 }
 
-object GameObject::GetPythonUnitInfo()
-{
-	return object(ptr(unitInfo));
-}
-
 void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 
 	address = base;
@@ -136,26 +124,11 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 		else {
 			name = std::string("");
 		}
-
-		// Get static UnitInfo
-		std::string nameLower;
-		nameLower.resize(name.size());
-
-		std::transform(name.begin(),
-			name.end(),
-			nameLower.begin(),
-			::tolower);
-
-		auto it = UnitInfo::infos.find(nameLower);
-		if (it != UnitInfo::infos.end())
-			unitInfo = it->second;
-		else {
-			unitInfo = UnitInfo::infos.find("unknown")->second;
-		}
+		unitInfo = GameData::GetUnitInfoByName(name);
 	}
 
 	// Read extension of object
-	if (HasTags(Unit_Champion)) {
+	if (HasUnitTags(Unit_Champion)) {
 		LoadChampionFromMem(base, hProcess, deepLoad);
 	}
 	else {
@@ -166,29 +139,30 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 
 // Champion stuff
 
-DWORD GameObject::spellSlotPtrs[6] = {};
-BYTE  GameObject::itemListStruct[0x100] = {};
+DWORD GameObject::spellSlotPointerBuffer[6] = {};
+BYTE  GameObject::itemListBuffer[0x100] = {};
 
 void GameObject::LoadChampionFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
+
 	// Read spells
-	memcpy(&spellSlotPtrs, &buff[Offsets::ObjSpellBook], sizeof(DWORD) * 6);
+	memcpy(&spellSlotPointerBuffer, &buff[Offsets::ObjSpellBook], sizeof(DWORD) * 6);
 
-	Q.LoadFromMem(spellSlotPtrs[0], hProcess);
-	W.LoadFromMem(spellSlotPtrs[1], hProcess);
-	E.LoadFromMem(spellSlotPtrs[2], hProcess);
-	R.LoadFromMem(spellSlotPtrs[3], hProcess);
+	Q.LoadFromMem(spellSlotPointerBuffer[0], hProcess);
+	W.LoadFromMem(spellSlotPointerBuffer[1], hProcess);
+	E.LoadFromMem(spellSlotPointerBuffer[2], hProcess);
+	R.LoadFromMem(spellSlotPointerBuffer[3], hProcess);
 
-	D.LoadFromMem(spellSlotPtrs[4], hProcess);
-	F.LoadFromMem(spellSlotPtrs[5], hProcess);
+	D.LoadFromMem(spellSlotPointerBuffer[4], hProcess);
+	F.LoadFromMem(spellSlotPointerBuffer[5], hProcess);
 
 	// Read items
 	DWORD ptrList = Mem::ReadDWORD(hProcess, address + Offsets::ObjItemList);
-	Mem::Read(hProcess, ptrList, itemListStruct, 0x100);
+	Mem::Read(hProcess, ptrList, itemListBuffer, 0x100);
 
 	for (int i = 0; i < 6; ++i) {
 		items[i] = nullptr;
 		DWORD itemPtr = 0, itemInfoPtr = 0;
-		memcpy(&itemPtr, itemListStruct + i * 0x10 + Offsets::ItemListItem, sizeof(DWORD));
+		memcpy(&itemPtr, itemListBuffer + i * 0x10 + Offsets::ItemListItem, sizeof(DWORD));
 		if (itemPtr == 0)
 			continue;
 
@@ -252,7 +226,7 @@ float GameObject::GetOnHitPhysDamage(const GameObject& target)
 			break;
 		case 3153: // Blade of the ruined king
 			botrkDmg = (IsRanged() ? 0.06f : 0.1f) * target.health;
-			if (target.HasTags(Unit_Champion))
+			if (target.HasUnitTags(Unit_Champion))
 				physDmg += botrkDmg;
 			else
 				physDmg += Clamp(botrkDmg, 0.f, 60.f);
@@ -300,13 +274,11 @@ tuple GameObject::ItemsToPyTuple() {
 }
 
 // Missile stuff
-
 void GameObject::LoadMissileFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 
 	if (!deepLoad)
 		return;
 
-	missileInfo = MissileInfo::UnknownMissile;
 	memcpy(&srcIndex, buff + Offsets::MissileSrcIdx, sizeof(short));
 	memcpy(&destIndex, buff + Offsets::MissileDestIdx, sizeof(short));
 	memcpy(&startPos, buff + Offsets::MissileStartPos, sizeof(Vector3));
@@ -332,77 +304,63 @@ void GameObject::LoadMissileFromMem(DWORD base, HANDLE hProcess, bool deepLoad) 
 		name = std::string(nameBuff);
 
 	// Find static data
-	auto it = MissileInfo::missiles.find(name);
-	if (it != MissileInfo::missiles.end())
-		missileInfo = it->second;
+	spellInfo = GameData::GetSpellInfoByName(name);
 
 	// Calculate end position using range since for some skills (e.g GLOBAL skills) the end position is incorrect
-	if (missileInfo != MissileInfo::UnknownMissile && !HasMissileTags(FIXED_LOCATION)) {
+	if (spellInfo != GameData::UnknownSpell && !HasSpellFlags(FixedDestination)) {
 
 		// Calculate direction vector and normalize
 		endPos = Vector3(endPos.x - startPos.x, 0, endPos.z - startPos.z);
 		endPos = endPos.normalize();
 
 		// Update endposition using the height of the current position
-		endPos.x = endPos.x*missileInfo->range + startPos.x;
+		endPos.x = endPos.x*spellInfo->range + startPos.x;
 		endPos.y = position.y;
-		endPos.z = endPos.z*missileInfo->range + startPos.z;
+		endPos.z = endPos.z*spellInfo->range + startPos.z;
 	}
+}
+
+bool GameObject::EqualSpellFlags(SpellFlags flags) const
+{
+	return spellInfo->flags == flags;
+}
+
+bool GameObject::HasSpellFlags(SpellFlags flags) const
+{
+	return (spellInfo->flags & flags) == flags;
 }
 
 float GameObject::GetSpeed() const
 {
-	return missileInfo->speed;
+	return spellInfo->speed;
 }
 
 float GameObject::GetRange() const
 {
-	return missileInfo->range;
+	return spellInfo->range;
 }
 
 float GameObject::GetRadius() const
 {
-	return missileInfo->radius;
+	return spellInfo->radius;
 }
 
 float GameObject::GetRadiusImpact() const
 {
-	return missileInfo->radiusImpact;
+	return spellInfo->impactRadius;
 }
 
-float GameObject::GetAngleImpact() const
+float GameObject::GetDelay() const
 {
-	return missileInfo->angleImpact;
+	return spellInfo->delay;
 }
 
-bool GameObject::HasMissileTags(const MissileTag & tag)
+float GameObject::GetHeight() const
 {
-	return (missileInfo->tags & tag) == tag;
+	return spellInfo->height;
 }
 
-bool GameObject::HasMissileTags2(const MissileTag & tag, const MissileTag & tag2)
+std::string GameObject::GetIcon() const
 {
-	int compound = tag | tag2;
-	return (missileInfo->tags & compound) == compound;
-}
-
-bool GameObject::HasMissileTags3(const MissileTag & tag, const MissileTag & tag2, const MissileTag & tag3)
-{
-	int compound = tag | tag2 | tag3;
-	return (missileInfo->tags & compound) == compound;
-}
-
-bool GameObject::EqualTags(const MissileTag & tag)
-{
-	return missileInfo->tags == tag;
-}
-
-bool GameObject::EqualTags2(const MissileTag & tag, const MissileTag & tag2)
-{
-	return missileInfo->tags == (tag | tag2);
-}
-
-bool GameObject::EqualTags3(const MissileTag & tag, const MissileTag & tag2, const MissileTag & tag3)
-{
-	return missileInfo->tags == (tag | tag2 | tag3);
+	return spellInfo->icon;
 }

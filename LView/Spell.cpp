@@ -1,6 +1,7 @@
 #include "Spell.h"
 #include "Utils.h"
 #include "Offsets.h"
+#include "GameData.h"
 
 BYTE Spell::buffer[0x150];
 const char* Spell::spellTypeName[6] = { "Q", "W", "E", "R", "D", "F"};
@@ -75,4 +76,51 @@ void Spell::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 		summonerSpellType = summonerSpellTypeDict.find(name.c_str())->second;
 		name = std::string(translatedName->second);
 	}
+
+	info = GameData::GetSpellInfoByName(name);
+}
+
+bool Spell::EqualSpellFlags(SpellFlags flags) const
+{
+	return info->flags == flags;
+}
+
+bool Spell::HasSpellFlags(SpellFlags flags) const
+{
+	return (info->flags & flags) == flags;
+}
+
+float Spell::GetSpeed() const
+{
+	return info->speed;
+}
+
+float Spell::GetRange() const
+{
+	return info->range;
+}
+
+float Spell::GetRadius() const
+{
+	return info->radius;
+}
+
+float Spell::GetRadiusImpact() const
+{
+	return info->impactRadius;
+}
+
+float Spell::GetDelay() const
+{
+	return info->delay;
+}
+
+float Spell::GetHeight() const
+{
+	return info->height;
+}
+
+std::string Spell::GetIcon() const
+{
+	return info->icon;
 }

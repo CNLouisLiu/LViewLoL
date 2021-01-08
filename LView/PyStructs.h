@@ -8,14 +8,13 @@
 #include "Spell.h"
 #include "PyGame.h"
 #include "Item.h"
-#include "MissileInfo.h"
 
 #include "PyImguiInterface.h"
 #include "Utils.h"
 
 using namespace boost::python;
 
-/// Definition of structs used by python scripts
+/// Defines the mapping between the C++ and Python classes
 BOOST_PYTHON_MODULE(lview) {
 
 	class_<Item>("Item")
@@ -35,15 +34,25 @@ BOOST_PYTHON_MODULE(lview) {
 		;
 
 	class_<Spell>("Spell", init<SpellSlot>())
-		.def_readonly("name",                 &Spell::name)
-		.def_readonly("slot",                 &Spell::slot)
-		.def_readonly("summoner_spell_type",  &Spell::summonerSpellType)
-		.def_readonly("level",                &Spell::level)
-		.def_readonly("ready_at",             &Spell::readyAt)
-		.def_readonly("value",                &Spell::value)
+		.def_readonly("name",                   &Spell::name)
+		.def_readonly("slot",                   &Spell::slot)
+		.def_readonly("summoner_spell_type",    &Spell::summonerSpellType)
+		.def_readonly("level",                  &Spell::level)
+		.def_readonly("ready_at",               &Spell::readyAt)
+		.def_readonly("value",                  &Spell::value)
+											    
+		.def("get_current_cooldown",            &Spell::GetRemainingCooldown)
+		.def("trigger",                         &Spell::Trigger)
 
-		.def("get_current_cooldown",          &Spell::GetRemainingCooldown)
-		.def("trigger",                       &Spell::Trigger)
+		.def_readonly("radius",                 &Spell::GetRadius)
+		.def_readonly("impact_radius",          &Spell::GetRadiusImpact)
+		.def_readonly("speed",                  &Spell::GetSpeed)
+		.def_readonly("range",                  &Spell::GetRange)
+		.def_readonly("delay",                  &Spell::GetDelay)
+		.def_readonly("height",                 &Spell::GetHeight)
+		.def_readonly("icon",                   &Spell::GetIcon)
+		.def("has_tags",                        &Spell::HasSpellFlags)
+		.def("equal_tags",                      &Spell::EqualSpellFlags)
 		;
 
 	class_<GameObject>("Obj")
@@ -67,7 +76,6 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("crit_multi",           &GameObject::critMulti)
 		.def_readonly("ap",                   &GameObject::abilityPower)
 		.def_readonly("atk_speed_multi",      &GameObject::atkSpeedMulti)
-		.def_readonly("unit",                 &GameObject::GetPythonUnitInfo)
 		.def_readonly("team",                 &GameObject::team)
 
 		.def_readonly("acquisition_radius",   &GameObject::GetAcquisitionRadius)
@@ -89,9 +97,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("__ne__",                        &GameObject::IsNotEqualTo)
 		.def("is_ally_to",                    &GameObject::IsAllyTo)
 		.def("is_enemy_to",                   &GameObject::IsEnemyTo)
-		.def("has_tags",                      &GameObject::HasTags)
-		.def("has_tags",                      &GameObject::HasTags2)
-		.def("has_tags",                      &GameObject::HasTags3)
+		.def("has_tags",                      &GameObject::HasUnitTags)
 
 		// Champion
 		.def_readonly("Q",                    &GameObject::Q)
@@ -112,34 +118,52 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("dest_id",              &GameObject::destIndex)
 		.def_readonly("start_pos",            &GameObject::startPos)
 		.def_readonly("end_pos",              &GameObject::endPos)
-									          
+				
+		// Spell
 		.def_readonly("radius",               &GameObject::GetRadius)
 		.def_readonly("impact_radius",        &GameObject::GetRadiusImpact)
 		.def_readonly("speed",                &GameObject::GetSpeed)
-		.def_readonly("range",                &GameObject::GetRange)
-		.def_readonly("impact_angle",         &GameObject::GetAngleImpact)
-									          
-		.def("has_tags",                      &GameObject::HasMissileTags)
-		.def("has_tags",                      &GameObject::HasMissileTags2)
-		.def("has_tags",                      &GameObject::HasMissileTags3)
-		.def("has_only_tags",                 &GameObject::EqualTags)
-		.def("has_only_tags",                 &GameObject::EqualTags2)
-		.def("has_only_tags",                 &GameObject::EqualTags3)
+		.def_readonly("range",                &GameObject::GetRange)	
+		.def_readonly("delay",                &GameObject::GetDelay)
+		.def_readonly("height",               &GameObject::GetHeight)
+		.def_readonly("icon",                 &GameObject::GetIcon)
+		.def("has_tags",                      &GameObject::HasSpellFlags)
+		.def("equal_tags",                    &GameObject::EqualSpellFlags)
 		;
 
-	enum_<MissileTag>("MissileTag")
-		.value("None",              MissileTag::NONE)
-		.value("Collide_Windwall",  MissileTag::COLLIDE_WINDWALL)
-		.value("Collide_Mob",       MissileTag::COLLIDE_MOB)
-		.value("Collide_Champion",  MissileTag::COLLIDE_CHAMPION)
-		.value("Collide_Wall",      MissileTag::COLLIDE_WALL)
-		.value("Collide_Structure", MissileTag::COLLIDE_STRUCTURE)
-		.value("Collide_Generic",   MissileTag::COLLIDE_GENERIC)
-		.value("Fixed_Location",    MissileTag::FIXED_LOCATION)
-		.value("Targeted",          MissileTag::TARGETED)
-		.value("Pierce_Mob",        MissileTag::PIERCE_MOB)
-		.value("Pierce_Champion",   MissileTag::PIERCE_CHAMPION)
-		.value("Pierce_All",        MissileTag::PIERCE_ALL)
+	enum_<SpellFlags>("SpellFlag")
+		.value("AffectAllyChampion",        SpellFlags::AffectAllyChampion)
+		.value("AffectEnemyChampion",       SpellFlags::AffectEnemyChampion)
+		.value("AffectAllyLaneMinion",      SpellFlags::AffectAllyLaneMinion)
+		.value("AffectEnemyLaneMinion",     SpellFlags::AffectEnemyLaneMinion)
+		.value("AffectAllyWard",            SpellFlags::AffectAllyWard)
+		.value("AffectEnemyWard",           SpellFlags::AffectEnemyWard)
+		.value("AffectAllyTurret",          SpellFlags::AffectAllyTurret)
+		.value("AffectEnemyTurret",         SpellFlags::AffectEnemyTurret)
+		.value("AffectAllyInhibs",          SpellFlags::AffectAllyInhibs)
+		.value("AffectEnemyInhibs",         SpellFlags::AffectEnemyInhibs)
+		.value("AffectAllyNonLaneMinion",   SpellFlags::AffectAllyNonLaneMinion)
+		.value("AffectJungleMonster",       SpellFlags::AffectJungleMonster)
+		.value("AffectEnemyNonLaneMinion",  SpellFlags::AffectEnemyNonLaneMinion)
+		.value("AffectAlwaysSelf",          SpellFlags::AffectAlwaysSelf)
+		.value("AffectNeverSelf",           SpellFlags::AffectNeverSelf)
+
+		.value("CollideLaneMinion",         SpellFlags::CollideLaneMinion)
+		.value("CollideNonLaneMinion",      SpellFlags::CollideNonLaneMinion)
+		.value("CollideWindwall",           SpellFlags::CollideWindwall)
+		.value("CollideChampion",           SpellFlags::CollideChampion)
+		.value("CollideJungleMonster",      SpellFlags::CollideJungleMonster)
+
+		.value("Targeted",                  SpellFlags::Targeted)
+		.value("FixedDestination",          SpellFlags::FixedDestination)
+
+		.value("CollideMob",                SpellFlags::CollideMob)
+		.value("CollideGeneric",            SpellFlags::CollideGeneric)
+
+		.value("AffectAllyMob",             SpellFlags::AffectAllyMob)
+		.value("AffectEnemyMob",            SpellFlags::AffectEnemyMob)
+		.value("AffectAllyGeneric",         SpellFlags::AffectAllyGeneric)
+		.value("AffectEnemyGeneric",        SpellFlags::AffectEnemyGeneric)
 		;
 
 	class_<PyGame>("Game")

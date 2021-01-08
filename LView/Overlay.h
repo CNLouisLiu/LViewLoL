@@ -28,6 +28,7 @@
 using namespace std::chrono;
 using namespace boost::python;
 
+/// Manages the overlay of the cheat. Also manages the executing scripts.
 class Overlay {
 
 public:

@@ -9,7 +9,10 @@ enum MapType {
 class MapObject {
 
 public:
+	/// Loads map data from disk
 	void                               Load(const char* heightMapFile);
+	
+	/// Returns the ground Y coordinate. Uses a preloaded height map.
 	float                              GetHeightAt(float x, float z);
 	
 public:

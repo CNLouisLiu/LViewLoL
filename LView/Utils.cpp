@@ -1,4 +1,5 @@
 #include "Utils.h"
+#include <algorithm>
 #include <cmath>
 
 DWORD Mem::ReadDWORD(HANDLE hProcess, DWORD addr) {
@@ -39,6 +40,19 @@ bool Character::ContainsOnlyASCII(const char* buff, int maxSize) {
 			return false;
 	}
 	return true;
+}
+
+std::string Character::ToLower(std::string str)
+{
+	std::string strLower;
+	strLower.resize(str.size());
+
+	std::transform(str.begin(),
+		str.end(),
+		strLower.begin(),
+		::tolower);
+
+	return strLower;
 }
 
 float League::EffectiveHP(float health, float armour) {

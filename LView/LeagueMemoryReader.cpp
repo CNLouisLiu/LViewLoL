@@ -198,15 +198,15 @@ void LeagueMemoryReader::ReadObjects(MemSnapshot& ms) {
 
 			if (obj->name.size() <= 1 || blacklistedObjectNames.find(obj->name) != blacklistedObjectNames.end())
 				blacklistedObjects.insert(obj->networkId);
-			else if (obj->HasTags(Unit_Champion))
+			else if (obj->HasUnitTags(Unit_Champion))
 				ms.champions.push_back(obj);
-			else if (obj->HasTags(Unit_Minion_Lane))
+			else if (obj->HasUnitTags(Unit_Minion_Lane))
 				ms.minions.push_back(obj);
-			else if (obj->HasTags(Unit_Monster))
+			else if (obj->HasUnitTags(Unit_Monster))
 				ms.jungle.push_back(obj);
-			else if (obj->HasTags(Unit_Structure_Turret))
+			else if (obj->HasUnitTags(Unit_Structure_Turret))
 				ms.turrets.push_back(obj);
-			else if (obj->missileInfo != MissileInfo::UnknownMissile)
+			else if (obj->spellInfo != GameData::UnknownSpell)
 				ms.missiles.push_back(obj);
 			else
 				ms.others.push_back(obj);

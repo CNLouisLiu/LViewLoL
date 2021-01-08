@@ -2,11 +2,11 @@
 #include <string>
 #include <map>
 
-/* This class is used to store key value pairs for cheat configurations */
+/// Class used to save and load configs
 class ConfigSet {
 
 public:
-	// Only made public for C++ to python bindings. Use ConfigSet::Get()
+	/// Only made public for C++ to python bindings. Use ConfigSet::Get() to retrieve the singleton instance
 	ConfigSet() {};
 
 	int            GetInt(const char* key, int defaultVal);
@@ -22,14 +22,11 @@ public:
 	void           LoadFromFile();
 	void           SaveToFile();
 
-	/* Sets a prefix to the keys provided to Set() Get() functions.
-       This is done in order to avoid configuration conflicts between
-	   different cheats.
-	*/
-	void SetPrefixKey(std::string prefixKey);
+	/// Sets a prefix to all the keys provided in all the Get/Set calls.
+	void           SetPrefixKey(std::string prefixKey);
+	std::string    GetPrefixKey();
 
-	std::string GetPrefixKey();
-
+	/// Gets singleton instance
 	static ConfigSet* Get() {
 		if (instance == nullptr) {
 			instance = new ConfigSet();

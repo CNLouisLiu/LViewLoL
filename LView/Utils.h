@@ -47,31 +47,37 @@ private:
 	int            errorCode = 0;
 };
 
+/// Utilities used for realing process memory
 namespace Mem {
 
-	/* Reads the pointer at the specified address from memory */
+	/// Reads a DWORD at the specified memory location
 	DWORD          ReadDWORD(HANDLE hProcess, DWORD addr);
 
-	/* Reads bytes into the structure specified from memory*/
+	/// Reads an arbitrary struct at the specified memory location
 	void           Read(HANDLE hProcess, DWORD addr, void* structure, int size);
 
-	/* Reads the pointer at the specified address from the specified buffer */
+	/// Reads a DWORD at the specified location in a given buffer
 	DWORD          ReadDWORDFromBuffer(void* buff, int position);
 };
 
+/// WINAPI process utilities
 namespace Process {
 	BOOL           IsProcessRunning(DWORD pid);
 };
 
+/// League related algorithms
 namespace League {
 	float          EffectiveHP(float health, float armour);
 	float          EffectiveDamage(float damage, float armour);
 }
 
+/// String related algorithms
 namespace Character {
-	bool ContainsOnlyASCII(const char* buff, int maxSize);
+	bool        ContainsOnlyASCII(const char* buff, int maxSize);
+	std::string ToLower(std::string str);
 }
 
+/// Some basic colors
 namespace Colors {
 	static const ImVec4 BLACK       = ImVec4(0.06f, 0.06f, 0.06f, 1.f);
 	static const ImVec4 WHITE       = ImVec4(1.f,   1.f,   1.f,   1.f);

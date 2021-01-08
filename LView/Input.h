@@ -14,26 +14,29 @@ static const char* HKeyNames[] = {
 	"F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "Num", "Scrl", "Home", "Num8", "PgUp", "NumMinus", "Num4", "Num5", "Num6", "NumPlus", "End", "NumDown", "PgDown", "Insert", "Del"
 };
 
+/// Keyboard/Mouse input related utilities. For keyboards the hardware key codes are used instead of the virtual ones.
 namespace Input {
-	/* Presses and releases a key with a short delay in between */
+	/// Presses the specified hardware key
 	void     PressKey(HKey key);
 
-	/* Simple function to check if a key was pressed. The drawback is that only one key can be used by a single caller
-	   If a key is pressed the first caller of this function with that specified key will consume the even and all subsequent calls will return false.
-	*/
+	/// Checks if a key was pressed recently. Only one caller can use this function for a given key.
 	bool     WasKeyPressed(HKey key);
 
-	/* Checks if a key is being held down. */
+	/// Checks if the key is held down.
 	bool     IsKeyDown(HKey key);
 
-	/* Gets current position of cursor on screen */
+	/// Gets the cursor position in window coordinates
 	Vector2  GetCursorPosition();
 
+	/// Sends a left click input
 	void     PressLeftClick();
 
+	/// Sends a right click input
 	void     PressRightClick();
 
+	/// Moves the cursor at the specified location, clicks and then moves the cursor back at the initial location
 	void     ClickAt(bool leftClick, float x, float y);
 
+	/// Moves the cursor to the specified window coordinates.
 	void     MoveCursorTo(float x, float y);
 }

@@ -86,7 +86,7 @@ def draw_skillshots(game, player):
 	
 	for missile in game.missiles:
 
-		if missile.is_ally_to(player) or missile.has_tags(MissileTag.Targeted):
+		if  missile.has_tags(SpellFlag.Targeted):
 			continue
 			
 		end_pos = missile.end_pos.clone()
@@ -94,51 +94,22 @@ def draw_skillshots(game, player):
 		curr_pos = missile.pos.clone()
 		impact_pos = None
 		
-		start_pos.y = game.map.height_at(start_pos.x, start_pos.z) + 100
+		start_pos.y = game.map.height_at(start_pos.x, start_pos.z) + missile.height
 		end_pos.y = start_pos.y
 		curr_pos.y = start_pos.y
 		
 		if missile.radius > 0:
-			dir = Vec3(end_pos.x - start_pos.x, 0, end_pos.z - start_pos.z).normalize()
-			
-			if not missile.has_tags(MissileTag.Fixed_Location):
-				obj = prediction.find_missile_collision(game, missile, skillshots_predict)
-				if obj:
-					dist = start_pos.distance(obj.pos)
-					impact_pos = Vec3(start_pos.x + dist*dir.x, start_pos.y, start_pos.z + dist*dir.z)
-					game.draw_circle_world(obj.pos, obj.gameplay_radius, 20, 3, Color.PURPLE)
-				
-			start_pos = curr_pos
-			if impact_pos:
-				draw_rect(game, impact_pos, end_pos, missile.radius, Color(0.5, 0.5, 0.5, 0.5))
-				draw_rect(game, start_pos, impact_pos, missile.radius, Color.WHITE)
-				end_pos = impact_pos # Set the end of the missile as the impact point for the next drawings
-			else:
-				draw_rect(game, start_pos, end_pos, missile.radius, Color.WHITE)
-			
+			draw_rect(game, curr_pos, end_pos, missile.radius, Color.WHITE)
 			game.draw_circle_world_filled(curr_pos, missile.radius, 20, Color.RED)
-			
-			
+	
 		if missile.impact_radius > 0:
 			r = missile.impact_radius
 			end_pos.y = game.map.height_at(end_pos.x, end_pos.z)
 			percent_done = missile.start_pos.distance(curr_pos)/missile.start_pos.distance(end_pos)
 			color = Color(1, 1.0 - percent_done, 0, 0.5)
 			
-			if missile.impact_angle > 0:
-				angle = missile.impact_angle/2
-				
-				left_dir = dir.scale(-r).rotate_y(angle).add(end_pos)
-				right_dir = dir.scale(-r).rotate_y(-angle).add(end_pos)
-				
-				game.draw_triangle_world(end_pos, left_dir, right_dir, 3, Color.WHITE)
-				
-				left_dir = dir.scale(-r*percent_done).rotate_y(angle).add(end_pos)
-				right_dir = dir.scale(-r*percent_done).rotate_y(-angle).add(end_pos)
-				game.draw_triangle_world_filled(end_pos, left_dir, right_dir, color)
-			else:
-				game.draw_circle_world(end_pos, r, 30, 3, Color.WHITE)
-				game.draw_circle_world_filled(end_pos, r*percent_done, 30, color)
+			game.draw_circle_world(end_pos, r, 30, 3, Color.WHITE)
+			game.draw_circle_world_filled(end_pos, r*percent_done, 30, color)
 	
 def lview_update(game, ui):
 	global turret_ranges, minion_last_hit, attack_range, skillshots

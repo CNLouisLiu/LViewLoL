@@ -40,6 +40,9 @@
     <Filter Include="Source Files\Structs\GameRelated\Units">
       <UniqueIdentifier>{f24696f8-27e0-4883-9478-56065f8048e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Structs\GameRelated\Data">
+      <UniqueIdentifier>{0ffb7377-39cd-40f3-8539-0eba6297aefe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui.cpp">
@@ -75,9 +78,6 @@
     <ClCompile Include="GameRenderer.cpp">
       <Filter>Source Files\Structs\GameRelated</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>Source Files\Structs\GameRelated</Filter>
-    </ClCompile>
     <ClCompile Include="AntiCrack.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
@@ -99,23 +99,32 @@
     <ClCompile Include="Overlay.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="MapObject.cpp">
-      <Filter>Source Files\Structs\GameRelated</Filter>
-    </ClCompile>
-    <ClCompile Include="MissileInfo.cpp">
-      <Filter>Source Files\Structs\GameRelated\Spells</Filter>
-    </ClCompile>
     <ClCompile Include="Spell.cpp">
       <Filter>Source Files\Structs\GameRelated\Spells</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files\Structs\GameRelated\Units</Filter>
     </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>Source Files\Python</Filter>
+    </ClCompile>
+    <ClCompile Include="GameData.cpp">
+      <Filter>Source Files\Structs\GameRelated\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="SpellInfo.cpp">
+      <Filter>Source Files\Structs\GameRelated\Spells</Filter>
+    </ClCompile>
+    <ClCompile Include="SpellInterface.h">
+      <Filter>Source Files\Structs\GameRelated\Spells</Filter>
+    </ClCompile>
     <ClCompile Include="UnitInfo.cpp">
       <Filter>Source Files\Structs\GameRelated\Units</Filter>
     </ClCompile>
-    <ClCompile Include="Script.cpp">
-      <Filter>Source Files\Python</Filter>
+    <ClCompile Include="MapObject.cpp">
+      <Filter>Source Files\Structs\GameRelated\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files\Structs\GameRelated</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,9 +182,6 @@
     <ClInclude Include="GameRenderer.h">
       <Filter>Source Files\Structs\GameRelated</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Source Files\Structs\GameRelated</Filter>
-    </ClInclude>
     <ClInclude Include="AntiCrack.h">
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
@@ -188,19 +194,10 @@
     <ClInclude Include="Overlay.h">
       <Filter>Source Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="MapObject.h">
-      <Filter>Source Files\Structs\GameRelated</Filter>
-    </ClInclude>
-    <ClInclude Include="MissileInfo.h">
-      <Filter>Source Files\Structs\GameRelated\Spells</Filter>
-    </ClInclude>
     <ClInclude Include="Spell.h">
       <Filter>Source Files\Structs\GameRelated\Spells</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Source Files\Structs\GameRelated\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="UnitInfo.h">
       <Filter>Source Files\Structs\GameRelated\Units</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h">
@@ -208,6 +205,21 @@
     </ClInclude>
     <ClInclude Include="Benchmark.h">
       <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="GameData.h">
+      <Filter>Source Files\Structs\GameRelated\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="SpellInfo.h">
+      <Filter>Source Files\Structs\GameRelated\Spells</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitInfo.h">
+      <Filter>Source Files\Structs\GameRelated\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObject.h">
+      <Filter>Source Files\Structs\GameRelated\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Source Files\Structs\GameRelated</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

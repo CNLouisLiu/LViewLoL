@@ -13,14 +13,22 @@
 
 using namespace std::chrono;
 
-/// Reads memory from League of Legends process using ReadProcessMemory
+/// Class used to read from leagues process memory
 class LeagueMemoryReader {
 
 public:
          LeagueMemoryReader();
+
+	/// Checks if leagues window is still active
 	bool IsLeagueWindowActive();
+
+	/// Checks to see if we have a league window stored
 	bool IsHookedToProcess();
+
+	/// Finds leagues window and stores it
 	void HookToProcess();
+
+	/// Creates an object with everything of iterest from the game
 	void MakeSnapshot(MemSnapshot& ms);
 private:
 

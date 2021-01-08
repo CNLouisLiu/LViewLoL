@@ -7,6 +7,7 @@
 
 using namespace std::chrono;
 
+/// Represents a python gameplay script
 class Script {
 
 public:

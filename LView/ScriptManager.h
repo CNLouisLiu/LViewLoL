@@ -2,6 +2,7 @@
 #include <string>
 #include "Script.h"
 
+/// Manages gameplay scripts executed in Python
 class ScriptManager {
 
 public:

@@ -175,6 +175,7 @@
   <ItemGroup>
     <ClCompile Include="AntiCrack.cpp" />
     <ClCompile Include="ConfigSet.cpp" />
+    <ClCompile Include="GameData.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_demo.cpp" />
@@ -195,7 +196,8 @@
     <ClCompile Include="ScriptManager.cpp" />
     <ClCompile Include="Spell.cpp" />
     <ClCompile Include="Overlay.cpp" />
-    <ClCompile Include="MissileInfo.cpp" />
+    <ClCompile Include="SpellInfo.cpp" />
+    <ClCompile Include="SpellInterface.h" />
     <ClCompile Include="UnitInfo.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
@@ -203,6 +205,7 @@
     <ClInclude Include="AntiCrack.h" />
     <ClInclude Include="Benchmark.h" />
     <ClInclude Include="ConfigSet.h" />
+    <ClInclude Include="GameData.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="imgui_impl_dx11.h" />
     <ClInclude Include="Item.h" />
@@ -226,7 +229,7 @@
     <ClInclude Include="ScriptManager.h" />
     <ClInclude Include="Spell.h" />
     <ClInclude Include="Overlay.h" />
-    <ClInclude Include="MissileInfo.h" />
+    <ClInclude Include="SpellInfo.h" />
     <ClInclude Include="UnitInfo.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector.h" />
