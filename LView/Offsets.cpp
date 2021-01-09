@@ -47,6 +47,8 @@ int Offsets::SpellDataMissileName         = 0x64;
 
 int Offsets::ObjectManager                = 0x1C52490;
 int Offsets::LocalPlayer                  = 0x34EEDE4;
+int Offsets::UnderMouseObject             = 0x28A0658;
+
 int Offsets::ObjectMapCount               = 0x2C;
 int Offsets::ObjectMapRoot                = 0x28;
 int Offsets::ObjectMapNodeNetId           = 0x10;

@@ -147,6 +147,10 @@ def lview_update(game, ui):
 	ui.begin("Object Viewer")
 	
 	ui.dragfloat("time", game.time)
+	if game.hovered_obj:
+		ui.labeltext("hovered_obj", f"{game.hovered_obj.name} ({hex(game.hovered_obj.address)})")
+	else:
+		ui.labeltext("hovered_obj", "none")
 	
 	ui.text("Local Champion")
 	draw_champion(game.player, ui)

@@ -51,12 +51,6 @@ def draw_overlay_on_champ(game, champ):
 	draw_spell(game, champ.D, p, 13, False, False)
 	p.y += 14
 	draw_spell(game, champ.F, p, 13, False, False)
-	
-	#draw_spell_btn(game, champ.W, p.x + 33,  p.y,      30, 15)
-	#draw_spell_btn(game, champ.E, p.x + 66,  p.y,      30, 15)
-	#draw_spell_btn(game, champ.R, p.x + 99,  p.y,      30, 15)
-	#draw_spell_btn(game, champ.D, p.x,       p.y - 18, 63, 15, True, False)
-	#draw_spell_btn(game, champ.F, p.x + 66,  p.y - 18, 63, 15, True, False)
 
 
 def lview_update(game, ui):

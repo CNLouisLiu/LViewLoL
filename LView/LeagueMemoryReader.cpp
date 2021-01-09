@@ -82,26 +82,15 @@ void LeagueMemoryReader::ReadRenderer(MemSnapshot& ms) {
 
 void LeagueMemoryReader::FindHoveredObject(MemSnapshot& ms) {
 	
-	Vector2 cursorPos = Input::GetCursorPosition();
-	float minDistance = std::numeric_limits<float>::infinity();
-	float distance;
-	std::shared_ptr<GameObject> hoveredObject = nullptr;
-
-	for (auto it = ms.objectMap.begin(); it != ms.objectMap.end(); ++it) {
-
-		if (it->second->IsEqualTo(*ms.player))
-			continue;
-
-		distance = cursorPos.distance(ms.renderer->WorldToScreen(it->second->position));
-		if (distance < minDistance && distance < it->second->GetSelectionRadius()) {
-			hoveredObject = it->second;
-			minDistance = distance;
-		}
-	}
-
-	ms.hoveredObject = hoveredObject;
+	int addrObj = Mem::ReadDWORD(hProcess, moduleBaseAddr + Offsets::UnderMouseObject);
+	int netId = Mem::ReadDWORD(hProcess, addrObj + Offsets::ObjNetworkID);
+	
+	auto it = ms.objectMap.find(netId);
+	if (it != ms.objectMap.end())
+		ms.hoveredObject = it->second;
+	else
+		ms.hoveredObject = nullptr;
 }
-
 
 void LeagueMemoryReader::ReadObjects(MemSnapshot& ms) {
 

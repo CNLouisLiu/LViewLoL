@@ -139,6 +139,7 @@ public:
 		if (it == GameData::Images.end())
 			return;
 		overlay->AddImageRounded(it->second->resourceView, (ImVec2&)start, (ImVec2&)end, zero, one, ImColor(color), rounding);
+		
 	}
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DrawButtonOverloads, DrawButton, 4, 5);

@@ -6,14 +6,15 @@ headers['User-Agent'] = "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML
 result_folder = 'icons_spells'
 pattern_item = '<a href="[\w\.]+/?" title="[\w\.]+">([\w\.]+)/?</a>'
 
-def download_icons(url):
+def download_icons(url, f_filter = lambda x: True):
 	global headers, result_folder
 	
 	print('Requesting: ' + url)
 	req = urllib.request.Request(url, headers = headers)
 	page = urllib.request.urlopen(req).read().decode('utf-8')
 	icons = filter(lambda n: n.endswith('.png'), re.findall(pattern_item, page))
-			
+	icons = filter(f_filter, icons)
+	
 	for icon in icons:
 		print('Downloading: ' + icon)
 		req = urllib.request.Request(url + icon, headers = headers)
@@ -23,11 +24,8 @@ def download_icons(url):
 			
 		time.sleep(0.02)
 
-def read_champ_spell_icons():
+def read_character_icons(url_characters, url_character_icons, f_filter = lambda x: True):
 	global headers, result_folder, pattern_item
-	
-	url_characters = 'https://raw.communitydragon.org/latest/game/assets/characters/'
-	url_character_icons = 'https://raw.communitydragon.org/latest/game/assets/characters/{}/hud/icons2d/'
 	
 	failed = []
 	
@@ -38,7 +36,7 @@ def read_champ_spell_icons():
 	for character in characters:
 		try:
 			url = url_character_icons.format(character)
-			download_icons(url)
+			download_icons(url, f_filter)
 			
 		except Exception as e:
 			print('Failed to retrieve data for {}. ({})'.format(character, str(e)))
@@ -48,7 +46,7 @@ def read_champ_spell_icons():
 	print('Error retrieving following icons:')
 	pprint(failed)
 
-def read_spell_icons():
+def read_other_icons():
 	global headers, result_folder, pattern_item
 	
 	url = 'https://raw.communitydragon.org/latest/game/data/spells/icons2d/'
@@ -57,5 +55,9 @@ def read_spell_icons():
 if not os.path.isdir(result_folder):
 	os.mkdir(result_folder)
 		
-read_spell_icons()
+		
+# Read champion icons
+x = 'https://raw.communitydragon.org/latest/game/assets/characters/'
+y = 'https://raw.communitydragon.org/latest/game/assets/characters/{}/hud/'
+read_character_icons(x, y, lambda x: 'square' in x)
 

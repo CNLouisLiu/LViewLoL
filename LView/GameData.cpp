@@ -18,14 +18,18 @@ void GameData::Load(std::string& dataFolder)
 	std::string spellData = dataFolder + "/SpellData.json";
 	std::string spellDataCustom = dataFolder + "/SpellDataCustom.json";
 	std::string spellIcons = dataFolder + "/icons_spells";
+	std::string champIcons = dataFolder + "/icons_champs";
 
-	printf("\r	Loading unit data    ");
+	printf("\r	Loading unit data    \n");
 	LoadUnitData(unitData);
 
-	printf("\r	Loading spell data   ");
+	printf("\r	Loading spell data   \n");
 	LoadSpellData(spellData);
 	LoadSpellData(spellDataCustom);
+
+	printf("\r	Loading images      \n");
 	LoadIcons(spellIcons);
+	LoadIcons(champIcons);
 
 	printf("\r	Loading complete                             \n");
 }
@@ -70,7 +74,7 @@ void GameData::LoadUnitData(std::string&  path)
 		unit->basicAttackWindup        = unitObj.GetDouble("basicAtkWindup");
 		unit->gameplayRadius           = unitObj.GetDouble("gameplayRadius");
 		unit->healthBarHeight          = unitObj.GetDouble("healthBarHeight");
-		unit->name                     = std::string(unitObj.GetString("name").c_str());
+		unit->name                     = Character::ToLower(std::string(unitObj.GetString("name").c_str()));
 		unit->pathRadius               = unitObj.GetDouble("pathingRadius");
 		unit->selectionRadius          = unitObj.GetDouble("selectionRadius");
 
@@ -78,7 +82,7 @@ void GameData::LoadUnitData(std::string&  path)
 		for (int j = 0; j < tags.GetLength(); ++j)
 			unit->SetTag(tags.GetItem(j).AsString().c_str());
 
-		Units[Character::ToLower(unit->name)] = unit;
+		Units[unit->name] = unit;
 	}
 }
 
@@ -101,13 +105,13 @@ void GameData::LoadSpellData(std::string& path)
 		info->delay  = spell.GetDouble("delay");
 		info->height = spell.GetDouble("height");
 		info->icon   = Character::ToLower(std::string(spell.GetString("icon").c_str()));
-		info->name   = std::string(spell.GetString("name").c_str());
+		info->name   = Character::ToLower(std::string(spell.GetString("name").c_str()));
 		info->radius = spell.GetDouble("radius");
 		info->range  = spell.GetDouble("range");
 		info->speed  = spell.GetDouble("speed");
 		info->flags  = (SpellFlags) (info->flags | (spell.GetBool("targeted") ? Targeted : 0));
 
-		Spells[Character::ToLower(info->name)] = info;
+		Spells[info->name] = info;
 	}
 }
 
