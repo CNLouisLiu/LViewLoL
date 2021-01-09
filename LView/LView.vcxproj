@@ -198,6 +198,7 @@
     <ClCompile Include="Overlay.cpp" />
     <ClCompile Include="SpellInfo.cpp" />
     <ClCompile Include="SpellInterface.h" />
+    <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="UnitInfo.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
@@ -207,6 +208,7 @@
     <ClInclude Include="ConfigSet.h" />
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Texture2D.h" />
     <ClInclude Include="imgui_impl_dx11.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="MapObject.h" />
@@ -230,6 +232,7 @@
     <ClInclude Include="Spell.h" />
     <ClInclude Include="Overlay.h" />
     <ClInclude Include="SpellInfo.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="UnitInfo.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector.h" />

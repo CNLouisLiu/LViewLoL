@@ -200,7 +200,9 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("draw_triangle_world",        &PyGame::DrawTriangleWorld)
 		.def("draw_triangle_world_filled", &PyGame::DrawTriangleWorldFilled)
 		.def("draw_button",                &PyGame::DrawButton,           PyGame::DrawButtonOverloads())
-						
+		.def("draw_image",                 &PyGame::DrawImage)
+		.def("draw_image",                 &PyGame::DrawImageRounded)
+
 		.def("linear_collision",            &PyGame::LinearCollision)
 
 		.def("was_key_pressed",            &PyGame::WasKeyPressed)

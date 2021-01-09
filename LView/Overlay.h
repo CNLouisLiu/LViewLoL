@@ -32,17 +32,19 @@ using namespace boost::python;
 class Overlay {
 
 public:
-	               Overlay();
-	void           Init();
-	void           GameStart(MemSnapshot& memSnapshot);
+	                      Overlay();
+	void                  Init();
+	void                  GameStart(MemSnapshot& memSnapshot);
+				          
+	void                  StartFrame();
+	void                  Update(MemSnapshot& memSnapshot);
+	void                  RenderFrame();
+				          
+	bool                  IsVisible();
+	void                  Hide();
+	void                  Show();
 
-	void           StartFrame();
-	void           Update(MemSnapshot& memSnapshot);
-	void           RenderFrame();
-
-	bool           IsVisible();
-	void           Hide();
-	void           Show();
+	static ID3D11Device*  GetDxDevice();
 
 private:
 	void           DrawUI(MemSnapshot& memSnapshot);
@@ -65,10 +67,10 @@ private:
 	bool                               isWindowVisible = true;
 
 	// DirectX stuff
-	static ID3D11Device*               g_pd3dDevice;
-	static ID3D11DeviceContext*        g_pd3dDeviceContext;
-	static IDXGISwapChain1*            g_pSwapChain;
-	static ID3D11RenderTargetView*     g_mainRenderTargetView;
+	static ID3D11Device*               dxDevice;
+	static ID3D11DeviceContext*        dxDeviceContext;
+	static IDXGISwapChain1*            dxSwapChain;
+	static ID3D11RenderTargetView*     dxRenderTarget;
 
 	ConfigSet&                         configs;
 

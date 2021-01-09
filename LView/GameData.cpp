@@ -2,6 +2,7 @@
 #include <aws/core/utils/json/JsonSerializer.h>
 #include <fstream>
 #include "Utils.h"
+#include "Overlay.h"
 
 using namespace Aws::Utils::Json;
 
@@ -9,14 +10,27 @@ UnitInfo*                         GameData::UnknownUnit = new UnitInfo();
 SpellInfo*                        GameData::UnknownSpell = new SpellInfo();
 std::map<std::string, UnitInfo*>  GameData::Units = {};
 std::map<std::string, SpellInfo*> GameData::Spells = {};
+std::map<std::string, Texture2D*> GameData::Images = {};
 
-void GameData::LoadFromFiles(const char * unitDataPath, const char * spellDataPath)
+void GameData::Load(std::string& dataFolder)
 {
-	LoadUnitData(unitDataPath);
-	LoadSpellData(spellDataPath);
+	std::string unitData = dataFolder + "/UnitData.json";
+	std::string spellData = dataFolder + "/SpellData.json";
+	std::string spellDataCustom = dataFolder + "/SpellDataCustom.json";
+	std::string spellIcons = dataFolder + "/icons_spells";
+
+	printf("\r	Loading unit data    ");
+	LoadUnitData(unitData);
+
+	printf("\r	Loading spell data   ");
+	LoadSpellData(spellData);
+	LoadSpellData(spellDataCustom);
+	LoadIcons(spellIcons);
+
+	printf("\r	Loading complete                             \n");
 }
 
-UnitInfo * GameData::GetUnitInfoByName(std::string & name)
+UnitInfo * GameData::GetUnitInfoByName(std::string& name)
 {
 	auto it = Units.find(Character::ToLower(name));
 	if (it != Units.end())
@@ -24,7 +38,7 @@ UnitInfo * GameData::GetUnitInfoByName(std::string & name)
 	return UnknownUnit;
 }
 
-SpellInfo * GameData::GetSpellInfoByName(std::string & name)
+SpellInfo * GameData::GetSpellInfoByName(std::string& name)
 {
 	auto it = Spells.find(Character::ToLower(name));
 	if (it != Spells.end())
@@ -32,7 +46,7 @@ SpellInfo * GameData::GetSpellInfoByName(std::string & name)
 	return UnknownSpell;
 }
 
-void GameData::LoadUnitData(const char * path)
+void GameData::LoadUnitData(std::string&  path)
 {
 	std::ifstream inputUnitData;
 	inputUnitData.open(path);
@@ -68,7 +82,7 @@ void GameData::LoadUnitData(const char * path)
 	}
 }
 
-void GameData::LoadSpellData(const char * path)
+void GameData::LoadSpellData(std::string& path)
 {
 	std::ifstream inputSpellData;
 	inputSpellData.open(path);
@@ -86,7 +100,7 @@ void GameData::LoadSpellData(const char * path)
 		info->flags  = (SpellFlags)spell.GetInteger("affectsTypesFlags");
 		info->delay  = spell.GetDouble("delay");
 		info->height = spell.GetDouble("height");
-		info->icon   = std::string(spell.GetString("icon").c_str());
+		info->icon   = Character::ToLower(std::string(spell.GetString("icon").c_str()));
 		info->name   = std::string(spell.GetString("name").c_str());
 		info->radius = spell.GetDouble("radius");
 		info->range  = spell.GetDouble("range");
@@ -95,6 +109,30 @@ void GameData::LoadSpellData(const char * path)
 
 		Spells[Character::ToLower(info->name)] = info;
 	}
+}
+
+void GameData::LoadIcons(std::string& path)
+{
+	std::string folder(path);
+	WIN32_FIND_DATAA findData;
+	HANDLE hFind;
+
+	int nrFile = 0;
+	hFind = FindFirstFileA((folder + "\\*.png").c_str(), &findData);
+	do {
+		if (hFind != INVALID_HANDLE_VALUE) {
+			printf("\r	Loading image %d      ", nrFile++);
+			std::string filePath = folder + "/" + findData.cFileName;
+			Texture2D* image = Texture2D::LoadFromFile(Overlay::GetDxDevice(), filePath);
+			if (image == nullptr)
+				printf("Failed to load: %s\n", filePath.c_str());
+			else {
+				std::string fileName(findData.cFileName);
+				fileName.erase(fileName.find(".png"), 4);
+				Images[Character::ToLower(fileName)] = image;
+			}
+		}
+	} while (FindNextFileA(hFind, &findData));
 }
 
 /// Some stuff we just cant get from the data files and we must hardcode it.

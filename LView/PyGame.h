@@ -121,6 +121,26 @@ public:
 		overlay->AddLine((const ImVec2&)start, (const ImVec2&)end, ImColor(color), thickness);
 	}
 
+	void DrawImage(const char* img, const Vector2& start, const Vector2& end, const ImVec4& color) {
+		static ImVec2 zero = ImVec2(0.f, 0.f);
+		static ImVec2 one = ImVec2(1.f, 1.f);
+
+		auto it = GameData::Images.find(std::string(img));
+		if (it == GameData::Images.end())
+			return;
+		overlay->AddImage(it->second->resourceView, (ImVec2&)start, (ImVec2&)end, zero, one, ImColor(color));
+	}
+
+	void DrawImageRounded(const char* img, const Vector2& start, const Vector2& end, const ImVec4& color, float rounding) {
+		static ImVec2 zero = ImVec2(0.f, 0.f);
+		static ImVec2 one = ImVec2(1.f, 1.f);
+
+		auto it = GameData::Images.find(std::string(img));
+		if (it == GameData::Images.end())
+			return;
+		overlay->AddImageRounded(it->second->resourceView, (ImVec2&)start, (ImVec2&)end, zero, one, ImColor(color), rounding);
+	}
+
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DrawButtonOverloads, DrawButton, 4, 5);
 	void DrawButton(const Vector2& p, const char* text, ImVec4& colorButton, ImVec4& colorText, float rounding = 0) {
 		int txtSize = strlen(text);

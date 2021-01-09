@@ -16,9 +16,6 @@
     <Filter Include="Source Files\GUI">
       <UniqueIdentifier>{32136a6d-8cd7-4799-985c-41045dbdfc59}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\imgui">
-      <UniqueIdentifier>{462e78dd-f859-45e0-8411-dd4643618c9a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Structs">
       <UniqueIdentifier>{c41e4a3e-5831-4f46-b805-716fdeccd807}</UniqueIdentifier>
     </Filter>
@@ -46,25 +43,34 @@
     <Filter Include="Source Files\Structs\GameRelated\Others">
       <UniqueIdentifier>{c139ef89-3486-4f32-bff6-8e82d5fe5a24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\External">
+      <UniqueIdentifier>{7ab4a644-702d-449c-b876-0ddde6ddd978}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\External\imgui">
+      <UniqueIdentifier>{462e78dd-f859-45e0-8411-dd4643618c9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\External\stb_image">
+      <UniqueIdentifier>{890199b9-57ab-45fd-bd47-9b8cd568f133}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui.cpp">
-      <Filter>Source Files\imgui</Filter>
+      <Filter>Source Files\External\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui_demo.cpp">
-      <Filter>Source Files\imgui</Filter>
+      <Filter>Source Files\External\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui_draw.cpp">
-      <Filter>Source Files\imgui</Filter>
+      <Filter>Source Files\External\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui_tables.cpp">
-      <Filter>Source Files\imgui</Filter>
+      <Filter>Source Files\External\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui_widgets.cpp">
-      <Filter>Source Files\imgui</Filter>
+      <Filter>Source Files\External\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui_impl_win32.cpp">
-      <Filter>Source Files\imgui</Filter>
+      <Filter>Source Files\External\imgui</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp">
       <Filter>Source Files\Utils</Filter>
@@ -94,7 +100,7 @@
       <Filter>Source Files\Core</Filter>
     </ClCompile>
     <ClCompile Include="imgui_impl_dx11.cpp">
-      <Filter>Source Files\imgui</Filter>
+      <Filter>Source Files\External\imgui</Filter>
     </ClCompile>
     <ClCompile Include="Overlay.cpp">
       <Filter>Source Files\GUI</Filter>
@@ -129,28 +135,31 @@
     <ClCompile Include="Item.cpp">
       <Filter>Source Files\Structs\GameRelated\Others</Filter>
     </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui.h">
-      <Filter>Source Files\imgui</Filter>
+      <Filter>Source Files\External\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imgui_internal.h">
-      <Filter>Source Files\imgui</Filter>
+      <Filter>Source Files\External\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imstb_rectpack.h">
-      <Filter>Source Files\imgui</Filter>
+      <Filter>Source Files\External\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imstb_textedit.h">
-      <Filter>Source Files\imgui</Filter>
+      <Filter>Source Files\External\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imstb_truetype.h">
-      <Filter>Source Files\imgui</Filter>
+      <Filter>Source Files\External\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imgui_impl_win32.h">
-      <Filter>Source Files\imgui</Filter>
+      <Filter>Source Files\External\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imconfig.h">
-      <Filter>Source Files\imgui</Filter>
+      <Filter>Source Files\External\imgui</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
       <Filter>Source Files\Utils</Filter>
@@ -186,7 +195,7 @@
       <Filter>Source Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="imgui_impl_dx11.h">
-      <Filter>Source Files\imgui</Filter>
+      <Filter>Source Files\External\imgui</Filter>
     </ClInclude>
     <ClInclude Include="Overlay.h">
       <Filter>Source Files\GUI</Filter>
@@ -223,6 +232,12 @@
     </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>Source Files\Structs\GameRelated\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Source Files\External\stb_image</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.h">
+      <Filter>Source Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

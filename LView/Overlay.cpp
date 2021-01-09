@@ -9,10 +9,10 @@
 
 #define HCheck(x, m) if(x != S_OK) { throw std::runtime_error(format("DirectX: Failed at %s. Error code: %d\n", m, MAKE_HRESULT(1, _FACDXGI, X))); }
 
-ID3D11Device*            Overlay::g_pd3dDevice            = NULL;
-ID3D11DeviceContext*     Overlay::g_pd3dDeviceContext     = NULL;
-IDXGISwapChain1*         Overlay::g_pSwapChain            = NULL;
-ID3D11RenderTargetView*  Overlay::g_mainRenderTargetView  = NULL;
+ID3D11Device*            Overlay::dxDevice            = NULL;
+ID3D11DeviceContext*     Overlay::dxDeviceContext     = NULL;
+IDXGISwapChain1*         Overlay::dxSwapChain            = NULL;
+ID3D11RenderTargetView*  Overlay::dxRenderTarget  = NULL;
 
 std::string format(const char* c, const char* args...) {
 	char buff[200];
@@ -85,7 +85,7 @@ void Overlay::Init() {
 
 	// Setup Platform/Renderer backends
 	ImGui_ImplWin32_Init(hWindow);
-	ImGui_ImplDX11_Init(g_pd3dDevice, g_pd3dDeviceContext);
+	ImGui_ImplDX11_Init(dxDevice, dxDeviceContext);
 
 	ImGui::GetStyle().Alpha = 1.f;
 }
@@ -284,10 +284,10 @@ void Overlay::RenderFrame()
 	
 	ImGui::EndFrame();
 	ImGui::Render();
-	g_pd3dDeviceContext->OMSetRenderTargets(1, &g_mainRenderTargetView, NULL);
-	g_pd3dDeviceContext->ClearRenderTargetView(g_mainRenderTargetView, (float*)&clear_color);
+	dxDeviceContext->OMSetRenderTargets(1, &dxRenderTarget, NULL);
+	dxDeviceContext->ClearRenderTargetView(dxRenderTarget, (float*)&clear_color);
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-	g_pSwapChain->Present(0, 0);
+	dxSwapChain->Present(0, 0);
 
 	duration<float, std::milli> timeDuration = high_resolution_clock::now() - timeBefore;
 	renderTimeMs = timeDuration.count();
@@ -310,6 +310,11 @@ void Overlay::Show()
 	isWindowVisible = true;
 }
 
+ID3D11Device * Overlay::GetDxDevice()
+{
+	return dxDevice;
+}
+
 bool Overlay::CreateDeviceD3D(HWND hWnd)
 {
 	D3D_FEATURE_LEVEL featureLevel;
@@ -321,12 +326,12 @@ bool Overlay::CreateDeviceD3D(HWND hWnd)
 		D3D11_CREATE_DEVICE_BGRA_SUPPORT ,
 		nullptr, 0, // Highest available feature level
 		D3D11_SDK_VERSION,
-		&g_pd3dDevice,
+		&dxDevice,
 		nullptr,    // Actual feature level
-		&g_pd3dDeviceContext), "Creating device");
+		&dxDeviceContext), "Creating device");
 
 	IDXGIDevice* dxgiDevice;
-	HCheck(g_pd3dDevice->QueryInterface(__uuidof(IDXGIDevice), (void **)& dxgiDevice), "Query DXGI Device");
+	HCheck(dxDevice->QueryInterface(__uuidof(IDXGIDevice), (void **)& dxgiDevice), "Query DXGI Device");
 
 	IDXGIAdapter * dxgiAdapter = 0;
 	HCheck(dxgiDevice->GetParent(__uuidof(IDXGIAdapter), (void **)& dxgiAdapter), "Get DXGI Adapter");
@@ -351,7 +356,7 @@ bool Overlay::CreateDeviceD3D(HWND hWnd)
 	HCheck(dxgiFactory->CreateSwapChainForComposition(dxgiDevice,
 		&description,
 		nullptr,
-		&g_pSwapChain), "Create swap chain");
+		&dxSwapChain), "Create swap chain");
 		
 	// Create Direct Composition shits. This is the only way to make the UI not lag the game and itself.
 	IDCompositionDevice* dcompDevice;
@@ -367,7 +372,7 @@ bool Overlay::CreateDeviceD3D(HWND hWnd)
 
 	IDCompositionVisual* visual;
 	dcompDevice->CreateVisual(&visual);
-	visual->SetContent(g_pSwapChain);
+	visual->SetContent(dxSwapChain);
 	target->SetRoot(visual);
 	dcompDevice->Commit();
 
@@ -378,24 +383,24 @@ bool Overlay::CreateDeviceD3D(HWND hWnd)
 void Overlay::CleanupDeviceD3D()
 {
 	CleanupRenderTarget();
-	if (g_pSwapChain) { g_pSwapChain->Release(); g_pSwapChain = NULL; }
-	if (g_pd3dDeviceContext) { g_pd3dDeviceContext->Release(); g_pd3dDeviceContext = NULL; }
-	if (g_pd3dDevice) { g_pd3dDevice->Release(); g_pd3dDevice = NULL; }
+	if (dxSwapChain) { dxSwapChain->Release(); dxSwapChain = NULL; }
+	if (dxDeviceContext) { dxDeviceContext->Release(); dxDeviceContext = NULL; }
+	if (dxDevice) { dxDevice->Release(); dxDevice = NULL; }
 }
 
 void Overlay::CreateRenderTarget()
 {
 	ID3D11Resource* pBackBuffer;
-	if(S_OK != g_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer)))
+	if(S_OK != dxSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer)))
 		throw std::runtime_error("Failed to retrieve DX11 swap chain buffer");
-	if (S_OK != g_pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, &g_mainRenderTargetView))
+	if (S_OK != dxDevice->CreateRenderTargetView(pBackBuffer, NULL, &dxRenderTarget))
 		throw std::runtime_error("Failed to create DX11 render target");
 	pBackBuffer->Release();
 }
 
 void Overlay::CleanupRenderTarget()
 {
-	if (g_mainRenderTargetView) { g_mainRenderTargetView->Release(); g_mainRenderTargetView = NULL; }
+	if (dxRenderTarget) { dxRenderTarget->Release(); dxRenderTarget = NULL; }
 }
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -407,10 +412,10 @@ LRESULT WINAPI Overlay::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 	switch (msg)
 	{
 	case WM_SIZE:
-		if (g_pd3dDevice != NULL && wParam != SIZE_MINIMIZED)
+		if (dxDevice != NULL && wParam != SIZE_MINIMIZED)
 		{
 			CleanupRenderTarget();
-			g_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
+			dxSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
 			CreateRenderTarget();
 		}
 		return 0;

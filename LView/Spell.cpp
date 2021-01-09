@@ -7,36 +7,20 @@ BYTE Spell::buffer[0x150];
 const char* Spell::spellTypeName[6] = { "Q", "W", "E", "R", "D", "F"};
 const HKey   Spell::spellSlotKey[6]  = { HKey::Q, HKey::W, HKey::E, HKey::R, HKey::D, HKey::F };
 
-std::map<std::string, std::string> Spell::summonerSpellNameDict = {
-	{std::string("SummonerHaste"),                 std::string("Ghost")},
-	{std::string("SummonerHeal"),                  std::string("Heal")},
-	{std::string("SummonerBarrier"),               std::string("Barrier")},
-	{std::string("SummonerExhaust"),               std::string("Exhaust")},
-	{std::string("SummonerMana"),                  std::string("Clarity")},
-	{std::string("SummonerSnowball"),              std::string("Snowball")},
-	{std::string("SummonerFlash"),                 std::string("Flash")},
-	{std::string("SummonerTeleport"),              std::string("Teleport")},
-	{std::string("SummonerBoost"),                 std::string("Cleanse")},
-	{std::string("SummonerDot"),                   std::string("Ignite")},
-	{std::string("SummonerSmite"),                 std::string("Smite")},
-	{std::string("S5_SummonerSmitePlayerGanker"),  std::string("Smite")},
-	{std::string("S5_SummonerSmiteDuel"),          std::string("Smite")},
-}; 
-
 std::map<std::string, SummonerSpellType> Spell::summonerSpellTypeDict = {
-	{std::string("SummonerHaste"),                   SummonerSpellType::GHOST},
-	{std::string("SummonerHeal"),                    SummonerSpellType::HEAL},
-	{std::string("SummonerBarrier"),                 SummonerSpellType::BARRIER},
-	{std::string("SummonerExhaust"),                 SummonerSpellType::EXHAUST},
-	{std::string("SummonerMana"),                    SummonerSpellType::CLARITY},
-	{std::string("SummonerSnowball"),                SummonerSpellType::SNOWBALL},
-	{std::string("SummonerFlash"),                   SummonerSpellType::FLASH},
-	{std::string("SummonerTeleport"),                SummonerSpellType::TELEPORT},
-	{std::string("SummonerBoost"),                   SummonerSpellType::CLEANSE},
-	{std::string("SummonerDot"),                     SummonerSpellType::IGNITE},
-	{std::string("SummonerSmite"),                   SummonerSpellType::SMITE},
-	{std::string("S5_SummonerSmitePlayerGanker"),    SummonerSpellType::SMITE},
-	{std::string("S5_SummonerSmiteDuel"),            SummonerSpellType::SMITE},
+	{std::string("summonerhaste"),                   SummonerSpellType::GHOST},
+	{std::string("summonerheal"),                    SummonerSpellType::HEAL},
+	{std::string("summonerbarrier"),                 SummonerSpellType::BARRIER},
+	{std::string("summonerexhaust"),                 SummonerSpellType::EXHAUST},
+	{std::string("summonermana"),                    SummonerSpellType::CLARITY},
+	{std::string("summonermark"),                SummonerSpellType::SNOWBALL},
+	{std::string("summonerflash"),                   SummonerSpellType::FLASH},
+	{std::string("summonerteleport"),                SummonerSpellType::TELEPORT},
+	{std::string("summonerboost"),                   SummonerSpellType::CLEANSE},
+	{std::string("summonerdot"),                     SummonerSpellType::IGNITE},
+	{std::string("summonersmite"),                   SummonerSpellType::SMITE},
+	{std::string("s5_summonersmiteplayerganker"),    SummonerSpellType::SMITE},
+	{std::string("s5_summonersmiteduel"),            SummonerSpellType::SMITE},
 
 };
 
@@ -71,11 +55,9 @@ void Spell::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 	Mem::Read(hProcess, spellNamePtr, buff, 50);
 	name = std::string(buff);
 
-	auto translatedName = summonerSpellNameDict.find(name.c_str());
-	if (translatedName != summonerSpellNameDict.end()) {
-		summonerSpellType = summonerSpellTypeDict.find(name.c_str())->second;
-		name = std::string(translatedName->second);
-	}
+	auto it = summonerSpellTypeDict.find(name.c_str());
+	if (it != summonerSpellTypeDict.end())
+		summonerSpellType = it->second;
 
 	info = GameData::GetSpellInfoByName(name);
 }

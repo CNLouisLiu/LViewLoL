@@ -11,26 +11,24 @@ lview_script_info = {
 }
 
 def get_color_for_cooldown(cooldown):
-	if cooldown >= 10.0:
+	if cooldown > 0.0:
 		return Color.DARK_RED
-	elif cooldown > 0.0:
-		return Color.DARK_YELLOW
 	else:
-		return Color.DARK_GREEN
+		return Color(1, 1, 1, 1)
 
-def draw_spell_btn(game, spell, x, y, w, h, show_spell_name = False, show_lvl = True):
+
+def draw_spell(game, spell, pos, size, show_lvl = True, show_cd = True):
 	
 	cooldown = spell.get_current_cooldown(game.time)
 	color = get_color_for_cooldown(cooldown) if spell.level > 0 else Color.GRAY
-	txt = spell.name if show_spell_name else str(spell.slot)
 	
-	game.draw_rect_filled(Vec4(x, y, x + w, y + h), color, 5.0)
-	game.draw_text(Vec2(x + 5, y), str(int(cooldown)) if cooldown > 0.0 else txt, Color.WHITE)
-	
+	game.draw_image(spell.icon, pos, pos.add(Vec2(size, size)), color, 10.0)
+	if show_cd and cooldown > 0.0:
+		game.draw_text(pos.add(Vec2(4, 5)), str(int(cooldown)), Color.WHITE)
 	if show_lvl:
 		for i in range(spell.level):
 			offset = i*4
-			game.draw_rect_filled(Vec4(x + offset + 4, y + h, x + offset + 7, y + h + 2), Color.YELLOW)
+			game.draw_rect_filled(Vec4(pos.x + offset, pos.y + 24, pos.x + offset + 3, pos.y + 26), Color.YELLOW)
 
 def draw_overlay_on_champ(game, champ):
 	p = Vec3(champ.pos.x, champ.pos.y, champ.pos.z)
@@ -40,13 +38,26 @@ def draw_overlay_on_champ(game, champ):
 	
 	if not game.is_point_on_screen(p):
 		return
-		
-	draw_spell_btn(game, champ.Q, p.x,       p.y,      30, 15)
-	draw_spell_btn(game, champ.W, p.x + 33,  p.y,      30, 15)
-	draw_spell_btn(game, champ.E, p.x + 66,  p.y,      30, 15)
-	draw_spell_btn(game, champ.R, p.x + 99,  p.y,      30, 15)
-	draw_spell_btn(game, champ.D, p.x,       p.y - 18, 63, 15, True, False)
-	draw_spell_btn(game, champ.F, p.x + 66,  p.y - 18, 63, 15, True, False)
+	
+	draw_spell(game, champ.Q, p, 26)
+	p.x += 28
+	draw_spell(game, champ.W, p, 26)
+	p.x += 28
+	draw_spell(game, champ.E, p, 26)
+	p.x += 28
+	draw_spell(game, champ.R, p, 26)
+	
+	p.x += 28
+	draw_spell(game, champ.D, p, 13, False, False)
+	p.y += 14
+	draw_spell(game, champ.F, p, 13, False, False)
+	
+	#draw_spell_btn(game, champ.W, p.x + 33,  p.y,      30, 15)
+	#draw_spell_btn(game, champ.E, p.x + 66,  p.y,      30, 15)
+	#draw_spell_btn(game, champ.R, p.x + 99,  p.y,      30, 15)
+	#draw_spell_btn(game, champ.D, p.x,       p.y - 18, 63, 15, True, False)
+	#draw_spell_btn(game, champ.F, p.x + 66,  p.y - 18, 63, 15, True, False)
+
 
 def lview_update(game, ui):
 	global show_allies, show_enemies, show_local_champ

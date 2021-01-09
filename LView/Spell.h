@@ -54,6 +54,5 @@ private:
 	static BYTE                                        buffer[0x150];
 	static const char*                                 spellTypeName[6];
 	static const HKey                                  spellSlotKey[6];
-	static std::map<std::string, std::string>          summonerSpellNameDict;
 	static std::map<std::string, SummonerSpellType>    summonerSpellTypeDict;
 };

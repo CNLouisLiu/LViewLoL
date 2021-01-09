@@ -1,6 +1,8 @@
 ﻿#define BOOST_DEBUG_PYTHON 
 #define USE_IMPORT_EXPORT
 #define USE_WINDOWS_DLL_SEMANTICS
+#define STB_IMAGE_IMPLEMENTATION
+
 #include "PyStructs.h"
 
 #include <iostream>
@@ -36,30 +38,30 @@ void Intro();
 int main()
 {
 	//Intro();
-
-	printf("[+] Initializing PyModule\n");
-	PyImport_AppendInittab("lview", &PyInit_lview);
-	Py_Initialize();
-
-	printf("[+] Initialising imgui and directx UI\n");
 	Overlay overlay = Overlay();
 	LeagueMemoryReader reader = LeagueMemoryReader();
 	MemSnapshot memSnapshot;
 
 	try {
+		printf("[+] Initializing PyModule\n");
+		PyImport_AppendInittab("lview", &PyInit_lview);
+		Py_Initialize();
+
+		printf("[+] Initialising imgui and directx UI\n");
 		overlay.Init();
+
+		printf("[+] Loading static map data\n\n");
+		MapObject::Get(MapType::SUMMONERS_RIFT)->Load("data/height_map_sru.bin");
+		MapObject::Get(MapType::HOWLING_ABYSS)->Load("data/height_map_ha.bin");
+
+		printf("[+] Loading unit data\n");
+		std::string dataPath("data");
+		GameData::Load(dataPath);
 	}
 	catch (std::runtime_error exception) {
 		std::cout << exception.what() << std::endl;
 		exit(0);
 	}
-
-	printf("[+] Loading static map data\n\n");
-	MapObject::Get(MapType::SUMMONERS_RIFT)->Load("data/height_map_sru.bin");
-	MapObject::Get(MapType::HOWLING_ABYSS)->Load("data/height_map_ha.bin");
-
-	printf("[+] Loading unit data\n");
-	GameData::LoadFromFiles("data/UnitData.json", "data/SpellData.json");
 
 	float millisPerFrame = 10;
 	float frameTimeLength;
