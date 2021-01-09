@@ -15,6 +15,7 @@ LeagueMemoryReader::LeagueMemoryReader()
 	blacklistedObjectNames.insert("S5Test_WardCorpse");
 	blacklistedObjectNames.insert("SRU_CampRespawnMarker");
 	blacklistedObjectNames.insert("SRU_PlantRespawnMarker");
+	blacklistedObjectNames.insert("PreSeason_Turret_Shield");
 }
 
 bool LeagueMemoryReader::IsLeagueWindowActive() {
@@ -87,6 +88,10 @@ void LeagueMemoryReader::FindHoveredObject(MemSnapshot& ms) {
 	std::shared_ptr<GameObject> hoveredObject = nullptr;
 
 	for (auto it = ms.objectMap.begin(); it != ms.objectMap.end(); ++it) {
+
+		if (it->second->IsEqualTo(*ms.player))
+			continue;
+
 		distance = cursorPos.distance(ms.renderer->WorldToScreen(it->second->position));
 		if (distance < minDistance && distance < it->second->GetSelectionRadius()) {
 			hoveredObject = it->second;

@@ -167,7 +167,6 @@ BOOST_PYTHON_MODULE(lview) {
 		;
 
 	class_<PyGame>("Game")
-		.def_readonly("all_objs",          &PyGame::allObjects)
 		.def_readonly("champs",            &PyGame::champs)
 		.def_readonly("minions",           &PyGame::minions)
 		.def_readonly("jungle",            &PyGame::jungle)
@@ -180,6 +179,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("map",               &PyGame::GetMap)
 
 		.def("get_obj_by_id",              &PyGame::GetObjectByIndex, return_value_policy<reference_existing_object>())
+		.def("get_obj_by_netid",           &PyGame::GetObjectByNetId, return_value_policy<reference_existing_object>())
 
 		.def("is_point_on_screen",         &PyGame::IsScreenPointOnScreen, PyGame::IsScreenPointOnScreenOverloads())
 		.def("is_point_on_screen",         &PyGame::IsWorldPointOnScreen,  PyGame::IsWorldPointOnScreenOverloads())

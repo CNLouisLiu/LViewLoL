@@ -13,9 +13,7 @@ def find_impact_collision_champs(game, missile):
 	return result
 	
 def is_last_hitable(game, player, enemy):
-	missile_speed = player.basic_missile_speed
-	if missile_speed == 0:
-		missile_speed = 1
+	missile_speed = player.basic_missile_speed + 1
 		
 	hit_dmg = player.get_basic_phys(enemy) + player.get_basic_magic(enemy)
 	
@@ -28,7 +26,7 @@ def is_last_hitable(game, player, enemy):
 			if missile.dest_id == enemy.id:
 				src = game.get_obj_by_id(missile.src_id)
 				if src:
-					s = game.distance(missile, enemy)/missile.speed
+					s = game.distance(missile, enemy)/(missile.speed + 1)
 				
 					if s < t_current_range:
 						hp -= src.base_atk

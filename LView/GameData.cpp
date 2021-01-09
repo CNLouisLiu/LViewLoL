@@ -214,4 +214,7 @@ void GameData::SetSpellExceptions()
 	Spells["zoeemis"]
 		->AddFlags(FixedDestination)
 		->SetImpactRadius(50.f);
+
+	Spells["viqmissile"]
+		->AddFlags(FixedDestination);
 }

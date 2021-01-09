@@ -43,6 +43,9 @@
     <Filter Include="Source Files\Structs\GameRelated\Data">
       <UniqueIdentifier>{0ffb7377-39cd-40f3-8539-0eba6297aefe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Structs\GameRelated\Others">
+      <UniqueIdentifier>{c139ef89-3486-4f32-bff6-8e82d5fe5a24}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui.cpp">
@@ -74,9 +77,6 @@
     </ClCompile>
     <ClCompile Include="ScriptManager.cpp">
       <Filter>Source Files\Python</Filter>
-    </ClCompile>
-    <ClCompile Include="GameRenderer.cpp">
-      <Filter>Source Files\Structs\GameRelated</Filter>
     </ClCompile>
     <ClCompile Include="AntiCrack.cpp">
       <Filter>Source Files\Utils</Filter>
@@ -123,8 +123,11 @@
     <ClCompile Include="MapObject.cpp">
       <Filter>Source Files\Structs\GameRelated\Data</Filter>
     </ClCompile>
+    <ClCompile Include="GameRenderer.cpp">
+      <Filter>Source Files\Structs\GameRelated\Others</Filter>
+    </ClCompile>
     <ClCompile Include="Item.cpp">
-      <Filter>Source Files\Structs\GameRelated</Filter>
+      <Filter>Source Files\Structs\GameRelated\Others</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,9 +161,6 @@
     <ClInclude Include="Input.h">
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="MemoryLoadable.h">
-      <Filter>Source Files\Structs\GameRelated</Filter>
-    </ClInclude>
     <ClInclude Include="MemSnapshot.h">
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
@@ -178,9 +178,6 @@
     </ClInclude>
     <ClInclude Include="Script.h">
       <Filter>Source Files\Python</Filter>
-    </ClInclude>
-    <ClInclude Include="GameRenderer.h">
-      <Filter>Source Files\Structs\GameRelated</Filter>
     </ClInclude>
     <ClInclude Include="AntiCrack.h">
       <Filter>Source Files\Utils</Filter>
@@ -218,8 +215,14 @@
     <ClInclude Include="MapObject.h">
       <Filter>Source Files\Structs\GameRelated\Data</Filter>
     </ClInclude>
+    <ClInclude Include="MemoryLoadable.h">
+      <Filter>Source Files\Structs\GameRelated\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="GameRenderer.h">
+      <Filter>Source Files\Structs\GameRelated\Others</Filter>
+    </ClInclude>
     <ClInclude Include="Item.h">
-      <Filter>Source Files\Structs\GameRelated</Filter>
+      <Filter>Source Files\Structs\GameRelated\Others</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

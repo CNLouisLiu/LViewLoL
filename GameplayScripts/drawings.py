@@ -16,6 +16,9 @@ attack_range    = False
 skillshots      = False
 skillshots_predict = False
 
+ignore_missiles = set([
+	"ViEFx", "ViQMissile", "ViRMissile"
+])
 
 def lview_load_cfg(cfg):
 	global turret_ranges, minion_last_hit, attack_range, skillshots, skillshots_predict
@@ -82,11 +85,11 @@ def draw_minion_last_hit(game, player):
 				game.draw_circle_world(minion.pos, minion.gameplay_radius, 20, 3, color)
 
 def draw_skillshots(game, player):
-	global skillshots_predict
+	global skillshots_predict, ignore_missiles
 	
 	for missile in game.missiles:
 
-		if  missile.has_tags(SpellFlag.Targeted):
+		if missile.has_tags(SpellFlag.Targeted) or missile.name in ignore_missiles:
 			continue
 			
 		end_pos = missile.end_pos.clone()

@@ -17,7 +17,6 @@ public:
 	PyGame() {}
 
 	// Exposed Fields
-	dict                  allObjects;
 	list                  champs, minions, turrets, jungle, missiles, others;
 	float                 gameTime;
 					      
@@ -216,6 +215,11 @@ public:
 			return nullptr;
 
 		return it2->second.get();
+	}
+
+	GameObject* GetObjectByNetId(int net_id) {
+		auto it = ms->objectMap.find(net_id);
+		return (it != ms->objectMap.end()) ? it->second.get() : nullptr;
 	}
 
 	static PyGame ConstructFromMemSnapshot(MemSnapshot& snapshot) {
