@@ -54,6 +54,7 @@ def draw_missile(obj, ui):
 		ui.dragfloat("range", obj.range)
 		ui.dragfloat("radius", obj.radius)
 		ui.dragfloat("impact_radius", obj.impact_radius)
+		ui.dragfloat("height", obj.height)
 		
 		ui.treepop()
 

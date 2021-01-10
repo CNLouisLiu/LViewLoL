@@ -112,7 +112,7 @@ public:
 		for (int i = 0; i < size; ++i)
 			buffer.push_back(extract<const char*>(str(items[i])));
 
-		ImGui::ListBox(label, &chosen, &buffer[0], size);
+		ImGui::ListBox(label, &chosen, buffer.data(), size, size);
 
 		return chosen;
 	}

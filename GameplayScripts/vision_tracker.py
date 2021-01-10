@@ -11,31 +11,33 @@ show_clones, show_wards, show_traps = None, None, None
 
 traps = {
 	#Name -> (radius, show_radius_circle, show_radius_circle_minimap)                      
-	'CaitlynTrap'          : [50,  True, False],
-	'DominationScout'      : [0,   False, False],
-	'JhinTrap'             : [140, True, False],
-	'JinxMine'             : [50,  True, False],
-	'MaokaiSproutling'     : [50,  False, False],
-	'NidaleeSpear'         : [50,  True, False],
-	'ShacoBox'             : [300, True, False],
-	'TeemoMushroom'        : [75,  True, True]
+	'caitlyntrap'          : [50,  True, False],
+	'dominationscout'      : [0,   False, False],
+	'jhintrap'             : [140, True, False],
+	'jinxmine'             : [50,  True, False],
+	'maokaisproutling'     : [50,  False, False],
+	'nidaleespear'         : [50,  True, False],
+	'shacobox'             : [300, True, False],
+	'teemomushroom'        : [75,  True, True]
 }
 
 wards = {
-	'BlueTrinket'          : [900, True, True],
-	'JammerDevice'         : [900, True, True],
-	'PerksZombieWard'      : [900, True, True],
-	'SightWard'            : [900, True, True],
-	'VisionWard'           : [900, True, True],
-	'YellowTrinket'        : [900, True, True],
-	'YellowTrinketUpgrade' : [900, True, True],
-	'Ward'                 : [900, True, True],
+	'bluetrinket'          : [900, True, True],
+	'jammerdevice'         : [900, True, True],
+	'perkszombieward'      : [900, True, True],
+	'sightward'            : [900, True, True],
+	'visionward'           : [900, True, True],
+	'yellowtrinket'        : [900, True, True],
+	'yellowtrinketupgrade' : [900, True, True],
+	'ward'                 : [900, True, True],
 }
 
 clones = {
-	'Shaco'           : [0, False, False],
-	'LeBlanc'         : [0, False, False],
-	'MonkeyKing'      : [0, False, False],
+	'shaco'           : [0, False, False],
+	'leblanc'         : [0, False, False],
+	'monkeyking'      : [0, False, False],
+	'neeko'           : [0, False, False],
+	'fiddlesticks'    : [0, False, False],
 }
 
 

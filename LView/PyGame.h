@@ -149,6 +149,16 @@ public:
 		overlay->AddText(ImVec2(p.x + 5, p.y + 2), ImColor(colorText), text);
 	}
 
+	Vector2 HpBarPos(GameObject& obj) {
+		Vector3 pos = obj.position.clone();
+		pos.y += obj.GetHpBarHeight();
+
+		Vector2 w2s = ms->renderer->WorldToScreen(pos);
+		w2s.y -= (ms->renderer->height * 0.00083333335 * obj.GetHpBarHeight());
+
+		return w2s;
+	}
+
 	void PressKey(int key) {
 		Input::PressKey((HKey)key);
 	}

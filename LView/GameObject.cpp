@@ -291,9 +291,6 @@ void GameObject::LoadMissileFromMem(DWORD base, HANDLE hProcess, bool deepLoad) 
 	memcpy(&startPos, buff + Offsets::MissileStartPos, sizeof(Vector3));
 	memcpy(&endPos, buff + Offsets::MissileEndPos, sizeof(Vector3));
 
-	startPos.y += 100.f;
-	endPos.y += 100.f;
-
 	Mem::Read(hProcess, spellDataPtr, buff, 0x500);
 
 	// Read name
@@ -310,13 +307,16 @@ void GameObject::LoadMissileFromMem(DWORD base, HANDLE hProcess, bool deepLoad) 
 	// Calculate end position using range since for some skills (e.g GLOBAL skills) the end position is incorrect
 	if (spellInfo != GameData::UnknownSpell && !HasSpellFlags(FixedDestination)) {
 
+		// Missile start position does not have the correct spell height
+		startPos.y += spellInfo->height;
+
 		// Calculate direction vector and normalize
 		endPos = Vector3(endPos.x - startPos.x, 0, endPos.z - startPos.z);
 		endPos = endPos.normalize();
 
 		// Update endposition using the height of the current position
 		endPos.x = endPos.x*spellInfo->range + startPos.x;
-		endPos.y = position.y;
+		endPos.y = startPos.y;
 		endPos.z = endPos.z*spellInfo->range + startPos.z;
 	}
 }

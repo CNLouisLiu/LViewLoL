@@ -19,6 +19,7 @@ BOOST_PYTHON_MODULE(lview) {
 
 	class_<Item>("Item")
 		.def_readonly("id",                     &Item::id)
+		.def_readonly("cost",                   &Item::cost)
 		.def_readonly("movement_speed",         &Item::movementSpeed)
 		.def_readonly("health",                 &Item::health)
 		.def_readonly("crit",                   &Item::crit)
@@ -85,7 +86,6 @@ BOOST_PYTHON_MODULE(lview) {
 
 		.def_readonly("basic_missile_speed",  &GameObject::GetBasicAttackMissileSpeed)
 		.def_readonly("basic_atk_windup",     &GameObject::GetBasicAttackWindup)
-		.def_readonly("hp_bar_height",        &GameObject::GetHpBarHeight)
 
 		.def_readonly("atk_speed_ratio",      &GameObject::GetAttackSpeedRatio)
 		.def_readonly("base_ms",              &GameObject::GetBaseMovementSpeed)
@@ -203,7 +203,8 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("draw_image",                 &PyGame::DrawImage)
 		.def("draw_image",                 &PyGame::DrawImageRounded)
 
-		.def("linear_collision",            &PyGame::LinearCollision)
+		.def("linear_collision",           &PyGame::LinearCollision)
+		.def("hp_bar_pos",                 &PyGame::HpBarPos)
 
 		.def("was_key_pressed",            &PyGame::WasKeyPressed)
 		.def("is_key_down",                &PyGame::IsKeyDown)

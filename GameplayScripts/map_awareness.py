@@ -30,9 +30,14 @@ def lview_update(game, ui):
 		if dist > bound_max:
 			continue
 		
+		# Draw champ icon
 		pos = game.world_to_screen(champ.pos.sub(game.player.pos).normalize().scale(500).add(game.player.pos))
+		pos.x -= 48
+		pos.y -= 48
 		game.draw_image(champ.name.lower() + "_square", pos, pos.add(Vec2(48, 48)), Color.WHITE, 100.0)
 		
+		# Draw distance
+		pos.x += 5
 		pos.y += 56
 		game.draw_text(pos, '{:.0f}m'.format(dist), Color.WHITE)
 		

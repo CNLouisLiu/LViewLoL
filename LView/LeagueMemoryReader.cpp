@@ -191,7 +191,7 @@ void LeagueMemoryReader::ReadObjects(MemSnapshot& ms) {
 			ms.indexToNetId[obj->objectIndex] = obj->networkId;
 			ms.updatedThisFrame.insert(obj->networkId);
 
-			if (obj->name.size() <= 1 || blacklistedObjectNames.find(obj->name) != blacklistedObjectNames.end())
+			if (obj->name.empty() || blacklistedObjectNames.find(obj->name) != blacklistedObjectNames.end())
 				blacklistedObjects.insert(obj->networkId);
 			else if (obj->HasUnitTags(Unit_Champion))
 				ms.champions.push_back(obj);

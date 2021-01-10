@@ -7,6 +7,7 @@ struct Item {
 
 public:
 	int id;
+	float cost;
 	float movementSpeed;
 	float health;
 	float crit;

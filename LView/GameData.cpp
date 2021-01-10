@@ -1,10 +1,12 @@
 #include "GameData.h"
 #include <aws/core/utils/json/JsonSerializer.h>
 #include <fstream>
+#include <filesystem>
 #include "Utils.h"
 #include "Overlay.h"
 
 using namespace Aws::Utils::Json;
+using namespace std::experimental;
 
 UnitInfo*                         GameData::UnknownUnit = new UnitInfo();
 SpellInfo*                        GameData::UnknownSpell = new SpellInfo();
@@ -121,11 +123,15 @@ void GameData::LoadIcons(std::string& path)
 	WIN32_FIND_DATAA findData;
 	HANDLE hFind;
 
+	
+	int nrFiles = std::distance(filesystem::directory_iterator(path), filesystem::directory_iterator());
 	int nrFile = 0;
 	hFind = FindFirstFileA((folder + "\\*.png").c_str(), &findData);
 	do {
 		if (hFind != INVALID_HANDLE_VALUE) {
-			printf("\r	Loading image %d      ", nrFile++);
+			if(nrFile % 100 == 0)
+				printf("\r	Loading %d/%d      ", nrFile, nrFiles);
+
 			std::string filePath = folder + "/" + findData.cFileName;
 			Texture2D* image = Texture2D::LoadFromFile(Overlay::GetDxDevice(), filePath);
 			if (image == nullptr)
@@ -136,6 +142,7 @@ void GameData::LoadIcons(std::string& path)
 				Images[Character::ToLower(fileName)] = image;
 			}
 		}
+		nrFile++;
 	} while (FindNextFileA(hFind, &findData));
 }
 

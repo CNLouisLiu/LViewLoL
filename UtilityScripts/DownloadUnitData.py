@@ -3,11 +3,10 @@ from pprint import pprint
 
 result_folder = 'unit_data'
 pattern_unit = '<a href="[\w]+/" title="[\w]+">([\w]+)/</a>'
-pattern_url_list = 'https://raw.communitydragon.org/{}/game/data/characters/'
-pattern_url_unit_data = 'https://raw.communitydragon.org/{}/game/data/characters/{}/{}.bin.json'
+pattern_url_list = 'https://raw.communitydragon.org/latest/game/data/characters/'
+pattern_url_unit_data = 'https://raw.communitydragon.org/latest/game/data/characters/{}/{}.bin.json'
 
-version = sys.argv[1]
-url = pattern_url_list.format(version)
+url = pattern_url_list
 
 if not os.path.isdir(result_folder):
 	os.mkdir(result_folder)
@@ -21,7 +20,7 @@ page = urllib.request.urlopen(req).read().decode('utf-8')
 failed = []
 matches = re.findall(pattern_unit, page)
 for match in matches:
-	url = pattern_url_unit_data.format(version, match, match)
+	url = pattern_url_unit_data.format(match, match)
 	print('Requesting: ' + url)
 	
 	try:

@@ -1,5 +1,6 @@
 from lview import *
 from commons import prediction
+from commons.targeting import TargetingConfig
 import time, json
 
 lview_script_info = {
@@ -20,51 +21,42 @@ max_atk_speed = 0
 toggle_mode = False
 toggled = False
 
+targeting = TargetingConfig() 
+
 def lview_load_cfg(cfg):
 	global key_attack_move, key_orbwalk, max_atk_speed, auto_last_hit, toggle_mode
+	global targeting
 	
 	key_attack_move = cfg.get_int("key_attack_move", 0)	
 	key_orbwalk     = cfg.get_int("key_orbwalk", 0)	
 	max_atk_speed   = cfg.get_float("max_atk_speed", 2.0)
-	auto_last_hit   = cfg.get_bool("auto_last_hit", False)
+	auto_last_hit   = cfg.get_bool("auto_last_hit", True)
 	toggle_mode     = cfg.get_bool("toggle_mode", False)
+	targeting.load_from_cfg(cfg)
 	
 def lview_save_cfg(cfg):
 	global key_attack_move, key_orbwalk, max_atk_speed, auto_last_hit, toggle_mode
+	global targeting
 		
 	cfg.set_int("key_attack_move", key_attack_move)
 	cfg.set_int("key_orbwalk", key_orbwalk)
 	cfg.set_float("max_atk_speed", max_atk_speed)
 	cfg.set_bool("auto_last_hit", auto_last_hit)
 	cfg.set_bool("toggle_mode", toggle_mode)
+	targeting.save_to_cfg(cfg)
 	
 def lview_draw_settings(game, ui):
 	global key_attack_move, key_orbwalk, max_atk_speed, auto_last_hit, toggle_mode
+	global targeting
 	
 	champ_name = game.player.name
-	
 	max_atk_speed   = ui.sliderfloat("Max attack speed", max_atk_speed, 1.5, 3.0)
 	key_attack_move = ui.keyselect("Attack move key", key_attack_move)
 	key_orbwalk     = ui.keyselect("Orbwalk activate key", key_orbwalk)
-	auto_last_hit   = ui.checkbox("Auto last hit minions (No Prediction)", auto_last_hit)
+	auto_last_hit   = ui.checkbox("Last hit minions when no targets", auto_last_hit)
 	toggle_mode     = ui.checkbox("Toggle mode", toggle_mode)
+	targeting.draw(ui)
 
-def find_champ_target(game, array, value_extractor):
-	atk_range = game.player.base_atk_range + game.player.gameplay_radius
-	target = None
-	min = 99999999
-	for obj in array:
-		
-		if not obj.is_alive or obj.is_ally_to(game.player) or game.distance(game.player, obj) > atk_range:
-			continue
-			
-		val = value_extractor(game.player, obj)
-		if val < min:
-			min = val
-			target = obj
-	
-	return target
-	
 def find_minion_target(game):
 	atk_range = game.player.base_atk_range + game.player.gameplay_radius
 	min_health = 9999999999
@@ -79,7 +71,7 @@ def find_minion_target(game):
 def get_target(game):
 	global auto_last_hit
 	
-	target = find_champ_target(game, game.champs, lambda l, e: e.health)
+	target = targeting.get_target(game, game.player.base_atk_range + game.player.gameplay_radius)
 	if not target and auto_last_hit:
 		return find_minion_target(game)
 	

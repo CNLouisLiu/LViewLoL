@@ -52,7 +52,7 @@ for fname in os.listdir(unit_data_folder):
 	tags = set(['Unit_' + x.strip().replace('=', '_') for x in root.get("unitTagsString", "").split('|')])
 	objs.append({
 		"name":             name.lower(),
-		"healthBarHeight":  root.get("healthBarHeight", 0.0),
+		"healthBarHeight":  root.get("healthBarHeight", 100.0),
 		"baseMoveSpeed":    root.get("baseMoveSpeed", 0.0),
 		"attackRange":      root.get("attackRange", 0.0),
 		"attackSpeed":      root.get("attackSpeed", 0.0), 
@@ -83,16 +83,15 @@ for fname in os.listdir(unit_data_folder):
 				"radius": 0.0,
 				"height": 0.0,
 				"speed": 0.0,
-				"tracksTarget": s.get("mCastType", 0) == 1
+				"targeted": s.get("mCastType", 0) == 1
 			}
 			
 			missile = s.get("mMissileSpec", None)
 			if missile:
 				spell["radius"] = missile.get("mMissileWidth", 0.0)
-				spell["fixedDestination"] = ("mGravity" in missile.get("heightSolver", {}))
 				movcomp = missile.get("movementComponent", None)
 				if movcomp:
-					spell["height"] = movcomp.get("mOffsetInitialTargetHeight", 0.0)
+					spell["height"] = movcomp.get("mOffsetInitialTargetHeight", 100.0)
 					spell["speed"] = movcomp.get("mSpeed", 0.0)
 					
 			

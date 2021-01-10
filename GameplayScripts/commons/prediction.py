@@ -19,16 +19,16 @@ def is_last_hitable(game, player, enemy):
 	
 	hp = enemy.health
 	atk_speed = player.base_atk_speed * player.atk_speed_multi
-	t_current_range = game.distance(player, enemy)/(missile_speed*atk_speed/player.base_atk_speed)
+	t_until_basic_hits = game.distance(player, enemy)/missile_speed#(missile_speed*atk_speed/player.base_atk_speed)
 
-	for  missile in game.missiles:
+	for missile in game.missiles:
 		if missile.has_tags(SpellFlag.Targeted):
 			if missile.dest_id == enemy.id:
 				src = game.get_obj_by_id(missile.src_id)
 				if src:
-					s = game.distance(missile, enemy)/(missile.speed + 1)
+					t_until_missile_hits = game.distance(missile, enemy)/(missile.speed + 1)
 				
-					if s < t_current_range:
+					if t_until_missile_hits < t_until_basic_hits:
 						hp -= src.base_atk
 
 	return hp - hit_dmg <= 0

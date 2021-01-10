@@ -31,24 +31,23 @@ def draw_spell(game, spell, pos, size, show_lvl = True, show_cd = True):
 			game.draw_rect_filled(Vec4(pos.x + offset, pos.y + 24, pos.x + offset + 3, pos.y + 26), Color.YELLOW)
 
 def draw_overlay_on_champ(game, champ):
-	p = Vec3(champ.pos.x, champ.pos.y, champ.pos.z)
-	p = game.world_to_screen(p)
 	
-	#game.draw_circle_filled(p, 5, 5, Color.WHITE)
-	
-	p.x -= 60
+	p = game.hp_bar_pos(champ)
+	p.x -= 70
 	if not game.is_point_on_screen(p):
 		return
 	
-	draw_spell(game, champ.Q, p, 26)
-	p.x += 28
-	draw_spell(game, champ.W, p, 26)
-	p.x += 28
-	draw_spell(game, champ.E, p, 26)
-	p.x += 28
-	draw_spell(game, champ.R, p, 26)
+	p.x += 25
+	draw_spell(game, champ.Q, p, 24)
+	p.x += 25
+	draw_spell(game, champ.W, p, 24)
+	p.x += 25
+	draw_spell(game, champ.E, p, 24)
+	p.x += 25
+	draw_spell(game, champ.R, p, 24)
 	
-	p.x += 28
+	p.x += 37
+	p.y -= 25
 	draw_spell(game, champ.D, p, 13, False, False)
 	p.y += 14
 	draw_spell(game, champ.F, p, 13, False, False)

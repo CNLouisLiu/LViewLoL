@@ -13,39 +13,55 @@ lview_script_info = {
 turret_ranges   = False
 minion_last_hit = False
 attack_range    = False
+
 skillshots      = False
 skillshots_predict = False
+skillshots_min_range = 0
+skillshots_max_speed = 0
 
 ignore_missiles = set([
 	"viefx", "viqmissile", "virmissile",
-	"missfortunericochetshotdud"
+	"missfortunericochetshotdud",
+	"threshqpullmissile"
 ])
 
 def lview_load_cfg(cfg):
-	global turret_ranges, minion_last_hit, attack_range, skillshots, skillshots_predict
-	turret_ranges      = cfg.get_bool("turret_ranges", True)
-	minion_last_hit    = cfg.get_bool("minion_last_hit", True)
-	attack_range       = cfg.get_bool("attack_range", True)
-	skillshots         = cfg.get_bool("skillshots", True)
-	skillshots_predict = cfg.get_bool("skillshots_predict", True)
+	global turret_ranges, minion_last_hit, attack_range
+	global skillshots, skillshots_predict, skillshots_min_range, skillshots_max_speed
+	turret_ranges        = cfg.get_bool("turret_ranges", True)
+	minion_last_hit      = cfg.get_bool("minion_last_hit", True)
+	attack_range         = cfg.get_bool("attack_range", True)
+	                     
+	skillshots           = cfg.get_bool("skillshots", True)
+	skillshots_predict   = cfg.get_bool("skillshots_predict", True)
+	skillshots_min_range = cfg.get_float("skillshots_min_range", 500)
+	skillshots_max_speed = cfg.get_float("skillshots_max_speed", 2500)
 	
 def lview_save_cfg(cfg):
-	global turret_ranges, minion_last_hit, attack_range, skillshots, skillshots_predict
-	cfg.set_bool("turret_ranges",       turret_ranges)
-	cfg.set_bool("minion_last_hit",     minion_last_hit)
-	cfg.set_bool("attack_range",        attack_range)
-	cfg.set_bool("skillshots",          skillshots)
-	cfg.set_bool("skillshots_predict",  skillshots_predict)
+	global turret_ranges, minion_last_hit, attack_range
+	global skillshots, skillshots_predict, skillshots_min_range, skillshots_max_speed
+	cfg.set_bool("turret_ranges",         turret_ranges)
+	cfg.set_bool("minion_last_hit",       minion_last_hit)
+	cfg.set_bool("attack_range",          attack_range)
+	
+	cfg.set_bool("skillshots",            skillshots)
+	cfg.set_bool("skillshots_predict",    skillshots_predict)
+	cfg.set_float("skillshots_min_range", skillshots_min_range)
+	cfg.set_float("skillshots_max_speed", skillshots_max_speed)
 	
 def lview_draw_settings(game, ui):
-	global turret_ranges, minion_last_hit, attack_range, skillshots, skillshots_predict
+	global turret_ranges, minion_last_hit, attack_range
+	global skillshots, skillshots_predict, skillshots_min_range, skillshots_max_speed
 	turret_ranges   = ui.checkbox("Turret ranges", turret_ranges)
 	minion_last_hit = ui.checkbox("Minion last hit", minion_last_hit)
 	attack_range    = ui.checkbox("Champion attack range", attack_range)
 	
 	ui.separator()
-	skillshots         = ui.checkbox("Draw skillshots", skillshots)
-	skillshots_predict = ui.checkbox("Use skillshot prediction", skillshots_predict)
+	ui.text("Skillshots")
+	skillshots           = ui.checkbox("Draw skillshots", skillshots)
+	skillshots_predict   = ui.checkbox("Use skillshot prediction", skillshots_predict)
+	skillshots_min_range = ui.dragfloat("Minimum skillshot range", skillshots_min_range, 100, 0, 3000)
+	skillshots_max_speed = ui.dragfloat("Maximum skillshot speed", skillshots_max_speed, 100, 1000, 4000)
 	
 
 def draw_rect(game, start_pos, end_pos, radius, color):
@@ -83,14 +99,16 @@ def draw_minion_last_hit(game, player):
 	for minion in game.minions:
 		if minion.is_alive and minion.is_enemy_to(player) and game.is_point_on_screen(minion.pos):
 			if prediction.is_last_hitable(game, player, minion):
-				game.draw_circle_world(minion.pos, minion.gameplay_radius, 20, 3, color)
+				p = game.hp_bar_pos(minion)
+				game.draw_rect(Vec4(p.x - 33, p.y - 8, p.x + 33, p.y), Color.GREEN)
 
 def draw_skillshots(game, player):
-	global skillshots_predict, ignore_missiles
+	global ignore_missiles
+	global skillshots, skillshots_predict, skillshots_min_range, skillshots_max_speed
 	
 	for missile in game.missiles:
-
-		if missile.has_tags(SpellFlag.Targeted) or missile.name in ignore_missiles:
+		
+		if missile.has_tags(SpellFlag.Targeted) or missile.speed > skillshots_max_speed or missile.range < skillshots_min_range or missile.name in ignore_missiles:
 			continue
 			
 		end_pos = missile.end_pos.clone()
