@@ -53,7 +53,7 @@ void Spell::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 
 	char buff[50];
 	Mem::Read(hProcess, spellNamePtr, buff, 50);
-	name = std::string(buff);
+	name = Character::ToLower(std::string(buff));
 
 	auto it = summonerSpellTypeDict.find(name.c_str());
 	if (it != summonerSpellTypeDict.end())

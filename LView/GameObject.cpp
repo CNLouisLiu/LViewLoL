@@ -120,10 +120,9 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 		Mem::Read(hProcess, Mem::ReadDWORDFromBuffer(buff, Offsets::ObjName), nameBuff, 50);
 
 		if (Character::ContainsOnlyASCII(nameBuff, 50))
-			name = std::string(nameBuff);
-		else {
+			name = Character::ToLower(std::string(nameBuff));
+		else
 			name = std::string("");
-		}
 		unitInfo = GameData::GetUnitInfoByName(name);
 	}
 
@@ -131,7 +130,7 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 	if (HasUnitTags(Unit_Champion)) {
 		LoadChampionFromMem(base, hProcess, deepLoad);
 	}
-	else {
+	else if(unitInfo == GameData::UnknownUnit) {
 		// Try reading missile extension
 		LoadMissileFromMem(base, hProcess, deepLoad);
 	}
@@ -279,14 +278,6 @@ void GameObject::LoadMissileFromMem(DWORD base, HANDLE hProcess, bool deepLoad) 
 	if (!deepLoad)
 		return;
 
-	memcpy(&srcIndex, buff + Offsets::MissileSrcIdx, sizeof(short));
-	memcpy(&destIndex, buff + Offsets::MissileDestIdx, sizeof(short));
-	memcpy(&startPos, buff + Offsets::MissileStartPos, sizeof(Vector3));
-	memcpy(&endPos, buff + Offsets::MissileEndPos, sizeof(Vector3));
-	
-	startPos.y += 100.f;
-	endPos.y += 100.f;
-
 	DWORD spellInfoPtr = Mem::ReadDWORDFromBuffer(buff, Offsets::MissileSpellInfo);
 	if (spellInfoPtr == 0)
 		return;
@@ -295,13 +286,23 @@ void GameObject::LoadMissileFromMem(DWORD base, HANDLE hProcess, bool deepLoad) 
 	if (spellDataPtr == 0)
 		return;
 
+	memcpy(&srcIndex, buff + Offsets::MissileSrcIdx, sizeof(short));
+	memcpy(&destIndex, buff + Offsets::MissileDestIdx, sizeof(short));
+	memcpy(&startPos, buff + Offsets::MissileStartPos, sizeof(Vector3));
+	memcpy(&endPos, buff + Offsets::MissileEndPos, sizeof(Vector3));
+
+	startPos.y += 100.f;
+	endPos.y += 100.f;
+
 	Mem::Read(hProcess, spellDataPtr, buff, 0x500);
 
 	// Read name
 	char nameBuff[50];
 	Mem::Read(hProcess, Mem::ReadDWORD(hProcess, spellDataPtr + Offsets::SpellDataMissileName), nameBuff, 50);
 	if (Character::ContainsOnlyASCII(nameBuff, 50))
-		name = std::string(nameBuff);
+		name = Character::ToLower(std::string(nameBuff));
+	else
+		name = std::string("");
 
 	// Find static data
 	spellInfo = GameData::GetSpellInfoByName(name);

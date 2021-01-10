@@ -17,8 +17,8 @@ skillshots      = False
 skillshots_predict = False
 
 ignore_missiles = set([
-	"ViEFx", "ViQMissile", "ViRMissile",
-	"MissFortuneRicochetShotDud"
+	"viefx", "viqmissile", "virmissile",
+	"missfortunericochetshotdud"
 ])
 
 def lview_load_cfg(cfg):

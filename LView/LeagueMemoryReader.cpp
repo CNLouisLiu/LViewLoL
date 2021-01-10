@@ -9,13 +9,13 @@
 LeagueMemoryReader::LeagueMemoryReader()
 {
 	// Some trash object not worth reading
-	blacklistedObjectNames.insert("TestCube");
-	blacklistedObjectNames.insert("TestCubeRender");
-	blacklistedObjectNames.insert("TestCubeRender10Vision");
-	blacklistedObjectNames.insert("S5Test_WardCorpse");
-	blacklistedObjectNames.insert("SRU_CampRespawnMarker");
-	blacklistedObjectNames.insert("SRU_PlantRespawnMarker");
-	blacklistedObjectNames.insert("PreSeason_Turret_Shield");
+	blacklistedObjectNames.insert("testcube");
+	blacklistedObjectNames.insert("testcuberender");
+	blacklistedObjectNames.insert("testcuberender10vision");
+	blacklistedObjectNames.insert("s5test_wardcorpse");
+	blacklistedObjectNames.insert("sru_camprespawnmarker");
+	blacklistedObjectNames.insert("sru_plantrespawnmarker");
+	blacklistedObjectNames.insert("preseason_turret_shield");
 }
 
 bool LeagueMemoryReader::IsLeagueWindowActive() {
@@ -92,6 +92,7 @@ void LeagueMemoryReader::FindHoveredObject(MemSnapshot& ms) {
 		ms.hoveredObject = nullptr;
 }
 
+/// This method reads the game objects from memory. It reads the tree structure of a std::map<int, GameObject*>
 void LeagueMemoryReader::ReadObjects(MemSnapshot& ms) {
 
 	static const int maxObjects = 500;
@@ -208,7 +209,7 @@ void LeagueMemoryReader::ReadObjects(MemSnapshot& ms) {
 	}
 
 	readDuration = high_resolution_clock::now() - readTimeBegin;
-	ms.benchmark->readMissilesMs = readDuration.count();
+	ms.benchmark->readObjectsMs = readDuration.count();
 }
 
 void LeagueMemoryReader::ReadMinimap(MemSnapshot & snapshot) {

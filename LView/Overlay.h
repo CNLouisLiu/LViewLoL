@@ -47,10 +47,12 @@ public:
 	static ID3D11Device*  GetDxDevice();
 
 private:
-	void           DrawUI(MemSnapshot& memSnapshot);
+	void           DrawUI(PyGame& state, MemSnapshot& memSnapshot);
+	void           ExecScripts(PyGame& state);
+
 	void           DrawOverlayWindows(PyGame& state);
-	void           DrawScripts(PyGame& state, MemSnapshot& memSnapshot);
-	void           DrawDevStuff(MemSnapshot& memSnapshot);
+	void           DrawScriptSettings(PyGame& state, MemSnapshot& memSnapshot);
+	void           DrawBenchmarks(MemSnapshot& memSnapshot);
 	
 	void           DrawScriptError(std::shared_ptr<Script>& script);
 	void           DrawScriptCommonSettings(std::shared_ptr<Script>& script, int id);
@@ -80,4 +82,8 @@ private:
 	// Some simple benchmarks
 	float                              renderTimeMs;
 	float                              processTimeMs;
+
+	// Some imgui flags
+	bool drawSettings = true;
+	bool drawBenchmarks = false;
 };

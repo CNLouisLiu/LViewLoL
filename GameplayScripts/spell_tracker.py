@@ -32,10 +32,11 @@ def draw_spell(game, spell, pos, size, show_lvl = True, show_cd = True):
 
 def draw_overlay_on_champ(game, champ):
 	p = Vec3(champ.pos.x, champ.pos.y, champ.pos.z)
-
 	p = game.world_to_screen(p)
-	p.x -= 60
 	
+	#game.draw_circle_filled(p, 5, 5, Color.WHITE)
+	
+	p.x -= 60
 	if not game.is_point_on_screen(p):
 		return
 	

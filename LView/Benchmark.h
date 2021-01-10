@@ -6,16 +6,12 @@ struct UIBenchmark {
 };
 
 struct ReadBenchmark {
-	float readChampsMs;
+	float readObjectsMs;
 	float readRendererMs;
-	float readMobsMs;
-	float readTurretsMs;
-	float readMissilesMs;
 };
 
 struct ViewBenchmark {
 	float drawSettingsMs;
 	float drawPanelMs;
-	float drawWorldOverlayMs;
-	float drawMinimapOverlayMs;
+	float drawOverlayMs;
 };

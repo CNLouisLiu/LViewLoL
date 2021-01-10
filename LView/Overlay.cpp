@@ -7,37 +7,12 @@
 #include <string>
 #include <list>
 
-#define HCheck(x, m) if(x != S_OK) { throw std::runtime_error(format("DirectX: Failed at %s. Error code: %d\n", m, MAKE_HRESULT(1, _FACDXGI, X))); }
+#define HCheck(x, m) if(x != S_OK) { throw std::runtime_error(Character::Format("DirectX: Failed at %s. Error code: %d\n", m, MAKE_HRESULT(1, _FACDXGI, X))); }
 
 ID3D11Device*            Overlay::dxDevice            = NULL;
 ID3D11DeviceContext*     Overlay::dxDeviceContext     = NULL;
 IDXGISwapChain1*         Overlay::dxSwapChain            = NULL;
 ID3D11RenderTargetView*  Overlay::dxRenderTarget  = NULL;
-
-std::string format(const char* c, const char* args...) {
-	char buff[200];
-	sprintf_s(buff, c, args);
-
-	return std::string(buff);
-}
-
-std::string RandomString(const int len) {
-
-	std::string tmp_s;
-	static const char alphanum[] =
-		"0123456789"
-		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-		"abcdefghijklmnopqrstuvwxyz";
-
-	srand((unsigned int)time(0));
-	tmp_s.reserve(len);
-
-	for (int i = 0; i < len; ++i)
-		tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];
-
-
-	return tmp_s;
-}
 
 Overlay::Overlay(): configs(*(ConfigSet::Get())){
 }
@@ -45,8 +20,8 @@ Overlay::Overlay(): configs(*(ConfigSet::Get())){
 void Overlay::Init() {
 
 	// Create transparent window
-	std::string windowClassName = RandomString(10);
-	std::string windowName = RandomString(10);
+	std::string windowClassName = Character::RandomString(10);
+	std::string windowName = Character::RandomString(10);
 	SetConsoleTitleA(windowName.c_str());
 	
 	// Create window with random name & class name
@@ -64,8 +39,6 @@ void Overlay::Init() {
 	}
 	
 	ShowWindow(hWindow, SW_SHOW);
-	//SetLayeredWindowAttributes(hWindow, RGB(0, 0, 0), 255, LWA_COLORKEY); 
-
 
 	// Initialize Direct3D
 	if (!CreateDeviceD3D(hWindow))
@@ -95,14 +68,88 @@ void Overlay::GameStart(MemSnapshot& memSnapshot)
 	scriptManager.LoadAll(configs.GetStr("scriptsFolder", "."), memSnapshot.player->name);
 }
 
-void Overlay::DrawUI(MemSnapshot& memSnapshot) {
+void Overlay::StartFrame()
+{
+	MSG msg;
+	ZeroMemory(&msg, sizeof(MSG));
 
-	high_resolution_clock::time_point timeBefore;
+	if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
 
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+}
+
+void Overlay::Update(MemSnapshot& memSnapshot) {
+
+	// Simple check to see if game ended
+	if (memSnapshot.champions.size() == 0 || !isWindowVisible)
+		return;
+
+	auto timeBefore = high_resolution_clock::now();
 	PyGame state = PyGame::ConstructFromMemSnapshot(memSnapshot);
 
 	DrawOverlayWindows(state);
-	DrawScripts(state, memSnapshot);
+	ExecScripts(state);
+	DrawUI(state, memSnapshot);
+
+	duration<float, std::milli> timeDuration = high_resolution_clock::now() - timeBefore;
+	processTimeMs = timeDuration.count();
+}
+
+void Overlay::RenderFrame()
+{
+	static ImVec4 clear_color = ImVec4(0.f, 0.f, 0.f, 0.f);
+
+	// Render
+	auto timeBefore = high_resolution_clock::now();
+
+	ImGui::EndFrame();
+	ImGui::Render();
+	dxDeviceContext->OMSetRenderTargets(1, &dxRenderTarget, NULL);
+	dxDeviceContext->ClearRenderTargetView(dxRenderTarget, (float*)&clear_color);
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	dxSwapChain->Present(0, 0);
+
+	duration<float, std::milli> timeDuration = high_resolution_clock::now() - timeBefore;
+	renderTimeMs = timeDuration.count();
+}
+
+void Overlay::ExecScripts(PyGame & state)
+{
+	for (auto& script : scriptManager.activeScripts) {
+		if (script->loadError.empty() && script->execError.empty())
+			script->ExecUpdate(state, imguiInterface);
+	}
+}
+
+void Overlay::DrawUI(PyGame& state, MemSnapshot& memSnapshot) {
+
+	high_resolution_clock::time_point timeBefore;
+
+	ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiCond_FirstUseEver);
+	ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
+	if (!ImGui::Begin("LVIEW by leryss")) {
+		ImGui::End();
+		return;
+	}
+
+	if (ImGui::BeginTabBar("LViewTabBar", ImGuiTabBarFlags_None)) {
+		if (ImGui::BeginTabItem("Scripts##ScriptsId")) {
+			DrawScriptSettings(state, memSnapshot);
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("Benchmarks##BenchmarksId")) {
+			DrawBenchmarks(memSnapshot);
+			ImGui::EndTabItem();
+		}
+		ImGui::EndTabBar();
+	}
+	ImGui::End();
 }
 
 void Overlay::DrawOverlayWindows(PyGame& state)
@@ -124,11 +171,9 @@ void Overlay::DrawOverlayWindows(PyGame& state)
 	ImGui::End();
 }
 
-void Overlay::DrawScripts(PyGame& state, MemSnapshot& memSnapshot)
+void Overlay::DrawScriptSettings(PyGame& state, MemSnapshot& memSnapshot)
 {
-	ImGui::Begin("Settings");
-	ImGui::TextColored(Colors::CYAN, "LVIEW (External RPM Scripting Engine) by leryss");
-
+	ImGui::Text("Script Settings");
 	if (ImGui::Button("Save all script settings")) {
 		scriptManager.SaveAllScriptsConfigs();
 		configs.SaveToFile();
@@ -138,7 +183,6 @@ void Overlay::DrawScripts(PyGame& state, MemSnapshot& memSnapshot)
 		GameStart(memSnapshot);
 	}
 
-	ImGui::Text("Script Settings");
 	int idNode = 10000;
 	for (std::shared_ptr<Script>& script : scriptManager.activeScripts) {
 		idNode++;
@@ -155,8 +199,6 @@ void Overlay::DrawScripts(PyGame& state, MemSnapshot& memSnapshot)
 				ImGui::PushStyleColor(ImGuiCol_Header, Colors::GRAY);
 				skippedExecution = true;
 			}
-			else
-				script->ExecUpdate(state, imguiInterface);
 
 			if (ImGui::CollapsingHeader(script->name.c_str())) {
 				ImGui::Indent(16.0f);
@@ -172,45 +214,33 @@ void Overlay::DrawScripts(PyGame& state, MemSnapshot& memSnapshot)
 		}
 
 	}
-	ImGui::Separator();
-	DrawDevStuff(memSnapshot);
-
-	ImGui::End();
 }
 
-void Overlay::DrawDevStuff(MemSnapshot & memSnapshot)
+void Overlay::DrawBenchmarks(MemSnapshot & memSnapshot)
 {
-	ImGui::Text("Dev Stuff");
-	if (ImGui::CollapsingHeader("Benchmarks")) {
-		float readMemoryTime = memSnapshot.benchmark->readChampsMs +
-			memSnapshot.benchmark->readMobsMs +
-			memSnapshot.benchmark->readRendererMs + 
-			memSnapshot.benchmark->readTurretsMs +
-			memSnapshot.benchmark->readMissilesMs;
+	ImGui::Text("Benchmarks");
+	float readMemoryTime = memSnapshot.benchmark->readObjectsMs +
+		memSnapshot.benchmark->readRendererMs;
 
-		float totalMs = readMemoryTime + renderTimeMs + processTimeMs;
+	float totalMs = readMemoryTime + renderTimeMs + processTimeMs;
 
-		ImGui::DragFloat("Total Time (ms)", &totalMs);
-		ImGui::DragFloat("Render UI Time (ms)", &renderTimeMs);
-		ImGui::DragFloat("Total Scripts Time (ms)", &processTimeMs);
-		ImGui::DragFloat("Read Memory Time (ms)", &readMemoryTime);
+	ImGui::DragFloat("Total Time (ms)", &totalMs);
+	ImGui::DragFloat("Render UI Time (ms)", &renderTimeMs);
+	ImGui::DragFloat("Total Scripts Time (ms)", &processTimeMs);
+	ImGui::DragFloat("Read Memory Time (ms)", &readMemoryTime);
 
-		if (ImGui::TreeNode("Memory read time (ms)")) {
-			ImGui::DragFloat("Read champions", &memSnapshot.benchmark->readChampsMs);
-			ImGui::DragFloat("Read mobs", &memSnapshot.benchmark->readMobsMs);
-			ImGui::DragFloat("Read renderer", &memSnapshot.benchmark->readRendererMs);
-			ImGui::DragFloat("Read turrets", &memSnapshot.benchmark->readTurretsMs);
-			ImGui::DragFloat("Read missiles", &memSnapshot.benchmark->readMissilesMs);
-			ImGui::TreePop();
+	if (ImGui::TreeNode("Memory read time (ms)")) {
+		ImGui::DragFloat("Read objects", &memSnapshot.benchmark->readObjectsMs);
+		ImGui::DragFloat("Read renderer", &memSnapshot.benchmark->readRendererMs);
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Script process time (ms)")) {
+		for (std::shared_ptr<Script>& script : scriptManager.activeScripts) {
+			float ms = script->updateTimeMs.count();
+			ImGui::DragFloat(script->name.c_str(), &ms);
 		}
-
-		if (ImGui::TreeNode("Script process time (ms)")) {
-			for (std::shared_ptr<Script>& script : scriptManager.activeScripts) {
-				float ms = script->updateTimeMs.count();
-				ImGui::DragFloat(script->name.c_str(), &ms);
-			}
-			ImGui::TreePop();
-		}
+		ImGui::TreePop();
 	}
 }
 
@@ -243,54 +273,6 @@ void Overlay::DrawScriptCommonSettings(std::shared_ptr<Script>& script, int id)
 	}
 	ImGui::Checkbox("Enabled", &script->enabled);
 	ImGui::Separator();
-}
-
-void Overlay::StartFrame()
-{
-	MSG msg;
-	ZeroMemory(&msg, sizeof(MSG));
-
-	if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
-	{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-	}
-
-	ImGui_ImplDX11_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
-}
-
-void Overlay::Update(MemSnapshot& memSnapshot) {
-
-	// Simple check to see if game ended
-	if (memSnapshot.champions.size() == 0 || !isWindowVisible)
-		return;
-
-	auto timeBefore = high_resolution_clock::now();
-
-	DrawUI(memSnapshot);
-
-	duration<float, std::milli> timeDuration = high_resolution_clock::now() - timeBefore;	
-	processTimeMs = timeDuration.count();
-}
-
-void Overlay::RenderFrame()
-{
-	static ImVec4 clear_color = ImVec4(0.f, 0.f, 0.f, 0.f);
-
-	// Render
-	auto timeBefore = high_resolution_clock::now();
-	
-	ImGui::EndFrame();
-	ImGui::Render();
-	dxDeviceContext->OMSetRenderTargets(1, &dxRenderTarget, NULL);
-	dxDeviceContext->ClearRenderTargetView(dxRenderTarget, (float*)&clear_color);
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-	dxSwapChain->Present(0, 0);
-
-	duration<float, std::milli> timeDuration = high_resolution_clock::now() - timeBefore;
-	renderTimeMs = timeDuration.count();
 }
 
 bool Overlay::IsVisible()

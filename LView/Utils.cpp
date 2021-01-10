@@ -1,6 +1,7 @@
 #include "Utils.h"
 #include <algorithm>
 #include <cmath>
+#include <ctime>
 
 DWORD Mem::ReadDWORD(HANDLE hProcess, DWORD addr) {
 	DWORD_PTR ptr = NULL;
@@ -54,6 +55,32 @@ std::string Character::ToLower(std::string str)
 
 	return strLower;
 }
+
+std::string Character::Format(const char* c, const char* args...) {
+	char buff[200];
+	sprintf_s(buff, c, args);
+
+	return std::string(buff);
+}
+
+std::string Character::RandomString(const int len) {
+
+	std::string tmp_s;
+	static const char alphanum[] =
+		"0123456789"
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		"abcdefghijklmnopqrstuvwxyz";
+
+	srand((unsigned int)time(0));
+	tmp_s.reserve(len);
+
+	for (int i = 0; i < len; ++i)
+		tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];
+
+
+	return tmp_s;
+}
+
 
 float League::EffectiveHP(float health, float armour) {
 	return (1.f + armour / 100.f) * health;

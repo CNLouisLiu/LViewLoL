@@ -75,6 +75,8 @@ namespace League {
 namespace Character {
 	bool        ContainsOnlyASCII(const char* buff, int maxSize);
 	std::string ToLower(std::string str);
+	std::string RandomString(const int len);
+	std::string Format(const char* c, const char* args...);
 }
 
 /// Some basic colors

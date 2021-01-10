@@ -36,7 +36,7 @@ void GameData::Load(std::string& dataFolder)
 
 UnitInfo * GameData::GetUnitInfoByName(std::string& name)
 {
-	auto it = Units.find(Character::ToLower(name));
+	auto it = Units.find(name);
 	if (it != Units.end())
 		return it->second;
 	return UnknownUnit;
@@ -44,7 +44,7 @@ UnitInfo * GameData::GetUnitInfoByName(std::string& name)
 
 SpellInfo * GameData::GetSpellInfoByName(std::string& name)
 {
-	auto it = Spells.find(Character::ToLower(name));
+	auto it = Spells.find(name);
 	if (it != Spells.end())
 		return it->second;
 	return UnknownSpell;

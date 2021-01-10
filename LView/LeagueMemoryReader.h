@@ -33,14 +33,14 @@ public:
 private:
 
 	// Process related
-	HANDLE                    hProcess = NULL;
-	DWORD                     pid      = 0;
-	HWND                      hWindow  = NULL;
-
-	// Memory related
-	DWORD_PTR                 moduleBaseAddr    = 0;
-	DWORD                     moduleSize        = 0;
-	BOOL                      is64Bit           = FALSE;
+	HANDLE                      hProcess = NULL;
+	DWORD                       pid      = 0;
+	HWND                        hWindow  = NULL;
+							   
+	// Memory related		   
+	DWORD_PTR                   moduleBaseAddr    = 0;
+	DWORD                       moduleSize        = 0;
+	BOOL                        is64Bit           = FALSE;
 
 private:
 	float                       minDistanceToCursor;
