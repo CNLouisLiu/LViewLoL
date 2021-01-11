@@ -7,7 +7,7 @@
 #include "ConfigSet.h"
 #include "Spell.h"
 #include "PyGame.h"
-#include "Item.h"
+#include "ItemInfo.h"
 
 #include "PyImguiInterface.h"
 #include "Utils.h"
@@ -17,21 +17,22 @@ using namespace boost::python;
 /// Defines the mapping between the C++ and Python classes
 BOOST_PYTHON_MODULE(lview) {
 
-	class_<Item>("Item")
-		.def_readonly("id",                     &Item::id)
-		.def_readonly("cost",                   &Item::cost)
-		.def_readonly("movement_speed",         &Item::movementSpeed)
-		.def_readonly("health",                 &Item::health)
-		.def_readonly("crit",                   &Item::crit)
-		.def_readonly("ability_power",          &Item::abilityPower)
-		.def_readonly("mana",                   &Item::mana)
-		.def_readonly("armour",                 &Item::armour)
-		.def_readonly("magic_resist",           &Item::magicResist)
-		.def_readonly("physical_damage",        &Item::physicalDamage)
-		.def_readonly("attack_speed",           &Item::attackSpeed)
-		.def_readonly("life_steal",             &Item::lifeSteal)
-		.def_readonly("hp_regen",               &Item::hpRegen)
-		.def_readonly("movement_speed_percent", &Item::movementSpeedPercent)
+	class_<ItemSlot>("Item")
+		.def_readonly("slot",                   &ItemSlot::slot)
+		.def_readonly("id",                     &ItemSlot::GetId)
+		.def_readonly("cost",                   &ItemSlot::GetCost)
+		.def_readonly("movement_speed",         &ItemSlot::GetMovementSpeed)
+		.def_readonly("health",                 &ItemSlot::GetHealth)
+		.def_readonly("crit",                   &ItemSlot::GetCrit)
+		.def_readonly("ability_power",          &ItemSlot::GetAbilityPower)
+		.def_readonly("mana",                   &ItemSlot::GetMana)
+		.def_readonly("armour",                 &ItemSlot::GetArmour)
+		.def_readonly("magic_resist",           &ItemSlot::GetMagicResist)
+		.def_readonly("physical_damage",        &ItemSlot::GetPhysicalDamage)
+		.def_readonly("attack_speed",           &ItemSlot::GetAttackSpeed)
+		.def_readonly("life_steal",             &ItemSlot::GetLifeSteal)
+		.def_readonly("hp_regen",               &ItemSlot::GetHpRegen)
+		.def_readonly("movement_speed_percent", &ItemSlot::GetMovementSpeedPercent)
 		;
 
 	class_<Spell>("Spell", init<SpellSlot>())
@@ -92,6 +93,7 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("base_atk_speed",       &GameObject::GetBaseAttackSpeed)
 		.def_readonly("base_atk_range",       &GameObject::GetBaseAttackRange)
 		.def_readonly("atk_range",            &GameObject::GetAttackRange)
+		.def_readonly("is_ranged",            &GameObject::IsRanged)
 
 		.def("__eq__",                        &GameObject::IsEqualTo)
 		.def("__ne__",                        &GameObject::IsNotEqualTo)
@@ -106,11 +108,9 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("R",                    &GameObject::R)
 		.def_readonly("D",                    &GameObject::D)
 		.def_readonly("F",                    &GameObject::F)
-		.def_readonly("items",                &GameObject::ItemsToPyTuple)
+		.def_readonly("items",                &GameObject::ItemsToPyList)
 		.def_readonly("lvl",                  &GameObject::level)
 								              
-		.def("get_basic_phys",                &GameObject::GetOnHitPhysDamage)
-		.def("get_basic_magic",               &GameObject::GetOnHitMagicDamage)
 		.def("get_summoner_spell",            &GameObject::GetSummonerSpell, return_value_policy<reference_existing_object>())
 									          
 		// Missile					          

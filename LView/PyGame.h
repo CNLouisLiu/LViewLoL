@@ -154,7 +154,7 @@ public:
 		pos.y += obj.GetHpBarHeight();
 
 		Vector2 w2s = ms->renderer->WorldToScreen(pos);
-		w2s.y -= (ms->renderer->height * 0.00083333335 * obj.GetHpBarHeight());
+		w2s.y -= (ms->renderer->height * 0.00083333335f * obj.GetHpBarHeight());
 
 		return w2s;
 	}
@@ -202,18 +202,18 @@ public:
 		Cy = pow((p1.y - p2.y), 2.f);
 
 		a = Ax + Ay;
-		b = 2.0*(Bx + By);
+		b = 2.f*(Bx + By);
 		c = Cx + Cy - pow(radius, 2.f);
-		delta = b * b - 4.0*a*c;
+		delta = b * b - 4.f*a*c;
 
-		if (a == 0.0 || delta < 0.0)
+		if (a == 0.f || delta < 0.f)
 			return false;
 
 		sqrt_d = sqrt(delta);
-		t1 = (-b + sqrt_d) / (2.0*a);
-		t2 = (-b - sqrt_d) / (2.0*a);
+		t1 = (-b + sqrt_d) / (2.f*a);
+		t2 = (-b - sqrt_d) / (2.f*a);
 
-		return (t1 >= 0.0 and t2 >= 0.0);
+		return (t1 >= 0.f and t2 >= 0.f);
 	}
 
 	void MoveCursor(const Vector2& pos) {

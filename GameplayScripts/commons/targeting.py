@@ -10,7 +10,7 @@ class TargetingConfig:
 	targeting_lambdas = {
 		Target.ClosestToPlayer: (lambda player, enemy: player.pos.distance(enemy.pos)),
 		Target.LowestHealth:    (lambda player, enemy: enemy.health),
-		Target.MostFed:         (lambda player, enemy: -sum([0 if not item else item.cost for item in enemy.items]))
+		Target.MostFed:         (lambda player, enemy: -sum([item.cost for item in enemy.items]))
 	}
 	selected = 0
 	

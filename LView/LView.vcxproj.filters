@@ -132,11 +132,11 @@
     <ClCompile Include="GameRenderer.cpp">
       <Filter>Source Files\Structs\GameRelated\Others</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>Source Files\Structs\GameRelated\Others</Filter>
-    </ClCompile>
     <ClCompile Include="Texture2D.cpp">
       <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemSlot.cpp">
+      <Filter>Source Files\Structs\GameRelated\Others</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,14 +230,17 @@
     <ClInclude Include="GameRenderer.h">
       <Filter>Source Files\Structs\GameRelated\Others</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Source Files\Structs\GameRelated\Others</Filter>
-    </ClInclude>
     <ClInclude Include="stb_image.h">
       <Filter>Source Files\External\stb_image</Filter>
     </ClInclude>
     <ClInclude Include="Texture2D.h">
       <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemInfo.h">
+      <Filter>Source Files\Structs\GameRelated\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemSlot.h">
+      <Filter>Source Files\Structs\GameRelated\Others</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

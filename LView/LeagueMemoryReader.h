@@ -44,7 +44,7 @@ private:
 
 private:
 	float                       minDistanceToCursor;
-	std::set<short>             blacklistedObjects;
+	std::set<int>               blacklistedObjects;
 	std::set<std::string>       blacklistedObjectNames;
 	
 	void                        ReadRenderer(MemSnapshot& snapshot);

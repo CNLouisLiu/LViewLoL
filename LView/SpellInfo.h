@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <map>
 
 /// Flags of a spell/missile (they are the same thing anyway)
 enum SpellFlags {
@@ -49,6 +50,7 @@ public:
 	SpellInfo* SetImpactRadius(float radius);
 	SpellInfo* SetImpactAngle(float angle);
 
+	void SetFlag(std::string& flag);
 public:
 	// Values from game's data files
 	std::string name;
@@ -64,5 +66,8 @@ public:
 	// Custom values set by us
 	float impactRadius;
 	float impactAngle;
+
+private:
+	static std::map<std::string, SpellFlags> FlagMapping;
 };
 

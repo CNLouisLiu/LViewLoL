@@ -299,7 +299,6 @@ ID3D11Device * Overlay::GetDxDevice()
 
 bool Overlay::CreateDeviceD3D(HWND hWnd)
 {
-	D3D_FEATURE_LEVEL featureLevel;
 	const D3D_FEATURE_LEVEL featureLevelArray[2] = { D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_0, };
 	HCheck(D3D11CreateDevice(
 		nullptr,    // Adapter
@@ -340,7 +339,7 @@ bool Overlay::CreateDeviceD3D(HWND hWnd)
 		nullptr,
 		&dxSwapChain), "Create swap chain");
 		
-	// Create Direct Composition shits. This is the only way to make the UI not lag the game and itself.
+	// Create Direct Composition layer
 	IDCompositionDevice* dcompDevice;
 	DCompositionCreateDevice(
 		dxgiDevice,

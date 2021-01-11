@@ -4,7 +4,7 @@ from pprint import pprint
 lview_script_info = {
 	"script": "Object Explorer",
 	"author": "leryss",
-	"description": "Provides a way to explore in game objects"
+	"description": "This is not a cheat. This just provides a way to explore ingame objects"
 }
 
 def draw_spell(spell, ui):
@@ -20,8 +20,9 @@ def draw_spell(spell, ui):
 		
 def draw_items(items, ui):
 	for item in items:
-		if item != None and ui.treenode(str(item.id)):
+		if ui.treenode(str(item.id)):
 			
+			ui.dragint("slot", item.slot)
 			if item.movement_speed > 0:         ui.dragfloat("movement_speed", item.movement_speed) 
 			if item.health > 0:                 ui.dragfloat("health", item.health)                                 
 			if item.crit > 0:                   ui.dragfloat("crit", item.crit)                                     

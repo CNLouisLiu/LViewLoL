@@ -4,7 +4,7 @@ lview_script_info = {
 	"script": "Twisted Fate Card Picker",
 	"author": "leryss",
 	"description": "Picks specific cards for twisted fate",
-	"target_champ": "TwistedFate"
+	"target_champ": "twistedfate"
 }
 
 key_blue, key_red, key_yellow = 0, 0, 0

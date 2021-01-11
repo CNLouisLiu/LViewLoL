@@ -7,10 +7,20 @@ def find_key_ending_with(dictionary, partial_key):
 			return val
 	return None
 	
-objs, spells = [], []
+units, spells = {}, {}
 infos = ''
 unit_tags = set()
 unit_data_folder = 'unit_data'
+
+
+with open('SpellData.json') as f:
+	objects = json.loads(f.read())
+	for o in objects:
+		spells[o["name"]] = o
+with open('UnitData.json') as f:
+	objects = json.loads(f.read())
+	for o in objects:
+		units[o["name"]] = o
 
 for fname in os.listdir(unit_data_folder):
 	print("Processing: "+ fname)
@@ -50,7 +60,7 @@ for fname in os.listdir(unit_data_folder):
 			windup = 0.3 + basic_attack.get('mAttackDelayCastOffsetPercent', 0.0)
 
 	tags = set(['Unit_' + x.strip().replace('=', '_') for x in root.get("unitTagsString", "").split('|')])
-	objs.append({
+	unit = {
 		"name":             name.lower(),
 		"healthBarHeight":  root.get("healthBarHeight", 100.0),
 		"baseMoveSpeed":    root.get("baseMoveSpeed", 0.0),
@@ -64,9 +74,13 @@ for fname in os.listdir(unit_data_folder):
 		"basicAtkMissileSpeed": missile_speed,
 		"basicAtkWindup": windup,
 		"tags": list(tags)
-		
-	})
+	}
+	if unit["name"] in units:
+		units[unit["name"]] |= unit
+	else:
+		units[unit["name"]] = unit
 	
+	# Read spells
 	for key, val in props.items():
 		if "mSpell" not in val:
 			continue
@@ -94,13 +108,15 @@ for fname in os.listdir(unit_data_folder):
 					spell["height"] = movcomp.get("mOffsetInitialTargetHeight", 100.0)
 					spell["speed"] = movcomp.get("mSpeed", 0.0)
 					
+			if spell["name"] in spells:
+				spells[spell["name"]] |= spell
+			else:
+				spells[spell["name"]] = spell
 			
-			spells.append(spell)
-			
-print(f'Found {len(objs)} units and {len(spells)} spells')
+print(f'Found {len(units)} units and {len(spells)} spells')
 with open("UnitData.json", 'w') as f:
-	f.write(json.dumps(objs, indent=4))
+	f.write(json.dumps(list(units.values()), indent=4))
 	
 with open("SpellData.json", 'w') as f:
-	f.write(json.dumps(spells, indent=4))
+	f.write(json.dumps(list(spells.values()), indent=4))
 	

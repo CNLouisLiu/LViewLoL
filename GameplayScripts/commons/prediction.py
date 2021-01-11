@@ -1,5 +1,6 @@
 from lview import *
 import math, itertools, time
+from . import items
 	
 def find_impact_collision_champs(game, missile):
 	
@@ -15,7 +16,7 @@ def find_impact_collision_champs(game, missile):
 def is_last_hitable(game, player, enemy):
 	missile_speed = player.basic_missile_speed + 1
 		
-	hit_dmg = player.get_basic_phys(enemy) + player.get_basic_magic(enemy)
+	hit_dmg = items.get_onhit_physical(player, enemy) + items.get_onhit_magical(player, enemy)
 	
 	hp = enemy.health
 	atk_speed = player.base_atk_speed * player.atk_speed_multi

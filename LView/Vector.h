@@ -1,5 +1,5 @@
 #pragma once
-#include "math.h"
+#include <cmath>
 
 struct Vector2 {
 	Vector2() {};

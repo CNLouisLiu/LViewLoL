@@ -159,7 +159,9 @@ void GameObject::LoadChampionFromMem(DWORD base, HANDLE hProcess, bool deepLoad)
 	Mem::Read(hProcess, ptrList, itemListBuffer, 0x100);
 
 	for (int i = 0; i < 6; ++i) {
-		items[i] = nullptr;
+		itemSlots[i].isEmpty = true;
+		itemSlots[i].slot = i;
+
 		DWORD itemPtr = 0, itemInfoPtr = 0;
 		memcpy(&itemPtr, itemListBuffer + i * 0x10 + Offsets::ItemListItem, sizeof(DWORD));
 		if (itemPtr == 0)
@@ -168,7 +170,10 @@ void GameObject::LoadChampionFromMem(DWORD base, HANDLE hProcess, bool deepLoad)
 		itemInfoPtr = Mem::ReadDWORD(hProcess, itemPtr + Offsets::ItemInfo);
 		if (itemInfoPtr == 0)
 			continue;
-		items[i] = Item::items[Mem::ReadDWORD(hProcess, itemInfoPtr + Offsets::ItemInfoId)];
+		
+		int id = Mem::ReadDWORD(hProcess, itemInfoPtr + Offsets::ItemInfoId);
+		itemSlots[i].isEmpty = false;
+		itemSlots[i].stats = GameData::GetItemInfoById(id);
 	}
 
 	// Read level
@@ -191,85 +196,13 @@ bool GameObject::IsRanged() {
 	return GetBaseAttackRange() >= 300.f;
 }
 
-float CritFromItems(Item* items[]) {
-	float crit = 0.f;
-	for (int i = 0; i < 6; ++i) {
-		if (items[i] != nullptr)
-			crit += items[i]->crit;
-	}
-
-	return crit;
-}
-
-float GameObject::GetOnHitPhysDamage(const GameObject& target)
-{
-	float physDmg = GetBasicAttackDamage();
-	float botrkDmg = 0.f;
-
-	for (int i = 0; i < 6; ++i) {
-		if (items[i] == nullptr)
-			continue;
-
-		switch (items[i]->id) {
-		case 3124: // Guinsoo
-			physDmg += CritFromItems(items) * 100.f * 2.f;
-			break;
-		case 6677: // Rageknife
-			physDmg += CritFromItems(items) * 100.f * 1.75f;
-			break;
-		case 6670: // Noonquiver
-			physDmg += 20.f;
-			break;
-		case 1043: // Recurve bow
-			physDmg += 15.f;
-			break;
-		case 3153: // Blade of the ruined king
-			botrkDmg = (IsRanged() ? 0.06f : 0.1f) * target.health;
-			if (target.HasUnitTags(Unit_Champion))
-				physDmg += botrkDmg;
-			else
-				physDmg += Clamp(botrkDmg, 0.f, 60.f);
-			break;
-		case 1056:
-			physDmg += 5.f;
-			break;
-		default:
-			break;
-		}
-	}
-
-	return League::EffectiveDamage(physDmg, target.armour);
-}
-
-float GameObject::GetOnHitMagicDamage(const GameObject& target)
-{
-	float magicDmg = 0.f;
-
-	for (int i = 0; i < 6; ++i) {
-		if (items[i] == nullptr)
-			continue;
-
-		switch (items[i]->id) {
-		case 3115: // Nashors tooth
-			magicDmg += 15.f + 0.2f * abilityPower;
-			break;
-		case 3091: // Wits End
-			magicDmg += 11.17f + 3.82f * level;
-			break;
-		default:
-			break;
-		}
-	}
-
-	return League::EffectiveDamage(magicDmg, target.magicResist);
-}
-
-tuple GameObject::ItemsToPyTuple() {
+list GameObject::ItemsToPyList() {
 	list l;
-	for (int i = 0; i < 6; ++i)
-		l.append(ptr(items[i]));
-
-	return tuple(l);
+	for (int i = 0; i < 6; ++i){
+		if (!itemSlots[i].isEmpty)
+			l.append(boost::ref(itemSlots[i]));
+	}
+	return l;
 }
 
 // Missile stuff
@@ -286,10 +219,10 @@ void GameObject::LoadMissileFromMem(DWORD base, HANDLE hProcess, bool deepLoad) 
 	if (spellDataPtr == 0)
 		return;
 
-	memcpy(&srcIndex, buff + Offsets::MissileSrcIdx, sizeof(short));
-	memcpy(&destIndex, buff + Offsets::MissileDestIdx, sizeof(short));
-	memcpy(&startPos, buff + Offsets::MissileStartPos, sizeof(Vector3));
-	memcpy(&endPos, buff + Offsets::MissileEndPos, sizeof(Vector3));
+	memcpy(&srcIndex,  buff + Offsets::MissileSrcIdx,   sizeof(short));
+	memcpy(&destIndex, buff + Offsets::MissileDestIdx,  sizeof(short));
+	memcpy(&startPos,  buff + Offsets::MissileStartPos, sizeof(Vector3));
+	memcpy(&endPos,    buff + Offsets::MissileEndPos,   sizeof(Vector3));
 
 	Mem::Read(hProcess, spellDataPtr, buff, 0x500);
 

@@ -108,7 +108,7 @@ def draw_skillshots(game, player):
 	
 	for missile in game.missiles:
 		
-		if missile.has_tags(SpellFlag.Targeted) or missile.speed > skillshots_max_speed or missile.range < skillshots_min_range or missile.name in ignore_missiles:
+		if not missile.is_ally_to(game.player) or missile.has_tags(SpellFlag.Targeted) or missile.speed > skillshots_max_speed or missile.range < skillshots_min_range or missile.name in ignore_missiles:
 			continue
 			
 		end_pos = missile.end_pos.clone()

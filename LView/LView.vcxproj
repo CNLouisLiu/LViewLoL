@@ -138,7 +138,6 @@
       <LanguageStandard>
       </LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)\LView\boost;$(SolutionDir)\LView\external_includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>/m:4 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -185,7 +184,7 @@
     <ClCompile Include="imgui_tables.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemSlot.cpp" />
     <ClCompile Include="LeagueMemoryReader.cpp" />
     <ClCompile Include="LView.cpp" />
     <ClCompile Include="MapObject.cpp" />
@@ -208,9 +207,10 @@
     <ClInclude Include="ConfigSet.h" />
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="ItemSlot.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="imgui_impl_dx11.h" />
-    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemInfo.h" />
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="PyGame.h" />
     <ClInclude Include="imconfig.h" />
