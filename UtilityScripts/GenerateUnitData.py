@@ -97,7 +97,8 @@ for fname in os.listdir(unit_data_folder):
 				"radius": 0.0,
 				"height": 0.0,
 				"speed": 0.0,
-				"targeted": s.get("mCastType", 0) == 1
+				"targeted": s.get("mCastType", 0) == 1,
+				"projectDestination": False
 			}
 			
 			missile = s.get("mMissileSpec", None)
@@ -107,6 +108,7 @@ for fname in os.listdir(unit_data_folder):
 				if movcomp:
 					spell["height"] = movcomp.get("mOffsetInitialTargetHeight", 100.0)
 					spell["speed"] = movcomp.get("mSpeed", 0.0)
+					spell["projectDestination"] = movcomp.get("mProjectTargetToCastRange", False)
 					
 			if spell["name"] in spells:
 				spells[spell["name"]] |= spell

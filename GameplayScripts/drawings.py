@@ -1,3 +1,7 @@
+### Note: 
+### Currently the code to draw skillshots is disabled because there are way too many exceptions to make a general renderer. 
+### Each skill must have flags/ranges defined separately. Maybe in the future ill make a separate python package with skillshot related things if im helped.
+
 from lview import *
 from time import time
 import itertools, math
@@ -18,12 +22,6 @@ skillshots      = False
 skillshots_predict = False
 skillshots_min_range = 0
 skillshots_max_speed = 0
-
-ignore_missiles = set([
-	"viefx", "viqmissile", "virmissile",
-	"missfortunericochetshotdud",
-	"threshqpullmissile"
-])
 
 def lview_load_cfg(cfg):
 	global turret_ranges, minion_last_hit, attack_range
@@ -57,7 +55,7 @@ def lview_draw_settings(game, ui):
 	attack_range    = ui.checkbox("Champion attack range", attack_range)
 	
 	ui.separator()
-	ui.text("Skillshots")
+	ui.text("Skillshots (Experimental)")
 	skillshots           = ui.checkbox("Draw skillshots", skillshots)
 	skillshots_predict   = ui.checkbox("Use skillshot prediction", skillshots_predict)
 	skillshots_min_range = ui.dragfloat("Minimum skillshot range", skillshots_min_range, 100, 0, 3000)
@@ -103,14 +101,14 @@ def draw_minion_last_hit(game, player):
 				game.draw_rect(Vec4(p.x - 33, p.y - 8, p.x + 33, p.y), Color.GREEN)
 
 def draw_skillshots(game, player):
-	global ignore_missiles
 	global skillshots, skillshots_predict, skillshots_min_range, skillshots_max_speed
 	
+	color = Color.WHITE
 	for missile in game.missiles:
 		
-		if not missile.is_ally_to(game.player) or missile.has_tags(SpellFlag.Targeted) or missile.speed > skillshots_max_speed or missile.range < skillshots_min_range or missile.name in ignore_missiles:
+		if missile.dest_id != 0 or missile.speed > skillshots_max_speed or missile.range < skillshots_min_range:
 			continue
-			
+		
 		end_pos = missile.end_pos.clone()
 		start_pos = missile.start_pos.clone()
 		curr_pos = missile.pos.clone()
@@ -121,7 +119,7 @@ def draw_skillshots(game, player):
 		curr_pos.y = start_pos.y
 		
 		if missile.radius > 0:
-			draw_rect(game, curr_pos, end_pos, missile.radius, Color.WHITE)
+			draw_rect(game, curr_pos, end_pos, missile.radius, color)
 			game.draw_circle_world_filled(curr_pos, missile.radius, 20, Color.RED)
 	
 		if missile.impact_radius > 0:
@@ -130,7 +128,7 @@ def draw_skillshots(game, player):
 			percent_done = missile.start_pos.distance(curr_pos)/missile.start_pos.distance(end_pos)
 			color = Color(1, 1.0 - percent_done, 0, 0.5)
 			
-			game.draw_circle_world(end_pos, r, 30, 3, Color.WHITE)
+			game.draw_circle_world(end_pos, r, 30, 3, color)
 			game.draw_circle_world_filled(end_pos, r*percent_done, 30, color)
 	
 def lview_update(game, ui):

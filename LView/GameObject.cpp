@@ -237,8 +237,8 @@ void GameObject::LoadMissileFromMem(DWORD base, HANDLE hProcess, bool deepLoad) 
 	// Find static data
 	spellInfo = GameData::GetSpellInfoByName(name);
 
-	// Calculate end position using range since for some skills (e.g GLOBAL skills) the end position is incorrect
-	if (spellInfo != GameData::UnknownSpell && !HasSpellFlags(FixedDestination)) {
+	// Some spells require their end position to be projected using the range of the spell
+	if (spellInfo != GameData::UnknownSpell && HasSpellFlags(ProjectedDestination)) {
 
 		// Missile start position does not have the correct spell height
 		startPos.y += spellInfo->height;

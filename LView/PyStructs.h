@@ -154,9 +154,6 @@ BOOST_PYTHON_MODULE(lview) {
 		.value("CollideChampion",           SpellFlags::CollideChampion)
 		.value("CollideJungleMonster",      SpellFlags::CollideJungleMonster)
 
-		.value("Targeted",                  SpellFlags::Targeted)
-		.value("FixedDestination",          SpellFlags::FixedDestination)
-
 		.value("CollideMob",                SpellFlags::CollideMob)
 		.value("CollideGeneric",            SpellFlags::CollideGeneric)
 

@@ -39,7 +39,7 @@ def draw_items(items, ui):
 			ui.treepop()
 
 def draw_missile(obj, ui):
-	if ui.treenode("{}_{} ({})".format(obj.name, obj.id, hex(obj.address))):
+	if ui.treenode("{}_({}->{}) ({})".format(obj.name, obj.src_id, obj.dest_id, hex(obj.address))):
 		ui.dragint("id", obj.id)
 		ui.labeltext("net_id", hex(obj.net_id))
 		ui.dragint("team", obj.team)

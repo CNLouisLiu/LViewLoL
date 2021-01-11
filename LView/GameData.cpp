@@ -123,7 +123,7 @@ void GameData::LoadSpellData(std::string& path)
 		info->radius = (float)spell.GetDouble("radius");
 		info->range  = (float)spell.GetDouble("range");
 		info->speed  = (float)spell.GetDouble("speed");
-		info->flags  = (SpellFlags) (info->flags | (spell.GetBool("targeted") ? Targeted : 0));
+		info->flags  = (SpellFlags) (info->flags | (spell.GetBool("projectDestination") ? ProjectedDestination : 0));
 
 		Spells[info->name] = info;
 	}
