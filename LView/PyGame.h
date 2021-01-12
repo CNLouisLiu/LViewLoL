@@ -187,7 +187,12 @@ public:
 		return Input::GetCursorPosition();
 	}
 
-	bool LinearCollision(const Vector2& p1, const Vector2& d1, const Vector2& p2, const Vector2& d2, float radius) {
+	SpellInfo* GetSpellInfo(const char* spellName) {
+		std::string name(spellName);
+		return GameData::GetSpellInfoByName(name);
+	}
+
+	Vector2 LinearCollision(const Vector2& p1, const Vector2& d1, const Vector2& p2, const Vector2& d2, float radius) {
 		
 		static float Ax, Bx, Cx, Ay, By, Cy;
 		static float a, b, c, delta;
@@ -207,13 +212,13 @@ public:
 		delta = b * b - 4.f*a*c;
 
 		if (a == 0.f || delta < 0.f)
-			return false;
+			return Vector2(-1.f, -1.f);
 
 		sqrt_d = sqrt(delta);
 		t1 = (-b + sqrt_d) / (2.f*a);
 		t2 = (-b - sqrt_d) / (2.f*a);
 
-		return (t1 >= 0.f and t2 >= 0.f);
+		return Vector2(t1, t2);
 	}
 
 	void MoveCursor(const Vector2& pos) {

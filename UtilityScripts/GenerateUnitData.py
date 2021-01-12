@@ -12,16 +12,6 @@ infos = ''
 unit_tags = set()
 unit_data_folder = 'unit_data'
 
-
-with open('SpellData.json') as f:
-	objects = json.loads(f.read())
-	for o in objects:
-		spells[o["name"]] = o
-with open('UnitData.json') as f:
-	objects = json.loads(f.read())
-	for o in objects:
-		units[o["name"]] = o
-
 for fname in os.listdir(unit_data_folder):
 	print("Processing: "+ fname)
 	if fname.startswith(('brush_', 'nexusblitz_', 'slime_', 'tft4_', 'tft_')):
@@ -75,10 +65,7 @@ for fname in os.listdir(unit_data_folder):
 		"basicAtkWindup": windup,
 		"tags": list(tags)
 	}
-	if unit["name"] in units:
-		units[unit["name"]] |= unit
-	else:
-		units[unit["name"]] = unit
+	units[unit["name"]] = unit
 	
 	# Read spells
 	for key, val in props.items():
@@ -94,26 +81,23 @@ for fname in os.listdir(unit_data_folder):
 				"affectsTypesFlags": s.get("mAffectsTypeFlags", 0),
 				"delay": 0.5 + 0.5*s.get("delayCastOffsetPercent", 0.0),
 				"range": s.get("castRangeDisplayOverride", s.get("castRange", [0.0]))[0],
-				"radius": 0.0,
+				"radius": s.get("mLineWidth", 0.0),
 				"height": 0.0,
-				"speed": 0.0,
+				"speed": s.get("missileSpeed", 0.0),
 				"targeted": s.get("mCastType", 0) == 1,
 				"projectDestination": False
 			}
 			
 			missile = s.get("mMissileSpec", None)
 			if missile:
-				spell["radius"] = missile.get("mMissileWidth", 0.0)
 				movcomp = missile.get("movementComponent", None)
 				if movcomp:
+					if spell["speed"] == 0:
+						spell["speed"] = movcomp.get("mSpeed", 0.0)
 					spell["height"] = movcomp.get("mOffsetInitialTargetHeight", 100.0)
-					spell["speed"] = movcomp.get("mSpeed", 0.0)
 					spell["projectDestination"] = movcomp.get("mProjectTargetToCastRange", False)
 					
-			if spell["name"] in spells:
-				spells[spell["name"]] |= spell
-			else:
-				spells[spell["name"]] = spell
+			spells[spell["name"]] = spell
 			
 print(f'Found {len(units)} units and {len(spells)} spells')
 with open("UnitData.json", 'w') as f:

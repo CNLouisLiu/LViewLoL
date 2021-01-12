@@ -1,11 +1,12 @@
 from lview import *
 from commons.targeting import TargetingConfig
+from commons.prediction import castpoint_for_collision, is_skillshot, is_champ_supported
 import json, time
 
 lview_script_info = {
-	"script": "Targeted Skill",
+	"script": "Auto Spell",
 	"author": "leryss",
-	"description": "Automatically targets and uses skill against enemies. It binds the 1,2,3,4 keys to Q,W,E,R. That means when pressing 1 it will target the champion and simulate a Q key press",
+	"description": "Automatically casts spells on targets. Skillshots are cast using movement speed prediction.",
 }
 
 targeting = TargetingConfig()
@@ -32,6 +33,11 @@ def lview_draw_settings(game, ui):
 	global targeting
 	targeting.draw(ui)
 	
+	if is_champ_supported(game.player):
+		ui.text(game.player.name + " has skillshot prediction support", Color.GREEN)
+	else:
+		ui.text(game.player.name + " doesnt have skillshot prediction support, skillshots will be cast without prediction", Color.RED)
+	
 def lview_update(game, ui):
 	global targeting
 
@@ -40,10 +46,18 @@ def lview_update(game, ui):
 			skill = get_skill_by_position(game.player, i)
 			target = targeting.get_target(game, skill.range)
 			if target:
-				old_cpos = game.get_cursor()
-				game.move_cursor(game.world_to_screen(target.pos))
-				
-				skill.trigger()
-				
-				time.sleep(0.01)
-				game.move_cursor(old_cpos)
+				if is_champ_supported(game.player) and is_skillshot(skill):
+					cast_point = castpoint_for_collision(game, skill, game.player, target)
+				else:
+					cast_point = target.pos
+					
+				if cast_point:
+					cast_point = game.world_to_screen(cast_point)
+					
+					old_cpos = game.get_cursor()
+					game.move_cursor(cast_point)
+					
+					skill.trigger()
+					
+					time.sleep(0.01)
+					game.move_cursor(old_cpos)

@@ -105,8 +105,8 @@ def draw_skillshots(game, player):
 	
 	color = Color.WHITE
 	for missile in game.missiles:
-		
-		if missile.dest_id != 0 or missile.speed > skillshots_max_speed or missile.range < skillshots_min_range:
+		#missile.is_ally_to(game.player) or 
+		if missile.dest_id != 0 or missile.speed > skillshots_max_speed or missile.start_pos.distance(missile.end_pos) < skillshots_min_range:
 			continue
 		
 		end_pos = missile.end_pos.clone()
