@@ -58,6 +58,13 @@ ChampionSpells = {
 		Spell("rupture",                [],                                        SFlag.Area, delay = 0.627),
 		Spell("feralscream",            [],                                        SFlag.Cone | SFlag.CollideWindwall)
 	],
+	"drmundo": [
+		Spell("infectedcleavermissilecast", ["infectedcleavermissile"],            SFlag.SkillshotLine)
+	],
+	"khazix": [
+		Spell("khazixw",                ["khazixwmissile"],                        SFlag.SkillshotLine),
+		Spell("khazixwlong",            ["khazixwmissile"],                        SFlag.SkillshotLine)
+	],
 	"ezreal": [                         
 		Spell("ezrealq",                ["ezrealq"],                               SFlag.SkillshotLine),
 		Spell("ezrealw",                ["ezrealw"],                               SFlag.SkillshotLine),
@@ -73,6 +80,27 @@ ChampionSpells = {
 	],
 	"leesin": [                         
 		Spell("blindmonkqone",          ["blindmonkqone"],                         SFlag.SkillshotLine)
+	],
+	"leona": [
+		Spell("leonazenithblade",       ["leonazenithblademissile"],               SFlag.Line | SFlag.CollideChampion | SFlag.CollideWindwall),
+		Spell("leonasolarflare",        [],                                        SFlag.Area)
+	],
+	"leblanc": [
+		Spell("leblancw",               [],                                        SFlag.Area),
+		Spell("leblancrw",              [],                                        SFlag.Area),
+		Spell("leblance",               ["leblancemissile"],                       SFlag.SkillshotLine),
+		Spell("leblancre",              ["leblancremissile"],                      SFlag.SkillshotLine)
+	],
+	"lucian": [
+		Spell("lucianw",                ["lucianwmissile"],                          SFlag.SkillshotLine),
+		Spell("lucianr",                ["lucianrmissile", "lucianrmissileoffhand"], SFlag.SkillshotLine)
+	],
+	"rengar": [
+		Spell("rengare",                ["rengaremis"],                            SFlag.SkillshotLine),
+		Spell("rengareemp",             ["rengareempmis"],                         SFlag.SkillshotLine),
+	],
+	"ryze": [
+		Spell("ryzeqwrapper",           ["ryzeq"],                                 SFlag.SkillshotLine)
 	],
 	"veigar": [                         
 		Spell("veigarbalefulstrike",    ["veigarbalefulstrikemis"],                SFlag.SkillshotLine),
@@ -94,6 +122,9 @@ ChampionSpells = {
 		Spell("jhinw",                  ["jhinw"],                                 SFlag.Line | SFlag.CollideChampion | SFlag.CollideWindwall, delay=0.5),
 		Spell("jhine",                  ["jhinetrap"],                             SFlag.Area | SFlag.CollideWindwall),
 		Spell("jhinrshot",              ["jhinrshotmis", "jhinrshotmis4"],         SFlag.Line | SFlag.CollideWindwall | SFlag.CollideChampion)
+	],
+	"malphite": [
+		Spell("ufslash",                [],                                        SFlag.Area)
 	],
 	"morgana": [                        
 		Spell("morganaq",               ["morganaq"],                              SFlag.SkillshotLine),
@@ -123,6 +154,12 @@ ChampionSpells = {
 		Spell("shyvanafireball",        ["shyvanafireballmissile"],                SFlag.Line | SFlag.CollideChampion | SFlag.CollideWindwall),
 		Spell("shyvanafireballdragon2", ["shyvanafireballdragonmissile"],          SFlag.Line | SFlag.Area | SFlag.CollideChampion | SFlag.CollideWindwall)
 	],
+	"singed": [
+		Spell("megaadhesive",           ["singedwparticlemissile"],                SFlag.Area)
+	],
+	"kayle": [
+		Spell("kayleq",                 ["kayleqmis"],                             SFlag.SkillshotLine)
+	],
 	"zyra": [
 		Spell("zyraq",                  [],                                        SFlag.Area),
 		Spell("zyraw",                  [],                                        SFlag.Area),
@@ -134,6 +171,9 @@ ChampionSpells = {
 	],
 	"orianna": [
 		Spell("orianaizunacommand",     ["orianaizuna"],                           SFlag.Line | SFlag.Area | SFlag.CollideWindwall)
+	],
+	"warwick": [
+		Spell("warwickr",               [],                                        SFlag.Area | SFlag.CollideChampion)
 	]
 }
 
@@ -147,7 +187,7 @@ def draw_prediction_info(game, ui):
 	else:
 		ui.text(game.player.name.upper() + " doesnt have skillshot prediction support", Color.RED)
 	
-	if ui.treenode('Supported Champions'):
+	if ui.treenode(f'Supported Champions ({len(ChampionSpells)})'):
 		for champ, spells in ChampionSpells.items():
 			ui.text(f"{champ.upper()} {' '*(20 - len(champ))}: {str([spell.name for spell in spells])}")
 			

@@ -22,7 +22,7 @@ class TargetingConfig:
 		player = game.player
 		
 		target_info = self.targets[self.selected]
-		return self.find_target(game, game.jungle, range, self.targeting_lambdas[target_info])
+		return self.find_target(game, game.champs, range, self.targeting_lambdas[target_info])
 		
 	def find_target(self, game, array, range, value_extractor):
 		target = None
