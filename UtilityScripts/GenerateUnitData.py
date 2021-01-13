@@ -1,3 +1,7 @@
+'''
+	Utility script that generates two JSONs. One with unit data and one with spell data for unit spells. It extracts this data from the unit data downloaded with DownloadUnitData.py.
+'''
+
 import os, json
 from pprint import pprint
 
@@ -76,16 +80,16 @@ for fname in os.listdir(unit_data_folder):
 		if s:
 			icon_name = os.path.basename(s.get("mImgIconName", [""])[0]).replace(".dds", "")
 			spell = {
-				"name": os.path.basename(key),
-				"icon": icon_name,
-				"flags": s.get("mAffectsTypeFlags", 0),
-				"delay": s.get("mCastTime", 0.5 + 0.5*s.get("delayCastOffsetPercent", 0.0)),
-				"castRange": s.get("castRangeDisplayOverride", s.get("castRange", [s.get("castConeDistance", 0.0)]))[0],
-				"castRadius": s.get("castRadiusSecondary", s.get("castRadius", [0.0]))[0],
-				"width": s.get("mLineWidth", 0.0),
-				"height": 0.0,
-				"speed": s.get("missileSpeed", 0.0),
-				"travelTime": 0.0,
+				"name":               os.path.basename(key),
+				"icon":               icon_name,
+				"flags":              s.get("mAffectsTypeFlags", 0),
+				"delay":              s.get("mCastTime", 0.5 + 0.5*s.get("delayCastOffsetPercent", 0.0)),
+				"castRange":          s.get("castRangeDisplayOverride", s.get("castRange", [s.get("castConeDistance", 0.0)]))[0],
+				"castRadius":         s.get("castRadiusSecondary", s.get("castRadius", [0.0]))[0],
+				"width":              s.get("mLineWidth", 0.0),
+				"height":             0.0,
+				"speed":              s.get("missileSpeed", 0.0),
+				"travelTime":         0.0,
 				"projectDestination": False
 			}
 			
@@ -94,10 +98,10 @@ for fname in os.listdir(unit_data_folder):
 				movcomp = missile.get("movementComponent", None)
 				if movcomp:
 					if spell["speed"] == 0:
-						spell["speed"] = movcomp.get("mSpeed", 0.0)
-					spell["height"] = movcomp.get("mOffsetInitialTargetHeight", 100.0)
+						spell["speed"] =          movcomp.get("mSpeed", 0.0)
+					spell["height"] =             movcomp.get("mOffsetInitialTargetHeight", 100.0)
 					spell["projectDestination"] = movcomp.get("mProjectTargetToCastRange", False)
-					spell["travelTime"] = movcomp.get("mTravelTime", 0.0)
+					spell["travelTime"] =         movcomp.get("mTravelTime", 0.0)
 					
 			spells[spell["name"]] = spell
 			

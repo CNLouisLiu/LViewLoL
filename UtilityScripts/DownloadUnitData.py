@@ -1,3 +1,6 @@
+'''
+	Utility scripts that scraps json dumps of game unit data from the latest communitydragon data file dump.
+'''
 import sys, urllib.request, re, time, os
 from pprint import pprint
 

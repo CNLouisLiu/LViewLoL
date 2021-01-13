@@ -1,3 +1,6 @@
+'''
+	Utility script that generates a JSON file with the game's item data. It expects as input a json file from riot's ddragon API
+'''
 import json, sys, urllib.request
 from pprint import pprint
 
