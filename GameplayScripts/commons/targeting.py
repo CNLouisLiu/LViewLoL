@@ -22,14 +22,14 @@ class TargetingConfig:
 		player = game.player
 		
 		target_info = self.targets[self.selected]
-		return self.find_champ_target(game, game.jungle, range, self.targeting_lambdas[target_info])
+		return self.find_target(game, game.jungle, range, self.targeting_lambdas[target_info])
 		
-	def find_champ_target(self, game, array, range, value_extractor):
+	def find_target(self, game, array, range, value_extractor):
 		target = None
 		min = 99999999
 		for obj in array:
 			
-			if not obj.is_alive or obj.is_ally_to(game.player) or game.distance(game.player, obj) > range:
+			if not obj.is_alive or obj.is_ally_to(game.player) or (game.distance(game.player, obj) - game.player.gameplay_radius - obj.gameplay_radius) > range:
 				continue
 				
 			val = value_extractor(game.player, obj)

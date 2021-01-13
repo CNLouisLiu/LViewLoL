@@ -53,6 +53,9 @@ def lview_update(game, ui):
 		if tracked_champ_id == 0:
 			tracked_champ_id = 0
 	
+	if len(tracks) == 0:
+		return
+	
 	now = time()
 	if now - t_last_save_tracks > 0.3:
 		t_last_save_tracks = now

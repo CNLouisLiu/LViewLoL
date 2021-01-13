@@ -77,19 +77,19 @@ float Spell::GetSpeed() const
 	return info->speed;
 }
 
-float Spell::GetRange() const
+float Spell::GetCastRange() const
 {
-	return info->range;
+	return info->castRange;
 }
 
-float Spell::GetRadius() const
+float Spell::GetWidth() const
 {
-	return info->radius;
+	return info->width;
 }
 
-float Spell::GetRadiusImpact() const
+float Spell::GetCastRadius() const
 {
-	return info->impactRadius;
+	return info->castRadius;
 }
 
 float Spell::GetDelay() const
@@ -100,6 +100,11 @@ float Spell::GetDelay() const
 float Spell::GetHeight() const
 {
 	return info->height;
+}
+
+float Spell::GetTravelTime() const
+{
+	return info->travelTime;
 }
 
 std::string Spell::GetIcon() const

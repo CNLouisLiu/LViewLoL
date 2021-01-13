@@ -1,1 +1,1 @@
-{"Characters/TFT_BoardSlot/Skins/Meta": {}, "Characters/TFT_BoardSlot/CharacterRecords/Root": {"mCharacterName": "TFT_BoardSlot", "useableData": {"flags": 0}, "selectionRadius": 130.0, "flags": 6293952}}
+{"Characters/TFT_BoardSlot/Skins/Meta": {"__type": "SkinCharacterMetaDataProperties"}, "Characters/TFT_BoardSlot/CharacterRecords/Root": {"mCharacterName": "TFT_BoardSlot", "useableData": {"flags": 0, "__type": "UseableData"}, "selectionRadius": 130.0, "flags": 6293952, "__type": "CharacterRecord"}}

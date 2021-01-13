@@ -18,13 +18,14 @@ using namespace boost::python;
 BOOST_PYTHON_MODULE(lview) {
 
 	class_<SpellInfo>("SpellInfo")
-		.def_readonly("radius",               &SpellInfo::radius)
-		.def_readonly("impact_radius",        &SpellInfo::impactRadius)
+		.def_readonly("width",                &SpellInfo::width)
+		.def_readonly("cast_radius",          &SpellInfo::castRadius)
 		.def_readonly("speed",                &SpellInfo::speed)
-		.def_readonly("range",                &SpellInfo::range)
+		.def_readonly("cast_range",           &SpellInfo::castRange)
 		.def_readonly("delay",                &SpellInfo::delay)
 		.def_readonly("height",               &SpellInfo::height)
 		.def_readonly("icon",                 &SpellInfo::icon)
+		.def_readonly("travel_time",          &SpellInfo::travelTime)
 		;
 
 	class_<ItemSlot>("Item")
@@ -56,13 +57,14 @@ BOOST_PYTHON_MODULE(lview) {
 		.def("get_current_cooldown",            &Spell::GetRemainingCooldown)
 		.def("trigger",                         &Spell::Trigger)
 
-		.def_readonly("radius",                 &Spell::GetRadius)
-		.def_readonly("impact_radius",          &Spell::GetRadiusImpact)
+		.def_readonly("width",                  &Spell::GetWidth)
+		.def_readonly("cast_radius",            &Spell::GetCastRadius)
 		.def_readonly("speed",                  &Spell::GetSpeed)
-		.def_readonly("range",                  &Spell::GetRange)
+		.def_readonly("cast_range",             &Spell::GetCastRange)
 		.def_readonly("delay",                  &Spell::GetDelay)
 		.def_readonly("height",                 &Spell::GetHeight)
 		.def_readonly("icon",                   &Spell::GetIcon)
+		.def_readonly("travel_time",            &Spell::GetTravelTime)
 		.def("has_tags",                        &Spell::HasSpellFlags)
 		.def("equal_tags",                      &Spell::EqualSpellFlags)
 		;
@@ -130,13 +132,14 @@ BOOST_PYTHON_MODULE(lview) {
 		.def_readonly("end_pos",              &GameObject::endPos)
 				
 		// Spell
-		.def_readonly("radius",               &GameObject::GetRadius)
-		.def_readonly("impact_radius",        &GameObject::GetRadiusImpact)
+		.def_readonly("width",                &GameObject::GetWidth)
+		.def_readonly("cast_radius",          &GameObject::GetCastRadius)
 		.def_readonly("speed",                &GameObject::GetSpeed)
-		.def_readonly("range",                &GameObject::GetRange)	
+		.def_readonly("cast_range",           &GameObject::GetCastRange)
 		.def_readonly("delay",                &GameObject::GetDelay)
 		.def_readonly("height",               &GameObject::GetHeight)
 		.def_readonly("icon",                 &GameObject::GetIcon)
+		.def_readonly("travel_time",          &GameObject::GetTravelTime)
 		.def("has_tags",                      &GameObject::HasSpellFlags)
 		.def("equal_tags",                    &GameObject::EqualSpellFlags)
 		;
@@ -158,14 +161,6 @@ BOOST_PYTHON_MODULE(lview) {
 		.value("AffectAlwaysSelf",          SpellFlags::AffectAlwaysSelf)
 		.value("AffectNeverSelf",           SpellFlags::AffectNeverSelf)
 
-		.value("CollideLaneMinion",         SpellFlags::CollideLaneMinion)
-		.value("CollideNonLaneMinion",      SpellFlags::CollideNonLaneMinion)
-		.value("CollideWindwall",           SpellFlags::CollideWindwall)
-		.value("CollideChampion",           SpellFlags::CollideChampion)
-		.value("CollideJungleMonster",      SpellFlags::CollideJungleMonster)
-
-		.value("CollideMob",                SpellFlags::CollideMob)
-		.value("CollideGeneric",            SpellFlags::CollideGeneric)
 		.value("ProjectDestination",        SpellFlags::ProjectedDestination)
 
 		.value("AffectAllyMob",             SpellFlags::AffectAllyMob)

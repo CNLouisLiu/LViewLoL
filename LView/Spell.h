@@ -32,11 +32,12 @@ public:
 	bool                HasSpellFlags(SpellFlags flags)   const override;
 	bool                EqualSpellFlags(SpellFlags flags) const override;
 	float               GetSpeed()                        const override;
-	float               GetRange()                        const override;
-	float               GetRadius()                       const override;
-	float               GetRadiusImpact()                 const override;
+	float               GetCastRange()                    const override;
+	float               GetWidth()                        const override;
+	float               GetCastRadius()                   const override;
 	float               GetDelay()                        const override;
 	float               GetHeight()                       const override;
+	float               GetTravelTime()                   const override;
 	std::string         GetIcon()                         const override;
 
 public:

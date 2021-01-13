@@ -22,18 +22,8 @@ enum SpellFlags {
 	AffectAlwaysSelf          = 1 << 13,
 	AffectNeverSelf           = 1 << 14,
 
-	// Custom flags set by us. These flags cant be unpacked from the game files (exception Targeted flag).
-	CollideLaneMinion         = 1 << 16,
-	CollideNonLaneMinion      = 1 << 17,
-	CollideWindwall           = 1 << 18,
-	CollideChampion           = 1 << 19,
-	CollideJungleMonster      = 1 << 20,
-						      
+	// Custom flags set by us. These flags cant be unpacked from the game files (exception Targeted flag).					      
 	ProjectedDestination      = 1 << 22,
-
-	CollideMob                = CollideLaneMinion     | CollideNonLaneMinion     | CollideJungleMonster,
-	CollideGeneric            = CollideMob            | CollideChampion          | CollideWindwall,
-
 
 	AffectAllyMob             = AffectAllyLaneMinion  | AffectAllyNonLaneMinion,
 	AffectEnemyMob            = AffectEnemyLaneMinion | AffectEnemyNonLaneMinion | AffectJungleMonster,
@@ -46,8 +36,6 @@ class SpellInfo {
 
 public:
 	SpellInfo* AddFlags(SpellFlags flags);
-	SpellInfo* SetImpactRadius(float radius);
-	SpellInfo* SetImpactAngle(float angle);
 public:
 	// Values from game's data files
 	std::string name;
@@ -55,13 +43,11 @@ public:
 
 	SpellFlags flags;
 	float delay;
-	float range;
-	float radius;
+	float castRange;
+	float castRadius;
+	float width;
 	float height;
 	float speed;
-
-	// Custom values set by us
-	float impactRadius;
-	float impactAngle;
+	float travelTime;
 };
 

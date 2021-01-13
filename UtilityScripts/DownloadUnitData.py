@@ -25,13 +25,13 @@ for match in matches:
 	
 	try:
 		req = urllib.request.Request(url, headers = headers)
-		json = urllib.request.urlopen(req).read().decode('ascii')
-		with open(os.path.join(result_folder, match), 'w') as file:
+		json = urllib.request.urlopen(req).read()
+		with open(os.path.join(result_folder, match), 'wb') as file:
 			file.write(json)
 	except Exception as e:
 		print('Failed to retrieve data for {}. ({})'.format(match, str(e)))
 		failed.append(match)
-	time.sleep(0.1)
+	time.sleep(0.01)
 	
 print('Error retrieving following units:')
 pprint(failed)

@@ -115,15 +115,17 @@ void GameData::LoadSpellData(std::string& path)
 		auto spell = spells.GetItem(i).AsObject();
 
 		SpellInfo* info = new SpellInfo();
-		info->flags  = (SpellFlags)spell.GetInteger("affectsTypesFlags");
-		info->delay  = (float)spell.GetDouble("delay");
-		info->height = (float)spell.GetDouble("height");
-		info->icon   = Character::ToLower(std::string(spell.GetString("icon").c_str()));
-		info->name   = Character::ToLower(std::string(spell.GetString("name").c_str()));
-		info->radius = (float)spell.GetDouble("radius");
-		info->range  = (float)spell.GetDouble("range");
-		info->speed  = (float)spell.GetDouble("speed");
-		info->flags  = (SpellFlags) (info->flags | (spell.GetBool("projectDestination") ? ProjectedDestination : 0));
+		info->flags      = (SpellFlags)spell.GetInteger("flags");
+		info->delay      = (float)spell.GetDouble("delay");
+		info->height     = (float)spell.GetDouble("height");
+		info->icon       = Character::ToLower(std::string(spell.GetString("icon").c_str()));
+		info->name       = Character::ToLower(std::string(spell.GetString("name").c_str()));
+		info->width      = (float)spell.GetDouble("width");
+		info->castRange  = (float)spell.GetDouble("castRange");
+		info->castRadius = (float)spell.GetDouble("castRadius");
+		info->speed      = (float)spell.GetDouble("speed");
+		info->travelTime = (float)spell.GetDouble("travelTime");
+		info->flags      = (SpellFlags) (info->flags | (spell.GetBool("projectDestination") ? ProjectedDestination : 0));
 
 		Spells[info->name] = info;
 	}

@@ -78,13 +78,14 @@ for fname in os.listdir(unit_data_folder):
 			spell = {
 				"name": os.path.basename(key),
 				"icon": icon_name,
-				"affectsTypesFlags": s.get("mAffectsTypeFlags", 0),
-				"delay": 0.5 + 0.5*s.get("delayCastOffsetPercent", 0.0),
-				"range": s.get("castRangeDisplayOverride", s.get("castRange", [0.0]))[0],
-				"radius": s.get("mLineWidth", 0.0),
+				"flags": s.get("mAffectsTypeFlags", 0),
+				"delay": s.get("mCastTime", 0.5 + 0.5*s.get("delayCastOffsetPercent", 0.0)),
+				"castRange": s.get("castRangeDisplayOverride", s.get("castRange", [s.get("castConeDistance", 0.0)]))[0],
+				"castRadius": s.get("castRadiusSecondary", s.get("castRadius", [0.0]))[0],
+				"width": s.get("mLineWidth", 0.0),
 				"height": 0.0,
 				"speed": s.get("missileSpeed", 0.0),
-				"targeted": s.get("mCastType", 0) == 1,
+				"travelTime": 0.0,
 				"projectDestination": False
 			}
 			
@@ -96,6 +97,7 @@ for fname in os.listdir(unit_data_folder):
 						spell["speed"] = movcomp.get("mSpeed", 0.0)
 					spell["height"] = movcomp.get("mOffsetInitialTargetHeight", 100.0)
 					spell["projectDestination"] = movcomp.get("mProjectTargetToCastRange", False)
+					spell["travelTime"] = movcomp.get("mTravelTime", 0.0)
 					
 			spells[spell["name"]] = spell
 			

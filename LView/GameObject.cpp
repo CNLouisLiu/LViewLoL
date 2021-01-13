@@ -248,9 +248,9 @@ void GameObject::LoadMissileFromMem(DWORD base, HANDLE hProcess, bool deepLoad) 
 		endPos = endPos.normalize();
 
 		// Update endposition using the height of the current position
-		endPos.x = endPos.x*spellInfo->range + startPos.x;
+		endPos.x = endPos.x*spellInfo->castRange + startPos.x;
 		endPos.y = startPos.y;
-		endPos.z = endPos.z*spellInfo->range + startPos.z;
+		endPos.z = endPos.z*spellInfo->castRange + startPos.z;
 	}
 }
 
@@ -269,19 +269,19 @@ float GameObject::GetSpeed() const
 	return spellInfo->speed;
 }
 
-float GameObject::GetRange() const
+float GameObject::GetCastRange() const
 {
-	return spellInfo->range;
+	return spellInfo->castRange;
 }
 
-float GameObject::GetRadius() const
+float GameObject::GetWidth() const
 {
-	return spellInfo->radius;
+	return spellInfo->width;
 }
 
-float GameObject::GetRadiusImpact() const
+float GameObject::GetCastRadius() const
 {
-	return spellInfo->impactRadius;
+	return spellInfo->castRadius;
 }
 
 float GameObject::GetDelay() const
@@ -292,6 +292,11 @@ float GameObject::GetDelay() const
 float GameObject::GetHeight() const
 {
 	return spellInfo->height;
+}
+
+float GameObject::GetTravelTime() const
+{
+	return spellInfo->travelTime;
 }
 
 std::string GameObject::GetIcon() const

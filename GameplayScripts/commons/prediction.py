@@ -2,42 +2,173 @@ from lview import *
 import math, itertools, time
 from . import items
 
-# Spells and missiles are both spells but dont always have the same values (like speed, range etc). 
-# We need to define a mapping between skills and the missiles those skills are spawning
-SpellToMissileMapping = {
-	# ahri
-	"ahriorbofdeception": "ahriorbmissile",
-	"ahriseduce": "ahriseducemissile",
+Version = "0.1"
+MissileToSpell = {}
+Spells         = {}
+ChampionSpells = {}
+
+class SFlag:
+	Targeted        = 1
+	Line            = 2
+	Cone            = 4
+	Area            = 8
 	
-	# ezreal
-	"ezrealq": "ezrealq",
-	"ezrealw": "ezrealw",
-	"ezrealr": "ezrealr",
+	CollideWindwall = 16
+	CollideChampion = 32
+	CollideMob      = 64
+	
+	
+	CollideGeneric   = CollideMob      | CollideChampion | CollideWindwall
+	SkillshotLine    = CollideGeneric  | Line
+	
+class Spell:
+	def __init__(self, name, missile_names, flags, delay = 0.0):
+		global MissileToSpell, Spells
+		
+		self.flags = flags
+		self.name = name
+		self.missiles = missile_names
+		self.delay = delay
+		Spells[name] = self
+		for missile in missile_names:
+			MissileToSpell[missile] = self
+			
+	delay    = 0.0
+	flags    = 0
+	name     = "?"
+	missiles = []
+	
+ChampionSpells = {
+	"aatrox": [
+		Spell("aatroxw",                ["aatroxw"],                               SFlag.CollideGeneric)
+	],
+	"aurelionsol": [
+		Spell("aurelionsolq",           ["aurelionsolqmissile"],                   SFlag.SkillshotLine),
+		Spell("aurelionsolr",           ["aurelionsolrbeammissile"],               SFlag.Line | SFlag.CollideWindwall)
+	],
+	"ahri": [                                                                      
+		Spell("ahriorbofdeception",     ["ahriorbmissile"],                        SFlag.Line | SFlag.CollideWindwall),
+		Spell("ahriseduce",             ["ahriseducemissile"],                     SFlag.CollideGeneric)
+	],
+	"ashe": [                           
+		Spell("volleyattack",           ["volleyattack", "volleyattackwithsound"], SFlag.SkillshotLine),
+		Spell("enchantedcrystalarrow",  ["enchantedcrystalarrow"],                 SFlag.Line | SFlag.CollideWindwall | SFlag.CollideChampion)
+	],
+	"chogath": [                        
+		Spell("rupture",                [],                                        SFlag.Area, delay = 0.627),
+		Spell("feralscream",            [],                                        SFlag.Cone | SFlag.CollideWindwall)
+	],
+	"ezreal": [                         
+		Spell("ezrealq",                ["ezrealq"],                               SFlag.SkillshotLine),
+		Spell("ezrealw",                ["ezrealw"],                               SFlag.SkillshotLine),
+		Spell("ezrealr",                ["ezrealr"],                               SFlag.SkillshotLine)
+	],
+	"graves": [                         
+		Spell("gravesqlinespell",       ["gravesqlinemis", "gravesqreturn"],       SFlag.Line | SFlag.CollideChampion | SFlag.CollideWindwall),
+		Spell("gravessmokegrenade",     ["gravessmokegrenadeboom"],                SFlag.Area | SFlag.CollideWindwall),
+		Spell("graveschargeshot",       ["graveschargeshotshot"],                  SFlag.Line | SFlag.CollideWindwall)
+	],
+	"twistedfate": [                    
+		Spell("wildcards",              ["sealfatemissile"],                       SFlag.CollideWindwall | SFlag.Line)
+	],
+	"leesin": [                         
+		Spell("blindmonkqone",          ["blindmonkqone"],                         SFlag.SkillshotLine)
+	],
+	"veigar": [                         
+		Spell("veigarbalefulstrike",    ["veigarbalefulstrikemis"],                SFlag.SkillshotLine),
+		Spell("veigardarkmatter",       [],                                        SFlag.Area, delay=1.0),
+		Spell("veigareventhorizon",     [],                                        SFlag.Area, delay=0.5)
+	], 
+	"lux": [                            
+		Spell("luxlightbinding",        ["luxlightbindingmis"],                    SFlag.SkillshotLine),
+		Spell("luxlightstrikekugel",    ["luxlightstrikekugel"],                   SFlag.Area | SFlag.CollideWindwall),
+		Spell("luxmalicecannon",        ["luxmalicecannon"],                       SFlag.Line)
+	],
+	"ziggs": [                          
+		Spell("ziggsq",                 ["ziggsqspell", "ziggsqspell2", "ziggsqspell3"],                              SFlag.Area | SFlag.CollideWindwall),
+		Spell("ziggsw",                 ["ziggsw"],                                                                   SFlag.Area | SFlag.CollideWindwall),
+		Spell("ziggse",                 ["ziggse2"],                                                                  SFlag.Area | SFlag.CollideWindwall),
+		Spell("ziggsr",                 ["ziggsrboom", "ziggsrboommedium", "ziggsrboomlong", "ziggsrboomextralong"],  SFlag.Area),
+	],
+	"jhin": [                           
+		Spell("jhinw",                  ["jhinw"],                                 SFlag.Line | SFlag.CollideChampion | SFlag.CollideWindwall, delay=0.5),
+		Spell("jhine",                  ["jhinetrap"],                             SFlag.Area | SFlag.CollideWindwall),
+		Spell("jhinrshot",              ["jhinrshotmis", "jhinrshotmis4"],         SFlag.Line | SFlag.CollideWindwall | SFlag.CollideChampion)
+	],
+	"morgana": [                        
+		Spell("morganaq",               ["morganaq"],                              SFlag.SkillshotLine),
+		Spell("morganaw",               [],                                        SFlag.Area, delay=0.25)
+	],
+	"missfortune": [
+		Spell("missfortunescattershot", [],                                        SFlag.Area, delay=0.25),
+		Spell("missfortunebullettime",  ["missfortunebullets"],                    SFlag.Line | SFlag.CollideWindwall)
+	],                                                                             
+	"annie": [                                                                     
+		Spell("anniew",                 [],                                        SFlag.Cone | SFlag.CollideWindwall),
+		Spell("annier",                 [],                                        SFlag.Area)
+	],
+	"olaf": [
+		Spell("olafaxethrowcast",       ["olafaxethrow"],                          SFlag.Line | SFlag.CollideWindwall)
+	],
+	"anivia": [
+		Spell("flashfrost",             ["flashfrostspell"],                       SFlag.Line | SFlag.CollideWindwall),
+		Spell("crystallize",            [],                                        SFlag.Area, delay=0.25),
+		Spell("glacialstorm",           [],                                        SFlag.Area)
+	],
+	"urgot": [
+		Spell("urgotq",                 ["urgotqmissile"],                         SFlag.Area | SFlag.CollideWindwall, delay = 0.2),
+		Spell("urgotr",                 ["urgotr"],                                SFlag.Line | SFlag.CollideWindwall | SFlag.CollideChampion)
+	],
+	"shyvana": [
+		Spell("shyvanafireball",        ["shyvanafireballmissile"],                SFlag.Line | SFlag.CollideChampion | SFlag.CollideWindwall),
+		Spell("shyvanafireballdragon2", ["shyvanafireballdragonmissile"],          SFlag.Line | SFlag.Area | SFlag.CollideChampion | SFlag.CollideWindwall)
+	],
+	"zyra": [
+		Spell("zyraq",                  [],                                        SFlag.Area),
+		Spell("zyraw",                  [],                                        SFlag.Area),
+		Spell("zyrae",                  ["zyrae"],                                 SFlag.Line | SFlag.CollideWindwall),
+		Spell("zyrar",                  [],                                        SFlag.Area)
+	],
+	"zilean": [
+		Spell("zileanq",                ["zileanqmissile"],                        SFlag.Area | SFlag.CollideWindwall)
+	],
+	"orianna": [
+		Spell("orianaizunacommand",     ["orianaizuna"],                           SFlag.Line | SFlag.Area | SFlag.CollideWindwall)
+	]
 }
 
-SupportedChamps = {
-	"ahri",
-	"ezreal"
-}
+def draw_prediction_info(game, ui):
+	global ChampionSpells, Version
+	
+	ui.separator()
+	ui.text("Using LPrediction v" + Version, Color.PURPLE)
+	if is_champ_supported(game.player):
+		ui.text(game.player.name.upper() + " has skillshot prediction support", Color.GREEN)
+	else:
+		ui.text(game.player.name.upper() + " doesnt have skillshot prediction support", Color.RED)
+	
+	if ui.treenode('Supported Champions'):
+		for champ, spells in ChampionSpells.items():
+			ui.text(f"{champ.upper()} {' '*(20 - len(champ))}: {str([spell.name for spell in spells])}")
+			
+		ui.treepop()
 
 def is_skillshot(spell):
-	global SpellToMissileMapping
-	return spell.name in SpellToMissileMapping
+	global Spells, MissileToSpell
+	return spell.name in Spells or spell.name in MissileToSpell
+	
+def get_parent_spell(missile):
+	global MissileToSpell
+	return MissileToSpell.get(missile.name, None)
 	
 def is_champ_supported(champ):
-	global SupportedChamps
-	return champ.name in SupportedChamps
+	global ChampionSpells
+	return champ.name in ChampionSpells
 	
-def find_impact_collision_champs(game, missile):
-	
-	result = []
-	for champ in game.champs:
-		if champ.is_visible and champ.is_alive and champ.is_enemy_to(missile):
-			threshold = missile.impact_radius + champ.gameplay_radius
-			if game.distance(champ, missile) <  threshold:
-				result.append(champ)
-				
-	return result
+def is_skill_cone(skill):
+	if skill.name not in Spells:
+		return False
+	return Spells[skill.name].flags & SFlag.Cone
 	
 def is_last_hitable(game, player, enemy):
 	missile_speed = player.basic_missile_speed + 1
@@ -59,17 +190,28 @@ def is_last_hitable(game, player, enemy):
 
 	return hp - hit_dmg <= 0
 	
-#   Simulates the movement of the spell missile and that of the target enemy for a few iterations 
-# and returns the point where the mouse must cast the spell in order for a collision to trigger
-# if no such point is found it return None.
+# Returns a point where the mouse should click to cast a spells taking into account the targets movement speed
 def castpoint_for_collision(game, spell, caster, target):
-	global SpellToMissileMapping
-	
-	if spell.name not in SpellToMissileMapping:
+	global Spells
+
+	print('predicted')
+	if spell.name not in Spells:
 		return None
+	
+	# Get extra data for spell that isnt provided by lview
+	spell_extra = Spells[spell.name]
+	if len(spell_extra.missiles) > 0:
+		missile = game.get_spell_info(spell_extra.missiles[0])
+	else:
+		missile = spell
 		
-	missile = game.get_spell_info(SpellToMissileMapping[spell.name])
-	iterations = int(missile.range/50.0)
+	t_delay = spell.delay + spell_extra.delay
+	if missile.travel_time > 0.0:
+		t_missile = missile.travel_time
+	else:
+		t_missile = (missile.cast_range / missile.speed) if len(spell_extra.missiles) > 0 and missile.speed > 0.0 else 0.0
+			
+	# Get direction of target
 	target_dir = target.pos.sub(target.prev_pos).normalize()
 	if math.isnan(target_dir.x):
 		target_dir.x = 0.0
@@ -78,16 +220,38 @@ def castpoint_for_collision(game, spell, caster, target):
 	if math.isnan(target_dir.z):
 		target_dir.z = 0.0
 		
-	t_finish = spell.delay + (missile.range / missile.speed)
-	step = t_finish/iterations
-	for i in range(iterations):
-		t = i*step
-		target_future_pos = target.pos.add(target_dir.scale(t*target.movement_speed))
-		spell_dir = target_future_pos.sub(caster.pos).normalize().scale(t*missile.speed)
-		spell_future_pos = caster.pos.add(spell_dir)
+
+	# If the spell is a line we simulate the spell missile to get the collision point
+	if spell_extra.flags & SFlag.Line:
 		
-		print(target_future_pos.distance(spell_future_pos))
-		if target_future_pos.distance(spell_future_pos) < missile.radius/2.0:
-			return target_future_pos
+		if len(spell_extra.missiles) > 0:
+			missile = game.get_spell_info(spell_extra.missiles[0])
+		else:
+			missile = spell
 		
-	return None
+		iterations = int(missile.cast_range/30.0)
+		step = t_missile/iterations
+		
+		last_dist = 9999999
+		last_target_pos = None
+		for i in range(iterations):
+			t = i*step
+			target_future_pos = target.pos.add(target_dir.scale((t_delay + t)*target.movement_speed))
+			spell_dir = target_future_pos.sub(caster.pos).normalize().scale(t*missile.speed)
+			spell_future_pos = caster.pos.add(spell_dir)
+			
+			dist = target_future_pos.distance(spell_future_pos)
+			if dist < missile.width/2.0 or dist > last_dist:
+				return last_target_pos
+			else:
+				last_dist = dist
+				last_target_pos = target_future_pos
+				
+		return None
+		
+	# If the spell is an area spell we return the position of the player when the spell procs
+	elif spell_extra.flags & SFlag.Area:
+		return target.pos.add(target_dir.scale((t_delay + t_missile)*target.movement_speed))
+	else:
+		return target.pos
+		

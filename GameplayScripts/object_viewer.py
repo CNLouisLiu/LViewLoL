@@ -10,11 +10,19 @@ lview_script_info = {
 def draw_spell(spell, ui):
 	
 	if ui.treenode(str(spell.slot)):
-		ui.labeltext("name", spell.name)
+		ui.labeltext("name",                 spell.name)
 		ui.labeltext("summmoner_spell_type", str(spell.summoner_spell_type))
-		ui.dragint("level", spell.level)
-		ui.dragfloat("ready_at", spell.ready_at)
-		ui.dragfloat("value", spell.value)
+		ui.dragint("level",                  spell.level)
+		ui.dragfloat("ready_at",             spell.ready_at)
+		ui.dragfloat("value",                spell.value)
+		
+		ui.separator()
+		ui.dragfloat("speed",       spell.speed)
+		ui.dragfloat("cast_range",  spell.cast_range)
+		ui.dragfloat("width",       spell.width)
+		ui.dragfloat("cast_radius", spell.cast_radius)
+		ui.dragfloat("height",      spell.height)
+		ui.dragfloat("delay",       spell.delay)
 		
 		ui.treepop()
 		
@@ -40,23 +48,23 @@ def draw_items(items, ui):
 
 def draw_missile(obj, ui):
 	if ui.treenode("{}_({}->{}) ({})".format(obj.name, obj.src_id, obj.dest_id, hex(obj.address))):
-		ui.dragint("id", obj.id)
+		ui.dragint("id",       obj.id)
 		ui.labeltext("net_id", hex(obj.net_id))
-		ui.dragint("team", obj.team)
+		ui.dragint("team",     obj.team)
 		
 		ui.labeltext("start_pos", f"x={obj.start_pos.x:.2f}, y={obj.start_pos.y:.2f}, z={obj.start_pos.z:.2f}")
 		ui.labeltext("end_pos", f"x={obj.end_pos.x:.2f}, y={obj.end_pos.y:.2f}, z={obj.end_pos.z:.2f}")
 		ui.labeltext("pos", f"x={obj.pos.x:.2f}, y={obj.pos.y:.2f}, z={obj.pos.z:.2f}")
-		ui.dragint("src_id", obj.src_id)
-		ui.dragint("dest_id", obj.dest_id)
+		ui.dragint("src_id",   obj.src_id)
+		ui.dragint("dest_id",  obj.dest_id)
 		
 		ui.separator()
-		ui.dragfloat("speed", obj.speed)
-		ui.dragfloat("range", obj.range)
-		ui.dragfloat("radius", obj.radius)
-		ui.dragfloat("impact_radius", obj.impact_radius)
-		ui.dragfloat("height", obj.height)
-		
+		ui.dragfloat("speed",       obj.speed)
+		ui.dragfloat("cast_range",  obj.cast_range)
+		ui.dragfloat("width",       obj.width)
+		ui.dragfloat("cast_radius", obj.cast_radius)
+		ui.dragfloat("height",      obj.height)
+		ui.dragfloat("delay",       obj.delay)
 		ui.treepop()
 
 def draw_game_object(obj, ui, additional_draw = None, set_open=False):

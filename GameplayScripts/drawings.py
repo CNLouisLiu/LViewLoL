@@ -5,7 +5,7 @@
 from lview import *
 from time import time
 import itertools, math
-from commons import prediction
+from commons.prediction import *
 from copy import copy
 
 lview_script_info = {
@@ -59,8 +59,9 @@ def lview_draw_settings(game, ui):
 	skillshots           = ui.checkbox("Draw skillshots", skillshots)
 	skillshots_predict   = ui.checkbox("Use skillshot prediction", skillshots_predict)
 	skillshots_min_range = ui.dragfloat("Minimum skillshot range", skillshots_min_range, 100, 0, 3000)
-	skillshots_max_speed = ui.dragfloat("Maximum skillshot speed", skillshots_max_speed, 100, 1000, 4000)
+	skillshots_max_speed = ui.dragfloat("Maximum skillshot speed", skillshots_max_speed, 100, 1000, 5000)
 	
+	draw_prediction_info(game, ui)
 
 def draw_rect(game, start_pos, end_pos, radius, color):
 	
@@ -96,7 +97,7 @@ def draw_minion_last_hit(game, player):
 	color = Color.CYAN
 	for minion in game.minions:
 		if minion.is_alive and minion.is_enemy_to(player) and game.is_point_on_screen(minion.pos):
-			if prediction.is_last_hitable(game, player, minion):
+			if is_last_hitable(game, player, minion):
 				p = game.hp_bar_pos(minion)
 				game.draw_rect(Vec4(p.x - 33, p.y - 8, p.x + 33, p.y), Color.GREEN)
 
@@ -105,8 +106,11 @@ def draw_skillshots(game, player):
 	
 	color = Color.WHITE
 	for missile in game.missiles:
-		#missile.is_ally_to(game.player) or 
-		if missile.dest_id != 0 or missile.speed > skillshots_max_speed or missile.start_pos.distance(missile.end_pos) < skillshots_min_range:
+		if not is_skillshot(missile) or missile.speed > skillshots_max_speed or missile.start_pos.distance(missile.end_pos) < skillshots_min_range:
+			continue
+		
+		spell = get_parent_spell(missile)
+		if not spell:
 			continue
 		
 		end_pos = missile.end_pos.clone()
@@ -118,18 +122,20 @@ def draw_skillshots(game, player):
 		end_pos.y = start_pos.y
 		curr_pos.y = start_pos.y
 		
-		if missile.radius > 0:
-			draw_rect(game, curr_pos, end_pos, missile.radius, color)
-			game.draw_circle_world_filled(curr_pos, missile.radius, 20, Color.RED)
-	
-		if missile.impact_radius > 0:
-			r = missile.impact_radius
+		
+		if spell.flags & SFlag.Line:
+			draw_rect(game, curr_pos, end_pos, missile.width, color)
+			game.draw_circle_world_filled(curr_pos, missile.width, 20, Color.RED)
+		
+		elif spell.flags & SFlag.Area:
+			r = game.get_spell_info(spell.name).cast_radius
 			end_pos.y = game.map.height_at(end_pos.x, end_pos.z)
 			percent_done = missile.start_pos.distance(curr_pos)/missile.start_pos.distance(end_pos)
 			color = Color(1, 1.0 - percent_done, 0, 0.5)
 			
-			game.draw_circle_world(end_pos, r, 30, 3, color)
-			game.draw_circle_world_filled(end_pos, r*percent_done, 30, color)
+			game.draw_circle_world(end_pos, r, 40, 3, color)
+			game.draw_circle_world_filled(end_pos, r*percent_done, 40, color)
+
 	
 def lview_update(game, ui):
 	global turret_ranges, minion_last_hit, attack_range, skillshots
