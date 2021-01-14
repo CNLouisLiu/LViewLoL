@@ -54,12 +54,32 @@ ChampionSpells = {
 		Spell("volleyattack",           ["volleyattack", "volleyattackwithsound"], SFlag.SkillshotLine),
 		Spell("enchantedcrystalarrow",  ["enchantedcrystalarrow"],                 SFlag.Line | SFlag.CollideWindwall | SFlag.CollideChampion)
 	],
+	"brand": [
+		Spell("brandq",                 ["brandqmissile"],                         SFlag.SkillshotLine),
+		Spell("brandw",                 [],                                        SFlag.Area)
+	],
+	"caitlyn": [
+		Spell("caitlynpiltoverpeacemaker", ["caitlynpiltoverpeacemaker", "caitlynpiltoverpeacemaker2"],          SFlag.Line | SFlag.CollideWindwall),
+		Spell("caitlynyordletrap",         [],                                                                   SFlag.Area),
+		Spell("caitlynentrapment",         ["caitlynentrapmentmissile"],                                         SFlag.SkillshotLine)
+	],
 	"chogath": [                        
 		Spell("rupture",                [],                                        SFlag.Area, delay = 0.627),
 		Spell("feralscream",            [],                                        SFlag.Cone | SFlag.CollideWindwall)
 	],
 	"drmundo": [
 		Spell("infectedcleavermissilecast", ["infectedcleavermissile"],            SFlag.SkillshotLine)
+	],
+	"diana": [
+		Spell("dianaq",                 ["dianaqinnermissile", "dianaqoutermissile"], SFlag.Area)
+	],
+	"ekko": [
+		Spell("ekkoq",                  ["ekkoqmis"],                              SFlag.Line | SFlag.CollideChampion),
+		Spell("ekkow",                  ["ekkowmis"],                              SFlag.Area, delay=3.0)
+	],
+	"irelia": [
+		Spell("ireliae",                ["ireliaemissile"],                        SFlag.Area),
+		Spell("ireliar",                ["ireliar"],                               SFlag.SkillshotLine)
 	],
 	"khazix": [
 		Spell("khazixw",                ["khazixwmissile"],                        SFlag.SkillshotLine),
@@ -69,6 +89,9 @@ ChampionSpells = {
 		Spell("ezrealq",                ["ezrealq"],                               SFlag.SkillshotLine),
 		Spell("ezrealw",                ["ezrealw"],                               SFlag.SkillshotLine),
 		Spell("ezrealr",                ["ezrealr"],                               SFlag.SkillshotLine)
+	],
+	"evelynn": [
+		Spell("evelynnq",               ["evelynnq"],                              SFlag.SkillshotLine)
 	],
 	"graves": [                         
 		Spell("gravesqlinespell",       ["gravesqlinemis", "gravesqreturn"],       SFlag.Line | SFlag.CollideChampion | SFlag.CollideWindwall),
@@ -123,6 +146,10 @@ ChampionSpells = {
 		Spell("jhine",                  ["jhinetrap"],                             SFlag.Area | SFlag.CollideWindwall),
 		Spell("jhinrshot",              ["jhinrshotmis", "jhinrshotmis4"],         SFlag.Line | SFlag.CollideWindwall | SFlag.CollideChampion)
 	],
+	"name": [
+		Spell("namiq",                  ["namiqmissile"],                          SFlag.Area),
+		Spell("namir",                  ["namirmissile"],                          SFlag.Line | SFlag.CollideWindwall)
+	],
 	"nidalee": [
 		Spell("javelintoss",            ["javelintoss"],                           SFlag.SkillshotLine),
 		Spell("bushwhack",              [],                                        SFlag.Area)
@@ -154,12 +181,19 @@ ChampionSpells = {
 		Spell("urgotq",                 ["urgotqmissile"],                         SFlag.Area | SFlag.CollideWindwall, delay = 0.2),
 		Spell("urgotr",                 ["urgotr"],                                SFlag.Line | SFlag.CollideWindwall | SFlag.CollideChampion)
 	],
+	"senna": [
+		Spell("sennaw",                 ["sennaw"],                                SFlag.SkillshotLine),
+		Spell("sennar",                 ["sennar"],                                SFlag.Line)
+	],
 	"shyvana": [
 		Spell("shyvanafireball",        ["shyvanafireballmissile"],                SFlag.Line | SFlag.CollideChampion | SFlag.CollideWindwall),
 		Spell("shyvanafireballdragon2", ["shyvanafireballdragonmissile"],          SFlag.Line | SFlag.Area | SFlag.CollideChampion | SFlag.CollideWindwall)
 	],
 	"singed": [
 		Spell("megaadhesive",           ["singedwparticlemissile"],                SFlag.Area)
+	],
+	"sivir": [
+		Spell("sivirq",                 ["sivirqmissile"],                         SFlag.Line | SFlag.CollideWindwall)
 	],
 	"soraka": [
 		Spell("sorakaq",                ["sorakaqmissile"],                        SFlag.Area),
