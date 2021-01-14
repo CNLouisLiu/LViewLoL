@@ -201,22 +201,36 @@ def draw_prediction_info(game, ui):
 			
 		ui.treepop()
 
-def is_skillshot(spell):
-	global Spells, MissileToSpell
-	return spell.name in Spells or spell.name in MissileToSpell
+def get_skillshot_range(game, skill_name):
+	global Spells
+	if skill_name not in Spells:
+		raise Exception("Not a skillshot")
 	
-def get_parent_spell(missile):
+	# Get the range of the missile if it has a missile
+	skillshot = Spells[skill_name]
+	if len(skillshot.missiles) > 0:
+		return game.get_spell_info(skillshot.missiles[0]).cast_range
+		
+	# If it doesnt have a missile get simply the cast_range from the skill
+	info = game.get_spell_info(skill_name)
+	return info.cast_range*2.0 if is_skillshot_cone(skill_name) else info.cast_range
+
+def is_skillshot(skill_name):
+	global Spells, MissileToSpell
+	return skill_name in Spells or skill_name in MissileToSpell
+	
+def get_missile_parent_spell(missile_name):
 	global MissileToSpell
-	return MissileToSpell.get(missile.name, None)
+	return MissileToSpell.get(missile_name, None)
 	
 def is_champ_supported(champ):
 	global ChampionSpells
 	return champ.name in ChampionSpells
 	
-def is_skill_cone(skill):
-	if skill.name not in Spells:
+def is_skillshot_cone(skill_name):
+	if skill_name not in Spells:
 		return False
-	return Spells[skill.name].flags & SFlag.Cone
+	return Spells[skill_name].flags & SFlag.Cone
 	
 def is_last_hitable(game, player, enemy):
 	missile_speed = player.basic_missile_speed + 1
@@ -272,11 +286,6 @@ def castpoint_for_collision(game, spell, caster, target):
 	# If the spell is a line we simulate the spell missile to get the collision point
 	if spell_extra.flags & SFlag.Line:
 		
-		if len(spell_extra.missiles) > 0:
-			missile = game.get_spell_info(spell_extra.missiles[0])
-		else:
-			missile = spell
-		
 		iterations = int(missile.cast_range/30.0)
 		step = t_missile/iterations
 		
@@ -289,6 +298,7 @@ def castpoint_for_collision(game, spell, caster, target):
 			spell_future_pos = caster.pos.add(spell_dir)
 			
 			dist = target_future_pos.distance(spell_future_pos)
+			#print(dist)
 			if dist < missile.width/2.0 or dist > last_dist:
 				return last_target_pos
 			else:

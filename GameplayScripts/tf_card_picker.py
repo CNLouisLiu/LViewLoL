@@ -37,16 +37,16 @@ def lview_update(game, ui):
 		if card_to_lock == game.player.W.name:
 			game.press_key(key_w)
 			card_to_lock = None
-	elif game.player.W.get_current_cooldown(game.time) < 0.01:
+	elif game.player.W.name == 'pickacard' and game.player.W.get_current_cooldown(game.time) == 0.0:
 		key_to_press = None
 		if game.was_key_pressed(key_blue):
-			card_to_lock = "BlueCardLock"
+			card_to_lock = "bluecardlock"
 			key_to_press = key_blue
 		elif game.was_key_pressed(key_red):
-			card_to_lock = "RedCardLock"
+			card_to_lock = "redcardlock"
 			key_to_press = key_red
 		elif game.was_key_pressed(key_yellow):
-			card_to_lock = "GoldCardLock"
+			card_to_lock = "goldcardlock"
 			key_to_press = key_yellow
 		if key_to_press:
 			game.press_key(key_w)

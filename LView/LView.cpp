@@ -63,18 +63,12 @@ int main()
 		exit(0);
 	}
 
-	float millisPerFrame = 10;
-	float frameTimeLength;
-	high_resolution_clock::time_point frameTimeBegin;
-	duration<float, std::milli> diff;
-
 	/* Flag for when to look for the league process */
 	bool rehook = true;
 	bool firstIter = true;
 
 	printf("[i] Waiting for league process...\n");
 	while (true) {
-		frameTimeBegin = high_resolution_clock::now();
 
 		bool isLeagueWindowActive = reader.IsLeagueWindowActive();
 		if (overlay.IsVisible()) {
@@ -128,13 +122,6 @@ int main()
 			printf("[!] Unexpected error occured: \n [!] %s \n", exception.what());
 			break;
 		}
-
-
-
-		diff = (high_resolution_clock::now() - frameTimeBegin);
-		frameTimeLength = diff.count();
-		if(frameTimeLength > 0 && frameTimeLength < millisPerFrame)
-			Sleep((DWORD)(millisPerFrame - frameTimeLength));
 	}
 
 	Py_Finalize();

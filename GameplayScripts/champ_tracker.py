@@ -57,7 +57,7 @@ def lview_update(game, ui):
 		return
 	
 	now = time()
-	if now - t_last_save_tracks > 0.3:
+	if now - t_last_save_tracks > 0.4:
 		t_last_save_tracks = now
 		for idx, track in tracks.items():
 			champ = game.get_obj_by_netid(champ_ids[idx])

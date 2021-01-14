@@ -96,7 +96,7 @@ def draw_turret_ranges(game, player):
 def draw_minion_last_hit(game, player):
 	color = Color.CYAN
 	for minion in game.minions:
-		if minion.is_alive and minion.is_enemy_to(player) and game.is_point_on_screen(minion.pos):
+		if minion.is_visible and minion.is_alive and minion.is_enemy_to(player) and game.is_point_on_screen(minion.pos):
 			if is_last_hitable(game, player, minion):
 				p = game.hp_bar_pos(minion)
 				game.draw_rect(Vec4(p.x - 33, p.y - 8, p.x + 33, p.y), Color.GREEN)
@@ -106,10 +106,10 @@ def draw_skillshots(game, player):
 	
 	color = Color.WHITE
 	for missile in game.missiles:
-		if not is_skillshot(missile) or missile.speed > skillshots_max_speed or missile.start_pos.distance(missile.end_pos) < skillshots_min_range:
+		if not is_skillshot(missile.name) or missile.speed > skillshots_max_speed or missile.start_pos.distance(missile.end_pos) < skillshots_min_range:
 			continue
 		
-		spell = get_parent_spell(missile)
+		spell = get_missile_parent_spell(missile.name)
 		if not spell:
 			continue
 		

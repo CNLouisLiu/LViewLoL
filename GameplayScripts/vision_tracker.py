@@ -117,7 +117,7 @@ def lview_update(game, ui):
 	
 	if show_clones:
 		for champ in game.champs:
-			if obj.is_ally_to(game.player) or not champ.is_alive:
+			if champ.is_ally_to(game.player) or not champ.is_alive:
 				continue
 			if champ.name in clones and champ.R.name == champ.D.name:
 				draw(game, champ, *(clones[champ.name]))

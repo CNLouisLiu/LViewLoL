@@ -40,11 +40,12 @@ def lview_update(game, ui):
 	for i in range(2, 6):
 		if game.was_key_pressed(i): # Check if keys 1,2,3,4 was pressed
 			skill = get_skill_by_position(game.player, i)
-			skill_range = skill.cast_range*2.0 if is_skill_cone(skill) else skill.cast_range
+			b_is_skillshot = is_skillshot(skill.name)
+			skill_range = get_skillshot_range(game, skill.name) if b_is_skillshot else 1500.0
 			target = targeting.get_target(game, skill_range)
 			
 			if target:
-				if is_champ_supported(game.player) and is_skillshot(skill):
+				if b_is_skillshot:
 					cast_point = castpoint_for_collision(game, skill, game.player, target)
 				else:
 					cast_point = target.pos

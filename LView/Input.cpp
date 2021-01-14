@@ -24,25 +24,31 @@ bool Input::WasKeyPressed(HKey key) {
 
 	static high_resolution_clock::time_point nowTime;
 	static high_resolution_clock::time_point lastTimePressed[300] = {high_resolution_clock::now()};
+	static bool pressed[300] = { 0 };
+
 	static duration<float, std::milli> timeDiff;
 
 	int virtualKey = MapVirtualKeyA(key, MAPVK_VSC_TO_VK);
 	if (virtualKey == 0)
 		return false;
 
-	if (!GetAsyncKeyState(virtualKey))
-		return false;
-
 	nowTime = high_resolution_clock::now();
 	timeDiff = nowTime - lastTimePressed[virtualKey];
-	
-	if (timeDiff.count() < 250) {
-		lastTimePressed[virtualKey] = nowTime;
+	if (pressed[virtualKey]) {
+
+		if (timeDiff.count() > 200)
+			pressed[virtualKey] = false;
 		return false;
-	} 
+	}
 		
-	lastTimePressed[virtualKey] = nowTime;
-	return true;
+	bool keyDown = GetAsyncKeyState(virtualKey) & 0x8000;
+	if (keyDown) {
+		lastTimePressed[virtualKey] = high_resolution_clock::now();
+		pressed[virtualKey] = true;
+		return true;
+	}
+
+	return false;
 }
 
 bool Input::IsKeyDown(HKey key) {

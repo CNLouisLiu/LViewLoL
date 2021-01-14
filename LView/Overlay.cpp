@@ -122,7 +122,7 @@ void Overlay::RenderFrame()
 void Overlay::ExecScripts(PyGame & state)
 {
 	for (auto& script : scriptManager.activeScripts) {
-		if (script->loadError.empty() && script->execError.empty())
+		if (script->enabled && script->loadError.empty() && script->execError.empty())
 			script->ExecUpdate(state, imguiInterface);
 	}
 }
