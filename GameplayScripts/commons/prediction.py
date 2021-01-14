@@ -123,6 +123,10 @@ ChampionSpells = {
 		Spell("jhine",                  ["jhinetrap"],                             SFlag.Area | SFlag.CollideWindwall),
 		Spell("jhinrshot",              ["jhinrshotmis", "jhinrshotmis4"],         SFlag.Line | SFlag.CollideWindwall | SFlag.CollideChampion)
 	],
+	"nidalee": [
+		Spell("javelintoss",            ["javelintoss"],                           SFlag.SkillshotLine),
+		Spell("bushwhack",              [],                                        SFlag.Area)
+	],
 	"malphite": [
 		Spell("ufslash",                [],                                        SFlag.Area)
 	],
@@ -157,6 +161,10 @@ ChampionSpells = {
 	"singed": [
 		Spell("megaadhesive",           ["singedwparticlemissile"],                SFlag.Area)
 	],
+	"soraka": [
+		Spell("sorakaq",                ["sorakaqmissile"],                        SFlag.Area),
+		Spell("sorakae",                [],                                        SFlag.Area)
+	],
 	"kayle": [
 		Spell("kayleq",                 ["kayleqmis"],                             SFlag.SkillshotLine)
 	],
@@ -188,7 +196,7 @@ def draw_prediction_info(game, ui):
 		ui.text(game.player.name.upper() + " doesnt have skillshot prediction support", Color.RED)
 	
 	if ui.treenode(f'Supported Champions ({len(ChampionSpells)})'):
-		for champ, spells in ChampionSpells.items():
+		for champ, spells in sorted(ChampionSpells.items()):
 			ui.text(f"{champ.upper()} {' '*(20 - len(champ))}: {str([spell.name for spell in spells])}")
 			
 		ui.treepop()
