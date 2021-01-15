@@ -18,12 +18,13 @@ std::map<int, ItemInfo*>          GameData::Items        = {};
 
 void GameData::Load(std::string& dataFolder)
 {
-	std::string unitData   = dataFolder + "/UnitData.json";
-	std::string spellData  = dataFolder + "/SpellData.json";
-	std::string itemData   = dataFolder + "/ItemData.json";
-	std::string spellIcons = dataFolder + "/icons_spells";
-	std::string champIcons = dataFolder + "/icons_champs";
-	std::string extraIcons = dataFolder + "/icons_extra";
+	std::string unitData         = dataFolder + "/UnitData.json";
+	std::string spellData        = dataFolder + "/SpellData.json";
+	std::string spellDataCustom  = dataFolder + "/SpellDataCustom.json";
+	std::string itemData         = dataFolder + "/ItemData.json";
+	std::string spellIcons       = dataFolder + "/icons_spells";
+	std::string champIcons       = dataFolder + "/icons_champs";
+	std::string extraIcons       = dataFolder + "/icons_extra";
 
 	printf("\r	Loading item data    \n");
 	LoadItemData(itemData);
@@ -33,6 +34,7 @@ void GameData::Load(std::string& dataFolder)
 
 	printf("\r	Loading spell data   \n");
 	LoadSpellData(spellData);
+	LoadSpellData(spellDataCustom);
 
 	printf("\r	Loading images      \n");
 	LoadIcons(spellIcons);

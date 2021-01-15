@@ -93,7 +93,7 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 
 	// Store previous position once N milliseconds to avoid the case when position == previousPosition but the object is moving
 	std::chrono::duration<float, std::milli> timeDuration = high_resolution_clock::now() - timeSinceLastPreviousPosition;
-	if (timeDuration.count() > 10) {
+	if (timeDuration.count() > 20) {
 		previousPosition = position.clone();
 		timeSinceLastPreviousPosition = high_resolution_clock::now();
 	}

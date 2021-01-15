@@ -93,6 +93,9 @@ for fname in os.listdir(unit_data_folder):
 				"projectDestination": False
 			}
 			
+			if 'mCastRangeGrowthMax' in s:
+				spell['castRange'] = s['mCastRangeGrowthMax'][4]
+			
 			missile = s.get("mMissileSpec", None)
 			if missile:
 				movcomp = missile.get("movementComponent", None)
