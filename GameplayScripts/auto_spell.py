@@ -2,6 +2,7 @@ from lview import *
 from commons.targeting import TargetingConfig
 from commons.prediction import *
 import json, time
+from pprint import pprint
 
 lview_script_info = {
 	"script": "Auto Spell",
@@ -10,36 +11,36 @@ lview_script_info = {
 }
 
 targeting = TargetingConfig()
-
-def get_skill_by_position(champ, i):
-	if 2 == i:
-		return champ.Q
-	if 3 == i:
-		return champ.W
-	if 4 == i:
-		return champ.E
-	if 5 == i:
-		return champ.R
+cast_keys = {
+	'Q': 0,
+	'W': 0,
+	'E': 0,
+	'R': 0
+}
 
 def lview_load_cfg(cfg):
-	global targeting
+	global targeting, cast_keys
 	targeting.load_from_cfg(cfg)
+	cast_keys = json.loads(cfg.get_str('cast_keys', json.dumps(cast_keys)))
 	
 def lview_save_cfg(cfg):
-	global targeting
+	global targeting, cast_keys
 	targeting.save_to_cfg(cfg)
+	cfg.set_str('cast_keys', json.dumps(cast_keys))
 
 def lview_draw_settings(game, ui):
-	global targeting
+	global targeting, cast_keys
 	targeting.draw(ui)
+	for slot, key in cast_keys.items():
+		cast_keys[slot] = ui.keyselect(f'Key to cast {slot}', key)
 	draw_prediction_info(game, ui)
 	
 def lview_update(game, ui):
-	global targeting
+	global targeting, cast_keys
 
-	for i in range(2, 6):
-		if game.was_key_pressed(i): # Check if keys 1,2,3,4 was pressed
-			skill = get_skill_by_position(game.player, i)
+	for slot, key in cast_keys.items():
+		if game.was_key_pressed(key):
+			skill = getattr(game.player, slot)
 			b_is_skillshot = is_skillshot(skill.name)
 			skill_range = get_skillshot_range(game, skill.name) if b_is_skillshot else 1500.0
 			target = targeting.get_target(game, skill_range)

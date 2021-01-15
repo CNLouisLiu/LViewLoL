@@ -30,14 +30,14 @@
 
 using namespace std::chrono;
 
-static const int VERSION_MAJOR = 0;
-static const int VERSION_SECONDARY = 2;
+static const int VERSION_MAJOR = 1;
+static const int VERSION_SECONDARY = 10001;
 
 void Intro();
 
 int main()
 {
-	//Intro();
+	Intro();
 	Overlay overlay = Overlay();
 	LeagueMemoryReader reader = LeagueMemoryReader();
 	MemSnapshot memSnapshot;
