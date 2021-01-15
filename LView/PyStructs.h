@@ -72,6 +72,7 @@ BOOST_PYTHON_MODULE(lview) {
 	class_<GameObject>("Obj")
 		.def_readonly("address",              &GameObject::address)
 		.def_readonly("health",               &GameObject::health)
+		.def_readonly("max_health",           &GameObject::maxHealth)
 		.def_readonly("base_atk",             &GameObject::baseAttack)
 		.def_readonly("bonus_atk",            &GameObject::bonusAttack)
 		.def_readonly("armour",               &GameObject::armour)

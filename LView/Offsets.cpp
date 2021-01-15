@@ -13,6 +13,7 @@ int Offsets::ObjSpawnCount                = 0x284;
 int Offsets::ObjSrcIndex                  = 0x290;
 int Offsets::ObjMana                      = 0x298;
 int Offsets::ObjHealth                    = 0xD98;
+int Offsets::ObjMaxHealth                 = 0xDA8;
 int Offsets::ObjArmor                     = 0x1298;
 int Offsets::ObjMagicRes                  = 0x12A0;
 int Offsets::ObjBaseAtk                   = 0x1270;

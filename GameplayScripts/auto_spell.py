@@ -7,7 +7,7 @@ from pprint import pprint
 lview_script_info = {
 	"script": "Auto Spell",
 	"author": "leryss",
-	"description": "Automatically casts spells on targets. Skillshots are cast using movement speed prediction. Works great for MOST skills but fails miserably for a few (for yuumis Q)",
+	"description": "Automatically casts spells on targets. Skillshots are cast using movement speed prediction. Works great for MOST skills but fails miserably for a few (for example yuumis Q)",
 }
 
 targeting = TargetingConfig()

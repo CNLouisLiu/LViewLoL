@@ -98,22 +98,23 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 		timeSinceLastPreviousPosition = high_resolution_clock::now();
 	}
 
-	memcpy(&team, &buff[Offsets::ObjTeam], sizeof(short));
-	memcpy(&position, &buff[Offsets::ObjPos], sizeof(Vector3));
-	memcpy(&health, &buff[Offsets::ObjHealth], sizeof(float));
-	memcpy(&baseAttack, &buff[Offsets::ObjBaseAtk], sizeof(float));
-	memcpy(&bonusAttack, &buff[Offsets::ObjBonusAtk], sizeof(float));
-	memcpy(&armour, &buff[Offsets::ObjArmor], sizeof(float));
-	memcpy(&magicResist, &buff[Offsets::ObjMagicRes], sizeof(float));
-	memcpy(&duration, &buff[Offsets::ObjExpiry], sizeof(float));
-	memcpy(&isVisible, &buff[Offsets::ObjVisibility], sizeof(bool));
-	memcpy(&objectIndex, &buff[Offsets::ObjIndex], sizeof(short));
-	memcpy(&crit, &buff[Offsets::ObjCrit], sizeof(float));
-	memcpy(&critMulti, &buff[Offsets::ObjCritMulti], sizeof(float));
-	memcpy(&abilityPower, &buff[Offsets::ObjAbilityPower], sizeof(float));
+	memcpy(&team,          &buff[Offsets::ObjTeam],          sizeof(short));
+	memcpy(&position,      &buff[Offsets::ObjPos],           sizeof(Vector3));
+	memcpy(&health,        &buff[Offsets::ObjHealth],        sizeof(float));
+	memcpy(&maxHealth,     &buff[Offsets::ObjMaxHealth],     sizeof(float));
+	memcpy(&baseAttack,    &buff[Offsets::ObjBaseAtk],       sizeof(float));
+	memcpy(&bonusAttack,   &buff[Offsets::ObjBonusAtk],      sizeof(float));
+	memcpy(&armour,        &buff[Offsets::ObjArmor],         sizeof(float));
+	memcpy(&magicResist,   &buff[Offsets::ObjMagicRes],      sizeof(float));
+	memcpy(&duration,      &buff[Offsets::ObjExpiry],        sizeof(float));
+	memcpy(&isVisible,     &buff[Offsets::ObjVisibility],    sizeof(bool));
+	memcpy(&objectIndex,   &buff[Offsets::ObjIndex],         sizeof(short));
+	memcpy(&crit,          &buff[Offsets::ObjCrit],          sizeof(float));
+	memcpy(&critMulti,     &buff[Offsets::ObjCritMulti],     sizeof(float));
+	memcpy(&abilityPower,  &buff[Offsets::ObjAbilityPower],  sizeof(float));
 	memcpy(&atkSpeedMulti, &buff[Offsets::ObjAtkSpeedMulti], sizeof(float));
-	memcpy(&movementSpeed, &buff[Offsets::ObjMoveSpeed], sizeof(float));
-	memcpy(&networkId, &buff[Offsets::ObjNetworkID], sizeof(DWORD));
+	memcpy(&movementSpeed, &buff[Offsets::ObjMoveSpeed],     sizeof(float));
+	memcpy(&networkId,     &buff[Offsets::ObjNetworkID],     sizeof(DWORD));
 
 	// Check if alive
 	DWORD spawnCount;

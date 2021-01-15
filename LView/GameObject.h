@@ -52,6 +52,7 @@ public:
 				          
 public:			     	 
 	float                 health;
+	float                 maxHealth;
 	float                 baseAttack;
 	float                 bonusAttack;
 	float                 armour;

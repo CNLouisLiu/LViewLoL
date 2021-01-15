@@ -4,7 +4,7 @@ from time import time
 lview_script_info = {
 	"script": "Champion Tracker",
 	"author": "leryss",
-	"description": "Tracks a enemy throughout the jungle leaving a trail on the minimap. It will track the enemy jungler by default"
+	"description": "Tracks a enemy throughout the map leaving a trail on the minimap. It will track the enemy jungler by default"
 }
 
 first_iter = True

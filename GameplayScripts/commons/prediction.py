@@ -2,7 +2,7 @@ from lview import *
 import math, itertools, time
 from . import items
 
-Version = "experimental"
+Version = "experimental version"
 MissileToSpell = {}
 Spells         = {}
 ChampionSpells = {}
@@ -256,7 +256,7 @@ def draw_prediction_info(game, ui):
 	global ChampionSpells, Version
 	
 	ui.separator()
-	ui.text("Using LPrediction v" + Version, Color.PURPLE)
+	ui.text("Using LPrediction " + Version, Color.PURPLE)
 	if is_champ_supported(game.player):
 		ui.text(game.player.name.upper() + " has skillshot prediction support", Color.GREEN)
 	else:

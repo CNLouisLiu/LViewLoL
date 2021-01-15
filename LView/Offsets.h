@@ -16,6 +16,7 @@ public:
 	static int ObjVisibility;
 	static int ObjSpawnCount;
 	static int ObjHealth;
+	static int ObjMaxHealth;
 	static int ObjMana;
 	static int ObjArmor;
 	static int ObjMagicRes;

@@ -6,7 +6,7 @@ import time, json
 lview_script_info = {
 	"script": "Orbwalker",
 	"author": "leryss",
-	"description": "Automatically kites enemies"
+	"description": "Automatically kites enemies. Also has last hit built in"
 }
 
 last_attacked = 0

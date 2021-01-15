@@ -18,48 +18,56 @@ turret_ranges   = False
 minion_last_hit = False
 attack_range    = False
 
-skillshots      = False
-skillshots_predict = False
-skillshots_min_range = 0
-skillshots_max_speed = 0
+skillshots            = False
+skillshots_predict    = False
+skillshots_min_range  = 0
+skillshots_max_speed  = 0
+skillshots_show_ally  = False
+skillshots_show_enemy = False
 
 def lview_load_cfg(cfg):
 	global turret_ranges, minion_last_hit, attack_range
-	global skillshots, skillshots_predict, skillshots_min_range, skillshots_max_speed
+	global skillshots, skillshots_predict, skillshots_min_range, skillshots_max_speed, skillshots_show_ally, skillshots_show_enemy
 	turret_ranges        = cfg.get_bool("turret_ranges", True)
 	minion_last_hit      = cfg.get_bool("minion_last_hit", True)
 	attack_range         = cfg.get_bool("attack_range", True)
 	                     
-	skillshots           = cfg.get_bool("skillshots", True)
-	skillshots_predict   = cfg.get_bool("skillshots_predict", True)
-	skillshots_min_range = cfg.get_float("skillshots_min_range", 500)
-	skillshots_max_speed = cfg.get_float("skillshots_max_speed", 2500)
+	skillshots            = cfg.get_bool("skillshots", True)
+	skillshots_show_ally  = cfg.get_bool("skillshots_show_ally", True)
+	skillshots_show_enemy = cfg.get_bool("skillshots_show_enemy", True)
+	#skillshots_predict   = cfg.get_bool("skillshots_predict", True)
+	skillshots_min_range  = cfg.get_float("skillshots_min_range", 500)
+	skillshots_max_speed  = cfg.get_float("skillshots_max_speed", 2500)
 	
 def lview_save_cfg(cfg):
 	global turret_ranges, minion_last_hit, attack_range
-	global skillshots, skillshots_predict, skillshots_min_range, skillshots_max_speed
+	global skillshots, skillshots_predict, skillshots_min_range, skillshots_max_speed, skillshots_show_ally, skillshots_show_enemy
 	cfg.set_bool("turret_ranges",         turret_ranges)
 	cfg.set_bool("minion_last_hit",       minion_last_hit)
 	cfg.set_bool("attack_range",          attack_range)
 	
 	cfg.set_bool("skillshots",            skillshots)
-	cfg.set_bool("skillshots_predict",    skillshots_predict)
+	cfg.set_bool("skillshots_show_ally",  skillshots_show_ally)
+	cfg.set_bool("skillshots_show_enemy", skillshots_show_enemy)
+	#cfg.set_bool("skillshots_predict",    skillshots_predict)
 	cfg.set_float("skillshots_min_range", skillshots_min_range)
 	cfg.set_float("skillshots_max_speed", skillshots_max_speed)
 	
 def lview_draw_settings(game, ui):
 	global turret_ranges, minion_last_hit, attack_range
-	global skillshots, skillshots_predict, skillshots_min_range, skillshots_max_speed
+	global skillshots, skillshots_predict, skillshots_min_range, skillshots_max_speed, skillshots_show_ally, skillshots_show_enemy
 	turret_ranges   = ui.checkbox("Turret ranges", turret_ranges)
 	minion_last_hit = ui.checkbox("Minion last hit", minion_last_hit)
 	attack_range    = ui.checkbox("Champion attack range", attack_range)
 	
 	ui.separator()
 	ui.text("Skillshots (Experimental)")
-	skillshots           = ui.checkbox("Draw skillshots", skillshots)
-	skillshots_predict   = ui.checkbox("Use skillshot prediction", skillshots_predict)
-	skillshots_min_range = ui.dragfloat("Minimum skillshot range", skillshots_min_range, 100, 0, 3000)
-	skillshots_max_speed = ui.dragfloat("Maximum skillshot speed", skillshots_max_speed, 100, 1000, 5000)
+	skillshots            = ui.checkbox("Draw skillshots", skillshots)
+	skillshots_show_ally  = ui.checkbox("Show for allies", skillshots_show_ally)
+	skillshots_show_enemy = ui.checkbox("Show for enemies", skillshots_show_enemy)
+	#skillshots_predict   = ui.checkbox("Use skillshot prediction", skillshots_predict)
+	skillshots_min_range  = ui.dragfloat("Minimum skillshot range", skillshots_min_range, 100, 0, 3000)
+	skillshots_max_speed  = ui.dragfloat("Maximum skillshot speed", skillshots_max_speed, 100, 1000, 5000)
 	
 	draw_prediction_info(game, ui)
 
@@ -102,10 +110,15 @@ def draw_minion_last_hit(game, player):
 				game.draw_rect(Vec4(p.x - 33, p.y - 8, p.x + 33, p.y), Color.GREEN)
 
 def draw_skillshots(game, player):
-	global skillshots, skillshots_predict, skillshots_min_range, skillshots_max_speed
+	global skillshots, skillshots_predict, skillshots_min_range, skillshots_max_speed, skillshots_show_ally, skillshots_show_enemy
 	
 	color = Color.WHITE
 	for missile in game.missiles:
+		if not skillshots_show_ally and missile.is_ally_to(game.player):
+			continue
+		if not skillshots_show_enemy and missile.is_enemy_to(game.player):
+			continue
+		
 		if not is_skillshot(missile.name) or missile.speed > skillshots_max_speed or missile.start_pos.distance(missile.end_pos) < skillshots_min_range:
 			continue
 		
