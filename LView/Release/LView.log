@@ -1,11 +1,45 @@
-﻿  LView.cpp
+﻿  AntiCrack.cpp
+  ConfigSet.cpp
+  GameData.cpp
   f:\github\lviewlol\lview\boost\boost\bind.hpp(41): note: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  GameObject.cpp
+  f:\github\lviewlol\lview\boost\boost\bind.hpp(41): note: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_impl_dx11.cpp
+  imgui_impl_win32.cpp
+  imgui_tables.cpp
+  imgui_widgets.cpp
+  Input.cpp
+  ItemSlot.cpp
+  LeagueMemoryReader.cpp
+  f:\github\lviewlol\lview\boost\boost\bind.hpp(41): note: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.
+  LView.cpp
+  f:\github\lviewlol\lview\boost\boost\bind.hpp(41): note: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  MapObject.cpp
+  Offsets.cpp
+  Offsets.h
+  GameRenderer.cpp
+  Script.cpp
+  f:\github\lviewlol\lview\boost\boost\bind.hpp(41): note: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.
+  Compiling...
+  ScriptManager.cpp
+  f:\github\lviewlol\lview\boost\boost\bind.hpp(41): note: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.
+  Spell.cpp
+  Overlay.cpp
+  f:\github\lviewlol\lview\boost\boost\bind.hpp(41): note: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  SpellInfo.cpp
+  SpellInterface.h
+  Texture2D.cpp
+  UnitInfo.cpp
+  Utils.cpp
 Release\Offsets.obj : warning LNK4042: object specified more than once; extras ignored
      Creating library F:\Github\LViewLoL\Release\ConsoleApplication.lib and object F:\Github\LViewLoL\Release\ConsoleApplication.exp
   Generating code
-  1 of 10653 functions (<0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    11 functions had inline decision re-evaluated but remain unchanged
+  All 10653 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   LView.vcxproj -> F:\Github\LViewLoL\Release\ConsoleApplication.exe

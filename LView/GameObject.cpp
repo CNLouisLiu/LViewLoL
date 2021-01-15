@@ -91,7 +91,13 @@ void GameObject::LoadFromMem(DWORD base, HANDLE hProcess, bool deepLoad) {
 	address = base;
 	Mem::Read(hProcess, base, buff, sizeBuff);
 
-	previousPosition = position.clone();
+	// Store previous position once N milliseconds to avoid the case when position == previousPosition but the object is moving
+	std::chrono::duration<float, std::milli> timeDuration = high_resolution_clock::now() - timeSinceLastPreviousPosition;
+	if (timeDuration.count() > 10) {
+		previousPosition = position.clone();
+		timeSinceLastPreviousPosition = high_resolution_clock::now();
+	}
+
 	memcpy(&team, &buff[Offsets::ObjTeam], sizeof(short));
 	memcpy(&position, &buff[Offsets::ObjPos], sizeof(Vector3));
 	memcpy(&health, &buff[Offsets::ObjHealth], sizeof(float));
@@ -240,7 +246,6 @@ void GameObject::LoadMissileFromMem(DWORD base, HANDLE hProcess, bool deepLoad) 
 	// Some spells require their end position to be projected using the range of the spell
 	if (spellInfo != GameData::UnknownSpell && HasSpellFlags(ProjectedDestination)) {
 
-		// Missile start position does not have the correct spell height
 		startPos.y += spellInfo->height;
 
 		// Calculate direction vector and normalize

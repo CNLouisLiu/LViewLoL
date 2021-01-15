@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <map>
+#include <chrono>
+
 #include "Vector.h"
 #include "windows.h"
 #include "MemoryLoadable.h"
@@ -14,6 +16,7 @@
 #include <boost/python.hpp>
 
 using namespace boost::python;
+using namespace std::chrono;
 
 /// Base game object
 ///
@@ -70,6 +73,8 @@ public:
 				          
 	std::string           name;
 	Vector3               position;
+
+	high_resolution_clock::time_point timeSinceLastPreviousPosition;
 	Vector3               previousPosition;
 				          
 	DWORD                 networkId;
@@ -78,7 +83,7 @@ public:
 	UnitInfo*             unitInfo = GameData::UnknownUnit;
 						 
 protected:				 
-	static const SIZE_T   sizeBuff = 0x4000;
+	static const SIZE_T   sizeBuff     = 0x4000;
 	static const SIZE_T   sizeBuffDeep = 0x1000;
 						 
 	static BYTE           buff[sizeBuff];

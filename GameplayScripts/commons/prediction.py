@@ -315,7 +315,6 @@ def castpoint_for_collision(game, spell, caster, target):
 		target_dir.y = 0.0
 	if math.isnan(target_dir.z):
 		target_dir.z = 0.0
-		
 
 	# If the spell is a line we simulate the spell missile to get the collision point
 	if spell_extra.flags & SFlag.Line:
