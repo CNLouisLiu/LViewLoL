@@ -40,6 +40,6 @@
 Release\Offsets.obj : warning LNK4042: object specified more than once; extras ignored
      Creating library F:\Github\LViewLoL\Release\ConsoleApplication.lib and object F:\Github\LViewLoL\Release\ConsoleApplication.exp
   Generating code
-  All 10904 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 10933 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   LView.vcxproj -> F:\Github\LViewLoL\Release\ConsoleApplication.exe

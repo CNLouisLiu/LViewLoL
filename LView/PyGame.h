@@ -75,9 +75,9 @@ public:
 		overlay->AddText(ImVec2(pos.x, pos.y), ImColor(color), text);
 	}
 
-	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DrawRectOverloads, DrawRect, 2, 3);
-	void DrawRect(const Vector4& box, const ImVec4& color, float rounding = 0) {
-		overlay->AddRect(ImVec2(box.x, box.y), ImVec2(box.z, box.w), ImColor(color), rounding);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DrawRectOverloads, DrawRect, 2, 4);
+	void DrawRect(const Vector4& box, const ImVec4& color, float rounding = 0, float thickness = 1.0) {
+		overlay->AddRect(ImVec2(box.x, box.y), ImVec2(box.z, box.w), ImColor(color), rounding, 15, thickness);
 	}
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(DrawRectFilledOverloads, DrawRectFilled, 2, 3);

@@ -1,6 +1,6 @@
 from lview import *
 from commons.targeting import TargetingConfig
-from commons.prediction import *
+from commons.skills import *
 import json, time
 from pprint import pprint
 

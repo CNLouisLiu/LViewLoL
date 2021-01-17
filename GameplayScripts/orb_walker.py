@@ -1,5 +1,5 @@
 from lview import *
-from commons import prediction
+from commons import skills
 from commons.targeting import TargetingConfig
 import time, json
 
@@ -11,7 +11,6 @@ lview_script_info = {
 
 last_attacked = 0
 last_moved = 0
-last_action_attacked = False
 
 key_attack_move = 0
 key_orbwalk = 0
@@ -62,7 +61,7 @@ def find_minion_target(game):
 	min_health = 9999999999
 	target = None
 	for minion in game.minions:
-		if minion.is_enemy_to(game.player) and minion.is_alive and minion.health < min_health and game.distance(game.player, minion) < atk_range and prediction.is_last_hitable(game, game.player, minion):
+		if minion.is_enemy_to(game.player) and minion.is_alive and minion.health < min_health and game.distance(game.player, minion) < atk_range and skills.is_last_hitable(game, game.player, minion):
 			target = minion
 			min_health = minion.health
 		
@@ -78,7 +77,7 @@ def get_target(game):
 	return target
 
 def lview_update(game, ui):
-	global last_attacked, alternate, last_moved, last_action_attacked
+	global last_attacked, alternate, last_moved
 	global key_attack_move, key_orbwalk, max_atk_speed
 	global toggle_mode, toggled
 	
@@ -105,7 +104,6 @@ def lview_update(game, ui):
 	t = time.time()
 	if t - last_attacked > max(c_atk_time, max_atk_time) and target:
 		last_attacked = t
-		last_action_attacked = True
 		
 		game.press_key(key_attack_move)
 		game.click_at(True, game.world_to_screen(target.pos))
@@ -113,7 +111,6 @@ def lview_update(game, ui):
 		dt = t - last_attacked
 		if dt > b_windup_time and t - last_moved > 0.15:
 			last_moved = t
-			last_action_attacked = False
 			game.press_right_click()
 		
 		

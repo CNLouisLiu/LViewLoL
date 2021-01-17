@@ -5,7 +5,7 @@
 from lview import *
 from time import time
 import itertools, math
-from commons.prediction import *
+from commons.skills import *
 from copy import copy
 
 lview_script_info = {
@@ -107,7 +107,7 @@ def draw_minion_last_hit(game, player):
 		if minion.is_visible and minion.is_alive and minion.is_enemy_to(player) and game.is_point_on_screen(minion.pos):
 			if is_last_hitable(game, player, minion):
 				p = game.hp_bar_pos(minion)
-				game.draw_rect(Vec4(p.x - 33, p.y - 8, p.x + 33, p.y), Color.GREEN)
+				game.draw_rect(Vec4(p.x - 34, p.y - 9, p.x + 32, p.y + 1), Color.CYAN, 0, 2)
 
 def draw_skillshots(game, player):
 	global skillshots, skillshots_predict, skillshots_min_range, skillshots_max_speed, skillshots_show_ally, skillshots_show_enemy
