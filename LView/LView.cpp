@@ -30,40 +30,50 @@
 
 using namespace std::chrono;
 
-static const int VERSION_MAJOR = 1;
-static const int VERSION_SECONDARY = 10001;
+static const char* VERSION_MAJOR = "1";
+static const char* VERSION_SECONDARY = "000";
 
-void Intro();
+bool Intro();
+void MainLoop(Overlay& overlay, LeagueMemoryReader& reader);
 
 int main()
 {
-	Intro();
 	Overlay overlay = Overlay();
 	LeagueMemoryReader reader = LeagueMemoryReader();
-	MemSnapshot memSnapshot;
 
 	try {
-		printf("[+] Initializing PyModule\n");
-		PyImport_AppendInittab("lview", &PyInit_lview);
-		Py_Initialize();
+		if (Intro()) {
+			printf("[+] Initializing PyModule\n");
+			PyImport_AppendInittab("lview", &PyInit_lview);
+			Py_Initialize();
 
-		printf("[+] Initialising imgui and directx UI\n");
-		overlay.Init();
+			printf("[+] Initialising imgui and directx UI\n");
+			overlay.Init();
 
-		printf("[+] Loading static map data\n\n");
-		MapObject::Get(MapType::SUMMONERS_RIFT)->Load("data/height_map_sru.bin");
-		MapObject::Get(MapType::HOWLING_ABYSS)->Load("data/height_map_ha.bin");
+			printf("[+] Loading static map data\n\n");
+			MapObject::Get(MapType::SUMMONERS_RIFT)->Load("data/height_map_sru.bin");
+			MapObject::Get(MapType::HOWLING_ABYSS)->Load("data/height_map_ha.bin");
 
-		printf("[+] Loading unit data\n");
-		std::string dataPath("data");
-		GameData::Load(dataPath);
+			printf("[+] Loading unit data\n");
+			std::string dataPath("data");
+			GameData::Load(dataPath);
+
+			MainLoop(overlay, reader);
+
+			Py_Finalize();
+		}
 	}
 	catch (std::runtime_error exception) {
 		std::cout << exception.what() << std::endl;
-		exit(0);
 	}
 
-	/* Flag for when to look for the league process */
+	printf("Press any key to exit...");
+	getch();
+}
+
+void MainLoop(Overlay& overlay, LeagueMemoryReader& reader) {
+
+	MemSnapshot memSnapshot;
 	bool rehook = true;
 	bool firstIter = true;
 
@@ -79,7 +89,7 @@ int main()
 		else if (isLeagueWindowActive) {
 			overlay.Show();
 		}
-			
+
 		try {
 			overlay.StartFrame();
 
@@ -123,12 +133,9 @@ int main()
 			break;
 		}
 	}
-
-	Py_Finalize();
 }
 
-
-void Intro() {
+bool Intro() {
 	printf(
 		"	:::    :::     ::: ::::::::::: :::::::::: :::       ::: \n"
 		"	:+:    :+:     :+:     :+:     :+:        :+:       :+: \n"
@@ -136,7 +143,7 @@ void Intro() {
 		"	+#+    +#+     +:+     +#+     +#++:++#   +#+  +:+  +#+ \n"
 		"	+#+     +#+   +#+      +#+     +#+        +#+ +#+#+ +#+ \n"
 		"	#+#      #+#+#+#       #+#     #+#         #+#+# #+#+#  \n"
-		"	########## ###     ########### ##########   ###   ###   \n\n Version: %d.%d\n\n",
+		"	########## ###     ########### ##########   ###   ###   \n\n Version: %s.%s\n\n",
 		VERSION_MAJOR, VERSION_SECONDARY
 	);
 
@@ -153,7 +160,7 @@ void Intro() {
 
 	if (region.empty() || name.empty() || accessKey.empty() || secretKey.empty()) {
 		printf("[!] auth:: config fields are missing");
-		exit(0);
+		return false;
 	}
 	
 	Aws::Auth::AWSCredentials credentials;
@@ -188,7 +195,7 @@ void Intro() {
 
 		auto err = outcome.GetError();
 		printf(err.GetExceptionName().c_str());
-		exit(0);
+		return false;
 	}
 
 	auto& result = outcome.GetResult();
@@ -198,7 +205,9 @@ void Intro() {
 
 	if (statusCode != 200) {
 		printf("[!] Server authentication failed: %s\n", msg.c_str());
-		exit(0);
+		return false;
 	}
 	printf("[+] Server authentication succeeded: %s\n", msg.c_str());
+
+	return true;
 }
