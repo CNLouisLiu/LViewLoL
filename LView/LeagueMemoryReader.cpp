@@ -92,7 +92,8 @@ void LeagueMemoryReader::FindHoveredObject(MemSnapshot& ms) {
 		ms.hoveredObject = nullptr;
 }
 
-/// This method reads the game objects from memory. It reads the tree structure of a std::map<int, GameObject*>
+///		This method reads the game objects from memory. It reads the tree structure of a std::map<int, GameObject*>
+/// in this std::map reside Champions, Minions, Turrets, Missiles, Jungle mobs etc. Basically non static objects.
 void LeagueMemoryReader::ReadObjects(MemSnapshot& ms) {
 
 	static const int maxObjects = 500;
@@ -122,7 +123,7 @@ void LeagueMemoryReader::ReadObjects(MemSnapshot& ms) {
 	std::set<int> visitedNodes;
 	nodesToVisit.push(rootNode);
 
-	// Read object pointers
+	// Read object pointers from tree
 	int nrObj = 0;
 	int reads = 0;
 	int childNode1, childNode2, childNode3, node;
@@ -147,6 +148,7 @@ void LeagueMemoryReader::ReadObjects(MemSnapshot& ms) {
 		unsigned int netId = 0;
 		memcpy(&netId, buff + Offsets::ObjectMapNodeNetId, sizeof(int));
 
+		// Network ids of the objects we are interested in start from 0x40000000. We do this check for performance reasons.
 		if (netId - (unsigned int)0x40000000 > 0x100000) 
 			continue;
 
@@ -159,7 +161,7 @@ void LeagueMemoryReader::ReadObjects(MemSnapshot& ms) {
 		nrObj++;
 	}
 
-	// Read objects
+	// Read objects from the pointers we just read
 	for (int i = 0; i < nrObj; ++i) {
 		int netId;
 		Mem::Read(hProcess, pointerArray[i] + Offsets::ObjNetworkID, &netId, sizeof(int));
@@ -220,8 +222,6 @@ void LeagueMemoryReader::ReadMinimap(MemSnapshot & snapshot) {
 	Mem::Read(hProcess, minimapHud, buff, 0x80);
 	memcpy(&snapshot.minimapPos, buff + Offsets::MinimapHudPos, sizeof(Vector2));
 	memcpy(&snapshot.minimapSize, buff + Offsets::MinimapHudSize, sizeof(Vector2));
-
-	//printf("pos = %.2f %.2f , size = %.2f %.2f \n", snapshot.minimapPos.x, snapshot.minimapPos.y, snapshot.minimapSize.x, snapshot.minimapSize.y);
 }
 
 void LeagueMemoryReader::FindPlayerChampion(MemSnapshot & snapshot) {

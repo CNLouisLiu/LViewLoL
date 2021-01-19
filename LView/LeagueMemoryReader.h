@@ -44,6 +44,8 @@ private:
 
 private:
 	float                       minDistanceToCursor;
+
+	/// Blacklisted objects that we don't need to read for performance reasons. Set key is the object's network id
 	std::set<int>               blacklistedObjects;
 	std::set<std::string>       blacklistedObjectNames;
 	

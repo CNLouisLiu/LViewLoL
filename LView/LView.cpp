@@ -30,38 +30,43 @@
 
 using namespace std::chrono;
 
-static const char* VERSION_MAJOR = "1";
-static const char* VERSION_SECONDARY = "000";
-
-bool Intro();
+bool Authenticate();
 void MainLoop(Overlay& overlay, LeagueMemoryReader& reader);
 
 int main()
 {
+	printf(
+		"	:::    :::     ::: ::::::::::: :::::::::: :::       ::: \n"
+		"	:+:    :+:     :+:     :+:     :+:        :+:       :+: \n"
+		"	+:+    +:+     +:+     +:+     +:+        +:+       +:+ \n"
+		"	+#+    +#+     +:+     +#+     +#++:++#   +#+  +:+  +#+ \n"
+		"	+#+     +#+   +#+      +#+     +#+        +#+ +#+#+ +#+ \n"
+		"	#+#      #+#+#+#       #+#     #+#         #+#+# #+#+#  \n"
+		"	########## ###     ########### ##########   ###   ###   \n\n"
+	);
+
 	Overlay overlay = Overlay();
 	LeagueMemoryReader reader = LeagueMemoryReader();
 
 	try {
-		if (Intro()) {
-			printf("[+] Initializing PyModule\n");
-			PyImport_AppendInittab("lview", &PyInit_lview);
-			Py_Initialize();
+		printf("[+] Initializing PyModule\n");
+		PyImport_AppendInittab("lview", &PyInit_lview);
+		Py_Initialize();
 
-			printf("[+] Initialising imgui and directx UI\n");
-			overlay.Init();
+		printf("[+] Initialising imgui and directx UI\n");
+		overlay.Init();
 
-			printf("[+] Loading static map data\n\n");
-			MapObject::Get(MapType::SUMMONERS_RIFT)->Load("data/height_map_sru.bin");
-			MapObject::Get(MapType::HOWLING_ABYSS)->Load("data/height_map_ha.bin");
+		printf("[+] Loading static map data\n\n");
+		MapObject::Get(MapType::SUMMONERS_RIFT)->Load("data/height_map_sru.bin");
+		MapObject::Get(MapType::HOWLING_ABYSS)->Load("data/height_map_ha.bin");
 
-			printf("[+] Loading unit data\n");
-			std::string dataPath("data");
-			GameData::Load(dataPath);
+		printf("[+] Loading unit data\n");
+		std::string dataPath("data");
+		GameData::Load(dataPath);
 
-			MainLoop(overlay, reader);
+		MainLoop(overlay, reader);
 
-			Py_Finalize();
-		}
+		Py_Finalize();
 	}
 	catch (std::runtime_error exception) {
 		std::cout << exception.what() << std::endl;
@@ -135,17 +140,9 @@ void MainLoop(Overlay& overlay, LeagueMemoryReader& reader) {
 	}
 }
 
-bool Intro() {
-	printf(
-		"	:::    :::     ::: ::::::::::: :::::::::: :::       ::: \n"
-		"	:+:    :+:     :+:     :+:     :+:        :+:       :+: \n"
-		"	+:+    +:+     +:+     +:+     +:+        +:+       +:+ \n"
-		"	+#+    +#+     +:+     +#+     +#++:++#   +#+  +:+  +#+ \n"
-		"	+#+     +#+   +#+      +#+     +#+        +#+ +#+#+ +#+ \n"
-		"	#+#      #+#+#+#       #+#     #+#         #+#+# #+#+#  \n"
-		"	########## ###     ########### ##########   ###   ###   \n\n Version: %s.%s\n\n",
-		VERSION_MAJOR, VERSION_SECONDARY
-	);
+/// Authentication using AWS. Calls a lambda from AWS that will do the authentication.
+bool Authenticate() {
+
 
 	Aws::SDKOptions options;
 	Aws::InitAPI(options);
