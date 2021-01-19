@@ -13,19 +13,19 @@ Key features of LView:
 
 ### Building
 
-You need Visual Studio 2017 to compile this. Compile the app on Release x32 (you need to compile boost::python on debug to compile on debug, which I didn't).
+You need Visual Studio 2017 to compile this.
 Dependencies:
-  1. python39: dlls and includes are already in project. You may have to install python39 and make sure you add it to PATH
+  1. python39: dlls and includes are already in project. You need to install python 3.9 and make sure you add it to PATH
   3. aws-lambda: dlls and includes are already in project (was used for authentication)
-  3. directx 11: Must install directx runtime: https://www.microsoft.com/en-us/download/details.aspx?id=35
+  3. directx 11: Must install directx end user runtimes: https://www.microsoft.com/en-us/download/details.aspx?id=35 .Extract this and run dxsetup
   4. boost::python. Due to the size of the boost libraries you must compile boost::python yourself:
       1. Download boost 1.75.0 
       2. Unarchive it in LView/boost
       3. Go into LView/boost
       4. Run `bootstrap.bat`
       5. Run `b2 --with-python link=shared toolset=msvc-14.1 address-model=32 variant=release`
-  
+  5. You are done now compile the app on Release x86 (you need to compile boost::python on debug to compile on debug, which I didn't).
  ### Setup
- All LView & LView python scripts configurations reside in config.ini file. First you must set the path to the scripts folder with the following config:
+ All LView & LView python scripts configurations reside in config.ini file. First you must set the path to the scripts folder with the following config (you can find the config.ini in LView folder):
  
   `::scriptsFolder=\<folder\>`
