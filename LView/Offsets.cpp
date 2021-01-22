@@ -61,7 +61,7 @@ int Offsets::MissileDestIdx               = 0x2E8;
 int Offsets::MissileStartPos              = 0x2A8;
 int Offsets::MissileEndPos                = 0x2B4;
 
-int Offsets::MinimapObject                = 0x3ADc5f0;
+int Offsets::MinimapObject                = 0x34EC5F0;     //FF 52 04 8B 0D ? ? ? ? E8 ? ? ? ?, or search mem for max_size = vec2(385.0, 384.0)
 int Offsets::MinimapObjectHud             = 0x88;
 int Offsets::MinimapHudPos                = 0x5C;
 int Offsets::MinimapHudSize               = 0x64;
