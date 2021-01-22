@@ -61,7 +61,8 @@ if not os.path.isdir(result_folder):
 		
 		
 # Read champion icons
-x = 'https://raw.communitydragon.org/latest/game/assets/characters/'
-y = 'https://raw.communitydragon.org/latest/game/assets/characters/{}/hud/'
-read_character_icons(x, y, lambda x: 'square' in x)
+#x = 'https://raw.communitydragon.org/latest/game/assets/characters/'
+#y = 'https://raw.communitydragon.org/latest/game/assets/characters/{}/hud/'
+#read_character_icons(x, y, lambda x: 'square' in x)
 
+download_icons('https://raw.communitydragon.org/latest/game/assets/characters/viego/hud/icons2d/')

@@ -10,6 +10,7 @@ Key features of LView:
   4. Undetectability. Since LView reads the game state externally the ban probability is close to 0. Currently since the start of the development there is no recorded case of a ban.
   5. A rich set of premade scripts. There are a lot of already implemented and tested gameplay scripts by default in LView and more are to come. Some of these scripts: orbwalker, spell tracker, champion tracker, map awareness, minimap drawings, skillshot drawings... etc 
  
+![Screenshot](https://i.imgur.com/IK9SxKd.png)
 
 ### Building
 
