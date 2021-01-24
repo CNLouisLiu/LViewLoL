@@ -6,7 +6,7 @@
 #include "Overlay.h"
 
 using namespace Aws::Utils::Json;
-using namespace std::experimental;
+using namespace std;
 
 UnitInfo*                         GameData::UnknownUnit  = new UnitInfo();
 SpellInfo*                        GameData::UnknownSpell = new SpellInfo();
