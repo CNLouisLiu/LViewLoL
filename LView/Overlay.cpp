@@ -292,6 +292,13 @@ void Overlay::Show()
 	isWindowVisible = true;
 }
 
+void Overlay::ToggleTransparent()
+{
+	LONG ex_style = GetWindowLong(hWindow, GWL_EXSTYLE);
+	ex_style = (ex_style & WS_EX_TRANSPARENT) ? (ex_style & ~WS_EX_TRANSPARENT) : (ex_style | WS_EX_TRANSPARENT);
+	SetWindowLong(hWindow, GWL_EXSTYLE, ex_style);
+}
+
 ID3D11Device * Overlay::GetDxDevice()
 {
 	return dxDevice;

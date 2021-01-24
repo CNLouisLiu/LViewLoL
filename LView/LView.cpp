@@ -87,6 +87,11 @@ void MainLoop(Overlay& overlay, LeagueMemoryReader& reader) {
 
 		bool isLeagueWindowActive = reader.IsLeagueWindowActive();
 		if (overlay.IsVisible()) {
+			// One some systems the ingame cursor is replaced with the default Windows cursor
+			// With the WS_EX_TRANSPARENT window flag enabled the cursor is as expected but the user cannot control the overlay
+			if (Input::WasKeyPressed(HKey::F8)) {
+				overlay.ToggleTransparent();
+			}
 			if (!isLeagueWindowActive) {
 				overlay.Hide();
 			}
