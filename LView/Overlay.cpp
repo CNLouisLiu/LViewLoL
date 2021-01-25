@@ -31,7 +31,7 @@ void Overlay::Init() {
 		WS_EX_TOPMOST | WS_EX_NOACTIVATE | WS_EX_LAYERED,
 		windowClassName.c_str(), windowName.c_str(),
 		WS_POPUP,
-		1, 1, 1920, 1080,
+		1, 1, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN),
 		nullptr, nullptr, GetModuleHandle(0), nullptr);
 
 	if (hWindow == NULL) {
@@ -290,6 +290,13 @@ void Overlay::Show()
 {
 	ShowWindow(hWindow, SW_SHOW);
 	isWindowVisible = true;
+}
+
+void Overlay::ToggleTransparent()
+{
+	LONG ex_style = GetWindowLong(hWindow, GWL_EXSTYLE);
+	ex_style = (ex_style & WS_EX_TRANSPARENT) ? (ex_style & ~WS_EX_TRANSPARENT) : (ex_style | WS_EX_TRANSPARENT);
+	SetWindowLong(hWindow, GWL_EXSTYLE, ex_style);
 }
 
 ID3D11Device * Overlay::GetDxDevice()

@@ -43,6 +43,7 @@ public:
 	bool                  IsVisible();
 	void                  Hide();
 	void                  Show();
+	void                  ToggleTransparent();
 
 	static ID3D11Device*  GetDxDevice();
 
