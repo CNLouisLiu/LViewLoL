@@ -85,7 +85,7 @@ class DamageSpecification:
 def get_damage_specification(champ) -> Optional[DamageSpecification]:
     spec = DamageSpecification()
 
-    elif champ.name == "darius":
+    if champ.name == "darius":
         # TODO: passive damage multiplier
         spec.damage_type = DamageType.True_
 
@@ -97,7 +97,7 @@ def get_damage_specification(champ) -> Optional[DamageSpecification]:
         elif champ.R.level == 3:
             spec.base_damage = 300.0
 
-    if champ.name == "garen":
+    elif champ.name == "garen":
         spec.damage_type = DamageType.True_
 
         if champ.R.level == 1:
