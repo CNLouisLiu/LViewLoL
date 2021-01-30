@@ -22,7 +22,9 @@ Dependencies:
   4. boost::python. Due to the size of the boost libraries you must download boost yourself:
       1. Download boost 1.75.0 (https://www.boost.org/users/history/version_1_75_0.html)
       2. Unarchive it in LView/boost
-  5. You are done now compile the app on Release x86 (you need to compile boost::python on debug to compile on debug, which I didn't).
+  5. Compile the app on Release x86 (you need to compile boost::python on debug to compile on debug, which I didn't).
+  6. Copy Release/ConsoleApplication.exe to LView/ConsoleApplication.exe overwriting the existing file if needed
+  7. Run LView/ConsoleApplication.exe and have fun!
  ### Setup
  All LView & LView python scripts configurations reside in config.ini file. First you must set the path to the scripts folder with the following config (you can find the config.ini in LView folder):
  
