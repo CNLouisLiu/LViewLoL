@@ -187,7 +187,6 @@
     <ClCompile Include="LView.cpp" />
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="Offsets.cpp" />
-    <ClCompile Include="Offsets.h" />
     <ClCompile Include="GameRenderer.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="ScriptManager.cpp" />
@@ -206,6 +205,7 @@
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="ItemSlot.h" />
+    <ClInclude Include="Offsets.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="imgui_impl_dx11.h" />
     <ClInclude Include="ItemInfo.h" />
