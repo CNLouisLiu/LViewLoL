@@ -62,6 +62,6 @@ int Offsets::MissileStartPos              = 0x2A8;
 int Offsets::MissileEndPos                = 0x2B4;
 
 int Offsets::MinimapObject                = 0x2F6BBBC; // A3 ? ? ? ? 89 35 ? ? ? ? 85 DB
-int Offsets::MinimapObjectHud             = 0xCC;
+int Offsets::MinimapObjectHud             = 0xAC;
 int Offsets::MinimapHudPos                = 0x5C;
 int Offsets::MinimapHudSize               = 0x64;
