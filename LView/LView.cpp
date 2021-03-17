@@ -124,8 +124,6 @@ void MainLoop(Overlay& overlay, LeagueMemoryReader& reader) {
 					overlay.Update(memSnapshot);
 				}
 			}
-
-			overlay.RenderFrame();
 		}
 		catch (WinApiException exception) {
 			// This should trigger only when we don't find the league process.
@@ -135,6 +133,7 @@ void MainLoop(Overlay& overlay, LeagueMemoryReader& reader) {
 			printf("[!] Unexpected error occured: \n [!] %s \n", exception.what());
 			break;
 		}
+		overlay.RenderFrame();
 	}
 }
 
