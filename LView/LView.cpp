@@ -21,16 +21,9 @@
 #include <list>
 #include <conio.h>
 
-#include <aws/core/Aws.h>
-#include <aws/lambda/LambdaClient.h>
-#include <aws/lambda/model/InvokeRequest.h>
-
-#include <aws/core/auth/AWSCredentials.h>
-#include <aws/core/client/ClientConfiguration.h>
-
 using namespace std::chrono;
 
-bool Authenticate();
+/* bool Authenticate(); */
 void MainLoop(Overlay& overlay, LeagueMemoryReader& reader);
 
 int main()
@@ -145,6 +138,15 @@ void MainLoop(Overlay& overlay, LeagueMemoryReader& reader) {
 	}
 }
 
+/*
+
+#include <aws/core/Aws.h>
+#include <aws/lambda/LambdaClient.h>
+#include <aws/lambda/model/InvokeRequest.h>
+
+#include <aws/core/auth/AWSCredentials.h>
+#include <aws/core/client/ClientConfiguration.h>
+
 /// Authentication using AWS. Calls a lambda from AWS that will do the authentication.
 bool Authenticate() {
 
@@ -213,3 +215,4 @@ bool Authenticate() {
 
 	return true;
 }
+*/
