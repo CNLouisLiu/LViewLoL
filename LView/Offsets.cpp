@@ -2,7 +2,7 @@
 
 Offsets::Offsets() {};
 
-int Offsets::GameTime = 0x02F6D134;
+int Offsets::GameTime = 0x2FD63C8;
 
 int Offsets::ObjIndex = 0x20;
 int Offsets::ObjTeam = 0x4C;
@@ -33,8 +33,8 @@ int Offsets::ItemListItem = 0xC;
 int Offsets::ItemInfo = 0x20;
 int Offsets::ItemInfoId = 0x68;
 
-int Offsets::ViewProjMatrices = 0x2F97FF0;
-int Offsets::Renderer = 0x2F9ADD0;
+int Offsets::ViewProjMatrices = 0x3001530;
+int Offsets::Renderer = 0x300438C;
 int Offsets::RendererWidth = 0x0C;
 int Offsets::RendererHeight = 0x10;
 
@@ -46,9 +46,9 @@ int Offsets::SpellInfoSpellData = 0x44;
 int Offsets::SpellDataSpellName = 0x64;
 int Offsets::SpellDataMissileName = 0x64;
 
-int Offsets::ObjectManager = 0x16D85B8;
-int Offsets::LocalPlayer = 0x2F7513C;
-int Offsets::UnderMouseObject = 0x2326780;
+int Offsets::ObjectManager = 0x1741890;
+int Offsets::LocalPlayer = 0x2FDE470;
+int Offsets::UnderMouseObject = 0x2FD2A48;
 
 int Offsets::ObjectMapCount = 0x2C;
 int Offsets::ObjectMapRoot = 0x28;
@@ -61,8 +61,7 @@ int Offsets::MissileDestIdx = 0x310;
 int Offsets::MissileStartPos = 0x2D0;
 int Offsets::MissileEndPos = 0x2DC;
 
-int Offsets::MinimapObject = 0x2F74B38;
-
+int Offsets::MinimapObject = 0x02FDE444;
 int Offsets::MinimapObjectHud = 0x88;
 int Offsets::MinimapHudPos = 0x60;
 int Offsets::MinimapHudSize = 0x68;
