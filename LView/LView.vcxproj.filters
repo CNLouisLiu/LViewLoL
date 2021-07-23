@@ -96,9 +96,6 @@
     <ClCompile Include="Offsets.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Offsets.h">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
     <ClCompile Include="imgui_impl_dx11.cpp">
       <Filter>Source Files\External\imgui</Filter>
     </ClCompile>
@@ -241,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="ItemSlot.h">
       <Filter>Source Files\Structs\GameRelated\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="Offsets.h">
+      <Filter>Source Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

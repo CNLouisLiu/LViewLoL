@@ -1,12 +1,11 @@
 #include "GameData.h"
-#include <aws/core/utils/json/JsonSerializer.h>
+#include <boost/json.hpp>
 #include <fstream>
 #include <filesystem>
 #include "Utils.h"
 #include "Overlay.h"
 
-using namespace Aws::Utils::Json;
-using namespace std::experimental;
+using namespace std;
 
 UnitInfo*                         GameData::UnknownUnit  = new UnitInfo();
 SpellInfo*                        GameData::UnknownSpell = new SpellInfo();
@@ -68,37 +67,61 @@ ItemInfo * GameData::GetItemInfoById(int id)
 	return UnknownItem;
 }
 
-void GameData::LoadUnitData(std::string&  path)
-{
-	std::ifstream inputUnitData;
-	inputUnitData.open(path);
+boost::json::value parse_json_file(std::string& path) {
+	std::ifstream inputData;
+	inputData.open(path);
 
-	if (!inputUnitData.is_open())
+	if (!inputData.is_open())
 		throw std::runtime_error("Can't open unit data file");
 
-	JsonValue unitData(inputUnitData);
+	boost::json::stream_parser p;
+	boost::json::error_code ec;
+	do {
+		char buf[4096];
+		inputData.read(buf, sizeof(buf));
+		p.write(buf, inputData.gcount(), ec);
+	} while (!inputData.eof());
+	if (ec)
+		throw std::runtime_error("Failed to parse JSON file");
+	p.finish(ec);
+	if (ec)
+		throw std::runtime_error("Failed to parse JSON file");
 
-	auto units = unitData.View().AsArray();
-	for (size_t i = 0; i < units.GetLength(); ++i) {
-		auto unitObj = units.GetItem(i).AsObject();
+	boost::json::value jv = p.release();
+	return jv;
+}
+
+double json_to_double(boost::json::value val) {
+	if (val.is_int64())
+		return val.as_int64();
+	else
+		return val.as_double();
+}
+
+void GameData::LoadUnitData(std::string&  path)
+{
+	boost::json::value jv = parse_json_file(path);
+	auto& units = jv.get_array();
+	for (auto& unit : units) {
+		auto& unitObj = unit.get_object();
 
 		UnitInfo* unit = new UnitInfo();
-		unit->acquisitionRange         = (float)unitObj.GetDouble("acquisitionRange");
-		unit->attackSpeedRatio         = (float)unitObj.GetDouble("attackSpeedRatio");
-		unit->baseAttackRange          = (float)unitObj.GetDouble("attackRange");
-		unit->baseAttackSpeed          = (float)unitObj.GetDouble("attackSpeed");
-		unit->baseMovementSpeed        = (float)unitObj.GetDouble("baseMoveSpeed");
-		unit->basicAttackMissileSpeed  = (float)unitObj.GetDouble("basicAtkMissileSpeed");
-		unit->basicAttackWindup        = (float)unitObj.GetDouble("basicAtkWindup");
-		unit->gameplayRadius           = (float)unitObj.GetDouble("gameplayRadius");
-		unit->healthBarHeight          = (float)unitObj.GetDouble("healthBarHeight");
-		unit->name                     = Character::ToLower(std::string(unitObj.GetString("name").c_str()));
-		unit->pathRadius               = (float)unitObj.GetDouble("pathingRadius");
-		unit->selectionRadius          = (float)unitObj.GetDouble("selectionRadius");
+		unit->acquisitionRange         = (float)json_to_double(unitObj["acquisitionRange"]);
+		unit->attackSpeedRatio         = (float)json_to_double(unitObj["attackSpeedRatio"]);
+		unit->baseAttackRange          = (float)json_to_double(unitObj["attackRange"]);
+		unit->baseAttackSpeed          = (float)json_to_double(unitObj["attackSpeed"]);
+		unit->baseMovementSpeed        = (float)json_to_double(unitObj["baseMoveSpeed"]);
+		unit->basicAttackMissileSpeed  = (float)json_to_double(unitObj["basicAtkMissileSpeed"]);
+		unit->basicAttackWindup        = (float)json_to_double(unitObj["basicAtkWindup"]);
+		unit->gameplayRadius           = (float)json_to_double(unitObj["gameplayRadius"]);
+		unit->healthBarHeight          = (float)json_to_double(unitObj["healthBarHeight"]);
+		unit->name                     = Character::ToLower(std::string(unitObj["name"].as_string().c_str()));
+		unit->pathRadius               = (float)json_to_double(unitObj["pathingRadius"]);
+		unit->selectionRadius          = (float)json_to_double(unitObj["selectionRadius"]);
 
-		auto tags = unitObj.GetArray("tags");
-		for (size_t j = 0; j < tags.GetLength(); ++j)
-			unit->SetTag(tags.GetItem(j).AsString().c_str());
+		auto& tags = unitObj["tags"].as_array();
+		for (auto& tag : tags)
+			unit->SetTag(tag.as_string().c_str());
 
 		Units[unit->name] = unit;
 	}
@@ -106,30 +129,24 @@ void GameData::LoadUnitData(std::string&  path)
 
 void GameData::LoadSpellData(std::string& path)
 {
-	std::ifstream inputSpellData;
-	inputSpellData.open(path);
+	boost::json::value jv = parse_json_file(path);
+	auto& spells = jv.as_array();
 
-	if (!inputSpellData.is_open())
-		throw std::runtime_error("Can't open spell data file");
-
-	JsonValue spellData(inputSpellData);
-
-	auto spells = spellData.View().AsArray();
-	for (size_t i = 0; i < spells.GetLength(); ++i) {
-		auto spell = spells.GetItem(i).AsObject();
+	for (auto& spell : spells) {
+		auto& spellObj = spell.as_object();
 
 		SpellInfo* info = new SpellInfo();
-		info->flags      = (SpellFlags)spell.GetInteger("flags");
-		info->delay      = (float)spell.GetDouble("delay");
-		info->height     = (float)spell.GetDouble("height");
-		info->icon       = Character::ToLower(std::string(spell.GetString("icon").c_str()));
-		info->name       = Character::ToLower(std::string(spell.GetString("name").c_str()));
-		info->width      = (float)spell.GetDouble("width");
-		info->castRange  = (float)spell.GetDouble("castRange");
-		info->castRadius = (float)spell.GetDouble("castRadius");
-		info->speed      = (float)spell.GetDouble("speed");
-		info->travelTime = (float)spell.GetDouble("travelTime");
-		info->flags      = (SpellFlags) (info->flags | (spell.GetBool("projectDestination") ? ProjectedDestination : 0));
+		info->flags      = (SpellFlags)spellObj["flags"].as_int64();
+		info->delay      = (float)json_to_double(spellObj["delay"]);
+		info->height     = (float)json_to_double(spellObj["height"]);
+		info->icon       = Character::ToLower(std::string(spellObj["icon"].as_string().c_str()));
+		info->name       = Character::ToLower(std::string(spellObj["name"].as_string().c_str()));
+		info->width      = (float)json_to_double(spellObj["width"]);
+		info->castRange  = (float)json_to_double(spellObj["castRange"]);
+		info->castRadius = (float)json_to_double(spellObj["castRadius"]);
+		info->speed      = (float)json_to_double(spellObj["speed"]);
+		info->travelTime = (float)json_to_double(spellObj["travelTime"]);
+		info->flags      = (SpellFlags) (info->flags | (spellObj["projectDestination"].as_bool() ? ProjectedDestination : 0));
 
 		Spells[info->name] = info;
 	}
@@ -166,33 +183,26 @@ void GameData::LoadIcons(std::string& path)
 
 void GameData::LoadItemData(std::string & path)
 {
-	std::ifstream inputItems;
-	inputItems.open(path);
-
-	if (!inputItems.is_open())
-		throw std::runtime_error("Can't open item data file");
-
-	JsonValue itemsData(inputItems);
-
-	auto items = itemsData.View().AsArray();
-	for (size_t i = 0; i < items.GetLength(); ++i) {
-		auto item = items.GetItem(i).AsObject();
+	boost::json::value jv = parse_json_file(path);
+	auto& items = jv.as_array();
+	for (auto& itemObj : items) {
+		auto& item = itemObj.as_object();
 		ItemInfo* info = new ItemInfo();
 
-		info->movementSpeed        = (float)item.GetDouble("movementSpeed");
-		info->health               = (float)item.GetDouble("health");
-		info->crit                 = (float)item.GetDouble("crit");
-		info->abilityPower         = (float)item.GetDouble("abilityPower");
-		info->mana                 = (float)item.GetDouble("mana");
-		info->armour               = (float)item.GetDouble("armour");
-		info->magicResist          = (float)item.GetDouble("magicResist");
-		info->physicalDamage       = (float)item.GetDouble("physicalDamage");
-		info->attackSpeed          = (float)item.GetDouble("attackSpeed");
-		info->lifeSteal            = (float)item.GetDouble("lifeSteal");
-		info->hpRegen              = (float)item.GetDouble("hpRegen");
-		info->movementSpeedPercent = (float)item.GetDouble("movementSpeedPercent");
-		info->cost                 = (float)item.GetDouble("cost");
-		info->id                   = item.GetInteger("id");
+		info->movementSpeed        = (float)json_to_double(item["movementSpeed"]);
+		info->health               = (float)json_to_double(item["health"]);
+		info->crit                 = (float)json_to_double(item["crit"]);
+		info->abilityPower         = (float)json_to_double(item["abilityPower"]);
+		info->mana                 = (float)json_to_double(item["mana"]);
+		info->armour               = (float)json_to_double(item["armour"]);
+		info->magicResist          = (float)json_to_double(item["magicResist"]);
+		info->physicalDamage       = (float)json_to_double(item["physicalDamage"]);
+		info->attackSpeed          = (float)json_to_double(item["attackSpeed"]);
+		info->lifeSteal            = (float)json_to_double(item["lifeSteal"]);
+		info->hpRegen              = (float)json_to_double(item["hpRegen"]);
+		info->movementSpeedPercent = (float)json_to_double(item["movementSpeedPercent"]);
+		info->cost                 = (float)json_to_double(item["cost"]);
+		info->id                   = item["id"].as_int64();
 
 		Items[info->id] = info;
 	}

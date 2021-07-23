@@ -1,5 +1,6 @@
 #pragma once
 #include <array>
+#include <memory>
 
 enum MapType {
 	SUMMONERS_RIFT = 0,

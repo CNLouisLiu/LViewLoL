@@ -21,16 +21,9 @@
 #include <list>
 #include <conio.h>
 
-#include <aws/core/Aws.h>
-#include <aws/lambda/LambdaClient.h>
-#include <aws/lambda/model/InvokeRequest.h>
-
-#include <aws/core/auth/AWSCredentials.h>
-#include <aws/core/client/ClientConfiguration.h>
-
 using namespace std::chrono;
 
-bool Authenticate();
+/* bool Authenticate(); */
 void MainLoop(Overlay& overlay, LeagueMemoryReader& reader);
 
 int main()
@@ -87,6 +80,11 @@ void MainLoop(Overlay& overlay, LeagueMemoryReader& reader) {
 
 		bool isLeagueWindowActive = reader.IsLeagueWindowActive();
 		if (overlay.IsVisible()) {
+			// One some systems the ingame cursor is replaced with the default Windows cursor
+			// With the WS_EX_TRANSPARENT window flag enabled the cursor is as expected but the user cannot control the overlay
+			if (Input::WasKeyPressed(HKey::F8)) {
+				overlay.ToggleTransparent();
+			}
 			if (!isLeagueWindowActive) {
 				overlay.Hide();
 			}
@@ -126,8 +124,6 @@ void MainLoop(Overlay& overlay, LeagueMemoryReader& reader) {
 					overlay.Update(memSnapshot);
 				}
 			}
-
-			overlay.RenderFrame();
 		}
 		catch (WinApiException exception) {
 			// This should trigger only when we don't find the league process.
@@ -137,8 +133,18 @@ void MainLoop(Overlay& overlay, LeagueMemoryReader& reader) {
 			printf("[!] Unexpected error occured: \n [!] %s \n", exception.what());
 			break;
 		}
+		overlay.RenderFrame();
 	}
 }
+
+/*
+
+#include <aws/core/Aws.h>
+#include <aws/lambda/LambdaClient.h>
+#include <aws/lambda/model/InvokeRequest.h>
+
+#include <aws/core/auth/AWSCredentials.h>
+#include <aws/core/client/ClientConfiguration.h>
 
 /// Authentication using AWS. Calls a lambda from AWS that will do the authentication.
 bool Authenticate() {
@@ -208,3 +214,4 @@ bool Authenticate() {
 
 	return true;
 }
+*/
